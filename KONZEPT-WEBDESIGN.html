@@ -1,0 +1,188 @@
+<title>Konzept Webdesign</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>:root{--paper:#EFEFEA;--ink:#16150F;--ink-soft:#57564C;--ink-faint:#8C8B80;
+ --olive:#4F5F3E;--red:#8A3324;--hair:rgba(22,21,15,.16);--hair-soft:rgba(22,21,15,.08);
+ --mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+ --sans:"IBM Plex Sans",-apple-system,Segoe UI,sans-serif;--measure:34rem;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.72}
+.sheet{max-width:60rem;margin:0 auto;padding:5rem 2.5rem 8rem}
+.masthead{border-bottom:1px solid var(--ink);padding-bottom:1.75rem;margin-bottom:4.5rem}
+.masthead .eyebrow{font-family:var(--mono);font-size:.6875rem;letter-spacing:.22em;text-transform:uppercase;color:var(--olive);margin:0 0 1.5rem}
+h1{font-weight:600;font-size:2.375rem;line-height:1.18;letter-spacing:-.018em;margin:0 0 1.25rem;max-width:24ch}
+.masthead .standfirst{max-width:var(--measure);color:var(--ink-soft);margin:0 0 2rem}
+.meta{display:flex;flex-wrap:wrap;gap:2.5rem;font-family:var(--mono);font-size:.6875rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-faint)}
+.meta b{color:var(--ink);font-weight:500}
+section{display:grid;grid-template-columns:5rem 1fr;gap:0 2.5rem;padding-top:3.25rem;margin-top:3.25rem;border-top:1px solid var(--hair)}
+section:first-of-type{border-top:none;margin-top:0;padding-top:0}
+.num{font-family:var(--mono);font-size:.75rem;letter-spacing:.16em;color:var(--olive);padding-top:.45rem}
+h2{font-family:var(--mono);font-weight:500;font-size:.8125rem;letter-spacing:.2em;text-transform:uppercase;margin:0 0 1.75rem}
+h3{font-family:var(--mono);font-weight:500;font-size:.6875rem;letter-spacing:.18em;text-transform:uppercase;color:var(--olive);margin:2.75rem 0 1rem}
+p{max-width:var(--measure);margin:0 0 1.15rem} .muted{color:var(--ink-soft)} strong{font-weight:600}
+.axiom{border-left:2px solid var(--olive);padding:.25rem 0 .25rem 1.5rem;margin:0 0 1.75rem;max-width:var(--measure)}
+.axiom p{font-size:1.125rem;line-height:1.6;margin:0}
+.axiom p+p{margin-top:.75rem}
+.warn{border-left:2px solid var(--red);padding:.1rem 0 .1rem 1.5rem;margin:0 0 1.75rem;max-width:var(--measure)}
+.warn .label{font-family:var(--mono);font-size:.625rem;letter-spacing:.18em;text-transform:uppercase;color:var(--red);display:block;margin-bottom:.35rem}
+.warn p{margin:0 0 .6rem}.warn p:last-child{margin-bottom:0}
+.tablewrap{overflow-x:auto;margin:0 0 1.75rem}
+table{width:100%;border-collapse:collapse;margin:0;font-size:.9375rem}
+th{font-family:var(--mono);font-weight:500;font-size:.625rem;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-faint);text-align:left;padding:0 1rem .6rem 0;border-bottom:1px solid var(--ink)}
+td{padding:.75rem 1rem .75rem 0;border-bottom:1px solid var(--hair-soft);vertical-align:top;line-height:1.55}
+td.r,th.r{text-align:right;white-space:nowrap} tr.total td{font-weight:600;border-bottom:1px solid var(--ink)}
+ul.dash{list-style:none;margin:0 0 1.5rem;padding:0;max-width:var(--measure)}
+ul.dash li{position:relative;padding-left:1.4rem;margin-bottom:.55rem}
+ul.dash li::before{content:"\2014";position:absolute;left:0;color:var(--ink-faint)}
+code{font-family:var(--mono);font-size:.875em;background:rgba(22,21,15,.055);padding:.1em .35em;border-radius:2px}
+td code,th code{font-size:.85em}
+a{color:var(--olive);text-decoration:underline;text-underline-offset:2px;text-decoration-thickness:.5px}
+footer{margin-top:5rem;padding-top:1.5rem;border-top:1px solid var(--ink);font-family:var(--mono);font-size:.625rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-faint);display:flex;justify-content:space-between;gap:2rem;flex-wrap:wrap}
+@media (max-width:720px){.sheet{padding:3rem 1.25rem 5rem}section{grid-template-columns:1fr}.num{padding:0 0 .75rem}h1{font-size:1.75rem}}
+@media print{@page{margin:18mm 16mm}body{background:#fff;color:#000;font-size:10.5pt;line-height:1.55}
+ .sheet{max-width:none;padding:0}
+ section{grid-template-columns:3.5rem 1fr;gap:0 1.5rem;padding-top:1.6rem;margin-top:1.6rem;break-inside:avoid}
+ h1{font-size:20pt}h2{font-size:8.5pt}h3{font-size:7.5pt}
+ table,section,.axiom,.warn,tr{page-break-inside:avoid}
+ .tablewrap{overflow:visible}
+ table{font-size:9pt}td{padding:.4rem .7rem .4rem 0}
+ p,ul.dash,.axiom,.warn{max-width:none}
+ a{color:#000;text-decoration:none}
+ code{background:none;border:.5pt solid #999;padding:0 .2em}
+ .masthead{border-bottom:1.5pt solid #000;margin-bottom:2rem;padding-bottom:1rem}
+ footer{border-top:1.5pt solid #000;margin-top:2rem}}</style>
+<div class="sheet">
+<header class="masthead">
+<p class="eyebrow">Strategiepapier · 90 Tage</p>
+<h1>Konzept Webdesign</h1>
+<p class="standfirst">Zuschnitt, Preis und Verkaufsstruktur für KI-gestützte Website-Erstellung. Der Befund vorweg: drei von vier bisherigen Projekten waren unbeauftragte Neuentwürfe für Betriebe, die bereits eine funktionierende Website haben.</p>
+<div class="meta"><span>Stand <b>11.08.2026</b></span><span>Gültig <b>90 Tage</b></span><span>Status <b>Entwurf zur Freigabe</b></span></div>
+</header>
+<section><div class="num">01</div><div class="body"><h2>Kennzeichnung</h2>
+<p>Damit im ganzen Dokument klar bleibt, worauf man sich stützen kann:</p>
+<div class="tablewrap"><table><thead><tr><th>Marke</th><th>Bedeutung</th></tr></thead><tbody><tr><td><strong>GESICHERT</strong></td><td>Quelle genannt, nachprüfbar</td></tr><tr><td><strong>ANNAHME</strong></td><td>Von mir unterstellt, nicht geprüft, kann falsch sein</td></tr><tr><td><strong>SCHÄTZUNG</strong></td><td>Größenordnung aus Bestandsdaten abgeleitet, nicht gemessen</td></tr><tr><td><strong>PRÜFAUFTRAG</strong></td><td>Rechtlich/steuerlich relevant. Keine Aussage, keine Beratung. An die benannte Stelle geben.</td></tr></tbody></table></div></div></section>
+<section><div class="num">02</div><div class="body"><h2>1. Der Befund, der alles andere verschiebt</h2>
+<p>Ich habe am 11.08.2026 die drei Domains abgerufen, für die Websites in den Repos liegen.</p>
+<div class="tablewrap"><table><thead><tr><th>Domain</th><th>Status</th><th>Läuft auf</th></tr></thead><tbody><tr><td><code>andrys-advisory.de</code></td><td><strong>live, funktionierend</strong></td><td>WordPress</td></tr><tr><td><code>durchgeplant.de</code></td><td><strong>live, funktionierend</strong></td><td>Wix</td></tr><tr><td><code>gophai-thaiimbiss.metro.bar</code></td><td>live, mangelhaft</td><td>Baukasten (metro.bar)</td></tr></tbody></table></div>
+<p><strong>GESICHERT</strong> (eigener Abruf, 11.08.2026, HTTP 200, Server-Header und Quelltext ausgewertet).</p>
+<p>Daraus folgt der zentrale Satz dieses Dokuments:</p>
+<div class="axiom"><p><strong>Drei der vier gebauten Websites sind unbeauftragte Neuentwürfe für Betriebe, die bereits eine funktionierende Website haben. Nur bei Gophai war die bestehende Seite nachweislich kaputt — und nur dort ist ein Gespräch entstanden.</strong></p></div>
+<p>Das ist kein Zufall. Gegen eine funktionierende WordPress-Seite ist „ich baue Ihnen eine bessere" kein Angebot, sondern eine Meinung. Gegen eine Seite mit italienischem Fremdtext, PDF-Speisekarte und falscher E-Mail im Impressum ist es ein Befund.</p>
+<p><strong>Der Zuschnitt muss deshalb nicht primär über die Branche laufen, sondern über den Zustand der Bestandsseite.</strong> Die Branche entscheidet, wo man sucht. Der Zustand der Bestandsseite entscheidet, ob es einen Auftrag geben kann.</p></div></section>
+<section><div class="num">03</div><div class="body"><h2>2. Zielgruppe</h2>
+<h3>Die Entscheidung</h3>
+<p><strong>Bau- und ausbaunahe Gewerke im Umkreis Kerpen / Köln / Düren</strong> — konkret: Elektro, Sanitär/Heizung, Fenster und Türen, Innenausbau, Garten- und Landschaftsbau.</p>
+<h3>Warum diese Branche</h3>
+<p>Geprüft an den vier Kriterien aus der Aufgabenstellung:</p>
+<div class="tablewrap"><table><thead><tr><th>Kriterium</th><th>Bewertung</th><th>Grundlage</th></tr></thead><tbody><tr><td>Zahlt für Sichtbarkeit</td><td>ja</td><td><strong>ANNAHME</strong> — Gewerke mit vier- bis fünfstelligen Auftragswerten haben Werbebudget. Ungeprüft.</td></tr><tr><td>Hat schlechte Bestandsseiten</td><td>pro Betrieb einzeln prüfbar</td><td><strong>GESICHERT als Methode</strong> — der Website-Check macht das in 1–2 h nachweisbar</td></tr><tr><td>Über Kaltakquise erreichbar</td><td>ja</td><td><strong>ANNAHME</strong> — Telefon und Vor-Ort-Besuch üblich. Ungeprüft.</td></tr><tr><td>Zugang vorhanden</td><td><strong>ja, und zwar exklusiv</strong></td><td><strong>GESICHERT</strong> — siehe unten</td></tr></tbody></table></div>
+<h3>Der Zugang ist der eigentliche Grund</h3>
+<p><code>durchgeplant.de</code> gehört zu <em>MOEWES – Projektierung und Vertrieb</em>, Henning Moewes, Kerpen. Die Live-Seite ist ein <strong>Hausanbieter-Vergleich für Nordrhein-Westfalen</strong> (<strong>GESICHERT</strong> — Seitentitel beim Abruf am 11.08.2026).</p>
+<p>Das heißt: In der Familie sitzt jemand mitten in der Wertschöpfungskette Hausbau in NRW und kennt Bauunternehmen, Hausanbieter und die daran hängenden Gewerke beruflich.</p>
+<p>Das ist ein Zugang, den ein beliebiger Wettbewerber nicht hat. Er ist mehr wert als jede Branchenwahl nach Marktgefühl.</p>
+<div class="warn"><span class="label">Prüfauftrag</span><p><strong>PRÜFAUFTRAG (nicht rechtlich, sondern persönlich):</strong> Zustimmung des Vaters einholen, bevor sein Netzwerk angesprochen wird. Ohne diese Zustimmung fällt der Zugang weg und die Branchenwahl muss neu begründet werden.</p></div>
+<h3>Was gegen diese Wahl spricht — ehrlich</h3>
+<p>Baunahe Gewerke sind in vielen Regionen ausgelastet. Ein ausgelasteter Betrieb braucht keine neuen Kunden und kauft deshalb keine Sichtbarkeit. <strong>ANNAHME, ungeprüft</strong> — ich habe dazu keine belastbare Zahl und erfinde keine.</p>
+<p>Falls das zutrifft, ändert sich nicht die Branche, sondern das <strong>Verkaufsargument</strong>: nicht „mehr Kunden", sondern „Mitarbeitersuche". Eine Karriereseite, die Bewerbungen entgegennimmt, ist für einen ausgelasteten Betrieb wertvoller als eine, die Aufträge bringt. Der Test dafür steht in Abschnitt 7.</p>
+<h3>Warum nicht Gastronomie</h3>
+<p>Der Gophai-Fall ist die Begründung: Der Betrieb schließt. Die Arbeit ist vollständig verloren. Gastronomie hat dünne Margen und eine hohe Schließungsrate — <strong>ANNAHME</strong>, ich habe dafür keine belegte Zahl. Aber ein Einzelfall im eigenen Bestand, bei dem genau das eingetreten ist, reicht als Warnung.</p></div></section>
+<section><div class="num">04</div><div class="body"><h2>3. Leistungsschnitt</h2>
+<h3>Die Frage aus der Aufgabenstellung</h3>
+<p><em>Ist das eigentliche Geschäft nicht die wiederkehrende Betreuung, und die Erstellung nur der Einstieg?</em></p>
+<h3>Die Antwort: teilweise ja — mit einer Bedingung, die den ganzen Plan berührt</h3>
+<p>Betreuung ist planbar, skaliert mit dem Bestand statt mit Akquise, und ist das einzige Modell, das nicht bei jedem Projektende wieder bei null anfängt. Insofern: ja.</p>
+<p><strong>Aber:</strong></p>
+<div class="warn"><span class="label">Prüfauftrag</span><p><strong>PRÜFAUFTRAG an die Deutsche Rentenversicherung (Klärungsverfahren nach § 7a SGB IV):</strong> § 2 Satz 1 Nr. 9 SGB VI erfasst Selbstständige, die keine versicherungspflichtigen Arbeitnehmer beschäftigen <strong>und auf Dauer im Wesentlichen nur für einen Auftraggeber tätig sind</strong> — diese sind rentenversicherungspflichtig. Die DRV nennt selbstständige Webdesigner ausdrücklich als möglichen Fall. <strong>GESICHERT</strong> — Deutsche Rentenversicherung, rvRecht zu § 2 SGB VI, abgerufen 11.08.2026.</p></div>
+<p>Praktische Folge: <strong>Ein einziger großer Betreuungskunde kann ein Problem sein, mehrere sind es nicht.</strong> Das Betreuungsmodell ist also erst ab etwa dem dritten Kunden unbedenklich — vorher ist es ein offener Punkt.</p>
+<p>Zusätzlich gilt für die lehrende Tätigkeit aus der Referenzunterlage etwas, das für Webdesign <strong>nicht</strong> gilt:</p>
+<div class="warn"><span class="label">Prüfauftrag</span><p><strong>PRÜFAUFTRAG:</strong> § 2 Satz 1 Nr. 1 SGB VI (selbstständige Lehrer) greift bei Webdesign nach meinem Verständnis <strong>nicht</strong> — das ist keine lehrende Tätigkeit. Die Referenzunterlage behandelt diesen Punkt für Workshops. Er ist für Webdesign nicht einfach übertragbar. Von der DRV bestätigen lassen.</p></div>
+<h3>Der empfohlene Schnitt</h3>
+<p><strong>Festpreis-Erstellung + optionale monatliche Betreuung.</strong> Nicht Stundenabrechnung.</p>
+<p>Begründung: Stundenabrechnung bestraft schnelles Arbeiten. Wenn KI-Unterstützung die Lieferzeit halbiert, halbiert Stundenabrechnung den Umsatz. Festpreis dreht das um — die Zeitersparnis bleibt bei ihr.</p>
+<div class="tablewrap"><table><thead><tr><th>Bestandteil</th><th>Inhalt</th><th>Preis</th></tr></thead><tbody><tr><td><strong>Erstellung</strong></td><td>5–7 Seiten, mobil, Impressum + Datenschutz als vom Kunden zu prüfende Vorlage, Livegang auf Kundendomain</td><td>Festpreis, siehe Abschnitt 4</td></tr><tr><td><strong>Betreuung</strong> (optional)</td><td>Hosting-Betreuung, inhaltliche Änderungen bis 1 h/Monat, Erreichbarkeitsprüfung</td><td>monatlich</td></tr></tbody></table></div>
+<p><strong>Ausdrücklich nicht im Umfang:</strong> Online-Shop, Buchungssystem, Bestellfunktion, Mehrsprachigkeit, laufende SEO-Betreuung, Texterstellung von null.</p></div></section>
+<section><div class="num">05</div><div class="body"><h2>4. Preis — hergeleitet, nicht geschätzt</h2>
+<h3>Grundlage: die reale Lieferzeit aus dem Bestand</h3>
+<div class="tablewrap"><table><thead><tr><th>Repo</th><th>Umfang (gemessen)</th><th>Aufwand</th></tr></thead><tbody><tr><td>Andrys-Advisory-</td><td>9 Seiten, 1.937 Zeilen HTML, Three.js-WebGL-Hero, self-hosted Fonts, eigenes Designsystem</td><td><strong>SCHÄTZUNG 25–40 h</strong></td></tr><tr><td>Durchgeplant-</td><td>10 Seiten, 1.550 Zeilen HTML, plus Design-Konzeptdokument</td><td><strong>SCHÄTZUNG 15–25 h</strong></td></tr><tr><td>Gopathai-</td><td>5 Seiten, 2.781 Zeilen HTML, 98 Gerichte mit Preisen und Allergenen von Hand erfasst, GSAP-Animationen, Einzeldatei-Build, Deploy-ZIP, Hosting-Anleitung, Kundenfragebogen (Bildschirm + Druck)</td><td><strong>SCHÄTZUNG 15–25 h</strong></td></tr></tbody></table></div>
+<p>Zeilenzahlen <strong>GESICHERT</strong> (<code>wc -l</code>, 11.08.2026). Stundenzahlen <strong>SCHÄTZUNG</strong> — sie sind nicht gemessen worden.</p>
+<div class="axiom"><p><strong>Aufgabe, die alles Folgende belastbar macht:</strong> Bei der nächsten Website die Zeit mitschreiben. Ohne gemessene Zahl bleibt jeder Preis eine Vermutung.</p></div>
+<p><strong>Rechengrundlage für eine Standardseite ohne WebGL und ohne 98-Positionen-Datenerfassung: 20 Stunden.</strong></p>
+<h3>Der Preis folgt aus der Kapazitätsgrenze, nicht aus dem Markt</h3>
+<p>Das ist der entscheidende Punkt, und er ist nicht offensichtlich.</p>
+<div class="warn"><span class="label">Prüfauftrag</span><p><strong>PRÜFAUFTRAG an die Krankenkasse:</strong> Für die beitragsfreie Familienversicherung darf das regelmäßige monatliche Gesamteinkommen 2026 höchstens <strong>565 €</strong> betragen (bei Minijob 603 €). <strong>GESICHERT</strong> — Techniker Krankenkasse und AOK, Rechengrößen 2026, abgerufen 11.08.2026. Ob und wie selbstständiger Gewinn hier angerechnet wird und wo im konkreten Fall die Grenze liegt: von der eigenen Kasse schriftlich bestätigen lassen.</p></div>
+<p>Wenn die Einkommensobergrenze bei rund 565 €/Monat liegt, dann ist <strong>nicht die Nachfrage der Engpass, sondern die zulässige Einnahme.</strong> Daraus folgt eine Konsequenz, die den meisten Preisdiskussionen zuwiderläuft:</p>
+<div class="axiom"><p><strong>Ein niedriger Preis mit hoher Stückzahl ist für sie strukturell unmöglich.</strong> Wenn ohnehin nur ein begrenzter Betrag im Monat verdient werden darf, muss jeder einzelne Auftrag zählen. Billig anbieten kostet dann doppelt: es bringt weniger Geld <em>und</em> mehr Arbeit für dieselbe Obergrenze.</p></div>
+<h3>Preisempfehlung</h3>
+<div class="tablewrap"><table><thead><tr><th>Position</th><th>Preis</th><th>Herleitung</th></tr></thead><tbody><tr><td><strong>Erstellung Standardseite</strong></td><td><strong>1.400 €</strong></td><td>20 h → 70 €/h</td></tr><tr><td><strong>Erstellung mit Sonderaufwand</strong> (viele Positionen, Fotoaufbereitung, Mehrsprachigkeit)</td><td>Aufschlag nach Aufwand</td><td>über 20 h hinaus</td></tr><tr><td><strong>Betreuung monatlich</strong></td><td><strong>69 €</strong></td><td>ca. 1 h/Monat gedeckt</td></tr><tr><td><strong>Anzahlung bei Auftrag</strong></td><td><strong>40 % = 560 €</strong></td><td>siehe Abschnitt 5</td></tr></tbody></table></div>
+<p>Die 70 €/h sind <strong>keine Marktaussage.</strong> Ich habe keine belastbaren Marktpreise und erfinde keine. Die Zahl ist die Umkehrung der Rechnung: 20 h Arbeit sollen einen Auftrag ergeben, der die Kapazitätsgrenze sinnvoll ausnutzt.</p>
+<p><strong>Der Preis ist damit eine Hypothese, kein Ergebnis.</strong> Er wird getestet, indem drei Angebote gemacht werden — nicht, indem länger darüber nachgedacht wird.</p>
+<div class="warn"><span class="label">Prüfauftrag</span><p><strong>PRÜFAUFTRAG Steuer:</strong> Kleinunternehmerregelung § 19 UStG — keine Umsatzsteuer bei Vorjahresumsatz ≤ <strong>25.000 €</strong> und laufendem Jahresumsatz ≤ <strong>100.000 €</strong> (Nettogrenzen seit 01.01.2025). <strong>GESICHERT</strong> — § 19 UStG, IHK-Merkblätter, abgerufen 11.08.2026. Anwendung im Einzelfall über die Steuerberatung klären.</p></div></div></section>
+<section><div class="num">06</div><div class="body"><h2>5. Verkaufsstruktur — der eine Umbau, der zählt</h2>
+<h3>Was bisher passiert ist</h3>
+<p>Der Ablauf war: Bestandsanalyse → Probleme → Kundengespräch → Designvorschläge → Prototyp → Anpassungen.</p>
+<p>Der Website-Check ist dabei das stärkste Stück. Er funktioniert, weil jeder Punkt <strong>heute nachprüfbar</strong> ist — italienischer Fremdtext, Speisekarte als Bild, widersprüchliche Öffnungszeiten, zwei verschiedene E-Mail-Adressen, fremde Baukasten-Domain. Ein falsifizierbares Dokument wird geglaubt.</p>
+<h3>Der Fehler</h3>
+<p><strong>Zwischen Gespräch und Bau steht kein Tor.</strong> Nichts im Ablauf verlangt vom Kunden Geld, Unterschrift oder auch nur eine Frist, bevor gebaut wird. Ein Verkaufsprozess ohne Qualifizierungsschritt ist kein Verkaufsprozess, sondern ein Liefervorgang mit offenem Ausgang.</p>
+<p>Bei Gophai: vollständige Website gebaut, Angebot gemacht, Reaktion positiv, Betrieb schließt. Die <strong>SCHÄTZUNG 15–25 h</strong> sind verloren. Dass der Betrieb schließt, war Pech. Dass gebaut wurde, bevor das bekannt war, war die Struktur.</p>
+<h3>Die umgebaute Struktur</h3>
+<div class="tablewrap"><table><thead><tr><th>#</th><th>Schritt</th><th>Aufwand</th><th>Was der Kunde gibt</th><th>Abbruchkriterium</th></tr></thead><tbody><tr><td>1</td><td><strong>Website-Check</strong></td><td>1–2 h</td><td>nichts</td><td>—</td></tr><tr><td>2</td><td><strong>Gespräch mit Qualifizierung</strong></td><td>1 h</td><td>Antworten auf drei Fragen</td><td>eine Frage unbeantwortet → Ende</td></tr><tr><td>3</td><td><strong>Designvorschlag als Bild</strong> — 1–2 Screens, kein lauffähiger Code</td><td>2–3 h</td><td>Reaktion</td><td>kein Termin für Schritt 4 → Ende</td></tr><tr><td>4</td><td><strong>Angebot + Anzahlung 40 %</strong></td><td>1 h</td><td><strong>Geld</strong></td><td>keine Anzahlung binnen 14 Tagen → Ende, ohne Ausnahme</td></tr><tr><td>5</td><td><strong>Bau</strong></td><td>12–20 h</td><td>—</td><td>—</td></tr><tr><td>6</td><td><strong>Anpassungen, zwei Runden</strong> (im Angebot festgeschrieben)</td><td>3–5 h</td><td>—</td><td>dritte Runde wird berechnet</td></tr><tr><td>7</td><td><strong>Livegang auf Kundendomain + Schlussrechnung + Betreuungsangebot</strong></td><td>4–6 h</td><td>Restzahlung</td><td>—</td></tr></tbody></table></div>
+<p><strong>Die einzige echte Änderung ist Zeile 4.</strong> Alles andere war schon da.</p>
+<h3>Die drei Fragen in Schritt 2</h3>
+<p>Sie stehen in dieser Reihenfolge, weil die erste die teuerste Fehlerquelle ausschließt:</p>
+<p>1. <strong>„Wie läuft der Betrieb gerade, und was haben Sie für die nächsten zwölf Monate vor?"</strong> — Gophai hätte hier geendet. 2. <strong>„Wer entscheidet das außer Ihnen?"</strong> — verhindert Arbeit für jemanden, der nicht entscheiden darf. 3. <strong>„In welcher Größenordnung dürfte das liegen?"</strong> — wer darauf nicht antwortet, wird auch später nicht zahlen.</p>
+<p>Der Kundenfragebogen, der im Gophai-Repo liegt, gehört <strong>nach</strong> Schritt 4. Wer bezahlt hat, füllt ihn aus. Ein Interessent legt ihn weg.</p></div></section>
+<section><div class="num">07</div><div class="body"><h2>6. Der Website-Check — zwei Korrekturen vor dem nächsten Versand</h2>
+<h3>Korrektur 1: Punkt 5 verspricht etwas, das das Produkt nicht liefert</h3>
+<p>Der Check sagt zur bestehenden Seite: <em>„es gibt keinen Weg, direkt zu bestellen oder eine Catering-Anfrage zu senden"</em> — und verspricht eine Seite, die <em>„auffindbar und bestellbar"</em> ist.</p>
+<p>Der gelieferte Prototyp enthält:</p>
+<ul class="dash"><li><strong>kein einziges <code>&lt;form&gt;</code>-Element</strong></li><li>alle 9 Vorkommen von „bestellen" lauten „telefonisch vorbestellen"</li><li>als Handlungswege ausschließlich <code>tel:</code> und <code>mailto:</code></li></ul>
+<p><strong>GESICHERT</strong> — Auswertung der Datei <code>gophai-einzeldatei.html</code>, 11.08.2026.</p>
+<p>Punkt 5 ist damit der einzige der fünf, den das eigene Produkt nicht löst. Beim Livegang wäre das aufgefallen.</p>
+<p><strong>Empfehlung: Punkt 5 streichen und ersetzen.</strong> Nicht das Formular nachbauen. Telefonbestellung ist für einen Imbiss dieser Größe die richtige Lösung, und der Prototyp macht sie gut — durchnummerierte Karte von 1–98, Nummer sagen, abholen. Der Ersatzpunkt lautet also: <em>Speisekarte als echter Text, auf dem Handy durchsuchbar, mit Nummern für den Anruf.</em> Das ist eine Leistung, die tatsächlich erbracht wird.</p>
+<p><strong>Regel daraus:</strong> Der Check darf nur Mängel benennen, die das eigene Standardpaket behebt. Alles andere erzeugt eine Lücke zwischen Versprechen und Lieferung.</p>
+<h3>Korrektur 2: die eigenen Angaben</h3>
+<p>Der Check rügt in Punkt 3 ein fehlerhaftes Impressum. Das Dokument selbst nennt nur „Kira Moewes" und eine private Adresse (<code>Kira.moewes@gmail.com</code>), die von der sonst genutzten abweicht.</p>
+<p>Das ist zunächst kein Rechts-, sondern ein Glaubwürdigkeitsproblem: Wer die Sorgfalt anderer prüft, wird an derselben Sorgfalt gemessen.</p>
+<div class="warn"><span class="label">Prüfauftrag</span><p><strong>PRÜFAUFTRAG an die IHK:</strong> Welche Angaben muss ein geschäftlich verwendetes Dokument (Website-Check, Angebot, Rechnung) tragen? Impressumspflicht nach <strong>§ 5 DDG</strong> gilt für digitale Dienste — ob ein persönlich übergebenes PDF darunter fällt, ist zu klären, ein zum Download bereitgestelltes eher. <strong>GESICHERT ist nur die Norm selbst</strong>, nicht ihre Anwendung auf diesen Fall.</p></div></div></section>
+<section><div class="num">08</div><div class="body"><h2>7. Abgrenzung — und wo sie nicht trägt</h2>
+<h3>Nach unten: Baukastensysteme</h3>
+<p><strong>Der Reflex wäre „bessere Qualität". Der trägt nicht.</strong></p>
+<p>Gegenbeweis aus dem eigenen Bestand: <code>durchgeplant.de</code> läuft auf Wix und funktioniert (<strong>GESICHERT</strong>, Abruf 11.08.2026). Wer für rund 15–30 €/Monat eine funktionierende Seite hat, kauft für 1.400 € keine schönere.</p>
+<p><strong>Was trägt:</strong> Der Baukasten kostet den Inhaber nicht Geld, sondern <strong>seine eigene Zeit</strong> — und die hat er nicht. Der Beweis liegt im Gophai-Check: Auf der Live-Seite steht seit unbekannter Zeit die Überschrift <em>„Le nostre specialità"</em> — italienischer Vorlagentext auf einer deutschen Thai-Seite. Das ist kein Qualitätsproblem des Baukastens. Das ist ein Aufmerksamkeitsproblem des Inhabers.</p>
+<div class="axiom"><p><strong>Das verkaufte Produkt ist nicht die Website. Es ist, dass jemand anderes sich darum kümmert.</strong></p></div>
+<p>Das begrenzt die Zielgruppe hart: Es funktioniert nur bei Inhabern, die es nachweislich <strong>nicht selbst machen.</strong> Der Website-Check ist genau der Nachweis.</p>
+<h3>Nach oben: Agenturen</h3>
+<p>Schneller und günstiger. Das ist real, aber schwach — es ist dasselbe Argument, das jeder Anfänger hat.</p>
+<p>Wogegen sie nicht ankommt: keine Referenzliste, keine Haftungsmasse, kein Team, keine Vertretung im Krankheitsfall. Ein Kunde, der Absicherung kauft, geht zur Agentur. Das ist richtig so, und darum sollte um diese Kunden nicht geworben werden.</p>
+<h3>Der ehrliche Teil</h3>
+<p>Die Aufgabenstellung verlangt, deutlich zu sagen, wenn keine tragfähige Antwort gefunden wird. Hier ist sie:</p>
+<div class="axiom"><p><strong>Es gibt keine tragfähige Abgrenzung gegenüber einem Kunden, dessen Seite funktioniert.</strong> Gegen <code>andrys-advisory.de</code> (WordPress, live, professionell getextet) ist kein Argument vorhanden außer Geschmack. Der Neuentwurf im Repo ist handwerklich aufwendiger, aber das ist kein Kaufgrund.</p></div>
+<p>Daraus folgt die eigentliche Qualifizierungsregel, und sie ist enger als jede Branchendefinition:</p>
+<p><strong>Nur Betriebe ansprechen, bei denen die Bestandsseite einen belegbaren, für den Inhaber verständlichen Defekt hat.</strong> Kein Defekt, kein Check, kein Gespräch. Bei drei von vier bisherigen Projekten war dieses Kriterium nicht erfüllt.</p></div></section>
+<section><div class="num">09</div><div class="body"><h2>8. Bestand: die vier Repos</h2>
+<div class="tablewrap"><table><thead><tr><th>Repo</th><th>Stack</th><th>Deploy</th><th>Wiederverwendbar</th><th>Bis „öffentlich vorzeigbar"</th></tr></thead><tbody><tr><td><strong>Andrys-Advisory-</strong></td><td>HTML/CSS/Vanilla-JS, Three.js-WebGL, self-hosted Fonts, <code>vercel.json</code> mit Security-Headern</td><td>nicht live; Domain zeigt auf fremdes WordPress</td><td><strong>Designsystem, Security-Header, Font-Selfhosting, Karriereseiten-Struktur, Mehrseiter-Muster mit Seitenübergang</strong></td><td><strong>SCHÄTZUNG 4–8 h</strong> (nur als Konzept kennzeichnen und anonymisieren)</td></tr><tr><td><strong>Durchgeplant-</strong></td><td>statisches HTML/CSS/JS</td><td>nicht live; Domain zeigt auf Wix</td><td>Designkonzept-Dokument als Vorlage für Kundenpräsentation</td><td><strong>SCHÄTZUNG 4–8 h</strong></td></tr><tr><td><strong>Gopathai-</strong></td><td>HTML/CSS/JS, GSAP, Einzeldatei-Build, Deploy-ZIP</td><td>nicht live; Domain zeigt auf Baukasten</td><td><strong>Speisekarten-Muster, Öffnungszeiten-Logik, Einzeldatei-Build, Hosting-Anleitung, Kundenfragebogen (Bildschirm + Druck)</strong></td><td><strong>SCHÄTZUNG 6–10 h</strong> (vollständige Anonymisierung nötig)</td></tr><tr><td><strong>Startklar</strong></td><td>App mit <code>package.json</code>, <code>api/</code>, <code>src/</code></td><td>Vercel</td><td>—</td><td><strong>eingefroren, nicht anfassen</strong></td></tr></tbody></table></div>
+<p>Zeilen- und Dateiangaben <strong>GESICHERT</strong> (Dateisystem, 11.08.2026). Stundenangaben <strong>SCHÄTZUNG</strong>.</p>
+<h3>Zum Gophai-Material</h3>
+<p>Ohne schriftliche Zeigeerlaubnis darf der Betrieb nicht genannt werden. Die eigene Regel dazu ist eindeutig: keine Kundennamen ohne Erlaubnis, unrealisierte Arbeiten als „Konzept" kennzeichnen.</p>
+<p>Wenn das Material als Arbeitsprobe genutzt werden soll, muss die Anonymisierung <strong>vollständig</strong> sein: Betriebsname, Anschrift, Telefonnummer, Inhabername, Instagram-Verweis, Impressumsdaten. Halbe Anonymisierung ist keine — dann ist es eine fremde Identität.</p>
+<p>Das ist Fleißarbeit ohne Verkaufswirkung. <strong>Empfehlung: nachrangig behandeln.</strong> Eine live geschaltete Seite für einen echten Kunden ist als Arbeitsprobe um ein Vielfaches mehr wert als drei anonymisierte Konzepte.</p></div></section>
+<section><div class="num">10</div><div class="body"><h2>9. Die drei wackligsten Annahmen</h2>
+<h3>Annahme 1: Der Website-Check erzeugt Gespräche</h3>
+<p><strong>Gegenargument:</strong> Die Stichprobe ist eins. Ein Check, ein positives Gespräch, null Euro. Bei n = 1 ist die Antwortquote unbekannt. Es ist genauso gut möglich, dass der Zugang zu Gophai persönlich war und das Dokument nur begleitet hat.</p>
+<p><strong>Test in unter einer Woche:</strong> 20 Checks an 20 Betriebe der gewählten Branche, alle nach demselben Muster, persönlich übergeben oder per Post. Gemessen wird nur eins: <strong>Wie viele antworten?</strong> Unter 2 Antworten → der Kanal trägt nicht in dieser Form.</p>
+<p><em>(Diese Zahl ist derzeit unbekannt, weil die Frage nach der Anzahl bisher verschickter Checks offen ist. Der Plan unterstellt: Gophai war der einzige.)</em></p>
+<h3>Annahme 2: Die Zielgruppe hat Bedarf und Budget</h3>
+<p><strong>Gegenargument:</strong> Ein ausgelasteter Handwerksbetrieb braucht keine Kundengewinnung. Und ein Betrieb, dessen Seite seit acht Jahren unverändert läuft, hat damit acht Jahre lang kein Problem gehabt.</p>
+<p><strong>Test in unter einer Woche:</strong> Fünf Telefonate, in denen die Preisfrage <strong>vor</strong> jeder Arbeit gestellt wird: <em>„Wenn ich Ihnen das in drei Wochen fertig liefere — wäre eine vierstellige Summe für Sie eine realistische Größenordnung?"</em> Fünfmal Ausweichen → der Preis oder die Branche stimmt nicht.</p>
+<h3>Annahme 3: Erstellung ist der Einstieg, Betreuung das Geschäft</h3>
+<p><strong>Gegenargument, und hier widerspreche ich ausdrücklich:</strong></p>
+<p>Betreuung setzt einen Bestand voraus, den es nicht gibt. Bei null Kunden ist Betreuung kein Geschäftsmodell, sondern ein Wunsch. Zusätzlich: Solange es nur <strong>einen</strong> Betreuungskunden gibt, ist der Status nach § 2 Satz 1 Nr. 9 SGB VI ungeklärt (siehe Abschnitt 3) — das Modell wird also erst mit mehreren Kunden unbedenklich, nicht schon mit dem ersten.</p>
+<p><strong>Praktische Folge:</strong> In den ersten 90 Tagen zählt ausschließlich der Erstauftrag. Die Betreuung wird bei jedem Abschluss <strong>mit angeboten</strong>, aber nicht geplant, nicht beworben und nicht in Umsatzerwartungen eingerechnet.</p></div></section>
+<section><div class="num">11</div><div class="body"><h2>10. Prüfaufträge — gesammelt</h2>
+<p>Nichts davon ist eine Aussage. Alles gehört an die benannte Stelle.</p>
+<div class="tablewrap"><table><thead><tr><th>#</th><th>Punkt</th><th>Norm / Grundlage</th><th>An wen</th></tr></thead><tbody><tr><td>1</td><td>Volle Geschäftsfähigkeit für den Geschäftsbetrieb — Ermächtigung zum selbstständigen Betrieb eines Erwerbsgeschäfts</td><td>§ 112 BGB, in Verbindung mit §§ 106–108 BGB</td><td>Familiengericht, über die Eltern</td></tr><tr><td>2</td><td><strong>Webdesign ist gewerblich, nicht freiberuflich</strong> — das ist die zentrale Abweichung von der Referenzunterlage, die lehrende Tätigkeit nach § 18 EStG behandelt</td><td>§ 15 EStG vs. § 18 EStG</td><td>Steuerberatung</td></tr><tr><td>3</td><td>Folge aus 2: Gewerbeanmeldung, IHK-Pflichtmitgliedschaft, Gewerbesteuer — Freibetrag <strong>24.500 €</strong> für natürliche Personen (<strong>GESICHERT</strong>, § 11 Abs. 1 GewStG)</td><td>§ 11 GewStG, GewO</td><td>Gewerbeamt, IHK</td></tr><tr><td>4</td><td>Rentenversicherung: § 2 S. 1 <strong>Nr. 1</strong> (Lehrer) greift bei Webdesign vermutlich <strong>nicht</strong>; zu prüfen ist stattdessen § 2 S. 1 <strong>Nr. 9</strong> (im Wesentlichen nur ein Auftraggeber)</td><td>§ 2 SGB VI (<strong>GESICHERT</strong>, DRV rvRecht)</td><td>Deutsche Rentenversicherung, Klärung nach § 7a SGB IV</td></tr><tr><td>5</td><td><strong>Künstlersozialkasse:</strong> Webdesigner zählen nach KSVG zu den Künstlern, wenn sie Bildschirmseiten nach ästhetischen und funktionalen Gesichtspunkten gestalten und programmieren. Mindesteinkommen für die Versicherungspflicht: <strong>3.900 €/Jahr</strong> (<strong>GESICHERT</strong>, Künstlersozialkasse, abgerufen 11.08.2026). Übernimmt rund die Hälfte der KV-/RV-Beiträge — kann Vorteil oder ungewollte Pflicht sein</td><td>KSVG</td><td>Künstlersozialkasse</td></tr><tr><td>6</td><td>Familienversicherung: Grenze 2026 <strong>565 €/Monat</strong> Gesamteinkommen, Minijob 603 € (<strong>GESICHERT</strong>, TK/AOK). Wie wird selbstständiger Gewinn angerechnet?</td><td>§ 10 SGB V</td><td>eigene Krankenkasse, schriftlich</td></tr><tr><td>7</td><td>Kleinunternehmerregelung: <strong>25.000 €</strong> Vorjahr / <strong>100.000 €</strong> laufendes Jahr, Nettogrenzen seit 01.01.2025 (<strong>GESICHERT</strong>, § 19 UStG)</td><td>§ 19 UStG</td><td>Finanzamt / Steuerberatung</td></tr><tr><td>8</td><td><strong>Widerrufsrecht:</strong> 14 Tage gelten gegenüber <strong>Verbrauchern</strong>. Webdesign-Kunden sind in der Regel Unternehmer — dann greift es nicht. Wichtige Abweichung von der Kursunterlage, die Verbrauchergeschäft behandelt</td><td>§§ 312g, 355 BGB</td><td>Steuerberatung / IHK</td></tr><tr><td>9</td><td>Impressum auf allen geschäftlich genutzten Auftritten und Dokumenten</td><td>§ 5 DDG</td><td>IHK</td></tr><tr><td>10</td><td><strong>E-Rechnung:</strong> Empfangspflicht im inländischen B2B seit <strong>01.01.2025 ohne Übergangsfrist</strong>, auch für Kleinunternehmer. Versandpflicht für Kleinunternehmer erst <strong>ab 2028</strong> (<strong>GESICHERT</strong>, BMF/IHK, abgerufen 11.08.2026)</td><td>§ 14 UStG</td><td>Steuerberatung</td></tr><tr><td>11</td><td>Aufbewahrung Buchungsbelege <strong>8 Jahre</strong> (seit 2025 verkürzt von 10, Viertes Bürokratieentlastungsgesetz) (<strong>GESICHERT</strong>, § 147 Abs. 3 AO)</td><td>§ 147 AO</td><td>Steuerberatung</td></tr><tr><td>12</td><td><strong>Haftung:</strong> unbeschränkt mit Privatvermögen. Bei Kundenprojekten Berufshaftpflicht prüfen — besonders relevant, wenn Impressums- und Datenschutztexte mitgeliefert werden</td><td>—</td><td>Versicherungsmakler</td></tr><tr><td>13</td><td>Datenschutz: Auftragsverarbeitung mit dem Hoster, Datenschutzerklärung, Kontaktformular-Verarbeitung</td><td>DSGVO</td><td>Steuerberatung / Fachanwalt</td></tr></tbody></table></div>
+<p><strong>Zwei Punkte davon sind neu gegenüber der Referenzunterlage und hängen direkt an der Verschiebung von lehrender zu gewerblicher Tätigkeit: Nummer 4 (Rentenversicherung dreht sich von Nr. 1 auf Nr. 9) und Nummer 8 (Widerrufsrecht entfällt im B2B).</strong> Nummer 5 (Künstlersozialkasse) ist in der Referenz nur als Randnotiz erwähnt, wird für Webdesign aber möglicherweise einschlägig.</p></div></section>
+<section><div class="num">12</div><div class="body"><h2>Quellen</h2>
+<ul class="dash"><li><a href="https://rvrecht.deutsche-rentenversicherung.de/SharedDocs/rvRecht/01_GRA_SGB/06_SGB_VI/pp_0001_25/gra_sgb006_p_0002.html">§ 2 SGB VI, Deutsche Rentenversicherung rvRecht</a></li><li><a href="https://www.gesetze-im-internet.de/ustg_1980/__19.html">§ 19 UStG, gesetze-im-internet.de</a></li><li><a href="https://www.gesetze-im-internet.de/gewstg/__11.html">§ 11 GewStG, gesetze-im-internet.de</a></li><li><a href="https://www.gesetze-im-internet.de/ao_1977/__147.html">§ 147 AO, gesetze-im-internet.de</a></li><li><a href="https://www.tk.de/techniker/versicherung/tk-leistungen/schwangerschaft-und-familie/entlastung-fuer-familien/versichert-als-familie-in-der-familienversicherung/einkommensgrenze-familienversicherung-2005696">Einkommensgrenze Familienversicherung, Techniker Krankenkasse</a></li><li><a href="https://www.aok.de/pp/gg/update/rechengroessen-2026/">Rechengrößen Sozialversicherung 2026, AOK</a></li><li><a href="https://www.kuenstlersozialkasse.de/kuenstler-und-publizisten/voraussetzungen">Voraussetzungen Künstlersozialkasse</a></li><li><a href="https://www.kuenstlersozialkasse.de/fileadmin/Dokumente/Mediencenter_Unternehmer_Verwerter/Informationsschriften/Info_02_Verwertung_von_Design-Leistungen.pdf">Verwertung von Design-Leistungen, Künstlersozialkasse Info Nr. 2</a></li><li><a href="https://www.bundesfinanzministerium.de/Content/DE/FAQ/e-rechnung.html">E-Rechnung ab 2025, Bundesfinanzministerium FAQ</a></li><li><a href="https://www.ihk.de/koeln/hauptnavigation/recht-steuern/steuern/kleinunternehmer-im-umsatzsterrecht-5695056">Kleinunternehmerregelung, IHK Köln</a></li><li><a href="https://www.ihk.de/koeln/hauptnavigation/recht-steuern/steuern/aufbewahrung-von-geschaeftsunterlagen-5905058">Aufbewahrung von Geschäftsunterlagen, IHK Köln</a></li></ul></div></section>
+<footer><span>Konzept Webdesign</span><span>11. August 2026</span></footer>
+</div>

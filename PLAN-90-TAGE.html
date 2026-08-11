@@ -1,0 +1,118 @@
+<title>90-Tage-Plan Webdesign</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>:root{--paper:#EFEFEA;--ink:#16150F;--ink-soft:#57564C;--ink-faint:#8C8B80;
+ --olive:#4F5F3E;--red:#8A3324;--hair:rgba(22,21,15,.16);--hair-soft:rgba(22,21,15,.08);
+ --mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+ --sans:"IBM Plex Sans",-apple-system,Segoe UI,sans-serif;--measure:34rem;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.72}
+.sheet{max-width:60rem;margin:0 auto;padding:5rem 2.5rem 8rem}
+.masthead{border-bottom:1px solid var(--ink);padding-bottom:1.75rem;margin-bottom:4.5rem}
+.masthead .eyebrow{font-family:var(--mono);font-size:.6875rem;letter-spacing:.22em;text-transform:uppercase;color:var(--olive);margin:0 0 1.5rem}
+h1{font-weight:600;font-size:2.375rem;line-height:1.18;letter-spacing:-.018em;margin:0 0 1.25rem;max-width:24ch}
+.masthead .standfirst{max-width:var(--measure);color:var(--ink-soft);margin:0 0 2rem}
+.meta{display:flex;flex-wrap:wrap;gap:2.5rem;font-family:var(--mono);font-size:.6875rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-faint)}
+.meta b{color:var(--ink);font-weight:500}
+section{display:grid;grid-template-columns:5rem 1fr;gap:0 2.5rem;padding-top:3.25rem;margin-top:3.25rem;border-top:1px solid var(--hair)}
+section:first-of-type{border-top:none;margin-top:0;padding-top:0}
+.num{font-family:var(--mono);font-size:.75rem;letter-spacing:.16em;color:var(--olive);padding-top:.45rem}
+h2{font-family:var(--mono);font-weight:500;font-size:.8125rem;letter-spacing:.2em;text-transform:uppercase;margin:0 0 1.75rem}
+h3{font-family:var(--mono);font-weight:500;font-size:.6875rem;letter-spacing:.18em;text-transform:uppercase;color:var(--olive);margin:2.75rem 0 1rem}
+p{max-width:var(--measure);margin:0 0 1.15rem} .muted{color:var(--ink-soft)} strong{font-weight:600}
+.axiom{border-left:2px solid var(--olive);padding:.25rem 0 .25rem 1.5rem;margin:0 0 1.75rem;max-width:var(--measure)}
+.axiom p{font-size:1.125rem;line-height:1.6;margin:0}
+.axiom p+p{margin-top:.75rem}
+.warn{border-left:2px solid var(--red);padding:.1rem 0 .1rem 1.5rem;margin:0 0 1.75rem;max-width:var(--measure)}
+.warn .label{font-family:var(--mono);font-size:.625rem;letter-spacing:.18em;text-transform:uppercase;color:var(--red);display:block;margin-bottom:.35rem}
+.warn p{margin:0 0 .6rem}.warn p:last-child{margin-bottom:0}
+.tablewrap{overflow-x:auto;margin:0 0 1.75rem}
+table{width:100%;border-collapse:collapse;margin:0;font-size:.9375rem}
+th{font-family:var(--mono);font-weight:500;font-size:.625rem;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-faint);text-align:left;padding:0 1rem .6rem 0;border-bottom:1px solid var(--ink)}
+td{padding:.75rem 1rem .75rem 0;border-bottom:1px solid var(--hair-soft);vertical-align:top;line-height:1.55}
+td.r,th.r{text-align:right;white-space:nowrap} tr.total td{font-weight:600;border-bottom:1px solid var(--ink)}
+ul.dash{list-style:none;margin:0 0 1.5rem;padding:0;max-width:var(--measure)}
+ul.dash li{position:relative;padding-left:1.4rem;margin-bottom:.55rem}
+ul.dash li::before{content:"\2014";position:absolute;left:0;color:var(--ink-faint)}
+code{font-family:var(--mono);font-size:.875em;background:rgba(22,21,15,.055);padding:.1em .35em;border-radius:2px}
+td code,th code{font-size:.85em}
+a{color:var(--olive);text-decoration:underline;text-underline-offset:2px;text-decoration-thickness:.5px}
+footer{margin-top:5rem;padding-top:1.5rem;border-top:1px solid var(--ink);font-family:var(--mono);font-size:.625rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-faint);display:flex;justify-content:space-between;gap:2rem;flex-wrap:wrap}
+@media (max-width:720px){.sheet{padding:3rem 1.25rem 5rem}section{grid-template-columns:1fr}.num{padding:0 0 .75rem}h1{font-size:1.75rem}}
+@media print{@page{margin:18mm 16mm}body{background:#fff;color:#000;font-size:10.5pt;line-height:1.55}
+ .sheet{max-width:none;padding:0}
+ section{grid-template-columns:3.5rem 1fr;gap:0 1.5rem;padding-top:1.6rem;margin-top:1.6rem;break-inside:avoid}
+ h1{font-size:20pt}h2{font-size:8.5pt}h3{font-size:7.5pt}
+ table,section,.axiom,.warn,tr{page-break-inside:avoid}
+ .tablewrap{overflow:visible}
+ table{font-size:9pt}td{padding:.4rem .7rem .4rem 0}
+ p,ul.dash,.axiom,.warn{max-width:none}
+ a{color:#000;text-decoration:none}
+ code{background:none;border:.5pt solid #999;padding:0 .2em}
+ .masthead{border-bottom:1.5pt solid #000;margin-bottom:2rem;padding-bottom:1rem}
+ footer{border-top:1.5pt solid #000;margin-top:2rem}}</style>
+<div class="sheet">
+<header class="masthead">
+<p class="eyebrow">Umsetzungsplan · 11.08.–09.11.2026</p>
+<h1>90-Tage-Plan Webdesign</h1>
+<p class="standfirst">Drei Stränge, ein Ziel: ein zahlender Website-Kunde. Der Engpass ist nicht Verkaufen und nicht Liefern, sondern die Stelle dazwischen — es wird gebaut, bevor etwas verbindlich ist.</p>
+<div class="meta"><span>Start <b>11.08.2026</b></span><span>Ende <b>09.11.2026</b></span><span>Meilenstein <b>Anzahlung bis Woche 9</b></span></div>
+</header>
+<section><div class="num">01</div><div class="body"><h2>Der Engpass</h2>
+<div class="axiom"><p><strong>Du baust vor der Verbindlichkeit.</strong></p></div>
+<p>Viermal ein vollständiges Produkt gebaut. Keinmal eine Unterschrift oder eine Anzahlung davor. Bei Gophai bis zum Angebot gekommen — Check, Gespräch, Prototyp, Preis — und dann schließt der Betrieb.</p>
+<p>Der Engpass sitzt nicht am Anfang (sie kann verkaufen) und nicht am Ende (sie kann liefern). Er sitzt <strong>in der Mitte</strong>: an der Stelle, an der gebaut wird, obwohl noch nichts verbindlich ist.</p>
+<p>Jede Aufgabe in diesem Plan wird daran gemessen, ob sie diese Stelle angreift. Was das nicht tut, steht in der Tabelle „Was ich bewusst nicht tue".</p></div></section>
+<section><div class="num">02</div><div class="body"><h2>Drei Stränge, nicht mehr</h2>
+<div class="tablewrap"><table><thead><tr><th>Strang</th><th>Zweck</th><th>Anteil der Zeit</th></tr></thead><tbody><tr><td><strong>A — Beweis</strong></td><td>Eine Seite live auf einer echten Kundendomain</td><td>ca. 30 %</td></tr><tr><td><strong>B — Akquise</strong></td><td>Checks raus, Gespräche führen, Anzahlung einfordern</td><td>ca. 55 %</td></tr><tr><td><strong>C — Verwaltung</strong></td><td>Prüfaufträge, Angebotsvorlage, Rechnungsfähigkeit</td><td>ca. 15 %</td></tr></tbody></table></div>
+<p>Kein vierter Strang. Wenn etwas hinzukommt, muss etwas anderes weichen.</p></div></section>
+<section><div class="num">03</div><div class="body"><h2>Woche 1–2 (11.–24. August)</h2>
+<div class="tablewrap"><table><thead><tr><th>ID</th><th>Ergebnis</th><th>Aufwand</th><th>Abhängigkeit</th><th>Abbruchkriterium</th></tr></thead><tbody><tr><td><strong>A1</strong></td><td><strong>Eine Website ist unter einer Domain erreichbar, die nicht mir gehört.</strong> Notfalls kostenlos, notfalls für den Betrieb des Vaters — aber live, mit Impressum, vom Inhaber freigegeben.</td><td>6–10 h</td><td>Zustimmung des Domaininhabers</td><td>Keine Zustimmung binnen 7 Tagen → Ziel wechselt auf einen anderen Betrieb, nicht auf eine eigene Domain</td></tr><tr><td><strong>B1</strong></td><td><strong>Angebotsvorlage existiert</strong> — ein Blatt: Leistungsumfang, Festpreis, 40 % Anzahlung, zwei Anpassungsrunden, was nicht enthalten ist.</td><td>2–3 h</td><td>—</td><td>—</td></tr><tr><td><strong>B2</strong></td><td><strong>Check-Vorlage überarbeitet:</strong> Punkt 5 („bestellbar") ersetzt, eigene Absenderangaben vereinheitlicht, eine geschäftliche E-Mail-Adresse.</td><td>2 h</td><td>—</td><td>—</td></tr><tr><td><strong>B3</strong></td><td><strong>Liste mit 30 Betrieben</strong> der gewählten Branche im Umkreis, je mit einer Zeile: Was ist an der Bestandsseite belegbar kaputt? Betriebe ohne belegbaren Defekt fliegen von der Liste.</td><td>3–4 h</td><td>—</td><td>Unter 15 Betriebe mit belegbarem Defekt → Branche stimmt nicht, Auswahl neu treffen</td></tr><tr><td><strong>C1</strong></td><td><strong>Termin bei der Steuerberatung vereinbart</strong> (nicht wahrgenommen — nur vereinbart), Prüfauftragsliste als Anlage verschickt.</td><td>1 h</td><td>—</td><td>—</td></tr><tr><td><strong>C2</strong></td><td><strong>Antwort der Krankenkasse schriftlich angefragt</strong>: Wie wird selbstständiger Gewinn auf die Familienversicherung angerechnet?</td><td>1 h</td><td>—</td><td>—</td></tr></tbody></table></div>
+<p><strong>Extern sichtbares Artefakt Woche 1:</strong> die live geschaltete Seite (A1). <strong>Extern sichtbares Artefakt Woche 2:</strong> die ersten fünf Checks (siehe B4 unten, vorgezogen falls A1 früher steht).</p>
+<p><strong>Summe: 15–21 h</strong></p></div></section>
+<section><div class="num">04</div><div class="body"><h2>Woche 3–6 (25. August – 21. September)</h2>
+<div class="tablewrap"><table><thead><tr><th>ID</th><th>Ergebnis</th><th>Aufwand</th><th>Abhängigkeit</th><th>Abbruchkriterium</th></tr></thead><tbody><tr><td><strong>B4</strong></td><td><strong>20 Website-Checks übergeben</strong>, je 5 pro Woche, persönlich oder per Post. Jeder Check nennt nur Defekte, die das Standardpaket behebt.</td><td>20–30 h</td><td>B2, B3</td><td><strong>Nach 20 Checks unter 2 Antworten → der Kanal trägt nicht. Kanal wechseln, nicht Anzahl erhöhen.</strong></td></tr><tr><td><strong>B5</strong></td><td><strong>Fünf Qualifizierungsgespräche geführt</strong>, jedes mit den drei Fragen in dieser Reihenfolge: Zukunft des Betriebs, Entscheider, Größenordnung. Protokoll je Gespräch: eine halbe Seite.</td><td>5–8 h</td><td>B4</td><td>Fünfmal Ausweichen bei der Preisfrage → Preis oder Branche stimmt nicht</td></tr><tr><td><strong>B6</strong></td><td><strong>Drei Designvorschläge als Bild</strong> — je 1–2 Screens, kein lauffähiger Code, maximal 3 h pro Stück.</td><td>6–9 h</td><td>B5</td><td>Mehr als 3 h pro Vorschlag → es wird wieder gebaut statt gezeigt. Sofort stoppen.</td></tr><tr><td><strong>B7</strong></td><td><strong>Drei Angebote mit Anzahlungsforderung abgegeben.</strong> Das ist das eigentliche Ziel dieses Blocks.</td><td>3 h</td><td>B6</td><td>—</td></tr><tr><td><strong>A2</strong></td><td><strong>Zweite Seite live</strong> oder die erste um Karriere-/Kontaktseite erweitert — je nachdem, was ein echter Inhaber will.</td><td>6–10 h</td><td>A1</td><td>Kein Inhaber will etwas → Zeit geht vollständig in Strang B</td></tr><tr><td><strong>C3</strong></td><td><strong>Steuerberatungstermin wahrgenommen</strong>, Prüfaufträge 2, 3, 4, 7, 8 beantwortet und schriftlich festgehalten.</td><td>2–3 h</td><td>C1</td><td>—</td></tr><tr><td><strong>C4</strong></td><td><strong>Rechnungsfähigkeit hergestellt:</strong> Rechnungsvorlage, fortlaufende Nummern, E-Rechnungs-Empfang eingerichtet, Belegablage.</td><td>3–4 h</td><td>C3</td><td>—</td></tr></tbody></table></div>
+<p><strong>Extern sichtbares Artefakt je Woche:</strong> 5 übergebene Checks. Ab Woche 5 zusätzlich die Designvorschläge.</p>
+<p><strong>Summe: 45–67 h über 4 Wochen</strong> — etwa 11–17 h/Woche.</p></div></section>
+<section><div class="num">05</div><div class="body"><h2>Woche 7–12 (22. September – 9. November)</h2>
+<div class="tablewrap"><table><thead><tr><th>ID</th><th>Ergebnis</th><th>Aufwand</th><th>Abhängigkeit</th><th>Abbruchkriterium</th></tr></thead><tbody><tr><td><strong>B8</strong></td><td><strong>Eine Anzahlung ist eingegangen.</strong> Das ist der Meilenstein, an dem sich alles entscheidet.</td><td>—</td><td>B7</td><td><strong>Bis Ende Woche 9 keine Anzahlung → zurück zu B4 mit geänderter Branche oder geändertem Preis, nicht mit mehr Checks derselben Art</strong></td></tr><tr><td><strong>B9</strong></td><td><strong>Erste bezahlte Website ausgeliefert und live</strong>, zwei Anpassungsrunden, Schlussrechnung gestellt.</td><td>20–25 h</td><td>B8</td><td>Dritte Anpassungsrunde → wird berechnet, nicht geschenkt</td></tr><tr><td><strong>B10</strong></td><td><strong>Betreuungsvertrag angeboten</strong> — bei Übergabe, mündlich, ohne Kampagne.</td><td>0,5 h</td><td>B9</td><td>—</td></tr><tr><td><strong>B11</strong></td><td><strong>Weitere 20 Checks</strong>, parallel zur Auslieferung. Der Trichter darf nicht leerlaufen, während gebaut wird.</td><td>20–30 h</td><td>B4 ausgewertet</td><td>—</td></tr><tr><td><strong>A3</strong></td><td><strong>Arbeitsprobenseite:</strong> drei Projekte, jedes ehrlich beschriftet — live/Konzept, mit oder ohne Erlaubnis. Erst jetzt, weil vorher nichts Echtes drauf steht.</td><td>5–8 h</td><td>B9</td><td>—</td></tr><tr><td><strong>C5</strong></td><td><strong>Gewerbeanmeldung</strong>, falls die Steuerberatung sie bestätigt und die Geschäftsfähigkeitsfrage geklärt ist.</td><td>2 h</td><td>C3, Prüfauftrag 1</td><td>Geschäftsfähigkeit ungeklärt → Anmeldung verschieben, nicht umgehen</td></tr><tr><td><strong>C6</strong></td><td><strong>Zeit für eine Website gemessen</strong> und der Preis mit der gemessenen Zahl neu gerechnet.</td><td>0,5 h</td><td>B9</td><td>—</td></tr></tbody></table></div>
+<p><strong>Extern sichtbares Artefakt je Woche:</strong> übergebene Checks; ab Auslieferung die live geschaltete Kundenseite; zum Schluss die Arbeitsprobenseite.</p>
+<p><strong>Summe: 48–66 h über 6 Wochen</strong> — etwa 8–11 h/Woche.</p></div></section>
+<section><div class="num">06</div><div class="body"><h2>Der Meilenstein, an dem alles hängt</h2>
+<div class="axiom"><p><strong>Ende Woche 9: mindestens eine Anzahlung eingegangen.</strong></p></div>
+<p>Nicht „ein interessiertes Gespräch". Nicht „ein positives Feedback". Nicht „er fand es gut". <strong>Geld auf dem Konto.</strong></p>
+<p>Genau dieser Unterschied ist der Grund, warum bei Gophai 15–25 Stunden verloren gingen.</p></div></section>
+<section><div class="num">07</div><div class="body"><h2>Was ich in diesen 90 Tagen bewusst NICHT tue</h2>
+<div class="tablewrap"><table><thead><tr><th>Nicht tun</th><th>Warum nicht</th><th>Wann wieder erlaubt</th></tr></thead><tbody><tr><td><strong>Workshops, Kurse, Kursprodukte</strong></td><td>Eingefroren. Anderes Geschäftsmodell, andere steuerliche Einordnung, andere Zielgruppe.</td><td>nach Tag 90</td></tr><tr><td><strong>Startklar weiterentwickeln</strong></td><td>Eingefroren. Bringt keinen Website-Kunden.</td><td>nach Tag 90</td></tr><tr><td><strong>Eine Website bauen, bevor eine Anzahlung da ist</strong></td><td>Das ist der Engpass. Genau das hat viermal nicht funktioniert.</td><td>nie</td></tr><tr><td><strong>Weitere unbeauftragte Neuentwürfe für Betriebe mit funktionierender Seite</strong></td><td>Drei von vier Repos sind genau das. Null Aufträge daraus.</td><td>nie</td></tr><tr><td><strong>Eigene Agenturwebsite bauen</strong></td><td>Verlockend, weil es sich nach Arbeit anfühlt. Kein Kunde entsteht daraus. Eine Seite mit drei Referenzen reicht — und die gibt es erst ab A3.</td><td>Woche 7 (A3), in reduzierter Form</td></tr><tr><td><strong>Branding, Name, Logo, Vision</strong></td><td>Aus der Aufgabenstellung ausgeschlossen. Bringt keinen Kunden.</td><td>nach Tag 90</td></tr><tr><td><strong>Social-Media-Aufbau, Videoproduktion, LinkedIn-Kampagne</strong></td><td>Gehört zum eingefrorenen Kursgeschäft. Für einen einzigen lokalen Website-Kunden ist Direktansprache schneller.</td><td>nach Tag 90</td></tr><tr><td><strong>Öffentliche Teardowns benannter Betriebe</strong></td><td>Kerpen und Düren sind klein. Verbrennt genau das Netzwerk, aus dem die ersten Kunden kommen. Der Check geht privat an den Inhaber, nicht ins Netz.</td><td>nie in dieser Form</td></tr><tr><td><strong>Online-Shops, Buchungssysteme, Bestellfunktionen</strong></td><td>Nicht im Standardpaket. Verspricht Aufwand, der nicht kalkuliert ist — siehe Punkt 5 im Gophai-Check.</td><td>wenn es einmal bezahlt bestellt wird</td></tr><tr><td><strong>Vollständige Anonymisierung der Altprojekte</strong></td><td>Fleißarbeit ohne Verkaufswirkung. Eine echte Live-Seite schlägt drei anonymisierte Konzepte.</td><td>Woche 7, falls Zeit übrig</td></tr><tr><td><strong>Preisdiskussionen ohne Angebot</strong></td><td>Der Preis wird durch drei abgegebene Angebote getestet, nicht durch Nachdenken.</td><td>nie</td></tr></tbody></table></div></div></section>
+<section><div class="num">08</div><div class="body"><h2>Fünf Wege, auf denen dieser Plan scheitert</h2>
+<h3>1. Es wird wieder gebaut, bevor bezahlt wird</h3>
+<p>Der wahrscheinlichste Fehlerweg, weil es der bequemste ist: Bauen ist angenehm, Geld einfordern ist unangenehm.</p>
+<p><strong>Frühwarnsignal:</strong> Ein Designvorschlag (B6) dauert länger als 3 Stunden, oder es existiert lauffähiger Code für einen Betrieb, der noch nichts gezahlt hat.</p>
+<p><strong>Gegenmaßnahme:</strong> Sobald das Signal auftritt, sofort abbrechen und den Vorschlag als Bild abgeben, auch unfertig.</p>
+<h3>2. Die Checks bleiben unbeantwortet</h3>
+<p><strong>Frühwarnsignal:</strong> Nach 10 Checks null Antworten. Nicht bis 20 warten.</p>
+<p><strong>Gegenmaßnahme:</strong> Übergabeform ändern, nicht Anzahl erhöhen. Persönlich vorbeibringen statt Post. Wenn auch das nichts bringt: Branche wechseln.</p>
+<h3>3. Die Branche hat kein Budget</h3>
+<p><strong>Frühwarnsignal:</strong> In den ersten drei Gesprächen weicht der Inhaber der Größenordnungsfrage aus oder nennt eine dreistellige Zahl.</p>
+<p><strong>Gegenmaßnahme:</strong> Nicht den Preis senken — bei gedeckelter Einkommensobergrenze rechnet sich billig nicht (siehe Konzeptdokument, Abschnitt 4). Stattdessen Branche wechseln.</p>
+<h3>4. Die rechtliche Klärung blockiert den ersten Auftrag</h3>
+<p>Ohne geklärte Geschäftsfähigkeit ist jeder Vertrag angreifbar. Das kann einen fertig verhandelten Auftrag zum Platzen bringen.</p>
+<p><strong>Frühwarnsignal:</strong> Woche 4 erreicht, ohne dass Prüfauftrag 1 (§ 112 BGB / Volljährigkeit) beantwortet ist.</p>
+<p><strong>Gegenmaßnahme:</strong> Strang C vorziehen. Akquise läuft weiter — aber kein Vertrag wird unterschrieben, bevor die Frage geklärt ist.</p>
+<h3>5. Der Plan wird durch Nebenschauplätze verdünnt</h3>
+<p><strong>Frühwarnsignal:</strong> Eine Woche vergeht ohne extern sichtbares Artefakt aus Strang A oder B. Oder ein vierter Strang taucht auf.</p>
+<p><strong>Gegenmaßnahme:</strong> Wochenrückblick, eine Zeile: <em>„Was ist diese Woche nach außen sichtbar geworden?"</em> Zwei Wochen ohne Antwort → der Plan wird nicht ausgeführt, unabhängig davon, wie viel gearbeitet wurde.</p></div></section>
+<section><div class="num">09</div><div class="body"><h2>Abbruchkriterium für das Gesamtvorhaben</h2>
+<p>In Woche 12 wird eine einzige Frage beantwortet:</p>
+<div class="axiom"><p><strong>Hat mindestens ein fremder Betrieb Geld überwiesen, bevor die Website gebaut war?</strong></p></div>
+<p><strong>Ja</strong> → Das Modell trägt. Der nächste Zyklus optimiert Preis und Durchlaufzeit.</p>
+<p><strong>Nein, aber:</strong> mindestens drei Angebote abgegeben und mindestens fünf Qualifizierungsgespräche geführt → Das Modell ist nicht widerlegt, der Zuschnitt ist falsch. Branche oder Preis ändern, Struktur behalten.</p>
+<p><strong>Nein, und</strong> es wurden weniger als drei Angebote abgegeben → Dann ist nicht das Geschäftsmodell gescheitert, sondern der Plan wurde nicht ausgeführt. Das ist ein anderes Problem und wird nicht durch einen neuen Plan gelöst.</p>
+<p><strong>Nein, und</strong> 20+ Checks, 5+ Gespräche, 3+ Angebote, null Anzahlungen → <strong>Das ist der echte Abbruch.</strong> Dann zahlt diese Zielgruppe nicht für diese Leistung zu diesem Preis, und die Frage lautet nicht mehr „wie verkaufe ich besser", sondern „warum verkaufe ich das".</p></div></section>
+<section><div class="num">10</div><div class="body"><h2>Offener Punkt</h2>
+<p>Die Anzahl bisher verschickter Website-Checks und der daraus entstandenen Gespräche ist unbekannt.</p>
+<p><strong>Dieser Plan unterstellt: Gophai war der einzige.</strong> Damit ist die Antwortquote des Kanals ungetestet, und B4 ist ein Experiment, kein Ausbau.</p>
+<p>Falls es mehr waren, ändert sich der Umfang von Woche 3–6 — nicht die Struktur des Plans und nicht der Engpass.</p></div></section>
+<footer><span>90-Tage-Plan Webdesign</span><span>11. August 2026</span></footer>
+</div>
