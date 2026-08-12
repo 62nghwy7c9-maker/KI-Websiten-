@@ -234,6 +234,24 @@ def _titel_nennt_betrieb(titel: str, firma: str) -> bool:
     return any(w[:6] in t for w in woerter)
 
 
+JAHRESZAHL = re.compile(r"\b(20[0-4]\d)\b")
+
+
+def _juengstes_jahr(text: str, heute: int) -> int | None:
+    """Die neueste Jahreszahl im sichtbaren Text — oder None, wenn keine da ist.
+
+    Jahreszahlen in der Zukunft werden verworfen: Sie stammen regelmäßig aus
+    Skripten oder Formularen und sagen nichts über die Pflege der Seite.
+
+    Bewusst die **größte** Zahl, nicht die im Fußzeilen-Copyright: Ein Betrieb,
+    der „seit 1985" schreibt und daneben eine Referenz von 2024 stehen hat,
+    pflegt seine Seite. Erst wenn gar nichts Neueres zu finden ist, ist die
+    Seite alt.
+    """
+    jahre = [int(j) for j in JAHRESZAHL.findall(text or "") if int(j) <= heute]
+    return max(jahre) if jahre else None
+
+
 def _finde_link(seite: _Seite, woerter: tuple[str, ...]) -> tuple[str, str] | None:
     """Sucht einen Link, dessen Text oder Pfad mit einem der Wörter beginnt.
 
@@ -426,6 +444,9 @@ def messen(kandidat: Kandidat, lcp_ms: int | None = None) -> Pruefbericht:
                "HTML", ok=bool(seite.formulare),
                roh={"formulare": seite.formulare, "mailto": mailto[:3]}))
 
+    impressum_text = ""
+    platzhalter_funde = _platzhalter_funde(
+        seite.sichtbarer_text, K.PLATZHALTER_MUSTER)
     # 7 Impressum
     treffer = _finde_link(seite, K.IMPRESSUM_WOERTER)
     if not treffer:
@@ -452,6 +473,7 @@ def messen(kandidat: Kandidat, lcp_ms: int | None = None) -> Pruefbericht:
                 ip = _Seite()
                 try:
                     ip.feed(imp.html)
+                    impressum_text = ip.sichtbarer_text
                 except Exception:
                     pass
             itext = ip.sichtbarer_text
@@ -496,6 +518,29 @@ def messen(kandidat: Kandidat, lcp_ms: int | None = None) -> Pruefbericht:
             bericht.hinweise.append(
                 "Impressum: Firmenname und Rechtsform sind automatisch nicht sicher "
                 "prüfbar. Vor dem Check kurz selbst lesen.")
+
+    # 8 Aktualität
+    heute = datetime.now(timezone.utc).year
+    jahr = _juengstes_jahr(seite.sichtbarer_text + " " + impressum_text, heute)
+    if jahr is None:
+        m(Messwert(8, "Aktualität", "keine Jahreszahl auf der Seite gefunden",
+                   "HTML", ok=None))
+        bericht.hinweise.append(
+            "Aktualität nicht automatisch bestimmbar — auf der Seite steht keine "
+            "Jahreszahl. Beim Draufsehen einschätzen.")
+    elif heute - jahr >= K.ALT_AB_JAHREN:
+        m(Messwert(8, "Aktualität", str(jahr), "HTML", ok=False,
+                   roh={"juengstes_jahr": jahr, "abstand": heute - jahr}))
+    else:
+        m(Messwert(8, "Aktualität", f"jüngste Spur aus {jahr}", "HTML", ok=True,
+                   roh={"juengstes_jahr": jahr}))
+
+    # 15 auch auf dem Impressum: Dort stehen die peinlichsten Platzhalter, weil
+    # die Seite selten gelesen wird — etwa „[bitte eintragen]" als Anschrift.
+    if impressum_text:
+        for fund in _platzhalter_funde(impressum_text, K.PLATZHALTER_MUSTER):
+            if fund not in platzhalter_funde:
+                platzhalter_funde.append(fund)
 
     # 9 Karriereseite / 22 Bewerbungsweg
     karriere = _finde_link(seite, K.KARRIERE_WOERTER)
@@ -559,7 +604,7 @@ def messen(kandidat: Kandidat, lcp_ms: int | None = None) -> Pruefbericht:
     # aber keinen fremdsprachigen Vorlagentext. Genau der war bei Gophai der stärkste
     # Befund („Le nostre specialità" auf einer deutschen Thai-Seite) und ist
     # automatisch nicht erkennbar. „Kein Treffer" hieße sonst fälschlich „geprüft".
-    funde = _platzhalter_funde(seite.sichtbarer_text, K.PLATZHALTER_MUSTER)
+    funde = platzhalter_funde
     m(Messwert(15, "Platzhalter- und Fremdtext",
                "Verdacht: " + ", ".join(funde) if funde
                else "keine bekannte Platzhalterphrase — Sichtprüfung offen",

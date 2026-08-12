@@ -52,6 +52,13 @@ BAUKASTEN_HOSTS = (
 )
 
 # Hinweise auf unbearbeiteten Vorlagentext (Prüfpunkt 15).
+ALT_AB_JAHREN = 3
+"""Ab diesem Abstand zur juengsten Jahreszahl gilt eine Seite als veraltet.
+
+Drei Jahre, weil Kiras eigene Handbefunde genau dort ansetzen: „Stand 2021“
+und „Stand 2022“ wurden 2026 als Befund gewertet, neuere nicht.
+"""
+
 PLATZHALTER_MUSTER = (
     "lorem ipsum", "your text here", "beispieltext", "mustertext",
     "hier steht ihr text", "platzhalter", "dummy text", "text hier einfügen",
