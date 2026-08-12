@@ -20,6 +20,8 @@ from . import katalog as K
 from .befunde import bilden
 from .check import Absender, schreiben
 from .dossier import schreiben as dossier_schreiben
+from .leads import aus_datei as leads_aus_datei
+from .paket import bauen as paket_bauen
 from .farbe import Farbwelt, ableiten, stylesheets_von
 from .messung import hole, lcp_von_psi, messen
 from .modelle import Kandidat, Pruefbericht, ROUTEN
@@ -273,6 +275,72 @@ def befehl_check(args) -> int:
     return 0
 
 
+def befehl_pakete(args) -> int:
+    """Nimmt eine Lead-Liste und legt für jeden Betrieb einen Ordner an."""
+    e = leads_aus_datei(args.liste, ort_vorgabe=args.ort)
+    if not e.leads:
+        print(f"Keine Betriebe in {args.liste} erkannt.", file=sys.stderr)
+        for u in e.uebersprungen:
+            print(f"  - {u}", file=sys.stderr)
+        return 1
+
+    print(f"{len(e.leads)} Betriebe aus {args.liste}")
+    print("Spalten erkannt: "
+          + ", ".join(f"{f} ← „{k}“" for f, k in e.spalten.items()))
+    if e.uebersprungen:
+        print(f"\n{len(e.uebersprungen)} Zeile(n) übersprungen:")
+        for u in e.uebersprungen:
+            print(f"  - {u}")
+
+    absender = Absender.laden(args.absender)
+    reg = Register(args.register)
+    pakete = []
+    print()
+
+    for i, lead in enumerate(e.leads, 1):
+        kandidat = lead.als_kandidat()
+        if reg.bereits_kontaktiert(kandidat) and not args.trotzdem:
+            print(f"  [{i}/{len(e.leads)}] {lead.firma[:30]:<30} übersprungen "
+                  f"(schon im Register)")
+            continue
+        try:
+            bericht = bilden(messen(kandidat))
+            farbe = Farbwelt()
+            if not args.neutral:
+                abruf = hole(kandidat.url)
+                if abruf.html:
+                    farbe = ableiten(abruf.html, stylesheets_von(
+                        abruf.html, abruf.endgueltige_url or kandidat.url, hole))
+            p = paket_bauen(bericht, absender, farbe, Path(args.ziel))
+        except Exception as ex:  # ein kaputter Betrieb stoppt den Lauf nicht
+            print(f"  [{i}/{len(e.leads)}] {lead.firma[:30]:<30} "
+                  f"FEHLER {type(ex).__name__}")
+            continue
+
+        marke = "QUALIFIZIERT" if p.qualifiziert else f"{p.befunde} Befunde"
+        print(f"  [{i}/{len(e.leads)}] {lead.firma[:30]:<30} {marke:<13} "
+              f"→ {p.ordner}")
+        pakete.append(p)
+        reg.eintragen(kandidat, route="pruefung", notiz=f"{p.befunde} Befunde")
+        if i < len(e.leads):
+            time.sleep(args.pause)
+
+    reg.speichern()
+    pakete.sort(key=lambda p: p.befunde, reverse=True)
+    print(f"\n{len(pakete)} Pakete in {args.ziel}/ — je fünf Dateien: "
+          f"befund.md, check.html, dossier.html, anschreiben.md, messung.json")
+    if pakete:
+        print("\nReihenfolge zum Anschauen:")
+        for p in pakete:
+            print(f"  {p.befunde:>2}  {p.firma[:34]:<34} {p.ordner}")
+    if not absender.vollstaendig:
+        print(f"\nNOCH NICHT VERSANDFERTIG — in {args.absender} fehlen: "
+              f"{', '.join(absender.fehlend)}.")
+        print("Jeder Check trägt oben einen roten Sperrbalken, bis das steht.")
+        return 2
+    return 0
+
+
 def befehl_register(args) -> int:
     reg = Register(args.register)
     if not reg.zeilen:
@@ -336,6 +404,19 @@ def main(argv: list[str] | None = None) -> int:
     c.add_argument("--neutral", action="store_true",
                    help="Standardfarben statt Farbwelt des Betriebs")
     c.set_defaults(func=befehl_check)
+
+    pk = unter.add_parser("pakete",
+                          help="Lead-Liste → ein fertiger Ordner je Betrieb")
+    pk.add_argument("--liste", required=True,
+                    help="Lead-Liste als Markdown-Tabelle, CSV oder TSV")
+    pk.add_argument("--ziel", default="kunden")
+    pk.add_argument("--absender", default="absender.json")
+    pk.add_argument("--ort", default="", help="Ort, falls die Liste keinen nennt")
+    pk.add_argument("--pause", type=float, default=2.0)
+    pk.add_argument("--neutral", action="store_true",
+                    help="Standardfarben statt Farbwelt des Betriebs")
+    pk.add_argument("--trotzdem", action="store_true")
+    pk.set_defaults(func=befehl_pakete)
 
     r = unter.add_parser("register", help="Stand des Kontakt-Registers zeigen")
     r.set_defaults(func=befehl_register)
