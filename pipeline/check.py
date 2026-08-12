@@ -15,16 +15,13 @@ from __future__ import annotations
 
 import html
 import json
-from dataclasses import asdict, dataclass
+from dataclasses import asdict, dataclass, fields
 from pathlib import Path
 
 from . import katalog as K
 from .befunde import auswaehlen
 from .farbe import Farbwelt
 from .modelle import Pruefbericht
-
-PREIS_AB = 990
-WOCHEN = 3
 
 STANDARD_ABSENDER = Path("absender.json")
 
@@ -37,14 +34,23 @@ class Absender:
     anschrift: str = "PLATZHALTER — Straße, PLZ Ort eintragen"
     telefon: str = "PLATZHALTER — Telefonnummer eintragen"
     mail: str = "PLATZHALTER — geschäftliche E-Mail eintragen"
+    preis_hinweis: str = ""
+    """Leer lassen = kein Preis auf dem Check. Das ist die Voreinstellung.
+
+    Ein Preis auf einem kalt zugestellten Blatt deckelt, was danach im Gespräch
+    noch verlangt werden kann — und zwar bei jedem Betrieb gleich, egal ob er
+    zwei oder zwanzig Mitarbeiter hat. Wer hier etwas einträgt, sollte wissen,
+    warum. Der Platzhalter-Prüfung unterliegt dieses Feld bewusst nicht.
+    """
 
     @property
     def vollstaendig(self) -> bool:
-        return not any("PLATZHALTER" in str(w) for w in asdict(self).values())
+        return not self.fehlend
 
     @property
     def fehlend(self) -> list[str]:
-        return [f for f, w in asdict(self).items() if "PLATZHALTER" in str(w)]
+        return [f for f, w in asdict(self).items()
+                if f != "preis_hinweis" and "PLATZHALTER" in str(w)]
 
     @staticmethod
     def laden(pfad: Path | str = STANDARD_ABSENDER) -> "Absender":
@@ -54,7 +60,9 @@ class Absender:
             p.write_text(json.dumps(asdict(a), ensure_ascii=False, indent=2),
                          encoding="utf-8")
             return a
-        return Absender(**json.loads(p.read_text(encoding="utf-8")))
+        d = json.loads(p.read_text(encoding="utf-8"))
+        bekannt = {f.name for f in fields(Absender)}
+        return Absender(**{k: v for k, v in d.items() if k in bekannt})
 
 
 def _e(text: str) -> str:
@@ -152,10 +160,11 @@ def bauen(bericht: Pruefbericht, absender: Absender,
         '<h2>Der gute Teil: alles behebbar.</h2>',
         '<p>Diese Punkte lassen sich zusammen in einer modernen, mobilen '
         'Website lösen — mit Ihren Inhalten, Ihren Farben und Ihrem Namen.</p>',
-        f'<p class="rahmen">Festpreis ab {PREIS_AB} €, fertig in {WOCHEN} Wochen</p>',
-        '<p style="margin:0;font-size:.86rem;color:var(--grau)">Was es genau '
-        'kostet, hängt vom Umfang ab. Das klären wir im Gespräch.</p>',
-        f'<p class="cta">Unverbindlich sprechen? {_e(absender.telefon)}</p>',
+        # Voreinstellung: kein Preis. Siehe Absender.preis_hinweis.
+        (f'<p class="rahmen">{_e(absender.preis_hinweis)}</p>'
+         if absender.preis_hinweis else ''),
+        f'<p class="cta">Was das für Ihren Betrieb bedeutet, bespreche ich gern '
+        f'in zehn Minuten am Telefon: {_e(absender.telefon)}</p>',
         '</div>',
         '<div class="fuss">',
         f'<b>{_e(absender.name)}</b><br>{_e(absender.anschrift)}<br>'

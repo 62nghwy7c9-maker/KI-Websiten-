@@ -18,8 +18,10 @@ from pathlib import Path
 from . import finden as F
 from . import katalog as K
 from .befunde import bilden
-from .messung import lcp_von_psi, messen
-from .modelle import Kandidat, ROUTEN
+from .check import Absender, schreiben
+from .farbe import Farbwelt, ableiten
+from .messung import hole, lcp_von_psi, messen
+from .modelle import Kandidat, Pruefbericht, ROUTEN
 from .register import Register, STANDARD_DATEI
 
 
@@ -220,6 +222,50 @@ def befehl_stapel(args) -> int:
     return 0
 
 
+def befehl_check(args) -> int:
+    """Stufe 3: aus einer Rohmessung den druckfertigen Check bauen."""
+    quelle = Path(args.bericht)
+    if not quelle.exists():
+        print(f"{quelle} gibt es nicht. Erst messen.", file=sys.stderr)
+        return 1
+
+    bericht = Pruefbericht.laden(quelle)
+    if not bericht.befunde:
+        bilden(bericht)  # ältere Rohmessung ohne Stufe 2
+    if not bericht.befunde:
+        print("Keine Befunde — für diesen Betrieb gibt es nichts zu zeigen.")
+        return 1
+
+    farbe = Farbwelt()
+    if not args.neutral:
+        abruf = hole(bericht.kandidat.url)
+        if abruf.html:
+            farbe = ableiten(abruf.html)
+        else:
+            print("Hinweis: Seite für die Farbwelt nicht abrufbar, "
+                  "neutrale Gestaltung.", file=sys.stderr)
+
+    absender = Absender.laden(args.absender)
+    ziel = schreiben(bericht, absender, Path(args.ziel), farbe)
+
+    gewaehlt = len(bericht.auswahl_fuer_check) or len(bericht.befunde)
+    print(f"Check gebaut: {ziel}")
+    print(f"  {gewaehlt} von {len(bericht.befunde)} Befunden auf dem Blatt")
+    print(f"  Farbwelt: {farbe.akzent} — {farbe.herkunft}")
+    ohne_beleg = sum(1 for b in bericht.befunde if not b.was_es_kostet)
+    if ohne_beleg:
+        print(f"  {ohne_beleg} Befund(e) ohne Kosten-Satz (kein Beleg hinterlegt)")
+
+    if absender.vollstaendig:
+        print("\nIm Browser öffnen, Strg+P, „Als PDF speichern“.")
+    else:
+        print(f"\nNOCH NICHT VERSANDFERTIG — in {args.absender} fehlen: "
+              f"{', '.join(absender.fehlend)}.")
+        print("Der Check trägt oben einen roten Sperrbalken, bis das ausgefüllt ist.")
+        return 2
+    return 0
+
+
 def befehl_register(args) -> int:
     reg = Register(args.register)
     if not reg.zeilen:
@@ -275,6 +321,14 @@ def main(argv: list[str] | None = None) -> int:
                    help="Sekunden zwischen zwei Seiten (Standard: %(default)s)")
     s.add_argument("--trotzdem", action="store_true")
     s.set_defaults(func=befehl_stapel)
+
+    c = unter.add_parser("check", help="Stufe 3: Check als druckfertiges HTML")
+    c.add_argument("--bericht", required=True, help="out/<datei>.json aus dem Messen")
+    c.add_argument("--absender", default="absender.json")
+    c.add_argument("--ziel", default="checks", help="Ordner für die HTML-Datei")
+    c.add_argument("--neutral", action="store_true",
+                   help="Standardfarben statt Farbwelt des Betriebs")
+    c.set_defaults(func=befehl_check)
 
     r = unter.add_parser("register", help="Stand des Kontakt-Registers zeigen")
     r.set_defaults(func=befehl_register)

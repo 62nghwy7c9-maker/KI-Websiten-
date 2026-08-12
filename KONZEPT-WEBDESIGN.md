@@ -49,6 +49,18 @@ Das ist kein Zufall. Gegen eine funktionierende WordPress-Seite ist „ich baue 
 
 **Bau- und ausbaunahe Gewerke im Umkreis Kerpen / Köln / Düren** — konkret: Elektro, Sanitär/Heizung, Fenster und Türen, Innenausbau, Garten- und Landschaftsbau.
 
+### Verengung für die Ansprache (12.08.2026)
+
+Die Branchenwahl bleibt. Für die **Ansprache** wird sie auf drei Gewerke verengt: **Elektro, SHK, GaLaBau.**
+
+Grund ist nicht Intuition, sondern die eigene Lead-Liste: von 11 qualifizierten Betrieben sind 4 Elektro, 3 GaLaBau, 2 SHK — zusammen **9 von 11**. Fenster/Türen und Maler kommen je einmal vor. Wo die verifizierten Leads liegen, liegt auch die Ansprache. **GESICHERT** — eigene Liste vom 12.08.2026, 93 Betriebe triagiert, 48 Websites geprüft.
+
+Der Grund für die Verengung überhaupt: Empfehlungen laufen im Handwerk innerhalb des Gewerks, nicht quer darüber. Ein Elektromeister empfiehlt einem Elektromeister. Drei Gewerke sind eng genug, dass Mundpropaganda sich verstärkt, und breit genug, dass die Liste nicht nach 15 Betrieben leer ist. **ANNAHME** — nicht geprüft, aber billig zu widerlegen: Wenn nach 20 Gesprächen keine einzige Empfehlung aus dem Gewerk kommt, trägt der Gedanke nicht.
+
+Der Prüfkatalog bleibt davon unberührt — er ist gewerkeunabhängig. Verengt wird die Ansprache, nicht das Werkzeug.
+
+**Gastronomie ist damit kein Ziel mehr.** Gophai bleibt als Referenzfall im Dokument: als Beleg, dass die Methode Befunde findet, nicht als Zielgruppe.
+
 ### Warum diese Branche
 
 Geprüft an den vier Kriterien aus der Aufgabenstellung:
@@ -164,9 +176,23 @@ Wenn die Einkommensobergrenze bei rund 565 €/Monat liegt, dann ist **nicht die
 
 ### Preisempfehlung
 
+> **KORREKTUR 12.08.2026 — die Herleitung unten trägt nicht.**
+>
+> Kira hat klargestellt: Sie hat **weder eine Kapazitätsgrenze noch einen Preis
+> festgelegt.** Die Rechnung „20 h × 70 €/h = 1.400 €" beruht auf beidem. Damit
+> ist die Zahl kein hergeleiteter Preis mehr, sondern eine Annahme, die als
+> Herleitung auftrat. Sie bleibt hier stehen, weil sie eine brauchbare
+> Untergrenze markiert — als Zielpreis ist sie nicht mehr gültig.
+>
+> Das erklärte Ziel ist ein **gewinnoptimaler** Preis. Wie der gefunden wird,
+> steht in „Preisfindung statt Preisfestlegung" weiter unten. Ausrechnen lässt
+> er sich nicht: Bei null Abschlüssen gibt es keine Zahlungsbereitschaftsdaten,
+> und jede Zahl in diesem Dokument — auch 1.400 — ist geraten, bis ein Betrieb
+> ja oder nein gesagt hat.
+
 | Position | Preis | Herleitung |
 |---|---|---|
-| **Erstellung Standardseite** | **1.400 €** | 20 h → 70 €/h |
+| **Erstellung Standardseite** | **1.400 €** | 20 h → 70 €/h — *Kapazitätsannahme hinfällig, siehe Korrektur* |
 | **Erstellung mit Sonderaufwand** (viele Positionen, Fotoaufbereitung, Mehrsprachigkeit) | Aufschlag nach Aufwand | über 20 h hinaus |
 | **Betreuung monatlich** | **69 €** | ca. 1 h/Monat gedeckt |
 | **Anzahlung bei Auftrag** | **40 % = 560 €** | siehe Abschnitt 5 |
@@ -174,6 +200,55 @@ Wenn die Einkommensobergrenze bei rund 565 €/Monat liegt, dann ist **nicht die
 Die 70 €/h sind **keine Marktaussage.** Ich habe keine belastbaren Marktpreise und erfinde keine. Die Zahl ist die Umkehrung der Rechnung: 20 h Arbeit sollen einen Auftrag ergeben, der die Kapazitätsgrenze sinnvoll ausnutzt.
 
 **Der Preis ist damit eine Hypothese, kein Ergebnis.** Er wird getestet, indem drei Angebote gemacht werden — nicht, indem länger darüber nachgedacht wird.
+
+### Preisfindung statt Preisfestlegung (12.08.2026)
+
+Ziel ist der gewinnoptimale Preis. Der lässt sich nicht herleiten, weil die einzige Größe, auf die es ankommt — **ab wann sagt ein Elektrobetrieb nein** — unbekannt ist. Sie ist aber messbar, und zwar billig.
+
+**Die Preisleiter.** Die ersten neun Angebote werden nicht zum selben Preis gemacht:
+
+| Angebote | Preis Erstellung |
+|---|---|
+| 1–3 | 1.400 € |
+| 4–6 | 1.900 € |
+| 7–9 | 2.400 € |
+
+Notiert wird nur eins: Zusage oder Absage, und bei Absage die genannte Begründung. Nach neun Gesprächen ist sichtbar, wo die Ablehnungen einsetzen — und das ist eine gemessene Zahl statt einer gedachten. Kosten: neun Gespräche, die ohnehin geführt werden.
+
+**Warum die Leiter nach oben statt nach unten läuft:** Ein zu hoher Preis kostet einen Auftrag. Ein zu niedriger kostet die Marge bei *allen* folgenden Aufträgen und ist später kaum zu korrigieren — Bestandskunden vergleichen. Der Fehler nach oben ist der billigere.
+
+**Zwei Dinge, die den Preis stärker bewegen als die Zahl selbst:**
+
+*Erstens der Rahmen.* Für einen Elektrobetrieb mit vierstelligen Auftragswerten ist die richtige Frage nicht „kostet die Seite 1.400 oder 2.400", sondern „wie viele Aufträge muss sie bringen, damit sie sich trägt". Bei einem durchschnittlichen Auftrag von wenigen tausend Euro ist die Antwort: **einer.** Das ist der Satz, der den Preis trägt — nicht die Kalkulation. **ANNAHME** zu den Auftragswerten; im Gespräch nachfragen, nicht behaupten.
+
+*Zweitens: kein Preis auf dem Check.* Ein Preis auf einem kalt zugestellten Blatt gilt für jeden Empfänger gleich — für den Betrieb mit zwei Mitarbeitern wie für den mit zwanzig. Damit ist die Obergrenze gesetzt, bevor irgendetwas über den Betrieb bekannt ist. Der Preis fällt im Gespräch, nachdem Größe, Auftragslage und Personalsuche zur Sprache kamen. **Der Check nennt deshalb keine Zahl** — das ist in der Pipeline so voreingestellt (`preis_hinweis` in `absender.json`, leer = kein Preis).
+
+### Wie die Betreuung angeboten wird (12.08.2026)
+
+Was sich ändert, ist die **Form des Angebots** — unabhängig davon, welche Zahl die Preisleiter am Ende ergibt.
+
+Die Betreuung wird **nicht als Zusatzposten abgefragt.** „Möchten Sie noch Betreuung dazu?" verlangt vom Kunden, einen Nutzen zu bewerten, den er noch nie gebraucht hat. Er sagt nein — und die Seite verrottet, bis sie ihm peinlich ist und er sie bei jemand anderem neu machen lässt.
+
+Stattdessen ist die Betreuung **Teil dessen, was das Produkt kostet**:
+
+| Variante | Preis | Herleitung |
+|---|---|---|
+| **Standard** — Einrichtung + laufende Betreuung | **Erstellungspreis der Leiter + 69 €/Monat** | 12 Monate Mindestlaufzeit, danach monatlich kündbar |
+| **Kaufvariante** — einmalig, ohne Betreuung | **Erstellungspreis + 350 €** | 5 h Übergabe, Dokumentation, Einweisung. **SCHÄTZUNG** — der Übergabeaufwand ist nicht gemessen |
+
+Die Monatspauschale bleibt über die Preisleiter hinweg gleich. Getestet wird zuerst nur **eine** Größe; zwei gleichzeitig zu variieren macht das Ergebnis unlesbar.
+
+Die Kaufvariante existiert nicht, weil sie verkauft werden soll, sondern damit die Standardvariante **eine Entscheidung ist und keine Bedingung.** Wer sich frei entscheiden konnte, kündigt seltener als wer sich gedrängt fühlte. **ANNAHME.**
+
+Der zweite Grund für die Kaufvariante ist ehrlicher: Bei Übergabe ohne Betreuung entstehen tatsächlich Kosten — Doku, Zugänge, Einweisung, und später Rückfragen, die niemand bezahlt. Der Aufpreis bildet das ab, statt eine Strafe zu sein.
+
+Das Muster ist der Zielgruppe vertraut: Ein Handwerksbetrieb least seinen Transporter und rechnet in Monatsraten. Eine Website mit Monatsrate ist für ihn nichts Ungewöhnliches.
+
+> **Achtung, Spannung zu Abschnitt 9, Annahme 3:** Dort steht, dass Betreuung bei null
+> Kunden kein Geschäftsmodell ist und in den ersten 90 Tagen nicht eingeplant wird.
+> Das gilt weiter. Der Unterschied: Die Betreuung wird **strukturell von Anfang an
+> mitverkauft**, aber **umsatzseitig weiter mit null angesetzt.** Vertragsform jetzt,
+> Erwartung später.
 
 > **PRÜFAUFTRAG Steuer:** Kleinunternehmerregelung § 19 UStG — keine Umsatzsteuer
 > bei Vorjahresumsatz ≤ **25.000 €** und laufendem Jahresumsatz ≤ **100.000 €**
@@ -337,6 +412,14 @@ Betreuung setzt einen Bestand voraus, den es nicht gibt. Bei null Kunden ist Bet
 
 **Praktische Folge:** In den ersten 90 Tagen zählt ausschließlich der Erstauftrag. Die Betreuung wird bei jedem Abschluss **mit angeboten**, aber nicht geplant, nicht beworben und nicht in Umsatzerwartungen eingerechnet.
 
+**Nachtrag 12.08.2026 — was sich geändert hat und was nicht:**
+
+Geändert hat sich die **Form**: Die Betreuung ist ab sofort Teil des Standardpreises statt ein Zusatzposten (Abschnitt 4). Nicht geändert hat sich die **Erwartung**: Sie wird weiterhin mit null Euro geplant.
+
+Der Widerspruch ist nur scheinbar. Die Kritik oben trifft die *Umsatzplanung* — und sie bleibt richtig. Ein Betreuungsumsatz, den es noch nicht gibt, darf nicht eingerechnet werden. Was die Kritik nicht trifft, ist die *Vertragsform*: Wenn Betreuung erst ab Kunde 10 mitverkauft wird, haben die ersten neun Verträge ohne, und die nachträgliche Umstellung ist ein zweites Verkaufsgespräch, das niemand führt.
+
+Der § 2 S. 1 Nr. 9 SGB VI-Punkt bleibt davon unberührt und wird dadurch sogar entschärft: Mehrere Betreuungskunden sind das Gegenteil von „im Wesentlichen nur ein Auftraggeber". Bleibt Prüfauftrag 4.
+
 ---
 
 ## 10. Prüfaufträge — gesammelt
@@ -358,8 +441,103 @@ Nichts davon ist eine Aussage. Alles gehört an die benannte Stelle.
 | 11 | Aufbewahrung Buchungsbelege **8 Jahre** (seit 2025 verkürzt von 10, Viertes Bürokratieentlastungsgesetz) (**GESICHERT**, § 147 Abs. 3 AO) | § 147 AO | Steuerberatung |
 | 12 | **Haftung:** unbeschränkt mit Privatvermögen. Bei Kundenprojekten Berufshaftpflicht prüfen — besonders relevant, wenn Impressums- und Datenschutztexte mitgeliefert werden | — | Versicherungsmakler |
 | 13 | Datenschutz: Auftragsverarbeitung mit dem Hoster, Datenschutzerklärung, Kontaktformular-Verarbeitung | DSGVO | Steuerberatung / Fachanwalt |
+| 14 | **Kaltakquise per E-Mail:** Werbung mit elektronischer Post ohne vorherige ausdrückliche Einwilligung gilt als unzumutbare Belästigung — **auch im B2B**. Betrifft den geplanten Versand der Website-Checks unmittelbar. Briefwerbung ist davon nicht erfasst. Siehe Abschnitt 12 | § 7 Abs. 2 Nr. 2 UWG | **Fachanwalt Wettbewerbsrecht — vor dem ersten Versand** |
 
 **Zwei Punkte davon sind neu gegenüber der Referenzunterlage und hängen direkt an der Verschiebung von lehrender zu gewerblicher Tätigkeit: Nummer 4 (Rentenversicherung dreht sich von Nr. 1 auf Nr. 9) und Nummer 8 (Widerrufsrecht entfällt im B2B).** Nummer 5 (Künstlersozialkasse) ist in der Referenz nur als Randnotiz erwähnt, wird für Webdesign aber möglicherweise einschlägig.
+
+---
+
+## 11. Kundenbindung — warum ein Kunde im zweiten Jahr noch da ist
+
+### Das Problem
+
+Einmal 1.400 €, danach nichts. Bei 30 Kunden im Jahr fängt jedes Jahr wieder bei null an, und die Arbeit steckt komplett in der Gewinnung. Das ist kein Wachstum, das ist ein Laufband.
+
+Abschnitt 4 regelt die **Vertragsform** — die Betreuung ist Teil des Preises, nicht ein Zusatz. Damit ist das Geld formal da. Offen bleibt die schwierigere Frage: **Warum kündigt er nicht?**
+
+### Der Haken an der stillen Pauschale
+
+Eine Monatsgebühr, für die sichtbar nichts passiert, wird gekündigt — nicht aus Ärger, sondern beim nächsten Blick aufs Konto. Was nicht auffällt, fällt weg. Die Pauschale braucht also nicht mehr Leistung, sondern **sichtbare** Leistung.
+
+### Der Quartalsbericht
+
+Das Werkzeug dafür existiert bereits: Die Pipeline misst automatisch. Bestandskunden werden alle drei Monate erneut gemessen, und es geht ein Blatt raus:
+
+> „Ihre Seite läuft. Ladezeit 1,8 Sekunden, mobil sauber, Impressum vollständig,
+> keine Ausfälle seit dem letzten Bericht."
+
+oder
+
+> „Zwei Dinge sind mir aufgefallen — beide sind erledigt."
+
+Der Aufwand ist nahe null, weil Stufe 1 und 2 ohnehin durchlaufen. Der Effekt ist, dass die Pauschale viermal im Jahr einen Beleg bekommt und du viermal im Jahr freundlich präsent bist, ohne etwas verkaufen zu müssen. Ein Bericht, der „alles grün" meldet, ist dabei genauso wertvoll wie einer mit Befunden — er ist die Quittung dafür, dass jemand hinsieht.
+
+### Der zweite Grund, warum sie bleiben
+
+Handwerksbetriebe ändern ständig Kleinigkeiten: neuer Mitarbeiter aufs Team-Foto, abgeschlossenes Projekt in die Referenzen, geänderte Öffnungszeiten, eine Stellenanzeige. Ohne jemanden, der das macht, passiert es nicht — und die Seite altert sichtbar, bis sie peinlich ist.
+
+Genau dieser Alterungsprozess ist das, was du verkaufst: nicht Wartung im technischen Sinn, sondern **dass die Seite in drei Jahren noch stimmt.** Das ist auch der Satz, mit dem die Betreuung im Verkaufsgespräch erklärt wird — nicht „Updates und Backups", sondern „damit da in zwei Jahren nicht noch der Mitarbeiter steht, der längst weg ist".
+
+### Was hier ungeprüft ist
+
+**ANNAHME** — die gesamte Bindungslogik. Es gibt null Betreuungskunden, also auch keine Kündigungsquote. Der Quartalsbericht kann sich als Aufwand ohne Wirkung herausstellen. Frühester Test: nach vier Quartalen mit mindestens drei Kunden. Bis dahin bleibt der Umsatz mit null geplant (Abschnitt 9).
+
+---
+
+## 12. Zustellweg der Checks — Brief statt E-Mail
+
+### Der rechtliche Ausgangspunkt
+
+Kalte Werbe-E-Mails an Betriebe, mit denen keine Geschäftsbeziehung besteht, brauchen nach **§ 7 Abs. 2 Nr. 2 UWG** eine vorherige ausdrückliche Einwilligung — **auch im B2B**. Ohne sie gilt die Mail als unzumutbare Belästigung und ist abmahnfähig. Die Ausnahme in § 7 Abs. 3 UWG setzt eine bestehende Kundenbeziehung voraus, die bei Kaltakquise gerade fehlt.
+
+Briefwerbung ist davon nicht erfasst und grundsätzlich zulässig.
+
+> **PRÜFAUFTRAG (Nr. 14):** Vor dem ersten Massenversand an einen Fachanwalt für
+> Wettbewerbsrecht. Das ist keine Rechtsberatung, sondern der Hinweis, dass hier
+> ein Kanal auf dem Spiel steht.
+
+### Die Folge für den Ablauf
+
+**Der Check geht als Brief raus, nicht als E-Mail.** Postalisch oder persönlich übergeben.
+
+Das ist kein Kompromiss, sondern vermutlich der bessere Kanal. Ein gedrucktes Blatt im Briefkasten eines Elektrobetriebs mit 8 Mitarbeitern wird gelesen — es gibt kaum Wettbewerb im Briefkasten. Eine Mail landet zwischen 60 anderen. Und ein Dokument, das Arbeit gekostet hat, wird als Geschenk gelesen; eine Mail als Werbung.
+
+E-Mail wird erst zum Kanal, **nachdem** telefoniert wurde. Dann ist der Kontakt hergestellt und die Mail ist eine Antwort, keine Werbung.
+
+### Folge für die Pipeline
+
+Stufe 3 erzeugt ein druckfertiges Blatt (HTML → PDF über den Browser), keinen Mail-Text. Die E-Mail-Adressen aus der Lead-Liste werden mitgeführt, aber **nicht für den Erstkontakt verwendet**. Der Freigabe-Gate vor jedem Versand bleibt (Abschnitt 8 im Masterprompt).
+
+---
+
+## 13. Transparenz zur KI-Nutzung
+
+### Die Entscheidung
+
+**Offen, aber nicht als Werbung.**
+
+„Mit KI erstellt" liest ein 55-jähriger Handwerksmeister als „billig, automatisch, austauschbar" — das Gegenteil der Botschaft. Die Technologie ist kein Verkaufsargument in dieser Zielgruppe. **ANNAHME**, aber eine mit geringem Risiko: Es kostet nichts, sie nicht zu bewerben.
+
+### Wie es formuliert wird
+
+Nicht über die Herkunft des Werkzeugs, sondern über die **Systematik der Prüfung**:
+
+> **„Ich prüfe jede Seite nach einem festen Katalog von 15 Punkten — bei jedem
+> Betrieb dieselben. Jeder Punkt auf Ihrem Blatt ist einzeln nachprüfbar."**
+
+Das ist überprüfbar wahr (der Katalog in Abschnitt 4 des Masterprompts enthält 15 gewerkeunabhängige Punkte plus branchenspezifische) und trifft den Nerv der Zielgruppe: Ein Meister kennt feste Prüfkataloge von der Abnahme und vom Sachverständigen. Systematik ist dort ein Kompetenzsignal, Technologie nicht.
+
+*Eine frühere Fassung dieses Satzes lautete „…mit einem Werkzeug, das ich selbst gebaut habe". Verworfen: „selbst gebaut" liest sich als improvisiert, nicht als kompetent.*
+
+### Warum Verschweigen keine Option ist
+
+Der gesamte Pitch lautet: *„Alles auf diesem Blatt können Sie selbst nachprüfen."* Wer bei der Frage, wie das Blatt entsteht, ausweicht, zerstört genau das Argument, das ihn von der Agentur unterscheidet. Transparenz ist hier keine Freundlichkeit, sie ist **tragend für die Positionierung**.
+
+Auf Nachfrage also gerade heraus: *„Die Prüfung läuft automatisiert. Den Katalog und die Bewertung habe ich festgelegt."* Wahr, unaufgeregt, und niemand hakt nach.
+
+### Wo es aktiv gesagt werden muss
+
+Wenn **KI-generierte Texte oder Bilder auf der Kundenseite landen.** Das gehört dem Kunden vor der Übernahme gesagt — nicht aus Vorschrift, sondern weil er es sonst irgendwann woanders erfährt, und dann rückwirkend alles andere in Frage stellt.
 
 ---
 
