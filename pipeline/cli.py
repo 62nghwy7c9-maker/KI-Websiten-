@@ -19,7 +19,8 @@ from . import finden as F
 from . import katalog as K
 from .befunde import bilden
 from .check import Absender, schreiben
-from .farbe import Farbwelt, ableiten
+from .dossier import schreiben as dossier_schreiben
+from .farbe import Farbwelt, ableiten, stylesheets_von
 from .messung import hole, lcp_von_psi, messen
 from .modelle import Kandidat, Pruefbericht, ROUTEN
 from .register import Register, STANDARD_DATEI
@@ -240,16 +241,22 @@ def befehl_check(args) -> int:
     if not args.neutral:
         abruf = hole(bericht.kandidat.url)
         if abruf.html:
-            farbe = ableiten(abruf.html)
+            # Stylesheets mitlesen: Betriebe definieren ihre Farben fast immer
+            # dort, nicht im HTML.
+            css = stylesheets_von(abruf.html, abruf.endgueltige_url
+                                  or bericht.kandidat.url, hole)
+            farbe = ableiten(abruf.html, css)
         else:
             print("Hinweis: Seite für die Farbwelt nicht abrufbar, "
                   "neutrale Gestaltung.", file=sys.stderr)
 
     absender = Absender.laden(args.absender)
     ziel = schreiben(bericht, absender, Path(args.ziel), farbe)
+    intern = dossier_schreiben(bericht, Path(args.ziel), farbe.akzent)
 
     gewaehlt = len(bericht.auswahl_fuer_check) or len(bericht.befunde)
-    print(f"Check gebaut: {ziel}")
+    print(f"Kundencheck:      {ziel}")
+    print(f"Interne Übersicht: {intern}")
     print(f"  {gewaehlt} von {len(bericht.befunde)} Befunden auf dem Blatt")
     print(f"  Farbwelt: {farbe.akzent} — {farbe.herkunft}")
     ohne_beleg = sum(1 for b in bericht.befunde if not b.was_es_kostet)

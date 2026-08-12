@@ -13,12 +13,18 @@ from __future__ import annotations
 import re
 from collections import Counter
 from dataclasses import dataclass
+from urllib.parse import urljoin
 
 HEX3 = re.compile(r"#([0-9a-fA-F]{3})\b")
 HEX6 = re.compile(r"#([0-9a-fA-F]{6})\b")
 RGB = re.compile(r"rgba?\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})")
 THEME = re.compile(
     r"""<meta[^>]+name=["']theme-color["'][^>]+content=["']([^"']+)""", re.I)
+
+SAETTIGUNG_KRAEFTIG = 40
+"""Ab hier gilt eine Farbe als Markenfarbe."""
+SAETTIGUNG_GEDECKT = 15
+"""Ab hier noch als gedeckte Hausfarbe brauchbar — Schiefergrau, Graublau."""
 
 STANDARD_AKZENT = "#4F5F3E"
 """Neutraler Standard, wenn die Seite nichts hergibt."""
@@ -71,11 +77,40 @@ def _taugt_als_akzent(rgb: tuple[int, int, int]) -> bool:
     Sehr helle Farben ebenfalls: Auf dem gedruckten Check muss weiße Schrift
     darauf lesbar bleiben.
     """
-    return _saettigung(rgb) >= 40 and 25 <= _helligkeit(rgb) <= 190
+    return (_saettigung(rgb) >= SAETTIGUNG_KRAEFTIG
+            and 25 <= _helligkeit(rgb) <= 190)
 
 
-def ableiten(html: str) -> Farbwelt:
-    """Zieht die Farbwelt aus dem Quelltext der Bestandsseite."""
+STYLESHEET = re.compile(
+    r"""<link[^>]+rel=["']?stylesheet["']?[^>]*>""", re.I)
+HREF = re.compile(r"""href=["']([^"']+)["']""", re.I)
+
+
+def stylesheets_von(html: str, basis_url: str, hole, grenze: int = 3) -> list[str]:
+    """Lädt die verlinkten Stylesheets einer Seite.
+
+    Ohne sie findet die Farbsuche fast nichts: Betriebsseiten definieren ihre
+    Farben so gut wie immer in einer eigenen CSS-Datei, nicht im HTML. `hole`
+    wird übergeben statt importiert, damit dieses Modul netzfrei testbar bleibt.
+    """
+    texte: list[str] = []
+    for tag in STYLESHEET.findall(html)[:grenze]:
+        m = HREF.search(tag)
+        if not m:
+            continue
+        try:
+            abruf = hole(urljoin(basis_url, m.group(1)))
+        except Exception:
+            continue
+        if getattr(abruf, "html", ""):
+            texte.append(abruf.html)
+    return texte
+
+
+def ableiten(html: str, css: list[str] | None = None) -> Farbwelt:
+    """Zieht die Farbwelt aus Quelltext und Stylesheets der Bestandsseite."""
+    if css:
+        html = html + "\n" + "\n".join(css)
     if m := THEME.search(html):
         rgb = _als_rgb(m.group(1))
         if rgb and _taugt_als_akzent(rgb):
@@ -94,14 +129,28 @@ def ableiten(html: str) -> Farbwelt:
     for r, g, b in RGB.findall(html):
         zaehler[(min(255, int(r)), min(255, int(g)), min(255, int(b)))] += 1
 
-    tauglich = [(n, rgb) for rgb, n in zaehler.items() if _taugt_als_akzent(rgb)]
-    if not tauglich:
-        return Farbwelt()
-    # Häufigkeit entscheidet, bei Gleichstand die kräftigere Farbe.
-    tauglich.sort(key=lambda t: (t[0], _saettigung(t[1])), reverse=True)
-    anzahl, akzent = tauglich[0]
-    if anzahl < 3:
+    def beste(mindest_saettigung: int) -> tuple[int, tuple[int, int, int]] | None:
+        kandidaten = [(n, rgb) for rgb, n in zaehler.items()
+                      if _saettigung(rgb) >= mindest_saettigung
+                      and 25 <= _helligkeit(rgb) <= 190]
+        if not kandidaten:
+            return None
+        # Häufigkeit entscheidet, bei Gleichstand die kräftigere Farbe.
+        kandidaten.sort(key=lambda t: (t[0], _saettigung(t[1])), reverse=True)
         # Ein einzelnes Vorkommen ist Zufall, keine Markenfarbe.
-        return Farbwelt()
-    return Farbwelt(_hex(akzent), STANDARD_TEXT,
-                    f"häufigste kräftige Farbe der Bestandsseite ({anzahl}×)")
+        return kandidaten[0] if kandidaten[0][0] >= 3 else None
+
+    if treffer := beste(SAETTIGUNG_KRAEFTIG):
+        anzahl, akzent = treffer
+        return Farbwelt(_hex(akzent), STANDARD_TEXT,
+                        f"häufigste kräftige Farbe der Bestandsseite ({anzahl}×)")
+
+    # Zweite Stufe: Viele Handwerksseiten haben gar keine kräftige Hausfarbe,
+    # sondern ein gedecktes Grau-Blau. Das ist trotzdem ihre Anmutung — näher
+    # dran als der neutrale Standard, der von einem fremden Betrieb stammt.
+    if treffer := beste(SAETTIGUNG_GEDECKT):
+        anzahl, akzent = treffer
+        return Farbwelt(_hex(akzent), STANDARD_TEXT,
+                        f"gedeckte Hausfarbe der Bestandsseite ({anzahl}×)")
+
+    return Farbwelt()
