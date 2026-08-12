@@ -18,6 +18,7 @@ from pathlib import Path
 from . import finden as F
 from . import katalog as K
 from .befunde import bilden
+from .bild import aufnehmen
 from .check import Absender, schreiben
 from .dossier import schreiben as dossier_schreiben
 from .leads import aus_datei as leads_aus_datei
@@ -316,11 +317,18 @@ def befehl_pakete(args) -> int:
                         abruf.html, abruf.endgueltige_url or kandidat.url, hole))
             # Was die Seite nicht hergibt, wird aus Gewerk und Alter abgeleitet.
             stil = ergaenzen(stil, kandidat, bericht)
+
+            aufnahme = None if args.ohne_bilder else aufnehmen(kandidat.url)
+            if aufnahme and aufnahme.fehler and not aufnahme.hat_bild:
+                bericht.hinweise.append(
+                    f"Kein Screenshot der Bestandsseite: {aufnahme.fehler}. "
+                    f"Der Check entsteht ohne Bild.")
             # A/B-Test: jeder zweite Check ohne den Positivteil. Ob
             # Anerkennung mehr Rueckmeldungen bringt oder Druck wegnimmt, ist
             # bei null verschickten Checks nicht zu wissen -- nur zu messen.
             ohne = args.ohne_positives or (args.ab_test and i % 2 == 0)
-            p = paket_bauen(bericht, absender, stil, Path(args.ziel), ohne)
+            p = paket_bauen(bericht, absender, stil, Path(args.ziel), ohne,
+                            aufnahme)
         except Exception as ex:  # ein kaputter Betrieb stoppt den Lauf nicht
             print(f"  [{i}/{len(e.leads)}] {lead.firma[:30]:<30} "
                   f"FEHLER {type(ex).__name__}")
@@ -428,6 +436,8 @@ def main(argv: list[str] | None = None) -> int:
                     help="Abschnitt „Was schon gut ist“ weglassen")
     pk.add_argument("--ab-test", action="store_true",
                     help="jeden zweiten Check ohne Positivteil, zum Vergleichen")
+    pk.add_argument("--ohne-bilder", action="store_true",
+                    help="keine Screenshots der Bestandsseiten aufnehmen")
     pk.add_argument("--trotzdem", action="store_true")
     pk.set_defaults(func=befehl_pakete)
 

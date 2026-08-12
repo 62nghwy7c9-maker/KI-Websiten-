@@ -26,6 +26,7 @@ from .befunde import auswaehlen
 from .check import Absender
 from .check import schreiben as check_schreiben
 from .dossier import schreiben as dossier_schreiben
+from .bild import Aufnahme
 from .stil import Stilprobe
 from .modelle import Pruefbericht
 
@@ -97,7 +98,8 @@ def _befund_md(bericht: Pruefbericht, stil: Stilprobe) -> str:
 
 def bauen(bericht: Pruefbericht, absender: Absender, stil: Stilprobe,
           wurzel: Path = STANDARD_ORDNER,
-          ohne_positives: bool = False) -> Paket:
+          ohne_positives: bool = False,
+          aufnahme: Aufnahme | None = None) -> Paket:
     """Legt den Ordner für einen Betrieb an und füllt ihn."""
     ordner = Path(wurzel) / bericht.kandidat.schluessel()
     ordner.mkdir(parents=True, exist_ok=True)
@@ -105,7 +107,8 @@ def bauen(bericht: Pruefbericht, absender: Absender, stil: Stilprobe,
 
     dateien = [
         bericht.speichern(ordner),
-        check_schreiben(bericht, absender, ordner, stil, ohne_positives),
+        check_schreiben(bericht, absender, ordner, stil, ohne_positives,
+                        aufnahme),
         dossier_schreiben(bericht, ordner, stil.akzent),
         A.schreiben(bericht, absender.name, absender.telefon, gewaehlt, ordner),
     ]

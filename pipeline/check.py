@@ -20,6 +20,7 @@ from pathlib import Path
 
 from . import katalog as K
 from .befunde import auswaehlen, positives
+from .bild import Aufnahme
 from .stil import Stilprobe
 from .modelle import Pruefbericht
 
@@ -69,83 +70,95 @@ def _e(text: str) -> str:
     return html.escape(text or "", quote=False)
 
 
-def _css(s: Stilprobe) -> str:
-    """Das Blatt in der Gestaltung des Betriebs.
+def _css(s: Stilprobe, klassisch: bool = True) -> str:
+    """Ein Prüfbericht, kein Werbeblatt.
 
-    Bewusst vermieden werden die Merkmale, an denen ein automatisch erzeugtes
-    Dokument sofort zu erkennen ist: runde Nummernkreise, gesperrte
-    Versal-Etiketten, überall dieselbe Systemschrift, Kästen um jeden Abschnitt.
-    Stattdessen ein ruhiger Satzspiegel mit Haarlinien, großen Ziffern in der
-    Marginalspalte und der Schrift des Betriebs.
+    Die Zielgruppe sind Handwerksmeister, oft über fünfzig. Was bei ihnen
+    Vertrauen erzeugt, ist ein Dokument, das aussieht wie ein Dokument: Antiqua,
+    schwarze Schrift auf Weiß, gerade Linien, keine Farbflächen. Wer einen
+    Sachverständigenbericht oder eine Abnahme kennt, erkennt die Form wieder.
+
+    Die Farbwelt des Betriebs wird bewusst **nicht** verwendet. Sie gehört in
+    den Entwurf der neuen Seite, wo sie ein Argument ist — auf dem Gutachten
+    wäre sie Dekoration und würde die Nüchternheit kaputtmachen, die den Wert
+    des Blattes ausmacht.
+
+    `klassisch=False` schaltet auf die Gestaltung des Betriebs um, falls sich
+    das im Gespräch als besser herausstellt.
     """
-    zweit = s.zweit or s.akzent
-    # Serifenschrift braucht mehr Durchschuss und verträgt größere Grade.
-    grund = "17px" if s.serif else "16px"
-    h1 = "2.45rem" if s.serif else "2.25rem"
+    if klassisch:
+        schrift = ('"Palatino Linotype", "Book Antiqua", Palatino, '
+                   '"Iowan Old Style", Georgia, serif')
+        akzent = "#1A1A1A"
+        linie = "#B8B5AC"
+        grund = "17px"
+    else:
+        schrift, akzent, linie, grund = s.schrift, s.akzent, "#DAD8D0", "16px"
+
     return f"""
-:root{{--akzent:{s.akzent};--zweit:{zweit};--ink:{s.text};--papier:#fff;
- --grau:#57564F;--linie:#DAD8D0;--warn:#8A3324;--radius:{s.radius};
- --schrift:{s.schrift};}}
+:root{{--akzent:{akzent};--ink:#12120F;--grau:#4A4842;--linie:{linie};
+ --warn:#8A2E20;--schrift:{schrift};}}
 *{{box-sizing:border-box}}
-body{{margin:0;background:#E9E8E3;color:var(--ink);font-family:var(--schrift);
- font-size:{grund};line-height:1.62;-webkit-font-smoothing:antialiased}}
-.blatt{{max-width:44rem;margin:0 auto;background:var(--papier);
- padding:4rem 3.4rem 3rem}}
-.sperre{{background:var(--warn);color:#fff;padding:.9rem 1.2rem;margin:0 0 2.6rem;
- font-weight:600;line-height:1.45;border-radius:var(--radius)}}
-.sperre small{{display:block;font-weight:400;opacity:.9;margin-top:.3rem}}
+body{{margin:0;background:#DEDCD6;color:var(--ink);font-family:var(--schrift);
+ font-size:{grund};line-height:1.55}}
+.blatt{{max-width:42rem;margin:0 auto;background:#fff;padding:3.6rem 3.2rem 2.8rem}}
+.sperre{{border:1px solid var(--warn);color:var(--warn);padding:.7rem .9rem;
+ margin:0 0 2.4rem;font-size:.88rem;line-height:1.45}}
+.sperre small{{display:block;opacity:.85;margin-top:.25rem}}
 
-.marke{{font-size:.82rem;color:var(--grau);margin:0 0 2.2rem;
- padding-bottom:.6rem;border-bottom:1px solid var(--linie)}}
-h1{{font-size:{h1};line-height:1.16;margin:0 0 .7rem;font-weight:700;
- letter-spacing:-.015em;max-width:19em}}
-.weitere{{font-size:1.05rem;color:var(--grau);margin:0 0 1.6rem}}
-.betrieb{{font-size:1rem;margin:0;font-weight:600}}
-.geprueft{{margin:.25rem 0 0;font-size:.85rem;color:var(--grau)}}
-.geprueft a{{color:var(--akzent);overflow-wrap:anywhere}}
+h1{{font-size:1.85rem;line-height:1.22;margin:0 0 1rem;font-weight:700;
+ max-width:20em}}
+.weitere{{display:none}}
+.betrieb{{font-size:1rem;margin:0;font-weight:700}}
+.geprueft{{margin:.15rem 0 1.6rem;font-size:.86rem;color:var(--grau)}}
+.geprueft a{{color:inherit}}
+.regel{{border:none;border-top:1.5px solid var(--ink);margin:0 0 1.5rem}}
 
-.bilanz{{margin:2.4rem 0 2.2rem;padding:1rem 0;font-size:.92rem;
- color:var(--grau);border-top:2px solid var(--akzent);
- border-bottom:1px solid var(--linie)}}
-.bilanz b{{color:var(--ink);font-size:1.1rem}}
-.bilanz .sep{{margin:0 .8rem;color:var(--linie)}}
-.hook{{margin:0 0 3rem;font-size:1.03rem;max-width:34em}}
+.aufnahme{{display:flex;gap:1.1rem;align-items:flex-start;margin:0 0 .5rem;
+ break-inside:avoid}}
+.aufnahme figure{{margin:0}}
+.aufnahme img{{display:block;width:100%;height:auto;border:1px solid var(--linie)}}
+.aufnahme .hoch{{flex:0 0 32%}}
+.aufnahme .quer{{flex:1 1 auto}}
+.aufnahme figcaption{{font-size:.78rem;color:var(--grau);margin-top:.3rem}}
+.bildquelle{{font-size:.8rem;color:var(--grau);margin:0 0 2rem}}
 
-.abschnitt{{font-size:.95rem;font-weight:700;color:var(--akzent);
- margin:0 0 1.6rem;padding-bottom:.4rem;border-bottom:1px solid var(--linie)}}
+.hook{{margin:0 0 2.2rem;max-width:33em}}
+.bilanz{{margin:0 0 1.4rem;font-size:.9rem;color:var(--grau)}}
+.bilanz b{{color:var(--ink);font-weight:700}}
+.bilanz .sep{{display:none}}
+.abschnitt{{font-size:1rem;font-weight:700;margin:0 0 1.2rem;
+ padding-bottom:.35rem;border-bottom:1px solid var(--ink)}}
 
-.befund{{display:grid;grid-template-columns:2.8rem 1fr;gap:0 1rem;
- padding:0 0 1.6rem;margin:0 0 1.6rem;border-bottom:1px solid var(--linie);
+.befund{{display:grid;grid-template-columns:1.9rem 1fr;gap:0 .8rem;
+ padding:0 0 1.3rem;margin:0 0 1.3rem;border-bottom:1px solid var(--linie);
  break-inside:avoid}}
 .befund:last-of-type{{border-bottom:none}}
-.nr{{font-size:1.9rem;line-height:1;font-weight:700;color:var(--zweit);
- opacity:.75;padding-top:.05rem}}
-.befund h2{{font-size:1.14rem;margin:0 0 .45rem;font-weight:700;line-height:1.32}}
-.befund p{{margin:0 0 .5rem}}
+.nr{{font-size:1.05rem;font-weight:700;padding-top:.02rem}}
+.befund h2{{font-size:1.06rem;margin:0 0 .35rem;font-weight:700;line-height:1.35}}
+.befund p{{margin:0 0 .4rem}}
 .kostet{{color:var(--grau)}}
-.kostet b{{color:var(--ink);font-weight:600}}
-.quelle{{font-size:.79rem;color:var(--grau);margin:.4rem 0 0}}
+.kostet b{{color:var(--ink);font-weight:700}}
+.quelle{{font-size:.82rem;color:var(--grau);margin:.3rem 0 0}}
 
-.gut{{margin:2.6rem 0;padding-left:1.2rem;border-left:3px solid var(--zweit);
- break-inside:avoid}}
-.gut h2{{font-size:.95rem;font-weight:700;margin:0 0 .4rem}}
+.gut{{margin:2rem 0;break-inside:avoid}}
+.gut h2{{font-size:1rem;font-weight:700;margin:0 0 .35rem}}
 .gut ul{{margin:0;padding-left:1.1rem;color:var(--grau)}}
 
-.angebot{{margin:2.8rem 0 0;padding:1.7rem 1.9rem;background:#F5F4EF;
- border-radius:var(--radius);break-inside:avoid}}
-.angebot h2{{margin:0 0 .6rem;font-size:1.2rem}}
-.angebot p{{margin:0 0 .6rem;max-width:32em}}
-.rahmen{{font-size:1.25rem;font-weight:700;color:var(--akzent);margin:1rem 0 .3rem}}
-.cta{{margin:1.3rem 0 0;font-weight:600}}
+.angebot{{margin:2.4rem 0 0;padding:1.4rem 0 0;border-top:1.5px solid var(--ink);
+ break-inside:avoid}}
+.angebot h2{{margin:0 0 .5rem;font-size:1.1rem}}
+.angebot p{{margin:0 0 .55rem;max-width:32em}}
+.rahmen{{font-weight:700;margin:.8rem 0 .3rem}}
+.cta{{margin:1rem 0 0}}
 .trenner{{display:none}}
-.fuss{{border-top:1px solid var(--linie);margin-top:2.8rem;padding-top:1.1rem;
- font-size:.79rem;color:var(--grau);line-height:1.6}}
+.fuss{{border-top:1px solid var(--linie);margin-top:2.4rem;padding-top:.9rem;
+ font-size:.8rem;color:var(--grau);line-height:1.55}}
 @media print{{
- @page{{margin:17mm 16mm}}
- body{{background:#fff;font-size:10.5pt}}
+ @page{{margin:20mm 18mm}}
+ body{{background:#fff;font-size:11pt}}
  .blatt{{max-width:none;padding:0}}
- .sperre{{border:2pt solid var(--warn)}}
- .befund,.angebot,.gut,.fuss{{break-inside:avoid}}
+ .befund,.angebot,.gut,.fuss,.aufnahme{{break-inside:avoid}}
 }}"""
 
 
@@ -190,6 +203,26 @@ def _kopfzeile(gewaehlt: list) -> str:
             return KOPFZEILEN[b.id]
     return STANDARD_KOPFZEILE
 
+ZAHLWORT = {1: "Ein", 2: "Zwei", 3: "Drei", 4: "Vier", 5: "Fünf"}
+
+
+def _zahlwort(n: int) -> str:
+    """Kleine Zahlen ausgeschrieben. „Vier Punkte" liest sich, „4 Punkte" nicht."""
+    return ZAHLWORT.get(n, str(n))
+
+
+MONATE = ("Januar", "Februar", "März", "April", "Mai", "Juni", "Juli",
+          "August", "September", "Oktober", "November", "Dezember")
+
+
+def _datum(iso: str) -> str:
+    """2026-08-12 → 12. August 2026. Ein Meister liest keine ISO-Daten."""
+    try:
+        jahr, monat, tag = (int(t) for t in iso.split("-"))
+        return f"{tag}. {MONATE[monat - 1]} {jahr}"
+    except Exception:
+        return iso
+
 
 def _kurz(url: str) -> str:
     """Adresse ohne Protokoll und ohne Schrägstrich am Ende — so liest sie sich.
@@ -200,8 +233,35 @@ def _kurz(url: str) -> str:
     return url.split("//")[-1].rstrip("/")
 
 
+def _aufnahme_block(aufnahme: Aufnahme | None, stand: str) -> str:
+    """Die Seite des Betriebs, wie sie heute aussieht.
+
+    Steht bewusst ganz oben, noch vor der Bilanz: Der Empfänger erkennt seine
+    eigene Seite und weiß in einer Sekunde, dass dieses Blatt ihn meint und
+    nicht irgendwen. Danach liest er weiter.
+
+    Und es ist der Beweis. „Auf dem Handy schwer zu lesen" ist eine Behauptung,
+    das Bild derselben Seite auf einem Handy ist keine.
+    """
+    if not aufnahme or not aufnahme.hat_bild:
+        return ""
+    bilder = []
+    if aufnahme.handy:
+        bilder.append(f'<figure class="hoch"><img src="{aufnahme.handy}" '
+                      f'alt="Ihre Website auf dem Handy">'
+                      f'<figcaption>Auf dem Handy</figcaption></figure>')
+    if aufnahme.schreibtisch:
+        bilder.append(f'<figure class="quer"><img src="{aufnahme.schreibtisch}" '
+                      f'alt="Ihre Website am Bildschirm">'
+                      f'<figcaption>Am Bildschirm</figcaption></figure>')
+    return (f'<div class="aufnahme">{"".join(bilder)}</div>'
+            f'<p class="bildquelle">Ihre Website am {_e(stand)}, aufgenommen '
+            f'wie ein Besucher sie sieht.</p>')
+
+
 def bauen(bericht: Pruefbericht, absender: Absender,
-          stil: Stilprobe | None = None, ohne_positives: bool = False) -> str:
+          stil: Stilprobe | None = None, ohne_positives: bool = False,
+          aufnahme: Aufnahme | None = None) -> str:
     """Baut den Check als HTML. Nimmt höchstens MAX_BEFUNDE_AUF_CHECK Befunde."""
     stil = stil or Stilprobe()
     k = bericht.kandidat
@@ -217,27 +277,25 @@ def bauen(bericht: Pruefbericht, absender: Absender,
     geprueft = len(bericht.messung)
     gut = positives(bericht)
 
+    # Kein Etikett „Website-Check" über dem Kopf: Der Empfänger sieht den
+    # Betriebsnamen zuerst, dann den Befund. Was das Blatt ist, erklärt der
+    # erste Satz — eine Überschrift, die sich selbst benennt, wirkt wie Werbung.
     teile = [sperre,
-             '<p class="marke">Kostenloser Website-Check</p>',
+             f'<p class="betrieb">{_e(k.firma)}</p>',
+             (f'<p class="geprueft">{_e(k.ort)}</p>' if k.ort else ''),
+             '<hr class="regel">',
              f'<h1>{_e(_kopfzeile(gewaehlt))}</h1>',
-             (f'<p class="weitere">— und {len(gewaehlt) - 1} weitere '
-              f'{"Punkt" if len(gewaehlt) == 2 else "Punkte"}</p>'
-              if len(gewaehlt) > 1 else ''),
-             f'<p class="betrieb">{_e(k.firma)}'
-             + (f', {_e(k.ort)}' if k.ort else '') + '</p>',
-             f'<p class="geprueft">Geprüft wurde <a href="{_e(k.url)}">'
-             f'{_e(_kurz(k.url))}</a> am {_e(bericht.stand)}.</p>',
+             _aufnahme_block(aufnahme, _datum(bericht.stand)),
              # Die Zahl vorweg: Sie zeigt, dass ein Katalog abgearbeitet wurde
              # und nicht vier Dinge aufgefallen sind. Das ist der Unterschied
              # zwischen einer Prüfung und einer Meinung.
-             f'<p class="bilanz"><b>{geprueft}</b> Punkte geprüft'
-             f'<span class="sep">|</span><b>{len(gewaehlt)}</b> davon mit '
-             f'Handlungsbedarf</p>',
-             '<p class="hook">Ich prüfe jede Seite nach demselben Katalog. '
-             'Was dabei herauskommt, schicke ich Ihnen kostenlos und ohne '
-             'Verpflichtung — <b>jeder Punkt ist heute selbst nachprüfbar.</b></p>']
+             f'<p class="hook">So sieht Ihre Seite heute auf einem Handy aus. '
+             f'{_zahlwort(len(gewaehlt))} Punkte sind uns dabei aufgefallen. '
+             f'Nachprüfen können Sie jeden selbst.</p>']
 
-    teile.append('<p class="abschnitt">Was ich ändern würde</p>')
+    teile.append(f'<p class="bilanz">Wir haben <b>{geprueft} Punkte</b> '
+                 f'geprüft. <b>{len(gewaehlt)}</b> davon sollten Sie ändern.</p>')
+    teile.append('<p class="abschnitt">Was uns aufgefallen ist</p>')
 
     for i, b in enumerate(gewaehlt, 1):
         teile.append(f'<div class="befund"><div class="nr">{i}</div><div>')
@@ -263,21 +321,23 @@ def bauen(bericht: Pruefbericht, absender: Absender,
 
     teile += [
         '<div class="angebot">',
-        '<h2>Der gute Teil: alles behebbar.</h2>',
-        '<p>Diese Punkte lassen sich zusammen in einer modernen, mobilen '
-        'Website lösen — mit Ihren Inhalten, Ihren Farben und Ihrem Namen.</p>',
+        '<h2>Was sich ändern lässt</h2>',
+        '<p>Wir machen Websites für Handwerksbetriebe aus Kerpen und '
+        'Umgebung. Auf Wunsch bauen wir Ihnen vorab eine Seite zum Ansehen, '
+        'mit Ihren eigenen Texten und Bildern. Das kostet nichts und '
+        'verpflichtet zu nichts.</p>',
         # Voreinstellung: kein Preis. Siehe Absender.preis_hinweis.
         (f'<p class="rahmen">{_e(absender.preis_hinweis)}</p>'
          if absender.preis_hinweis else ''),
-        f'<p class="cta">Was das für Ihren Betrieb bedeutet, bespreche ich gern '
-        f'in zehn Minuten am Telefon: {_e(absender.telefon)}</p>',
+        f'<p class="cta">Wenn Sie darüber reden wollen: '
+        f'{_e(absender.telefon)}. Zehn Minuten genügen.</p>',
         '</div>',
         '<div class="fuss">',
         f'<b>{_e(absender.name)}</b><br>{_e(absender.anschrift)}<br>'
         f'{_e(absender.telefon)} · {_e(absender.mail)}<br><br>',
-        f'Alle Punkte ohne eigene Quellenangabe stammen aus dem Abruf Ihrer '
-        f'Website am {_e(bericht.stand)} und sind dort nachprüfbar. '
-        f'Dieser Check ist kostenlos und unverbindlich.',
+        f'Geprüft wurde {_e(_kurz(k.url))} am {_e(_datum(bericht.stand))}. '
+        f'Alle Punkte ohne eigene Quellenangabe stammen aus diesem Abruf und '
+        f'sind dort nachprüfbar. Der Check ist kostenlos und unverbindlich.',
         ('<br>Gestaltung an die Farbwelt des Betriebs angelehnt '
          f'({_e(stil.herkunft)}).' if stil.uebernommen else ''),
         '</div>',
@@ -291,9 +351,10 @@ def bauen(bericht: Pruefbericht, absender: Absender,
 
 
 def schreiben(bericht: Pruefbericht, absender: Absender, ordner: Path,
-              stil: Stilprobe | None = None, ohne_positives: bool = False) -> Path:
+              stil: Stilprobe | None = None, ohne_positives: bool = False,
+              aufnahme: Aufnahme | None = None) -> Path:
     ordner.mkdir(parents=True, exist_ok=True)
     ziel = ordner / f"check_{bericht.kandidat.schluessel()}.html"
-    ziel.write_text(bauen(bericht, absender, stil, ohne_positives),
+    ziel.write_text(bauen(bericht, absender, stil, ohne_positives, aufnahme),
                     encoding="utf-8")
     return ziel
