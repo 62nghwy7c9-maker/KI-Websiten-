@@ -696,6 +696,24 @@ Das ist kein Verkaufsargument, das ist ein Befund — und er steht ohnehin auf d
 
 Darauf gibt es keine gute Antwort, wenn die Seite keinen Bewerbungsweg hat. Und die Frage klingt nicht nach Verkauf.
 
+### Eigene Jobseite statt Abschnitt auf der Startseite
+
+Die Stellen bekommen eine **eigene Adresse** (`betrieb.de/jobs`), keinen Abschnitt auf dem Onepager. Der schwerste Grund ist Google — ein Abschnitt kann nicht eigenständig ranken, siehe unten. Dazu vier Gründe, die im Handwerk praktisch zählen:
+
+- **Man kann den Link verschicken.** „Schick mir das mal" — der Meister schickt `merzenich.de/jobs` an die Realschule, in die Innungs-Gruppe, per WhatsApp an den Neffen. Ein Sprungziel mitten auf einer langen Seite verschickt niemand.
+- **Man kann ihn draufdrucken.** QR-Code auf den Transporter, aufs Bauschild, auf den Aufsteller bei der Ausbildungsmesse. Er führt auf die Jobseite, nicht auf die Startseite, wo erst gescrollt werden muss.
+- **Zwei Zielgruppen, zwei Tonlagen.** Ein Kunde will Kompetenz und Referenzen sehen. Ein Fünfzehnjähriger will wissen, ob die nett sind, was er verdient und ob er früh raus muss. Auf einer Seite verwässert beides.
+- **Man kann sie zählen.** Eine eigene Adresse heißt eigene Besucherzahlen. Im Quartalsbericht steht dann „auf Ihrer Jobseite waren 40 Besucher, drei haben sich beworben". Bei einem Abschnitt lässt sich das nicht trennen — und genau diese Zahl ist der beste Grund gegen die Kündigung.
+
+> **Haken beim letzten Punkt:** Besucher zählen setzt ein Messwerkzeug auf der
+> Kundenseite voraus, und das berührt den Datenschutz (Einwilligung, Auftrags-
+> verarbeitung). **PRÜFAUFTRAG** — vor der ersten Zusage klären, welches
+> Verfahren ohne Einwilligungsbanner zulässig ist. Bis dahin im Angebot nicht
+> mit Besucherzahlen werben. **Bewerbungen** lassen sich dagegen ohne jedes
+> Messwerkzeug zählen: Sie kommen im Postfach an.
+
+**Die Jobseite wird nie gelöscht**, auch wenn keine Stelle offen ist. Eine gelöschte Seite verliert alles, was sie sich bei Google aufgebaut hat. Stattdessen steht dort, dass Praktikums- und Ausbildungsanfragen jederzeit willkommen sind — das ist praktisch immer wahr und hält den Kanal offen.
+
 ### Google für Jobs — der Vorteil, den kein Wettbewerber anbietet
 
 - **Google zeigt Stellenanzeigen direkt in der Suche**, in einem eigenen Kasten oberhalb der normalen Treffer. Wer dort steht, wird bei „Ausbildung Elektroniker Kerpen" vor allen anderen gesehen.
