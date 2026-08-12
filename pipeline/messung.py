@@ -211,12 +211,81 @@ def _ist_baukasten(host: str) -> str | None:
     return None
 
 
+ALLERWELTSWOERTER = {
+    "gmbh", "kg", "ohg", "ug", "co", "und", "der", "die", "das", "fuer", "für",
+    "inh", "e", "k", "gbr", "ag", "betrieb", "firma", "service", "gruppe",
+}
+
+
+def _titel_nennt_betrieb(titel: str, firma: str) -> bool:
+    """Steht der Betriebsname im Seitentitel?
+
+    Verglichen wird über die kennzeichnenden Wortstämme des Firmennamens.
+    Rechtsformen und Allerweltswörter zählen nicht mit — „GmbH" im Titel ist
+    kein Betriebsname. Sind gar keine kennzeichnenden Wörter übrig, gilt der
+    Titel als in Ordnung; dann ist die Frage nicht entscheidbar und der
+    Prüfkatalog rät nicht.
+    """
+    t = titel.lower()
+    woerter = [w for w in re.split(r"[^\wäöüß]+", (firma or "").lower())
+               if len(w) > 2 and w not in ALLERWELTSWOERTER]
+    if not woerter:
+        return True
+    return any(w[:6] in t for w in woerter)
+
+
 def _finde_link(seite: _Seite, woerter: tuple[str, ...]) -> tuple[str, str] | None:
+    """Sucht einen Link, dessen Text oder Pfad mit einem der Wörter beginnt.
+
+    Der Wortanfang ist entscheidend, nicht das Vorkommen irgendwo. „stellen"
+    steckt sonst in Bau*stellen*, Aus*stellung*, be*stellen* und her*stellen* —
+    und dann hat jeder Bau- und Elektrobetrieb scheinbar eine Karriereseite.
+    Genau dieser Fehler hat bei Elektrotechnik Merzenich einen echten Befund
+    verschluckt.
+
+    Nur der Wortanfang wird verankert, nicht das Wortende: „stellen" soll
+    „Stellenangebote" weiterhin finden.
+    """
     for href, text in seite.links:
         haystack = f"{href} {text}".lower()
-        if any(w in haystack for w in woerter):
-            return href, text
+        for w in woerter:
+            if re.search(r"\b" + re.escape(w), haystack):
+                return href, text
     return None
+
+
+PLATZHALTER_REGEX = (
+    (r"\?{2,}", "Fragezeichen als Lückenfüller"),
+    (r"\[[^\]\n]{2,40}\]", "eckige Klammer im Fließtext"),
+    (r"\((?:bild|foto|logo|grafik|text|hier)\b[^)\n]{3,60}\)",
+     "Regieanweisung in Klammern"),
+    (r"\b(?:tbd|todo|xxx+)\b", "Bearbeitungsvermerk"),
+    (r"\bhier (?:steht|kommt|folgt)\b", "unausgefüllte Vorlage"),
+    (r"\bxx+\s*(?:jahre|jahren|mitarbeiter|kunden)\b", "Zahl nicht eingesetzt"),
+)
+"""Strukturelle Platzhalter — unabhängig vom Wortlaut.
+
+Feste Phrasen wie „Lorem ipsum" fangen nur, was die Vorlage mitgeliefert hat.
+Was Betriebe tatsächlich stehen lassen, sieht anders aus: „mehr als ?? Jahren
+Erfahrung", „[bitte eintragen]", „(Bild in Beratungssituation)". Solche Funde
+wirken auf einem Check besonders stark, weil der Inhaber sie sofort erkennt.
+"""
+
+
+def _platzhalter_funde(text: str, muster: tuple[str, ...]) -> list[str]:
+    """Findet Platzhalter im sichtbaren Text, wörtlich zitiert.
+
+    Zitiert wird der Treffer, nicht die Regel — nur so lässt sich die Aussage
+    auf dem Check belegen, ohne die Seite erneut zu öffnen.
+    """
+    klein = text.lower()
+    funde = [w for w in muster if w in klein]
+    for regel, benennung in PLATZHALTER_REGEX:
+        for treffer in re.findall(regel, text, re.I):
+            fund = f"„{treffer.strip()}“ ({benennung})"
+            if fund not in funde:
+                funde.append(fund)
+    return funde[:6]
 
 
 # ── Stufe 1 ──────────────────────────────────────────────────────────────────
@@ -325,6 +394,13 @@ def messen(kandidat: Kandidat, lcp_ms: int | None = None) -> Pruefbericht:
         m(Messwert(5, "Klickbare Telefonnummer",
                    f"Nummer sichtbar ({nummer}), aber kein tel:-Link",
                    "HTML", ok=False, roh={"nummer": nummer}))
+    elif kandidat.telefon:
+        # Die Nummer steht in der Lead-Liste, auf der Seite aber weder als Text
+        # noch als Link. Bei Flash- oder Bildkopfzeilen ist der sichtbare Text
+        # leer — der Befund gilt trotzdem, denn antippbar ist nichts.
+        m(Messwert(5, "Klickbare Telefonnummer",
+                   f"kein tel:-Link; Nummer laut Verzeichnis {kandidat.telefon}",
+                   "HTML", ok=False, roh={"quelle_nummer": "Lead-Liste"}))
     else:
         m(Messwert(5, "Klickbare Telefonnummer",
                    "keine Telefonnummer auf der Startseite gefunden", "HTML", ok=None))
@@ -341,10 +417,14 @@ def messen(kandidat: Kandidat, lcp_ms: int | None = None) -> Pruefbericht:
     m(Messwert(6, "Kontaktweg", ", ".join(wege) if wege else "kein Kontaktweg gefunden",
                "HTML", ok=bool(wege),
                roh={"formulare": seite.formulare, "mailto": mailto[:3]}))
+    # Punkt 10 fragt nach einem Formular, nicht nach irgendeinem Kontaktweg —
+    # das ist Punkt 6. Vorher galt eine mailto-Adresse als Formular, dadurch
+    # blieb bei Sander-Bau ein echter Befund unentdeckt.
     m(Messwert(10, "Formular",
-               f"{seite.formulare} Formular(e) im Quelltext — nicht abgeschickt",
-               "HTML", ok=bool(seite.formulare or mailto),
-               roh={"formulare": seite.formulare}))
+               f"{seite.formulare} Formular(e) im Quelltext — nicht abgeschickt"
+               if seite.formulare else "kein Formular auf der Startseite",
+               "HTML", ok=bool(seite.formulare),
+               roh={"formulare": seite.formulare, "mailto": mailto[:3]}))
 
     # 7 Impressum
     treffer = _finde_link(seite, K.IMPRESSUM_WOERTER)
@@ -447,6 +527,12 @@ def messen(kandidat: Kandidat, lcp_ms: int | None = None) -> Pruefbericht:
     elif titel.lower().strip(" .-–—|") in K.TITEL_VORLAGENWERTE:
         m(Messwert(11, "Seitentitel", f"Vorlagenwert: „{titel}“", "HTML", ok=False,
                    roh={"titel": titel}))
+    elif not _titel_nennt_betrieb(titel, kandidat.firma):
+        # „Über uns" oder „Home" als Titel der Startseite: In der Google-Trefferliste
+        # steht dann genau das als Überschrift, nicht der Betriebsname.
+        m(Messwert(11, "Seitentitel",
+                   f"„{titel}“ — ohne Betriebsnamen", "HTML", ok=False,
+                   roh={"titel": titel, "firma": kandidat.firma}))
     else:
         m(Messwert(11, "Seitentitel", f"„{titel}“", "HTML", ok=True,
                    roh={"titel": titel}))
@@ -473,7 +559,7 @@ def messen(kandidat: Kandidat, lcp_ms: int | None = None) -> Pruefbericht:
     # aber keinen fremdsprachigen Vorlagentext. Genau der war bei Gophai der stärkste
     # Befund („Le nostre specialità" auf einer deutschen Thai-Seite) und ist
     # automatisch nicht erkennbar. „Kein Treffer" hieße sonst fälschlich „geprüft".
-    funde = [muster for muster in K.PLATZHALTER_MUSTER if muster in text_klein]
+    funde = _platzhalter_funde(seite.sichtbarer_text, K.PLATZHALTER_MUSTER)
     m(Messwert(15, "Platzhalter- und Fremdtext",
                "Verdacht: " + ", ".join(funde) if funde
                else "keine bekannte Platzhalterphrase — Sichtprüfung offen",

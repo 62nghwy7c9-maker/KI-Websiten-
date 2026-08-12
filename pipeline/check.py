@@ -88,6 +88,12 @@ body{{margin:0;background:#EDEDEA;color:var(--ink);font-family:var(--sans);
 h1{{font-size:1.9rem;line-height:1.2;margin:0 0 .6rem;font-weight:700}}
 .betrieb{{font-size:1.05rem;color:var(--grau);margin:0}}
 .hook{{margin:0 0 2.5rem;font-size:1.02rem}}
+.steckbrief{{display:grid;grid-template-columns:auto 1fr;gap:.35rem 1.2rem;
+ margin:0 0 2.2rem;padding:1.1rem 1.3rem;background:#F6F6F3;font-size:.9rem;
+ break-inside:avoid}}
+.steckbrief dt{{color:var(--grau)}}
+.steckbrief dd{{margin:0;font-weight:600;overflow-wrap:anywhere}}
+.steckbrief a{{color:var(--akzent)}}
 .befund{{display:grid;grid-template-columns:2.6rem 1fr;gap:0 1.1rem;
  margin:0 0 2rem;break-inside:avoid}}
 .nr{{background:var(--akzent);color:#fff;width:2.2rem;height:2.2rem;border-radius:50%;
@@ -116,6 +122,29 @@ h1{{font-size:1.9rem;line-height:1.2;margin:0 0 .6rem;font-weight:700}}
 }}"""
 
 
+def _steckbrief(bericht: Pruefbericht) -> str:
+    """Kopfblock mit den Betriebsdaten und der geprüften Adresse.
+
+    Der Empfänger soll auf einen Blick sehen, dass es um *seinen* Betrieb geht
+    und welche Seite genau geprüft wurde — sonst ist der erste Gedanke
+    „Massenwurfsendung". Die geprüfte Adresse steht vollständig da, damit er sie
+    selbst aufrufen und jeden Punkt nachvollziehen kann.
+    """
+    k = bericht.kandidat
+    zeilen = [("Betrieb", _e(k.firma))]
+    if k.inhaber:
+        zeilen.append(("Ansprechpartner", _e(k.inhaber)))
+    if k.ort:
+        zeilen.append(("Ort", _e(k.ort)))
+    if k.telefon:
+        zeilen.append(("Telefon", _e(k.telefon)))
+    zeilen.append(("Geprüfte Seite",
+                   f'<a href="{_e(k.url)}">{_e(k.url)}</a>'))
+    zeilen.append(("Stand der Prüfung", _e(bericht.stand)))
+    inhalt = "".join(f"<dt>{name}</dt><dd>{wert}</dd>" for name, wert in zeilen)
+    return f'<dl class="steckbrief">{inhalt}</dl>'
+
+
 def bauen(bericht: Pruefbericht, absender: Absender,
           farbe: Farbwelt | None = None) -> str:
     """Baut den Check als HTML. Nimmt höchstens MAX_BEFUNDE_AUF_CHECK Befunde."""
@@ -136,9 +165,9 @@ def bauen(bericht: Pruefbericht, absender: Absender,
              f'<h1>{len(gewaehlt)} Punkte, die auf Ihrer Seite '
              f'{"Gäste" if k.branche == "gastro" else "Kunden"} kosten</h1>',
              f'<p class="betrieb">{_e(k.firma)}'
-             + (f' · {_e(k.ort)}' if k.ort else '')
-             + f' · {_e(k.url)}</p>',
+             + (f' · {_e(k.ort)}' if k.ort else '') + '</p>',
              '</div>',
+             _steckbrief(bericht),
              '<p class="hook">Dieser Check ist ein Geschenk, ganz ohne '
              'Verpflichtung. Ich habe mir Ihre Seite angesehen und '
              f'aufgeschrieben, was aus meiner Sicht gerade am meisten kostet. '

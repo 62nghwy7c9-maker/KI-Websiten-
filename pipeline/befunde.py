@@ -124,6 +124,28 @@ TEXTE: dict[int, Text] = {
         "",  # bewusst leer: siehe BELEG_OFFEN
         "",
     ),
+    8: Text(
+        "Die Seite ist seit Jahren unverändert",
+        "Der jüngste Hinweis auf Ihrer Seite stammt aus {wert}.",
+        "Wer eine Seite von vor Jahren sieht, fragt sich, ob es den Betrieb "
+        "noch gibt.",
+        ABRUF,
+    ),
+    10: Text(
+        "Kein Anfrageformular",
+        "Auf Ihrer Startseite gibt es kein Formular, über das man Ihnen "
+        "schreiben kann.",
+        "Wer abends um zehn eine Anfrage stellen will, müsste ein "
+        "Mailprogramm öffnen und die Adresse abtippen. Die meisten lassen es.",
+        ABRUF,
+    ),
+    14: Text(
+        "Google-Profil und Website widersprechen sich",
+        "{wert}.",
+        "Wer die Angaben vergleicht, weiß nicht, welche gilt — und ruft im "
+        "Zweifel woanders an.",
+        ABRUF,
+    ),
     15: Text(
         "Vorlagentext auf der Seite",
         "Auf Ihrer Seite steht sichtbar unbearbeiteter Vorlagentext ({wert}).",
@@ -233,11 +255,21 @@ def auswaehlen(befunde: list[Befund],
     Kosten-Satz schlägt bei sonst gleichem Rang einen ohne, weil er auf dem
     Check mehr trägt.
     """
-    geordnet = sorted(
-        befunde,
-        key=lambda b: (b.schweregrad,
-                       _GEWICHT_BEHEBBARKEIT.get(b.behebbarkeit, 0),
-                       bool(b.beleg)),
-        reverse=True,
-    )
-    return geordnet[:deckel]
+    def rang(b: Befund) -> tuple:
+        return (b.schweregrad,
+                _GEWICHT_BEHEBBARKEIT.get(b.behebbarkeit, 0),
+                bool(b.beleg))
+
+    # Nachrücker (Prüfpunkte 8 und 10) sind echte Befunde, aber die schwächsten.
+    # Sie füllen den Check nur auf, wenn die starken Punkte ihn nicht füllen —
+    # vier Befunde, von denen zwei Nebensachen sind, wirken schwächer als zwei
+    # gute allein.
+    def nachrueckend(b: Befund) -> bool:
+        punkt = K.NACH_NR.get(b.id)
+        return bool(punkt and punkt.nur_bei_zu_wenig_befunden)
+
+    stark = sorted((b for b in befunde if not nachrueckend(b)),
+                   key=rang, reverse=True)
+    nachrücker = sorted((b for b in befunde if nachrueckend(b)),
+                        key=rang, reverse=True)
+    return (stark + nachrücker)[:deckel]

@@ -108,7 +108,7 @@ class Lead:
     def als_kandidat(self) -> Kandidat:
         return Kandidat(firma=self.firma, url=self.url, branche=self.branche,
                         ort=self.ort, kontakt_mail=self.mail,
-                        telefon=self.telefon)
+                        telefon=self.telefon, inhaber=self.inhaber)
 
 
 @dataclass

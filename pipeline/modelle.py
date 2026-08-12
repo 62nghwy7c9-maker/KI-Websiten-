@@ -23,6 +23,9 @@ class Kandidat:
     kontakt_mail: str = ""
     telefon: str = ""
     anschrift: str = ""
+    inhaber: str = ""
+    """Ansprechpartner aus der Lead-Liste. Nachträglich ergänzt, deshalb optional —
+    ältere Rohmessungen bleiben lesbar."""
 
     def schluessel(self) -> str:
         """Stabiler Schlüssel für Dedup und Dateinamen."""
