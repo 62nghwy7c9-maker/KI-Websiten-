@@ -23,7 +23,7 @@ from .dossier import schreiben as dossier_schreiben
 from .leads import aus_datei as leads_aus_datei
 from .paket import bauen as paket_bauen
 from .farbe import stylesheets_von
-from .stil import Stilprobe, ableiten
+from .stil import Stilprobe, ableiten, ergaenzen
 from .messung import hole, lcp_von_psi, messen
 from .modelle import Kandidat, Pruefbericht, ROUTEN
 from .register import Register, STANDARD_DATEI
@@ -250,8 +250,10 @@ def befehl_check(args) -> int:
                                   or bericht.kandidat.url, hole)
             stil = ableiten(abruf.html, css)
         else:
-            print("Hinweis: Seite für die Farbwelt nicht abrufbar, "
-                  "neutrale Gestaltung.", file=sys.stderr)
+            print("Hinweis: Seite nicht abrufbar, Gestaltung wird aus Gewerk "
+                  "und Alter abgeleitet.", file=sys.stderr)
+    # Was die Bestandsseite nicht hergibt, kommt aus Gewerk und Alter.
+    stil = ergaenzen(stil, bericht.kandidat, bericht)
 
     absender = Absender.laden(args.absender)
     ziel = schreiben(bericht, absender, Path(args.ziel), stil)
@@ -312,6 +314,8 @@ def befehl_pakete(args) -> int:
                 if abruf.html:
                     stil = ableiten(abruf.html, stylesheets_von(
                         abruf.html, abruf.endgueltige_url or kandidat.url, hole))
+            # Was die Seite nicht hergibt, wird aus Gewerk und Alter abgeleitet.
+            stil = ergaenzen(stil, kandidat, bericht)
             # A/B-Test: jeder zweite Check ohne den Positivteil. Ob
             # Anerkennung mehr Rueckmeldungen bringt oder Druck wegnimmt, ist
             # bei null verschickten Checks nicht zu wissen -- nur zu messen.

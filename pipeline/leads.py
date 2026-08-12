@@ -99,6 +99,7 @@ class Lead:
     telefon: str = ""
     mail: str = ""
     inhaber: str = ""
+    gewerk: str = ""
     notiz: str = ""
 
     @property
@@ -108,7 +109,8 @@ class Lead:
     def als_kandidat(self) -> Kandidat:
         return Kandidat(firma=self.firma, url=self.url, branche=self.branche,
                         ort=self.ort, kontakt_mail=self.mail,
-                        telefon=self.telefon, inhaber=self.inhaber)
+                        telefon=self.telefon, inhaber=self.inhaber,
+                        gewerk=self.gewerk)
 
 
 @dataclass
@@ -206,6 +208,7 @@ def einlesen(text: str, ort_vorgabe: str = "",
                 firma=firma,
                 url=url,
                 branche=_branche_aus_gewerk(gewerk) or branche_vorgabe,
+                gewerk=gewerk,
                 ort=hol(z, "ort") or ort_vorgabe,
                 telefon=hol(z, "telefon"),
                 mail=hol(z, "mail"),

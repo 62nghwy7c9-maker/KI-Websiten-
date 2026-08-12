@@ -26,6 +26,13 @@ class Kandidat:
     inhaber: str = ""
     """Ansprechpartner aus der Lead-Liste. Nachträglich ergänzt, deshalb optional —
     ältere Rohmessungen bleiben lesbar."""
+    gewerk: str = ""
+    """Das Gewerk im Wortlaut der Lead-Liste — „Elektro", „SHK", „GaLaBau".
+
+    `branche` fasst alles zu „handwerk" zusammen, weil der Prüfkatalog nicht
+    feiner unterscheidet. Für die Gestaltung ist der Unterschied aber
+    entscheidend: Ein Elektrobetrieb und ein Gartenbaubetrieb treten
+    grundverschieden auf."""
 
     def schluessel(self) -> str:
         """Stabiler Schlüssel für Dedup und Dateinamen."""

@@ -53,6 +53,10 @@
         "inhaber": {
           "type": "string",
           "description": "Ansprechpartner aus der Lead-Liste. Optional, nachträglich ergänzt."
+        },
+        "gewerk": {
+          "type": "string",
+          "description": "Gewerk im Wortlaut der Lead-Liste. Optional."
         }
       }
     },

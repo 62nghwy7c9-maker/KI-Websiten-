@@ -187,3 +187,133 @@ def ableiten(html: str, css: list[str] | None = None) -> Stilprobe:
         herkunft="; ".join(herkunft) or
                  "Standard (auf der Seite nichts Brauchbares gefunden)",
     )
+
+
+# ── Intuition, wenn die Bestandsseite nichts hergibt ─────────────────────────
+#
+# Fünf der elf geprüften Betriebe haben schlicht keine Hausschrift — ihre Seiten
+# benutzen Arial. Dann bleibt die Wahl zwischen einem neutralen Standard, der
+# für alle gleich aussieht, und einer begründeten Annahme. Diese Tabelle ist die
+# Annahme, und sie ist als solche gekennzeichnet: `herkunft` sagt es, und
+# befund.md zeigt es an.
+#
+# Alle Schriften sind auf Windows und macOS vorhanden. Eine schöne Webschrift
+# nützt nichts, wenn das Blatt beim Ausdrucken auf Arial zurückfällt.
+
+@dataclass(frozen=True)
+class Anmutung:
+    schrift: str
+    akzent: str
+    serif: bool
+    radius: str
+    begruendung: str
+
+
+GEWERKE_ANMUTUNG: tuple[tuple[tuple[str, ...], Anmutung], ...] = (
+    (("elektro", "elektrik", "elektrotechnik"), Anmutung(
+        '"Corbel", "Franklin Gothic Book", "Segoe UI", sans-serif',
+        "#1F3A5F", False, "0",
+        "Elektro: technisch und präzise — schmale, sachliche Grotesk, "
+        "eckige Kanten, tiefes Blau")),
+    (("shk", "sanitär", "sanitaer", "heizung", "klima", "installat"), Anmutung(
+        '"Candara", "Corbel", "Segoe UI", sans-serif',
+        "#17607A", False, "3px",
+        "SHK: solide und zugewandt — humanistische Grotesk, leicht gerundet, "
+        "Stahlblau")),
+    (("galabau", "garten", "landschaft"), Anmutung(
+        '"Constantia", "Cambria", Georgia, serif',
+        "#3E6B47", True, "4px",
+        "Garten- und Landschaftsbau: gewachsen statt technisch — Serifenschrift, "
+        "weiche Ecken, Grün")),
+    (("maler", "lackier", "stuck", "raumaus"), Anmutung(
+        '"Century Gothic", "Questrial", "Segoe UI", sans-serif',
+        "#A65A2E", False, "0",
+        "Maler: gestalterisches Gewerk — geometrische Grotesk, Terrakotta")),
+    (("fenster", "tür", "tuer", "bau", "zimmer", "dach", "tischler",
+      "schreiner"), Anmutung(
+        '"Rockwell", "Cambria", Georgia, serif',
+        "#5A5148", True, "0",
+        "Bau und Ausbau: handfest — Slab-Serif mit kräftigen Strichen, "
+        "warmes Braungrau")),
+)
+
+TRADITION = Anmutung(
+    '"Palatino Linotype", "Book Antiqua", Georgia, serif',
+    "#3C4A3E", True, "0",
+    "Traditionsbetrieb: die Bestandsseite ist erkennbar alt, der Betrieb "
+    "besteht lange — ruhige Antiqua statt moderner Grotesk")
+
+STANDARD_ANMUTUNG = Anmutung(
+    STAPEL_GROTESK, STANDARD_AKZENT, False, "0",
+    "Gewerk nicht zuzuordnen — neutraler Standard")
+
+
+def _anmutung(gewerk: str, konservativ: bool) -> Anmutung:
+    """Wählt eine Anmutung aus Gewerk und Alter des Auftritts."""
+    g = (gewerk or "").lower()
+    for woerter, anmutung in GEWERKE_ANMUTUNG:
+        if any(w in g for w in woerter):
+            if konservativ:
+                # Das Gewerk gibt die Farbe, das Alter die Schrift: Ein
+                # jahrzehntealter Betrieb mit Frameset-Seite wirkt mit
+                # geometrischer Grotesk verkleidet, nicht getroffen.
+                return Anmutung(TRADITION.schrift, anmutung.akzent, True,
+                                "0", f"{anmutung.begruendung}; "
+                                     f"Auftritt wirkt alteingesessen, deshalb Antiqua")
+            return anmutung
+    return TRADITION if konservativ else STANDARD_ANMUTUNG
+
+
+def wirkt_konservativ(bericht) -> bool:
+    """Deutet die Messung auf einen alteingesessenen, ruhigen Betrieb hin?
+
+    Bedingung ist eine belegt alte Seite (Prüfpunkt 8); dazu muss mindestens
+    ein zweites Merkmal kommen — fehlende Verschlüsselung oder fehlende
+    Handytauglichkeit. Zusammen beschreibt das einen Betrieb, der seinen
+    Auftritt einmal gemacht und danach gearbeitet hat.
+    """
+    alt = any(m.id == 8 and m.ok is False for m in bericht.messung)
+    if not alt:
+        # Ohne belegtes Alter keine Aussage über den Charakter. Eine Seite ohne
+        # Verschlüsselung kann auch schlicht schlecht gemacht sein — das sagt
+        # nichts darüber, wie der Betrieb auftreten möchte.
+        return False
+    weiteres = sum(1 for m in bericht.messung
+                   if m.id in (2, 3) and m.ok is False)
+    return weiteres >= 1
+
+
+def ergaenzen(probe: Stilprobe, kandidat, bericht) -> Stilprobe:
+    """Füllt auf, was die Bestandsseite nicht hergab.
+
+    Ergänzt wird jedes Merkmal einzeln: Wer eine Hausfarbe hat, aber keine
+    Hausschrift, behält seine Farbe und bekommt nur die Schrift dazu. Was
+    gemessen wurde, hat immer Vorrang vor der Annahme.
+    """
+    konservativ = wirkt_konservativ(bericht)
+    a = _anmutung(kandidat.gewerk or kandidat.branche, konservativ)
+
+    schrift = probe.schrift
+    serif = probe.serif
+    herkunft = [probe.herkunft] if probe.uebernommen else []
+
+    if not probe.schrift_name:
+        schrift, serif = a.schrift, a.serif
+        herkunft.append(f"Schrift abgeleitet — {a.begruendung}")
+
+    akzent = probe.akzent
+    if akzent == STANDARD_AKZENT:
+        akzent = a.akzent
+        if probe.schrift_name:  # Begründung stand sonst schon oben
+            herkunft.append(f"Farbe abgeleitet — {a.begruendung}")
+
+    return Stilprobe(
+        akzent=akzent,
+        zweit=probe.zweit,
+        text=probe.text,
+        schrift=schrift,
+        schrift_name=probe.schrift_name,
+        serif=serif,
+        radius=probe.radius if probe.radius != "0" else a.radius,
+        herkunft="; ".join(herkunft) or a.begruendung,
+    )
