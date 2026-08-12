@@ -696,6 +696,20 @@ Das ist kein Verkaufsargument, das ist ein Befund — und er steht ohnehin auf d
 
 Darauf gibt es keine gute Antwort, wenn die Seite keinen Bewerbungsweg hat. Und die Frage klingt nicht nach Verkauf.
 
+### Google für Jobs — der Vorteil, den kein Wettbewerber anbietet
+
+- **Google zeigt Stellenanzeigen direkt in der Suche**, in einem eigenen Kasten oberhalb der normalen Treffer. Wer dort steht, wird bei „Ausbildung Elektroniker Kerpen" vor allen anderen gesehen.
+- **Es kostet nichts.** Kein Anzeigenbudget, keine Gebühr, kein Portal. Nur die Auszeichnung im Quelltext.
+- **Voraussetzung ist eine maschinenlesbare Auszeichnung** der Stelle (JobPosting als JSON-LD). Ohne sie erscheint die Stelle dort nicht — egal wie gut die Seite sonst ist.
+- **Deutschland ist ausdrücklich als verfügbares Land gelistet.** **GESICHERT** — Google Search Central, Dokumentation zu JobPosting, Stand Dezember 2025, abgerufen 12.08.2026.
+- **Praktisch kein Handwerksbetrieb hat es.** **ANNAHME** — nicht ausgezählt. Prüfbar an jedem einzelnen Betrieb über den Quelltext seiner Karriereseite, und genau das macht der Prüfkatalog künftig.
+- **Es ist reine Fleißarbeit.** Einmal pro Stelle eingerichtet, danach nur noch pflegen — genau die Art Änderung, die im Abo enthalten ist.
+- **Nach dem Livegang nachprüfbar.** Der Kunde kann selbst googeln und sich in dem Kasten sehen. Damit ist es kein Versprechen, sondern ein einlösbares Ergebnis — passend zur Belegregel des Checks.
+
+**Der Satz fürs Gespräch:**
+
+> „Wenn jemand bei Google nach einer Ausbildung in Ihrem Gewerk sucht, zeigt Google ganz oben einen Kasten mit Stellen an. Da stehen Sie heute nicht drin. Das kostet nichts, es muss nur jemand einbauen."
+
 **Der Test, ob das Argument bei diesem Betrieb überhaupt trägt:** *„Wie viele Praktikumsanfragen hatten Sie letztes Jahr?"* Kommt reihenweise „gar keine", trägt es. Kommt „genug", trägt es nicht — dann läuft die Ansprache über die Kundengewinnung. **ANNAHME** bis dahin.
 
 ---
@@ -710,6 +724,7 @@ Darauf gibt es keine gute Antwort, wenn die Seite keinen Bewerbungsweg hat. Und 
 - [Rechengrößen Sozialversicherung 2026, AOK](https://www.aok.de/pp/gg/update/rechengroessen-2026/)
 - [Voraussetzungen Künstlersozialkasse](https://www.kuenstlersozialkasse.de/kuenstler-und-publizisten/voraussetzungen)
 - [Verwertung von Design-Leistungen, Künstlersozialkasse Info Nr. 2](https://www.kuenstlersozialkasse.de/fileadmin/Dokumente/Mediencenter_Unternehmer_Verwerter/Informationsschriften/Info_02_Verwertung_von_Design-Leistungen.pdf)
+- [JobPosting (Google für Jobs), Google Search Central](https://developers.google.com/search/docs/appearance/structured-data/job-posting)
 - [E-Rechnung ab 2025, Bundesfinanzministerium FAQ](https://www.bundesfinanzministerium.de/Content/DE/FAQ/e-rechnung.html)
 - [Kleinunternehmerregelung, IHK Köln](https://www.ihk.de/koeln/hauptnavigation/recht-steuern/steuern/kleinunternehmer-im-umsatzsterrecht-5695056)
 - [Aufbewahrung von Geschäftsunterlagen, IHK Köln](https://www.ihk.de/koeln/hauptnavigation/recht-steuern/steuern/aufbewahrung-von-geschaeftsunterlagen-5905058)
