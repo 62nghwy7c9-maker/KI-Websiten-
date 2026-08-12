@@ -311,7 +311,11 @@ def befehl_pakete(args) -> int:
                 if abruf.html:
                     farbe = ableiten(abruf.html, stylesheets_von(
                         abruf.html, abruf.endgueltige_url or kandidat.url, hole))
-            p = paket_bauen(bericht, absender, farbe, Path(args.ziel))
+            # A/B-Test: jeder zweite Check ohne den Positivteil. Ob
+            # Anerkennung mehr Rueckmeldungen bringt oder Druck wegnimmt, ist
+            # bei null verschickten Checks nicht zu wissen -- nur zu messen.
+            ohne = args.ohne_positives or (args.ab_test and i % 2 == 0)
+            p = paket_bauen(bericht, absender, farbe, Path(args.ziel), ohne)
         except Exception as ex:  # ein kaputter Betrieb stoppt den Lauf nicht
             print(f"  [{i}/{len(e.leads)}] {lead.firma[:30]:<30} "
                   f"FEHLER {type(ex).__name__}")
@@ -415,6 +419,10 @@ def main(argv: list[str] | None = None) -> int:
     pk.add_argument("--pause", type=float, default=2.0)
     pk.add_argument("--neutral", action="store_true",
                     help="Standardfarben statt Farbwelt des Betriebs")
+    pk.add_argument("--ohne-positives", action="store_true",
+                    help="Abschnitt „Was schon gut ist“ weglassen")
+    pk.add_argument("--ab-test", action="store_true",
+                    help="jeden zweiten Check ohne Positivteil, zum Vergleichen")
     pk.add_argument("--trotzdem", action="store_true")
     pk.set_defaults(func=befehl_pakete)
 

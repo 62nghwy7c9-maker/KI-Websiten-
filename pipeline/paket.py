@@ -96,7 +96,8 @@ def _befund_md(bericht: Pruefbericht, farbe: Farbwelt) -> str:
 
 
 def bauen(bericht: Pruefbericht, absender: Absender, farbe: Farbwelt,
-          wurzel: Path = STANDARD_ORDNER) -> Paket:
+          wurzel: Path = STANDARD_ORDNER,
+          ohne_positives: bool = False) -> Paket:
     """Legt den Ordner für einen Betrieb an und füllt ihn."""
     ordner = Path(wurzel) / bericht.kandidat.schluessel()
     ordner.mkdir(parents=True, exist_ok=True)
@@ -104,7 +105,7 @@ def bauen(bericht: Pruefbericht, absender: Absender, farbe: Farbwelt,
 
     dateien = [
         bericht.speichern(ordner),
-        check_schreiben(bericht, absender, ordner, farbe),
+        check_schreiben(bericht, absender, ordner, farbe, ohne_positives),
         dossier_schreiben(bericht, ordner, farbe.akzent),
         A.schreiben(bericht, absender.name, absender.telefon, gewaehlt, ordner),
     ]

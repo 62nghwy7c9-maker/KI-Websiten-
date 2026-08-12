@@ -87,7 +87,8 @@ body{{margin:0;background:#EDEDEA;color:var(--ink);font-family:var(--sans);
  color:var(--akzent);font-weight:600;margin:0 0 .7rem}}
 h1{{font-size:2.15rem;line-height:1.18;margin:0 0 .55rem;font-weight:700;
  letter-spacing:-.01em}}
-.betrieb{{font-size:1.1rem;color:var(--ink);margin:0;font-weight:600}}
+.betrieb{{font-size:1.05rem;color:var(--ink);margin:.9rem 0 0;font-weight:600}}
+.weitere{{font-size:1.15rem;color:var(--grau);margin:.3rem 0 0}}
 .hook{{margin:0 0 2.5rem;font-size:1.02rem}}
 .geprueft{{margin:.5rem 0 0;font-size:.86rem;color:var(--grau)}}
 .geprueft a{{color:var(--akzent);overflow-wrap:anywhere}}
@@ -133,6 +134,48 @@ h2.abschnitt{{font-size:.75rem;letter-spacing:.12em;text-transform:uppercase;
 }}"""
 
 
+KOPFZEILEN: dict[int, str] = {
+    1: "Ihre Website war beim Aufruf nicht erreichbar",
+    2: "Ihre Website öffnet sich mit einer Sicherheitswarnung",
+    3: "Ihre Website ist auf dem Handy schwer zu lesen",
+    4: "Ihre Website lädt auf dem Handy auffällig langsam",
+    5: "Ihre Telefonnummer lässt sich auf dem Handy nicht antippen",
+    6: "Auf Ihrer Startseite steht kein Weg, Sie zu erreichen",
+    7: "Ihr Impressum ist unvollständig",
+    8: "Ihre Website ist seit Jahren unverändert",
+    9: "Ihre Website hat keine Seite für offene Stellen",
+    10: "Ihre Website hat kein Formular für Anfragen",
+    11: "In der Google-Trefferliste steht nicht Ihr Betriebsname",
+    12: "Google zeigt zu Ihrer Website keine Beschreibung",
+    13: "Ihre Website läuft nicht unter einer eigenen Adresse",
+    14: "Ihr Google-Profil und Ihre Website widersprechen sich",
+    15: "Auf Ihrer Website steht unbearbeiteter Vorlagentext",
+    20: "Ihre Speisekarte ist für Google nicht lesbar",
+    21: "Es gibt keinen Weg, bei Ihnen zu bestellen",
+    22: "Auf Ihrer Karriereseite fehlt der Bewerbungsweg",
+}
+"""Der stärkste Befund als Überschrift — je Betrieb ein anderer.
+
+Bewusst **keine** Überschrift wie „4 Punkte, die Sie Kunden kosten". Die bricht
+die Belegregel des Konzepts: Jeder Kosten-Satz im Check hat eine Quelle, und
+ausgerechnet in der größten Schrift stünde dann die eine Behauptung, die sich
+nicht belegen lässt — dass dieser Betrieb Kunden verliert. Ein ausgelasteter
+Meister liest das als „der kennt meinen Betrieb nicht" und legt das Blatt weg.
+
+Ein einzelner konkreter Befund lässt sich dagegen nicht bestreiten. Er holt das
+Handy heraus und sieht es in fünf Sekunden — und dann ist der Check gelesen.
+"""
+
+STANDARD_KOPFZEILE = "Mir sind ein paar Dinge an Ihrer Website aufgefallen"
+
+
+def _kopfzeile(gewaehlt: list) -> str:
+    for b in gewaehlt:
+        if b.id in KOPFZEILEN:
+            return KOPFZEILEN[b.id]
+    return STANDARD_KOPFZEILE
+
+
 def _kurz(url: str) -> str:
     """Adresse ohne Protokoll und ohne Schrägstrich am Ende — so liest sie sich.
 
@@ -143,7 +186,7 @@ def _kurz(url: str) -> str:
 
 
 def bauen(bericht: Pruefbericht, absender: Absender,
-          farbe: Farbwelt | None = None) -> str:
+          farbe: Farbwelt | None = None, ohne_positives: bool = False) -> str:
     """Baut den Check als HTML. Nimmt höchstens MAX_BEFUNDE_AUF_CHECK Befunde."""
     farbe = farbe or Farbwelt()
     k = bericht.kandidat
@@ -162,8 +205,12 @@ def bauen(bericht: Pruefbericht, absender: Absender,
     teile = [sperre,
              '<div class="kopf">',
              '<p class="eyebrow">Kostenloser Website-Check</p>',
-             f'<h1>Website-Check für<br>{_e(k.firma)}</h1>',
-             f'<p class="betrieb">{_e(k.ort)}</p>' if k.ort else '',
+             f'<h1>{_e(_kopfzeile(gewaehlt))}</h1>',
+             (f'<p class="weitere">— und {len(gewaehlt) - 1} weitere '
+              f'{"Punkt" if len(gewaehlt) == 2 else "Punkte"}</p>'
+              if len(gewaehlt) > 1 else ''),
+             f'<p class="betrieb">{_e(k.firma)}'
+             + (f', {_e(k.ort)}' if k.ort else '') + '</p>',
              f'<p class="geprueft">Geprüft wurde <a href="{_e(k.url)}">'
              f'{_e(_kurz(k.url))}</a> am {_e(bericht.stand)}.</p>',
              '</div>',
@@ -178,11 +225,6 @@ def bauen(bericht: Pruefbericht, absender: Absender,
              '<p class="hook">Ich prüfe jede Seite nach demselben Katalog. '
              'Was dabei herauskommt, schicke ich Ihnen kostenlos und ohne '
              'Verpflichtung — <b>jeder Punkt ist heute selbst nachprüfbar.</b></p>']
-
-    if gut:
-        teile += ['<div class="gut"><h2>Was schon gut ist</h2><ul>',
-                  "".join(f'<li>{_e(z)}</li>' for z in gut),
-                  '</ul></div>']
 
     teile.append('<h2 class="abschnitt">Was ich ändern würde</h2>')
 
@@ -200,8 +242,17 @@ def bauen(bericht: Pruefbericht, absender: Absender,
                 teile.append(f'<p class="quelle">Grundlage: {_e(b.beleg)}</p>')
         teile.append('</div></div>')
 
+    # Der Positivteil steht bewusst *nach* den Mängeln: Das Problem soll zuerst
+    # landen. Am Ende belegt er, dass wirklich geprüft wurde, und nimmt dem
+    # Blatt den Ton eines Angriffs — ohne den Mängeln Druck zu nehmen.
+    if gut and not ohne_positives:
+        teile += ['<hr class="trenner">',
+                  '<div class="gut"><h2>Was schon gut ist</h2><ul>',
+                  "".join(f'<li>{_e(z)}</li>' for z in gut[:2]),
+                  '</ul></div>']
+
     teile += [
-        '<hr class="trenner">',
+        '<hr class="trenner">' if (ohne_positives or not gut) else '',
         '<div class="angebot">',
         '<h2>Der gute Teil: alles behebbar.</h2>',
         '<p>Diese Punkte lassen sich zusammen in einer modernen, mobilen '
@@ -231,8 +282,9 @@ def bauen(bericht: Pruefbericht, absender: Absender,
 
 
 def schreiben(bericht: Pruefbericht, absender: Absender, ordner: Path,
-              farbe: Farbwelt | None = None) -> Path:
+              farbe: Farbwelt | None = None, ohne_positives: bool = False) -> Path:
     ordner.mkdir(parents=True, exist_ok=True)
     ziel = ordner / f"check_{bericht.kandidat.schluessel()}.html"
-    ziel.write_text(bauen(bericht, absender, farbe), encoding="utf-8")
+    ziel.write_text(bauen(bericht, absender, farbe, ohne_positives),
+                    encoding="utf-8")
     return ziel
