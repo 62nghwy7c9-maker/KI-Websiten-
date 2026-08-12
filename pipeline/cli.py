@@ -10,10 +10,14 @@ Erzeugt Entwürfe. Versendet nie etwas.
 from __future__ import annotations
 
 import argparse
+import csv
 import sys
+import time
 from pathlib import Path
 
+from . import finden as F
 from . import katalog as K
+from .befunde import bilden
 from .messung import lcp_von_psi, messen
 from .modelle import Kandidat, ROUTEN
 from .register import Register, STANDARD_DATEI
@@ -57,9 +61,23 @@ def befehl_messen(args) -> int:
         zeichen = {True: "  ok  ", False: " BEFUND", None: "  ??  "}[m.ok]
         print(f"  {zeichen}  {m.pruefpunkt:<{breite}}  {m.wert}")
 
-    # Bewusst kein Urteil, solange Sichtprüfungen offen sind: Die automatischen
-    # Punkte allein unterschätzen einen Kandidaten regelmäßig. Beim Gophai-Check
-    # kamen drei der fünf Befunde erst durch Hinsehen zustande.
+    bilden(bericht)
+    if bericht.befunde:
+        gewaehlt = set(bericht.auswahl_fuer_check)
+        print("\nBefunde (▶ = kommt auf den Check):")
+        for b in sorted(bericht.befunde,
+                        key=lambda x: (x.id not in gewaehlt, -x.schweregrad)):
+            marke = "▶" if b.id in gewaehlt else " "
+            print(f"  {marke} [{b.schweregrad}] {b.titel}")
+            print(f"      {b.beobachtung}")
+            if b.was_es_kostet:
+                print(f"      Was es kostet: {b.was_es_kostet}")
+            else:
+                print("      (kein Kosten-Satz — Beleg fehlt)")
+
+    # Bewusst kein endgültiges Urteil, solange Sichtprüfungen offen sind: Die
+    # automatischen Punkte allein unterschätzen einen Kandidaten regelmäßig. Beim
+    # Gophai-Check kamen drei der fünf Befunde erst durch Hinsehen zustande.
     print(f"\n{len(ausloeser)} automatisch belegt, {len(offen)} offen (Sichtprüfung).")
     if len(ausloeser) >= K.QUALIFIKATION_AB_BEFUNDEN:
         print(f"Qualifiziert allein aus der Automatik (≥ {K.QUALIFIKATION_AB_BEFUNDEN}). "
@@ -83,6 +101,122 @@ def befehl_messen(args) -> int:
     reg.eintragen(kandidat, route="pruefung", notiz=f"{len(ausloeser)} Auslöser")
     reg.speichern()
     print(f"Register:   {reg.datei} (Route: pruefung)")
+    return 0
+
+
+def befehl_finden(args) -> int:
+    """Stufe 0: Betriebe aus OpenStreetMap holen und als Liste ablegen."""
+    ql = (F.abfrage(args.lat, args.lon, args.umkreis, args.branche)
+          if args.lat and args.lon
+          else F.abfrage_nach_ort(args.ort, args.umkreis, args.branche))
+
+    text = None
+    if args.datei:
+        text = Path(args.datei).read_text(encoding="utf-8")
+        print(f"Gelesen aus {args.datei}")
+    elif args.live:
+        print("Frage Overpass ab (kann dauern) …")
+        text, fehler = F.live_holen(ql)
+        if text is None:
+            print(f"Overpass nicht erreichbar ({fehler}).\n", file=sys.stderr)
+            _turbo_anleitung(ql)
+            return 1
+    else:
+        _turbo_anleitung(ql)
+        return 0
+
+    funde = F.aus_json(text, ort_vorgabe=args.ort, branche_vorgabe=args.branche)
+    mit, ohne = F.sortieren(funde)
+    reg = Register(args.register)
+
+    neu = [f for f in mit if not reg.bereits_kontaktiert(f.als_kandidat())]
+    schon = len(mit) - len(neu)
+
+    print(f"\n{len(funde)} Betriebe gefunden.")
+    print(f"  {len(mit)} mit eigener Website  → Website-Check"
+          + (f" ({schon} davon schon im Register)" if schon else ""))
+    print(f"  {len(ohne)} ohne Website         → anderes Gespräch "
+          f"(„Sie sind online nicht zu finden\")")
+
+    ziel = Path(args.ziel)
+    with ziel.open("w", encoding="utf-8", newline="") as f:
+        s = csv.writer(f)
+        s.writerow(["firma", "url", "branche", "ort", "strasse", "telefon",
+                    "osm_id", "hat_website"])
+        for x in neu + ohne:
+            s.writerow([x.name, x.url, x.branche, x.ort, x.strasse, x.telefon,
+                        x.osm_id, "ja" if x.hat_website else "nein"])
+    print(f"\nListe: {ziel}")
+    if neu:
+        print(f"Weiter mit:  python -m pipeline stapel --liste {ziel}")
+    return 0
+
+
+def _turbo_anleitung(ql: str) -> None:
+    print("So kommst du an die Liste:")
+    print("  1. https://overpass-turbo.eu öffnen")
+    print("  2. Abfrage unten einfügen, auf „Ausführen“ klicken")
+    print("  3. „Exportieren“ → „Rohdaten als JSON“ → speichern")
+    print("  4. python -m pipeline finden --datei <gespeicherte.json> --ort <Ort>")
+    print("\n" + "─" * 68)
+    print(ql)
+    print("─" * 68)
+
+
+def befehl_stapel(args) -> int:
+    """Misst eine ganze Liste und sortiert nach Anzahl belegter Befunde."""
+    zeilen = [z for z in csv.DictReader(
+        Path(args.liste).open(encoding="utf-8")) if z.get("hat_website") == "ja"]
+    if not zeilen:
+        print("Keine Betriebe mit Website in der Liste.")
+        return 0
+
+    reg = Register(args.register)
+    ergebnisse = []
+    print(f"Messe {len(zeilen)} Betriebe (je ~{args.pause}s Pause, "
+          f"damit die Server nicht belastet werden) …\n")
+
+    for i, z in enumerate(zeilen, 1):
+        kandidat = Kandidat(firma=z["firma"], url=z["url"],
+                            branche=z.get("branche", ""), ort=z.get("ort", ""))
+        if reg.bereits_kontaktiert(kandidat) and not args.trotzdem:
+            print(f"  [{i}/{len(zeilen)}] {z['firma'][:32]:<32} übersprungen "
+                  f"(schon im Register)")
+            continue
+        try:
+            bericht = bilden(messen(kandidat))
+        except Exception as e:  # eine kaputte Seite darf den Lauf nicht beenden
+            print(f"  [{i}/{len(zeilen)}] {z['firma'][:32]:<32} "
+                  f"FEHLER {type(e).__name__}")
+            continue
+
+        belegt = len(bericht.befunde)
+        offen = sum(1 for m in bericht.messung if m.ok is None)
+        marke = "QUALIFIZIERT" if bericht.qualifiziert else f"{belegt} Befunde"
+        print(f"  [{i}/{len(zeilen)}] {z['firma'][:32]:<32} {marke:<13} "
+              f"(+{offen} offen)")
+        bericht.speichern(Path(args.out))
+        ergebnisse.append(bericht)
+        reg.eintragen(kandidat, route="pruefung", notiz=f"{belegt} Befunde")
+        if i < len(zeilen):
+            time.sleep(args.pause)
+
+    reg.speichern()
+    ergebnisse.sort(key=lambda b: len(b.befunde), reverse=True)
+    qual = [b for b in ergebnisse if b.qualifiziert]
+
+    print(f"\n{len(qual)} von {len(ergebnisse)} allein aus der Automatik "
+          f"qualifiziert (≥ {K.QUALIFIKATION_AB_BEFUNDEN} Befunde).")
+    if qual:
+        print("\nReihenfolge zum Anschauen:")
+        for b in qual:
+            titel = ", ".join(x.titel for x in b.befunde[:3])
+            print(f"  {len(b.befunde)}  {b.kandidat.firma[:30]:<30} {titel[:58]}")
+    rest = [b for b in ergebnisse if not b.qualifiziert]
+    if rest:
+        print(f"\n{len(rest)} noch nicht entschieden — die Sichtprüfungen "
+              f"entscheiden. Nicht vorschnell verwerfen.")
+    print(f"\nRohmessungen: {args.out}/")
     return 0
 
 
@@ -120,6 +254,27 @@ def main(argv: list[str] | None = None) -> int:
     m.add_argument("--trotzdem", action="store_true",
                    help="auch messen, wenn der Betrieb schon kontaktiert wurde")
     m.set_defaults(func=befehl_messen)
+
+    f = unter.add_parser("finden", help="Stufe 0: Betriebe aus OpenStreetMap holen")
+    f.add_argument("--ort", default="", help="z. B. Kerpen")
+    f.add_argument("--umkreis", type=float, default=10, help="km (Standard: %(default)s)")
+    f.add_argument("--branche", default="gastro",
+                   choices=["gastro", "handwerk", "verein", "alle"])
+    f.add_argument("--lat", type=float, help="Breitengrad (statt --ort, für --live)")
+    f.add_argument("--lon", type=float, help="Längengrad (statt --ort, für --live)")
+    f.add_argument("--datei", default="", help="gespeicherte Overpass-Antwort (JSON)")
+    f.add_argument("--live", action="store_true",
+                   help="Overpass direkt fragen (oft überlastet)")
+    f.add_argument("--ziel", default="kandidaten.csv")
+    f.set_defaults(func=befehl_finden)
+
+    s = unter.add_parser("stapel", help="eine ganze Liste messen")
+    s.add_argument("--liste", default="kandidaten.csv")
+    s.add_argument("--out", default="out")
+    s.add_argument("--pause", type=float, default=2.0,
+                   help="Sekunden zwischen zwei Seiten (Standard: %(default)s)")
+    s.add_argument("--trotzdem", action="store_true")
+    s.set_defaults(func=befehl_stapel)
 
     r = unter.add_parser("register", help="Stand des Kontakt-Registers zeigen")
     r.set_defaults(func=befehl_register)

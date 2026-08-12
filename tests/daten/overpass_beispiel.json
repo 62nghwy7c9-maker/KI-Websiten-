@@ -1,0 +1,11 @@
+{"version":0.6,"elements":[
+ {"type":"node","id":1,"tags":{"name":"Gophai Thai Imbiss","amenity":"fast_food","addr:city":"Kerpen","addr:street":"Hauptstraße","addr:housenumber":"12","website":"https://gophai-thaiimbiss.metro.bar","phone":"+49 2237 1234"}},
+ {"type":"node","id":2,"tags":{"name":"Pizzeria Bella Napoli","amenity":"restaurant","addr:city":"Kerpen","contact:website":"http://bella-napoli-kerpen.de"}},
+ {"type":"way","id":3,"tags":{"name":"Café Sonnenschein","amenity":"cafe","addr:city":"Kerpen","website":"https://www.facebook.com/cafesonnenschein"}},
+ {"type":"node","id":4,"tags":{"name":"Dönerhaus Anadolu","amenity":"fast_food","addr:town":"Kerpen"}},
+ {"type":"node","id":5,"tags":{"amenity":"restaurant","addr:city":"Kerpen","website":"https://ohne-namen.de"}},
+ {"type":"node","id":6,"tags":{"name":"Gophai Thai Imbiss","amenity":"fast_food","addr:city":"Kerpen","addr:street":"Hauptstraße","website":"https://gophai-thaiimbiss.metro.bar"}},
+ {"type":"node","id":7,"tags":{"name":"Elektro Wolters","craft":"electrician","addr:city":"Kerpen","website":"https://elektro-wolters.de;https://alt.de"}},
+ {"type":"node","id":8,"tags":{"name":"Malerbetrieb Kraus","craft":"painter","addr:city":"Kerpen","website":"no"}},
+ {"type":"node","id":9,"tags":{"name":"Eiscafé Venezia","amenity":"ice_cream","addr:city":"Kerpen","website":"https://www.lieferando.de/venezia"}}
+]}
