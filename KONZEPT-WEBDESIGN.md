@@ -441,6 +441,7 @@ Nichts davon ist eine Aussage. Alles gehört an die benannte Stelle.
 | 11 | Aufbewahrung Buchungsbelege **8 Jahre** (seit 2025 verkürzt von 10, Viertes Bürokratieentlastungsgesetz) (**GESICHERT**, § 147 Abs. 3 AO) | § 147 AO | Steuerberatung |
 | 12 | **Haftung:** unbeschränkt mit Privatvermögen. Bei Kundenprojekten Berufshaftpflicht prüfen — besonders relevant, wenn Impressums- und Datenschutztexte mitgeliefert werden | — | Versicherungsmakler |
 | 13 | Datenschutz: Auftragsverarbeitung mit dem Hoster, Datenschutzerklärung, Kontaktformular-Verarbeitung | DSGVO | Steuerberatung / Fachanwalt |
+| 15 | **Rechtsform bei zwei Personen:** Yannik Dettmer und Kira Moewes treten gemeinsam auf. Damit liegt ohne weiteres Zutun eine **GbR** vor — gesamtschuldnerische Haftung, jeder haftet fuer den anderen in voller Hoehe mit dem Privatvermoegen. Beruehrt auch Nr. 4 und Nr. 12, die bisher nur eine Person unterstellten. Siehe Abschnitt 14 | §§ 705 ff. BGB | **Steuerberatung / IHK — vor dem ersten Auftrag** |
 | 14 | **Kaltakquise per E-Mail:** Werbung mit elektronischer Post ohne vorherige ausdrückliche Einwilligung gilt als unzumutbare Belästigung — **auch im B2B**. Betrifft den geplanten Versand der Website-Checks unmittelbar. Briefwerbung ist davon nicht erfasst. Siehe Abschnitt 12 | § 7 Abs. 2 Nr. 2 UWG | **Fachanwalt Wettbewerbsrecht — vor dem ersten Versand** |
 
 **Zwei Punkte davon sind neu gegenüber der Referenzunterlage und hängen direkt an der Verschiebung von lehrender zu gewerblicher Tätigkeit: Nummer 4 (Rentenversicherung dreht sich von Nr. 1 auf Nr. 9) und Nummer 8 (Widerrufsrecht entfällt im B2B).** Nummer 5 (Künstlersozialkasse) ist in der Referenz nur als Randnotiz erwähnt, wird für Webdesign aber möglicherweise einschlägig.
@@ -538,6 +539,47 @@ Auf Nachfrage also gerade heraus: *„Die Prüfung läuft automatisiert. Den Kat
 ### Wo es aktiv gesagt werden muss
 
 Wenn **KI-generierte Texte oder Bilder auf der Kundenseite landen.** Das gehört dem Kunden vor der Übernahme gesagt — nicht aus Vorschrift, sondern weil er es sonst irgendwann woanders erfährt, und dann rückwirkend alles andere in Frage stellt.
+
+---
+
+## 14. Aufstellung — zwei Personen, nicht eine (12.08.2026)
+
+Das ganze Dokument war bis hierher auf eine Person geschrieben. Tatsächlich sind es zwei, mit einer Aufgabenteilung, die zum Geschäft passt:
+
+| | Schwerpunkt |
+|---|---|
+| **Yannik Dettmer** | Vertrieb, dazu etwas Bau |
+| **Kira Moewes** | Bau, wenig Vertrieb |
+
+Das ist ein Vorteil, kein Detail. Der Engpass dieses Modells ist nicht das Bauen, sondern das Ansprechen — und der Vertriebsteil liegt jetzt bei der Person, die ihn will. Konkret heißt das: **Die Preisleiter aus Abschnitt 4 fährt Yannik.** Neun Gespräche zu drei Preisen sind sein Teil, nicht ein gemeinsamer.
+
+Auf dem Kundencheck steht deshalb **ein** Absender, nicht zwei: der, der den Rückruf entgegennimmt. Zwei Namen auf einem kalt zugestellten Blatt verwässern die Ansprache und werfen sofort die Frage auf, mit wem man es zu tun hat.
+
+### Was daraus rechtlich folgt
+
+Zwei Personen, die gemeinsam auf Gewinn gerichtet auftreten, sind in Deutschland ohne weiteres Zutun eine **GbR** — mit gesamtschuldnerischer Haftung: Jeder haftet für die Fehler des anderen, in voller Höhe, mit dem Privatvermögen. Das ist keine Formalie, sondern der Unterschied zwischen „mein Risiko" und „unser beider Risiko". **PRÜFAUFTRAG Nr. 15.**
+
+Das berührt außerdem Prüfauftrag 4 (§ 2 S. 1 Nr. 9 SGB VI) und 12 (Haftung), die bisher nur für eine Person gedacht waren.
+
+### Der eigene Auftritt — der wunde Punkt
+
+**Stand heute gibt es weder Domain noch Website noch geschäftliche E-Mail-Adresse.** Kontakt läuft über private Gmail-Adressen.
+
+Das ist der einzige Punkt in diesem Konzept, der das Geschäftsmodell direkt untergräbt. Prüfpunkt 13 des eigenen Katalogs lautet *„Fremde Adresse statt eigener Domain"* — ein Befund, den der Check bei Betrieben anmerkt. Wer diesen Befund verschickt und darunter eine Gmail-Adresse setzt, liefert das Gegenargument gleich mit. Ein Handwerksmeister braucht dafür keine zehn Sekunden.
+
+**Empfehlung, in dieser Reihenfolge:**
+
+1. **Domain kaufen.** Rund 15 € im Jahr. Das ist die kleinste Ausgabe im gesamten Plan mit der größten Wirkung auf die Glaubwürdigkeit.
+2. **E-Mail-Adressen darauf.** Bei den meisten Anbietern im Domainpreis enthalten.
+3. **Eine einzige Seite**, die erklärt, was angeboten wird, mit Impressum. Keine Agenturseite mit Portfolio — die kommt, wenn es Referenzen gibt.
+
+Punkt 1 und 2 sollten **vor dem ersten Check** stehen. Punkt 3 kann warten: Ein persönlich übergebenes Blatt braucht keine Website hinter sich, eine Gmail-Adresse als Rückkanal fällt aber auf.
+
+### Was den Versand aktuell blockiert
+
+Für den Check wird eine **ladungsfähige Anschrift** gebraucht — nicht aus Höflichkeit, sondern weil ein geschäftliches Dokument nach § 5 DDG eine braucht (Prüfauftrag 9). Solange sie fehlt, sperrt sich jeder erzeugte Check selbst und trägt oben einen roten Balken. Das ist bewusst so gebaut.
+
+*(Kontaktdaten selbst stehen in `absender.json` im Projektordner, nicht in diesem Dokument — es wird versioniert.)*
 
 ---
 
