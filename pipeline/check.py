@@ -20,7 +20,7 @@ from pathlib import Path
 
 from . import katalog as K
 from .befunde import auswaehlen, positives
-from .farbe import Farbwelt
+from .stil import Stilprobe
 from .modelle import Pruefbericht
 
 STANDARD_ABSENDER = Path("absender.json")
@@ -69,68 +69,83 @@ def _e(text: str) -> str:
     return html.escape(text or "", quote=False)
 
 
-def _stil(farbe: Farbwelt) -> str:
+def _css(s: Stilprobe) -> str:
+    """Das Blatt in der Gestaltung des Betriebs.
+
+    Bewusst vermieden werden die Merkmale, an denen ein automatisch erzeugtes
+    Dokument sofort zu erkennen ist: runde Nummernkreise, gesperrte
+    Versal-Etiketten, überall dieselbe Systemschrift, Kästen um jeden Abschnitt.
+    Stattdessen ein ruhiger Satzspiegel mit Haarlinien, großen Ziffern in der
+    Marginalspalte und der Schrift des Betriebs.
+    """
+    zweit = s.zweit or s.akzent
+    # Serifenschrift braucht mehr Durchschuss und verträgt größere Grade.
+    grund = "17px" if s.serif else "16px"
+    h1 = "2.45rem" if s.serif else "2.25rem"
     return f"""
-:root{{--akzent:{farbe.akzent};--ink:{farbe.text};--papier:#fff;
- --grau:#5B5A52;--linie:rgba(0,0,0,.14);--warn:#8A3324;
- --sans:"Segoe UI",-apple-system,Roboto,Helvetica,Arial,sans-serif;}}
+:root{{--akzent:{s.akzent};--zweit:{zweit};--ink:{s.text};--papier:#fff;
+ --grau:#57564F;--linie:#DAD8D0;--warn:#8A3324;--radius:{s.radius};
+ --schrift:{s.schrift};}}
 *{{box-sizing:border-box}}
-body{{margin:0;background:#EDEDEA;color:var(--ink);font-family:var(--sans);
- font-size:16px;line-height:1.6}}
-.blatt{{max-width:46rem;margin:0 auto;background:var(--papier);
- padding:3.5rem 3rem 3rem;min-height:100vh}}
-.sperre{{background:var(--warn);color:#fff;padding:.9rem 1.2rem;margin:0 0 2.5rem;
- font-weight:600;line-height:1.45}}
+body{{margin:0;background:#E9E8E3;color:var(--ink);font-family:var(--schrift);
+ font-size:{grund};line-height:1.62;-webkit-font-smoothing:antialiased}}
+.blatt{{max-width:44rem;margin:0 auto;background:var(--papier);
+ padding:4rem 3.4rem 3rem}}
+.sperre{{background:var(--warn);color:#fff;padding:.9rem 1.2rem;margin:0 0 2.6rem;
+ font-weight:600;line-height:1.45;border-radius:var(--radius)}}
 .sperre small{{display:block;font-weight:400;opacity:.9;margin-top:.3rem}}
-.kopf{{border-bottom:4px solid var(--akzent);padding-bottom:1.5rem;margin-bottom:2.2rem}}
-.eyebrow{{font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;
- color:var(--akzent);font-weight:600;margin:0 0 .7rem}}
-h1{{font-size:2.15rem;line-height:1.18;margin:0 0 .55rem;font-weight:700;
- letter-spacing:-.01em}}
-.betrieb{{font-size:1.05rem;color:var(--ink);margin:.9rem 0 0;font-weight:600}}
-.weitere{{font-size:1.15rem;color:var(--grau);margin:.3rem 0 0}}
-.hook{{margin:0 0 2.5rem;font-size:1.02rem}}
-.geprueft{{margin:.5rem 0 0;font-size:.86rem;color:var(--grau)}}
+
+.marke{{font-size:.82rem;color:var(--grau);margin:0 0 2.2rem;
+ padding-bottom:.6rem;border-bottom:1px solid var(--linie)}}
+h1{{font-size:{h1};line-height:1.16;margin:0 0 .7rem;font-weight:700;
+ letter-spacing:-.015em;max-width:19em}}
+.weitere{{font-size:1.05rem;color:var(--grau);margin:0 0 1.6rem}}
+.betrieb{{font-size:1rem;margin:0;font-weight:600}}
+.geprueft{{margin:.25rem 0 0;font-size:.85rem;color:var(--grau)}}
 .geprueft a{{color:var(--akzent);overflow-wrap:anywhere}}
-.bilanz{{margin:0 0 1.6rem;padding:.8rem 0;border-bottom:1px solid var(--linie);
- color:var(--grau);font-size:.95rem}}
-.bilanz .zahl{{font-size:1.35rem;font-weight:700;color:var(--ink);
- margin-right:.35rem}}
-.bilanz .zahl.akzent{{color:var(--akzent)}}
-.bilanz .trenn{{margin:0 .9rem;opacity:.5}}
-.gut{{background:#F6F6F3;padding:1.1rem 1.4rem;margin:0 0 2.2rem;
+
+.bilanz{{margin:2.4rem 0 2.2rem;padding:1rem 0;font-size:.92rem;
+ color:var(--grau);border-top:2px solid var(--akzent);
+ border-bottom:1px solid var(--linie)}}
+.bilanz b{{color:var(--ink);font-size:1.1rem}}
+.bilanz .sep{{margin:0 .8rem;color:var(--linie)}}
+.hook{{margin:0 0 3rem;font-size:1.03rem;max-width:34em}}
+
+.abschnitt{{font-size:.95rem;font-weight:700;color:var(--akzent);
+ margin:0 0 1.6rem;padding-bottom:.4rem;border-bottom:1px solid var(--linie)}}
+
+.befund{{display:grid;grid-template-columns:2.8rem 1fr;gap:0 1rem;
+ padding:0 0 1.6rem;margin:0 0 1.6rem;border-bottom:1px solid var(--linie);
  break-inside:avoid}}
-.gut h2{{font-size:.75rem;letter-spacing:.12em;text-transform:uppercase;
- color:var(--grau);margin:0 0 .5rem;font-weight:600}}
-.gut ul{{margin:0;padding-left:1.1rem}}
-.gut li{{margin-bottom:.2rem}}
-h2.abschnitt{{font-size:.75rem;letter-spacing:.12em;text-transform:uppercase;
- color:var(--grau);margin:0 0 1.3rem;font-weight:600}}
-.befund{{display:grid;grid-template-columns:2.6rem 1fr;gap:0 1.1rem;
- margin:0 0 2rem;break-inside:avoid}}
-.nr{{background:var(--akzent);color:#fff;width:2.3rem;height:2.3rem;border-radius:50%;
- display:flex;align-items:center;justify-content:center;font-weight:700;
- font-size:1.05rem}}
-.befund h2{{font-size:1.12rem;margin:.15rem 0 .5rem;font-weight:700;line-height:1.3}}
-.befund p{{margin:0 0 .55rem}}
+.befund:last-of-type{{border-bottom:none}}
+.nr{{font-size:1.9rem;line-height:1;font-weight:700;color:var(--zweit);
+ opacity:.75;padding-top:.05rem}}
+.befund h2{{font-size:1.14rem;margin:0 0 .45rem;font-weight:700;line-height:1.32}}
+.befund p{{margin:0 0 .5rem}}
 .kostet{{color:var(--grau)}}
 .kostet b{{color:var(--ink);font-weight:600}}
-.quelle{{font-size:.78rem;color:var(--grau);margin:.35rem 0 0}}
-.trenner{{border:none;border-top:1px solid var(--linie);margin:3rem 0 2.2rem}}
-.angebot{{background:#F6F6F3;border-left:4px solid var(--akzent);
- padding:1.6rem 1.8rem;margin:0 0 2rem;break-inside:avoid}}
-.angebot h2{{margin:0 0 .7rem;font-size:1.25rem}}
-.rahmen{{font-size:1.3rem;font-weight:700;color:var(--akzent);margin:1rem 0 .3rem}}
-.cta{{margin:1.6rem 0 0;font-weight:600}}
-.fuss{{border-top:1px solid var(--linie);margin-top:2.5rem;padding-top:1.1rem;
- font-size:.78rem;color:var(--grau);line-height:1.55}}
+.quelle{{font-size:.79rem;color:var(--grau);margin:.4rem 0 0}}
+
+.gut{{margin:2.6rem 0;padding-left:1.2rem;border-left:3px solid var(--zweit);
+ break-inside:avoid}}
+.gut h2{{font-size:.95rem;font-weight:700;margin:0 0 .4rem}}
+.gut ul{{margin:0;padding-left:1.1rem;color:var(--grau)}}
+
+.angebot{{margin:2.8rem 0 0;padding:1.7rem 1.9rem;background:#F5F4EF;
+ border-radius:var(--radius);break-inside:avoid}}
+.angebot h2{{margin:0 0 .6rem;font-size:1.2rem}}
+.angebot p{{margin:0 0 .6rem;max-width:32em}}
+.rahmen{{font-size:1.25rem;font-weight:700;color:var(--akzent);margin:1rem 0 .3rem}}
+.cta{{margin:1.3rem 0 0;font-weight:600}}
+.trenner{{display:none}}
+.fuss{{border-top:1px solid var(--linie);margin-top:2.8rem;padding-top:1.1rem;
+ font-size:.79rem;color:var(--grau);line-height:1.6}}
 @media print{{
- @page{{margin:16mm 15mm}}
+ @page{{margin:17mm 16mm}}
  body{{background:#fff;font-size:10.5pt}}
- .blatt{{max-width:none;padding:0;min-height:0}}
+ .blatt{{max-width:none;padding:0}}
  .sperre{{border:2pt solid var(--warn)}}
- .befund,.angebot,.fuss{{break-inside:avoid}}
- .seitenumbruch{{break-before:page}}
+ .befund,.angebot,.gut,.fuss{{break-inside:avoid}}
 }}"""
 
 
@@ -186,9 +201,9 @@ def _kurz(url: str) -> str:
 
 
 def bauen(bericht: Pruefbericht, absender: Absender,
-          farbe: Farbwelt | None = None, ohne_positives: bool = False) -> str:
+          stil: Stilprobe | None = None, ohne_positives: bool = False) -> str:
     """Baut den Check als HTML. Nimmt höchstens MAX_BEFUNDE_AUF_CHECK Befunde."""
-    farbe = farbe or Farbwelt()
+    stil = stil or Stilprobe()
     k = bericht.kandidat
     gewaehlt = auswaehlen(bericht.befunde)
 
@@ -203,8 +218,7 @@ def bauen(bericht: Pruefbericht, absender: Absender,
     gut = positives(bericht)
 
     teile = [sperre,
-             '<div class="kopf">',
-             '<p class="eyebrow">Kostenloser Website-Check</p>',
+             '<p class="marke">Kostenloser Website-Check</p>',
              f'<h1>{_e(_kopfzeile(gewaehlt))}</h1>',
              (f'<p class="weitere">— und {len(gewaehlt) - 1} weitere '
               f'{"Punkt" if len(gewaehlt) == 2 else "Punkte"}</p>'
@@ -213,20 +227,17 @@ def bauen(bericht: Pruefbericht, absender: Absender,
              + (f', {_e(k.ort)}' if k.ort else '') + '</p>',
              f'<p class="geprueft">Geprüft wurde <a href="{_e(k.url)}">'
              f'{_e(_kurz(k.url))}</a> am {_e(bericht.stand)}.</p>',
-             '</div>',
              # Die Zahl vorweg: Sie zeigt, dass ein Katalog abgearbeitet wurde
              # und nicht vier Dinge aufgefallen sind. Das ist der Unterschied
              # zwischen einer Prüfung und einer Meinung.
-             '<div class="bilanz">',
-             f'<span class="zahl">{geprueft}</span> Punkte geprüft'
-             f'<span class="trenn">·</span>'
-             f'<span class="zahl akzent">{len(gewaehlt)}</span> mit '
-             f'Handlungsbedarf</div>',
+             f'<p class="bilanz"><b>{geprueft}</b> Punkte geprüft'
+             f'<span class="sep">|</span><b>{len(gewaehlt)}</b> davon mit '
+             f'Handlungsbedarf</p>',
              '<p class="hook">Ich prüfe jede Seite nach demselben Katalog. '
              'Was dabei herauskommt, schicke ich Ihnen kostenlos und ohne '
              'Verpflichtung — <b>jeder Punkt ist heute selbst nachprüfbar.</b></p>']
 
-    teile.append('<h2 class="abschnitt">Was ich ändern würde</h2>')
+    teile.append('<p class="abschnitt">Was ich ändern würde</p>')
 
     for i, b in enumerate(gewaehlt, 1):
         teile.append(f'<div class="befund"><div class="nr">{i}</div><div>')
@@ -246,13 +257,11 @@ def bauen(bericht: Pruefbericht, absender: Absender,
     # landen. Am Ende belegt er, dass wirklich geprüft wurde, und nimmt dem
     # Blatt den Ton eines Angriffs — ohne den Mängeln Druck zu nehmen.
     if gut and not ohne_positives:
-        teile += ['<hr class="trenner">',
-                  '<div class="gut"><h2>Was schon gut ist</h2><ul>',
+        teile += ['<div class="gut"><h2>Was schon gut ist</h2><ul>',
                   "".join(f'<li>{_e(z)}</li>' for z in gut[:2]),
                   '</ul></div>']
 
     teile += [
-        '<hr class="trenner">' if (ohne_positives or not gut) else '',
         '<div class="angebot">',
         '<h2>Der gute Teil: alles behebbar.</h2>',
         '<p>Diese Punkte lassen sich zusammen in einer modernen, mobilen '
@@ -270,21 +279,21 @@ def bauen(bericht: Pruefbericht, absender: Absender,
         f'Website am {_e(bericht.stand)} und sind dort nachprüfbar. '
         f'Dieser Check ist kostenlos und unverbindlich.',
         ('<br>Gestaltung an die Farbwelt des Betriebs angelehnt '
-         f'({_e(farbe.herkunft)}).' if farbe.uebernommen else ''),
+         f'({_e(stil.herkunft)}).' if stil.uebernommen else ''),
         '</div>',
     ]
 
     titel = f"Website-Check {k.firma}"
     return (f'<!doctype html><html lang="de"><head><meta charset="utf-8">'
             f'<meta name="viewport" content="width=device-width,initial-scale=1">'
-            f'<title>{_e(titel)}</title><style>{_stil(farbe)}</style></head>'
+            f'<title>{_e(titel)}</title><style>{_css(stil)}</style></head>'
             f'<body><div class="blatt">{"".join(teile)}</div></body></html>')
 
 
 def schreiben(bericht: Pruefbericht, absender: Absender, ordner: Path,
-              farbe: Farbwelt | None = None, ohne_positives: bool = False) -> Path:
+              stil: Stilprobe | None = None, ohne_positives: bool = False) -> Path:
     ordner.mkdir(parents=True, exist_ok=True)
     ziel = ordner / f"check_{bericht.kandidat.schluessel()}.html"
-    ziel.write_text(bauen(bericht, absender, farbe, ohne_positives),
+    ziel.write_text(bauen(bericht, absender, stil, ohne_positives),
                     encoding="utf-8")
     return ziel

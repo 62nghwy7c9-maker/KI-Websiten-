@@ -22,7 +22,8 @@ from .check import Absender, schreiben
 from .dossier import schreiben as dossier_schreiben
 from .leads import aus_datei as leads_aus_datei
 from .paket import bauen as paket_bauen
-from .farbe import Farbwelt, ableiten, stylesheets_von
+from .farbe import stylesheets_von
+from .stil import Stilprobe, ableiten
 from .messung import hole, lcp_von_psi, messen
 from .modelle import Kandidat, Pruefbericht, ROUTEN
 from .register import Register, STANDARD_DATEI
@@ -239,7 +240,7 @@ def befehl_check(args) -> int:
         print("Keine Befunde — für diesen Betrieb gibt es nichts zu zeigen.")
         return 1
 
-    farbe = Farbwelt()
+    stil = Stilprobe()
     if not args.neutral:
         abruf = hole(bericht.kandidat.url)
         if abruf.html:
@@ -247,20 +248,20 @@ def befehl_check(args) -> int:
             # dort, nicht im HTML.
             css = stylesheets_von(abruf.html, abruf.endgueltige_url
                                   or bericht.kandidat.url, hole)
-            farbe = ableiten(abruf.html, css)
+            stil = ableiten(abruf.html, css)
         else:
             print("Hinweis: Seite für die Farbwelt nicht abrufbar, "
                   "neutrale Gestaltung.", file=sys.stderr)
 
     absender = Absender.laden(args.absender)
-    ziel = schreiben(bericht, absender, Path(args.ziel), farbe)
-    intern = dossier_schreiben(bericht, Path(args.ziel), farbe.akzent)
+    ziel = schreiben(bericht, absender, Path(args.ziel), stil)
+    intern = dossier_schreiben(bericht, Path(args.ziel), stil.akzent)
 
     gewaehlt = len(bericht.auswahl_fuer_check) or len(bericht.befunde)
     print(f"Kundencheck:      {ziel}")
     print(f"Interne Übersicht: {intern}")
     print(f"  {gewaehlt} von {len(bericht.befunde)} Befunden auf dem Blatt")
-    print(f"  Farbwelt: {farbe.akzent} — {farbe.herkunft}")
+    print(f"  Gestaltung: {stil.beschreibung}")
     ohne_beleg = sum(1 for b in bericht.befunde if not b.was_es_kostet)
     if ohne_beleg:
         print(f"  {ohne_beleg} Befund(e) ohne Kosten-Satz (kein Beleg hinterlegt)")
@@ -305,17 +306,17 @@ def befehl_pakete(args) -> int:
             continue
         try:
             bericht = bilden(messen(kandidat))
-            farbe = Farbwelt()
+            stil = Stilprobe()
             if not args.neutral:
                 abruf = hole(kandidat.url)
                 if abruf.html:
-                    farbe = ableiten(abruf.html, stylesheets_von(
+                    stil = ableiten(abruf.html, stylesheets_von(
                         abruf.html, abruf.endgueltige_url or kandidat.url, hole))
             # A/B-Test: jeder zweite Check ohne den Positivteil. Ob
             # Anerkennung mehr Rueckmeldungen bringt oder Druck wegnimmt, ist
             # bei null verschickten Checks nicht zu wissen -- nur zu messen.
             ohne = args.ohne_positives or (args.ab_test and i % 2 == 0)
-            p = paket_bauen(bericht, absender, farbe, Path(args.ziel), ohne)
+            p = paket_bauen(bericht, absender, stil, Path(args.ziel), ohne)
         except Exception as ex:  # ein kaputter Betrieb stoppt den Lauf nicht
             print(f"  [{i}/{len(e.leads)}] {lead.firma[:30]:<30} "
                   f"FEHLER {type(ex).__name__}")

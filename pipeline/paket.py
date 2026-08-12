@@ -26,7 +26,7 @@ from .befunde import auswaehlen
 from .check import Absender
 from .check import schreiben as check_schreiben
 from .dossier import schreiben as dossier_schreiben
-from .farbe import Farbwelt
+from .stil import Stilprobe
 from .modelle import Pruefbericht
 
 STANDARD_ORDNER = Path("kunden")
@@ -41,7 +41,7 @@ class Paket:
     qualifiziert: bool
 
 
-def _befund_md(bericht: Pruefbericht, farbe: Farbwelt) -> str:
+def _befund_md(bericht: Pruefbericht, stil: Stilprobe) -> str:
     """Die Kurzfassung. Für den Blick aufs Handy kurz vor dem Klingeln."""
     k = bericht.kandidat
     gewaehlt = auswaehlen(bericht.befunde)
@@ -88,14 +88,14 @@ def _befund_md(bericht: Pruefbericht, farbe: Farbwelt) -> str:
         zeilen.append("")
 
     zeilen.append("## Gestaltung")
-    zeilen.append(f"Akzentfarbe `{farbe.akzent}` — {farbe.herkunft}.")
+    zeilen.append(f"{stil.beschreibung} — {stil.herkunft}.")
     zeilen.append("")
     zeilen.append("---")
     zeilen.append("*Erzeugt von der Check-Pipeline. Nichts hiervon ist versendet.*")
     return "\n".join(zeilen) + "\n"
 
 
-def bauen(bericht: Pruefbericht, absender: Absender, farbe: Farbwelt,
+def bauen(bericht: Pruefbericht, absender: Absender, stil: Stilprobe,
           wurzel: Path = STANDARD_ORDNER,
           ohne_positives: bool = False) -> Paket:
     """Legt den Ordner für einen Betrieb an und füllt ihn."""
@@ -105,12 +105,12 @@ def bauen(bericht: Pruefbericht, absender: Absender, farbe: Farbwelt,
 
     dateien = [
         bericht.speichern(ordner),
-        check_schreiben(bericht, absender, ordner, farbe, ohne_positives),
-        dossier_schreiben(bericht, ordner, farbe.akzent),
+        check_schreiben(bericht, absender, ordner, stil, ohne_positives),
+        dossier_schreiben(bericht, ordner, stil.akzent),
         A.schreiben(bericht, absender.name, absender.telefon, gewaehlt, ordner),
     ]
     befund = ordner / "befund.md"
-    befund.write_text(_befund_md(bericht, farbe), encoding="utf-8")
+    befund.write_text(_befund_md(bericht, stil), encoding="utf-8")
     dateien.append(befund)
 
     # Im Ordner des Betriebs ist der Name schon gesagt: check.html statt
