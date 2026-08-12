@@ -1,0 +1,7 @@
+# Arbeitsdaten, gehören nicht ins Repo
+out/*.json
+register/*.csv
+__pycache__/
+*.pyc
+.pytest_cache/
+.venv/

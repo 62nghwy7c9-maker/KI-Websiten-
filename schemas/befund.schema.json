@@ -1,0 +1,74 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/62nghwy7c9-maker/KI-Websiten-/schemas/befund.schema.json",
+  "title": "Pruefbericht",
+  "description": "Ausgabe von Stufe 1 (Messung) und Stufe 2 (Befund). Eingefrorenes Format.",
+  "type": "object",
+  "required": ["kandidat", "stand", "messung", "befunde", "qualifiziert"],
+  "additionalProperties": false,
+  "properties": {
+    "kandidat": {
+      "type": "object",
+      "required": ["firma", "url"],
+      "additionalProperties": false,
+      "properties": {
+        "firma": { "type": "string", "minLength": 1 },
+        "url": { "type": "string", "minLength": 3 },
+        "branche": { "type": "string", "enum": ["", "gastro", "handwerk", "verein"] },
+        "ort": { "type": "string" },
+        "kontakt_mail": { "type": "string" },
+        "telefon": { "type": "string" },
+        "anschrift": { "type": "string" }
+      }
+    },
+    "stand": { "type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$" },
+    "messung": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "pruefpunkt", "wert", "quelle"],
+        "additionalProperties": false,
+        "properties": {
+          "id": { "type": "integer" },
+          "pruefpunkt": { "type": "string" },
+          "wert": { "type": "string" },
+          "quelle": { "type": "string" },
+          "auto": { "type": "boolean" },
+          "ok": { "type": ["boolean", "null"],
+                  "description": "true unauffaellig, false Ausloeser erfuellt, null nicht bestimmbar" },
+          "roh": { "type": "object" }
+        }
+      }
+    },
+    "befunde": {
+      "type": "array",
+      "maxItems": 4,
+      "items": {
+        "type": "object",
+        "required": ["id", "titel", "beobachtung", "schweregrad"],
+        "additionalProperties": false,
+        "properties": {
+          "id": { "type": "integer" },
+          "titel": { "type": "string" },
+          "beobachtung": { "type": "string", "minLength": 1 },
+          "was_es_kostet": { "type": "string" },
+          "beleg": { "type": "string" },
+          "schweregrad": { "type": "integer", "minimum": 1, "maximum": 3 },
+          "behebbarkeit": { "type": "string", "enum": ["hoch", "mittel", "niedrig"] }
+        },
+        "allOf": [{
+          "$comment": "Ohne Beleg kein Kosten-Satz (Konzept, Abschnitt 9).",
+          "if": { "properties": { "was_es_kostet": { "minLength": 1 } },
+                  "required": ["was_es_kostet"] },
+          "then": { "properties": { "beleg": { "minLength": 1 } },
+                    "required": ["beleg"] }
+        }]
+      }
+    },
+    "qualifiziert": { "type": "boolean" },
+    "auswahl_fuer_check": {
+      "type": "array", "maxItems": 4, "items": { "type": "integer" }
+    },
+    "hinweise": { "type": "array", "items": { "type": "string" } }
+  }
+}
