@@ -67,6 +67,36 @@ ul.hinweise li{margin-bottom:.4rem}
 def _e(t: str) -> str:
     return html.escape(t or "", quote=False)
 
+def _argumente(bericht: Pruefbericht) -> list[tuple[str, str, str]]:
+    """Welches Verkaufsargument bei diesem Betrieb trägt — vor dem Gespräch.
+
+    Drei Fragen, die im Gespräch über den Einstieg entscheiden und sich aus der
+    Messung beantworten lassen. Sie stehen hier, damit vor dem Klingeln klar
+    ist, worüber geredet wird — nicht erst an der Tür.
+    """
+    w = {m.id: m for m in bericht.messung}
+
+    def stand(nr: int, wenn_befund: str, wenn_ok: str,
+              wenn_offen: str = "nicht geprüft") -> str:
+        m = w.get(nr)
+        if m is None or m.ok is None:
+            return wenn_offen
+        return wenn_befund if m.ok is False else wenn_ok
+
+    return [
+        ("Karriereseite",
+         stand(9, "fehlt", "vorhanden"),
+         "Praktikanten und Azubis — bei ausgelasteten Betrieben das stärkere "
+         "Argument als Kundengewinnung"),
+        ("Anfrageformular",
+         stand(10, "fehlt", "vorhanden"),
+         "Ohne Formular bewirbt sich niemand vom Handy aus"),
+        ("Eigene Domain",
+         stand(13, "nein, Baukasten", "ja"),
+         "Bei „ja“ gibt es kein Baukasten-Abo zu kündigen — dann im Gespräch "
+         "fragen, was er heute für Hosting zahlt"),
+    ]
+
 
 def bauen(bericht: Pruefbericht, akzent: str = STANDARD_AKZENT) -> str:
     k = bericht.kandidat
@@ -130,6 +160,13 @@ def bauen(bericht: Pruefbericht, akzent: str = STANDARD_AKZENT) -> str:
 
 <h2>Betrieb</h2>
 <dl class="daten">{''.join(f'<dt>{n}</dt><dd>{w}</dd>' for n, w in daten)}</dl>
+
+<h2>Womit ins Gespräch</h2>
+<table><tbody>{''.join(
+    f'<tr><td style="width:11rem"><b>{_e(n)}</b></td>'
+    f'<td style="width:9rem">{_e(wert)}</td>'
+    f'<td style="color:var(--grau)">{_e(warum)}</td></tr>'
+    for n, wert, warum in _argumente(bericht))}</tbody></table>
 
 <h2>Alle Prüfpunkte</h2>
 <table><thead><tr><th></th><th>Ergebnis</th><th>Prüfpunkt und Messwert</th>

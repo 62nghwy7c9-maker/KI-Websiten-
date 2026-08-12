@@ -583,6 +583,123 @@ Für den Check wird eine **ladungsfähige Anschrift** gebraucht — nicht aus H�
 
 ---
 
+## 15. Das Abo — Inhalt, Mechanik, Einwände (12.08.2026)
+
+Entscheidung: **Ein Paket mit fester Monatsrate, Wartung inklusive.** Kein Zusatzposten (Abschnitt 4), keine Wahl zwischen Varianten im Gespräch.
+
+### Was drin ist
+
+**Wichtig für den Zuschnitt:** Hosting und Domain bleiben beim Kunden. Wir bauen die neue Seite auf seinen bestehenden Vertrag. Wir sind kein Hoster und werden keiner — das spart Haftung, Nachtarbeit und eine Auftragsverarbeitung nach DSGVO mit jedem Kunden.
+
+Damit fällt weg, was bei anderen Anbietern die halbe Monatsrate füllt. Das Abo muss sich allein über die Leistung rechtfertigen:
+
+> **Ihre Website, betreut**
+> Einmalige Einrichtung, danach ein fester Monatsbetrag.
+>
+> **Enthalten:**
+> · Änderungen an Texten, Bildern, Öffnungszeiten und Stellenanzeigen
+> · monatliche Prüfung, ob die Seite erreichbar ist und ob das
+>   Sicherheitszertifikat noch läuft — mit Meldung an Sie, bevor es auffällt
+> · Sicherung Ihrer Seite, damit sie sich jederzeit wiederherstellen lässt
+> · Karriereseite mit Kurzbewerbung für Praktikanten und Azubis
+> · alle drei Monate ein kurzer Bericht, was auf Ihrer Seite passiert ist
+>
+> **Nicht enthalten:** Hosting und Domain. Die laufen weiter über Ihren
+> bestehenden Vertrag und bleiben Ihre.
+>
+> 12 Monate Mindestlaufzeit, danach monatlich kündbar.
+
+### Die Formulierung, die nicht überzogen werden darf
+
+Auf fremdem Hosting lässt sich **prüfen und melden**, aber nicht garantieren. Fällt der Server des Kunden aus, kann niemand von uns ihn wieder hochfahren. Im Angebot steht deshalb „wir prüfen und melden", nicht „wir sorgen für Erreichbarkeit". Der Unterschied ist im Streitfall der ganze Punkt.
+
+### Das Risiko, das aus dieser Entscheidung folgt
+
+> **Vor jedem Angebot prüfen, was das bestehende Hosting kann.**
+
+Der Check verspricht dem Kunden, die gefundenen Punkte seien behebbar. Bei einem Befund wie *„keine sichere Verbindung"* stimmt das nur, wenn sein Hoster ein Zertifikat anbietet. Bei Peter Czarnetzki läuft die Seite auf einem FrontPage-Frameset ohne HTTPS — dort ist das offen.
+
+Ist das Hosting zu alt, gehört ein **Umzug ins Angebot**, als eigener Posten. Was nicht passieren darf: Ein Befund steht auf dem Check, der Auftrag kommt, und dann lässt er sich technisch nicht einlösen. Das ist der eine Weg, auf dem der Check von einem Vertrauensbeweis zu einem Vertrauensschaden wird.
+
+### Was der Kunde nach den 12 Monaten hat
+
+Er muss nichts tun. Kündigt er nicht, läuft es monatlich weiter.
+
+Kündigt er, gilt: **Die Seite bleibt online und gehört ihm.** Sie liegt auf seinem Hosting, unter seiner Domain, und es wird nichts abgeschaltet.
+
+| | |
+|---|---|
+| **Bleibt** | die Website selbst, alle Texte und Bilder, Domain und Hosting — alles war ohnehin seins |
+| **Endet** | Änderungen, die monatliche Prüfung, die Sicherung, der Quartalsbericht |
+
+Wir bauen ausdrücklich **keine Abschaltmechanik** ein — kein Lizenzschlüssel, keine Datei, die nach Kündigung eine Fehlermeldung zeigt. Wer dem Kunden sein Ding wegnehmen kann, hat kein Angebot, sondern ein Druckmittel. Und im Handwerk spricht sich so etwas innerhalb eines Gewerks in Wochen herum.
+
+**Die kaufmännische Kehrseite, ehrlich:** Damit ist die Kündigung nach zwölf Monaten folgenlos und deshalb leicht. Es gibt keinen technischen Grund zu bleiben. Bleiben wird nur, wer den Gegenwert sieht — also den Quartalsbericht bekommt und merkt, dass seine Änderungen ohne Nachfragen erledigt werden. Die Bindung liegt vollständig in der Leistung. Das ist unbequem und richtig so.
+
+### Warum keine „3 Änderungen pro Monat"
+
+Die ursprüngliche Fassung nannte ein monatliches Kontingent. Davon rate ich ab, aus zwei Richtungen:
+
+Ein Handwerksbetrieb ändert **schätzungsweise acht Mal im Jahr** etwas — Urlaub, Notdienst, ein neuer Mitarbeiter, eine Referenz, eine Stellenanzeige. **SCHÄTZUNG**, aus der Art der Betriebe abgeleitet, nicht gemessen. Ein Kontingent von 36 im Jahr wird also nie ausgeschöpft. Der Kunde sieht monatlich, dass er nichts abruft, und fragt sich irgendwann, wofür er zahlt. Ungenutzte Kontingente sind ein Kündigungsgrund, kein Verkaufsargument.
+
+Im umgekehrten Fall müsste bei der vierten Änderung „nein" gesagt werden. Das ist kleinlich und beschädigt die Beziehung für einen Gegenwert von wenigen Euro.
+
+**Deshalb keine Zahl.** Falls eine Grenze nötig wird, dann als Jahreszahl (12 im Jahr) — sie klingt großzügig, trifft den echten Bedarf, und niemand zählt monatlich mit.
+
+### Der Quartalsbericht ist Teil des Pakets, nicht Zugabe
+
+Er ist der sichtbare Gegenwert in den Monaten ohne Änderung (Abschnitt 11). Die Pipeline erzeugt ihn ohnehin aus der wiederholten Messung.
+
+### Der Einwand, der immer kommt
+
+*„Und dann häng ich da für immer drin?"*
+
+Er wird **vor** der Frage beantwortet: 12 Monate Mindestlaufzeit, danach monatlich kündbar, bei Kündigung gehören Seite und Domain dem Kunden.
+
+Das kostet praktisch nichts — ohne Betreuung wird kaum jemand die Seite selbst weiterbetreiben — und nimmt die größte Hürde vor der Unterschrift. Wer weiß, dass er jederzeit raus kann, unterschreibt eher.
+
+### Das Baukasten-Argument — geprüft, trägt hier nicht
+
+Die Annahme war: Der Kunde kündigt sein Baukasten-Abo und rechnet das gegen die Monatsrate.
+
+**Bei der eigenen Lead-Liste trifft das auf null von elf Betrieben zu.** Alle elf haben eine eigene Domain, keiner läuft auf Wix, Jimdo oder einem Metro-Baukasten. **GESICHERT** — Prüfpunkt 13 über alle elf Messungen vom 12.08.2026.
+
+Ein kleinerer Abzug bleibt: Domain und Hosting zahlen sie irgendwo, üblicherweise 5 bis 15 € im Monat. Das gehört ins Gespräch als „das rechnen wir Ihnen an", nicht als „Sie sparen sich den Baukasten".
+
+**Praktische Folge für das Gespräch:** Immer zuerst fragen, was er heute zahlt. Bei manchen Betrieben liegt dort ein alter Agenturvertrag, den niemand mehr auf dem Schirm hat. Dann ist das Abo billiger als der Zustand ohne Abo — und das Gespräch ist entschieden.
+
+### Das Recruiting-Argument — geprüft, trägt
+
+Aus derselben Auswertung, **GESICHERT** (eigene Messung, 12.08.2026):
+
+| | von 11 Betrieben |
+|---|---|
+| ohne Karriereseite | **7** |
+| ohne Anfrageformular | **8** |
+
+Das ist kein Verkaufsargument, das ist ein Befund — und er steht ohnehin auf den Checks.
+
+### Der Praktikanten-Punkt — zum Auswendiglernen
+
+**Der stärkere Teil sind die Praktikanten, nicht die Fachkräfte.** In Stichpunkten, so wie es im Gespräch gesagt wird:
+
+- **Ein Praktikant bewirbt sich nicht schriftlich.** Kein Anschreiben, kein Lebenslauf, kein PDF. Er sucht am Handy und will drei Felder ausfüllen.
+- **Ohne Formular fällt der Betrieb aus der Auswahl.** Nicht weil er schlechter ist, sondern weil der Weg fehlt. Er erfährt nie, dass jemand da war.
+- **Der Praktikant von heute ist der Azubi von übermorgen** und der Geselle in fünf Jahren. Das Praktikum ist der einzige Kanal, über den ein Betrieb jemanden bekommt, der ihn schon kennt.
+- **Ein Praktikumsplatz kostet den Betrieb fast nichts** — anders als eine Stellenanzeige, ein Personalvermittler oder eine unbesetzte Stelle.
+- **Der Wettbewerb ist nicht der Nachbarbetrieb**, sondern der Betrieb mit dem Formular. Bei sieben von elf geprüften Betrieben gibt es keinen Bewerbungsweg — wer einen hat, bekommt die Anfragen der anderen mit.
+- **Es ist die Sache, die er nicht delegieren kann.** Aufträge kommen über Empfehlung, Leute nicht mehr.
+
+**Der eine Satz fürs Gespräch:**
+
+> „Wenn heute ein Fünfzehnjähriger bei Ihnen ein Praktikum machen wollte — wie würde er das anstellen?"
+
+Darauf gibt es keine gute Antwort, wenn die Seite keinen Bewerbungsweg hat. Und die Frage klingt nicht nach Verkauf.
+
+**Der Test, ob das Argument bei diesem Betrieb überhaupt trägt:** *„Wie viele Praktikumsanfragen hatten Sie letztes Jahr?"* Kommt reihenweise „gar keine", trägt es. Kommt „genug", trägt es nicht — dann läuft die Ansprache über die Kundengewinnung. **ANNAHME** bis dahin.
+
+---
+
 ## Quellen
 
 - [§ 2 SGB VI, Deutsche Rentenversicherung rvRecht](https://rvrecht.deutsche-rentenversicherung.de/SharedDocs/rvRecht/01_GRA_SGB/06_SGB_VI/pp_0001_25/gra_sgb006_p_0002.html)
