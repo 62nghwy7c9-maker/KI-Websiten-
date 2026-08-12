@@ -19,7 +19,7 @@ from dataclasses import asdict, dataclass, fields
 from pathlib import Path
 
 from . import katalog as K
-from .befunde import auswaehlen
+from .befunde import auswaehlen, positives
 from .farbe import Farbwelt
 from .modelle import Pruefbericht
 
@@ -91,6 +91,20 @@ h1{{font-size:2.15rem;line-height:1.18;margin:0 0 .55rem;font-weight:700;
 .hook{{margin:0 0 2.5rem;font-size:1.02rem}}
 .geprueft{{margin:.5rem 0 0;font-size:.86rem;color:var(--grau)}}
 .geprueft a{{color:var(--akzent);overflow-wrap:anywhere}}
+.bilanz{{margin:0 0 1.6rem;padding:.8rem 0;border-bottom:1px solid var(--linie);
+ color:var(--grau);font-size:.95rem}}
+.bilanz .zahl{{font-size:1.35rem;font-weight:700;color:var(--ink);
+ margin-right:.35rem}}
+.bilanz .zahl.akzent{{color:var(--akzent)}}
+.bilanz .trenn{{margin:0 .9rem;opacity:.5}}
+.gut{{background:#F6F6F3;padding:1.1rem 1.4rem;margin:0 0 2.2rem;
+ break-inside:avoid}}
+.gut h2{{font-size:.75rem;letter-spacing:.12em;text-transform:uppercase;
+ color:var(--grau);margin:0 0 .5rem;font-weight:600}}
+.gut ul{{margin:0;padding-left:1.1rem}}
+.gut li{{margin-bottom:.2rem}}
+h2.abschnitt{{font-size:.75rem;letter-spacing:.12em;text-transform:uppercase;
+ color:var(--grau);margin:0 0 1.3rem;font-weight:600}}
 .befund{{display:grid;grid-template-columns:2.6rem 1fr;gap:0 1.1rem;
  margin:0 0 2rem;break-inside:avoid}}
 .nr{{background:var(--akzent);color:#fff;width:2.3rem;height:2.3rem;border-radius:50%;
@@ -142,20 +156,35 @@ def bauen(bericht: Pruefbericht, absender: Absender,
             f'<small>Offen: {", ".join(absender.fehlend)}. '
             'In absender.json eintragen, dann neu erzeugen.</small></div>')
 
+    geprueft = len(bericht.messung)
+    gut = positives(bericht)
+
     teile = [sperre,
              '<div class="kopf">',
              '<p class="eyebrow">Kostenloser Website-Check</p>',
-             f'<h1>{len(gewaehlt)} Punkte, die auf Ihrer Seite '
-             f'{"Gäste" if k.branche == "gastro" else "Kunden"} kosten</h1>',
-             f'<p class="betrieb">für {_e(k.firma)}'
-             + (f', {_e(k.ort)}' if k.ort else '') + '</p>',
+             f'<h1>Website-Check für<br>{_e(k.firma)}</h1>',
+             f'<p class="betrieb">{_e(k.ort)}</p>' if k.ort else '',
              f'<p class="geprueft">Geprüft wurde <a href="{_e(k.url)}">'
              f'{_e(_kurz(k.url))}</a> am {_e(bericht.stand)}.</p>',
              '</div>',
-             '<p class="hook">Dieser Check ist ein Geschenk, ganz ohne '
-             'Verpflichtung. Ich habe mir Ihre Seite angesehen und '
-             f'aufgeschrieben, was aus meiner Sicht gerade am meisten kostet. '
-             f'<b>Alles hier ist heute live nachprüfbar.</b></p>']
+             # Die Zahl vorweg: Sie zeigt, dass ein Katalog abgearbeitet wurde
+             # und nicht vier Dinge aufgefallen sind. Das ist der Unterschied
+             # zwischen einer Prüfung und einer Meinung.
+             '<div class="bilanz">',
+             f'<span class="zahl">{geprueft}</span> Punkte geprüft'
+             f'<span class="trenn">·</span>'
+             f'<span class="zahl akzent">{len(gewaehlt)}</span> mit '
+             f'Handlungsbedarf</div>',
+             '<p class="hook">Ich prüfe jede Seite nach demselben Katalog. '
+             'Was dabei herauskommt, schicke ich Ihnen kostenlos und ohne '
+             'Verpflichtung — <b>jeder Punkt ist heute selbst nachprüfbar.</b></p>']
+
+    if gut:
+        teile += ['<div class="gut"><h2>Was schon gut ist</h2><ul>',
+                  "".join(f'<li>{_e(z)}</li>' for z in gut),
+                  '</ul></div>']
+
+    teile.append('<h2 class="abschnitt">Was ich ändern würde</h2>')
 
     for i, b in enumerate(gewaehlt, 1):
         teile.append(f'<div class="befund"><div class="nr">{i}</div><div>')
@@ -164,7 +193,11 @@ def bauen(bericht: Pruefbericht, absender: Absender,
         if b.was_es_kostet:
             teile.append(f'<p class="kostet"><b>Was es kostet:</b> '
                          f'{_e(b.was_es_kostet)}</p>')
-            teile.append(f'<p class="quelle">Grundlage: {_e(b.beleg)}</p>')
+            # Der eigene Abruf steht gesammelt in der Fußzeile. Dreimal
+            # „Grundlage: eigener Abruf" untereinander liest niemand — eine
+            # fremde Quelle dagegen traegt und gehoert direkt an den Satz.
+            if not b.beleg.startswith("eigener Abruf"):
+                teile.append(f'<p class="quelle">Grundlage: {_e(b.beleg)}</p>')
         teile.append('</div></div>')
 
     teile += [
@@ -182,9 +215,9 @@ def bauen(bericht: Pruefbericht, absender: Absender,
         '<div class="fuss">',
         f'<b>{_e(absender.name)}</b><br>{_e(absender.anschrift)}<br>'
         f'{_e(absender.telefon)} · {_e(absender.mail)}<br><br>',
-        f'Erstellt auf Basis der öffentlich einsehbaren Website, '
-        f'Stand {_e(bericht.stand)}. Dieser Check ist kostenlos und '
-        f'unverbindlich.',
+        f'Alle Punkte ohne eigene Quellenangabe stammen aus dem Abruf Ihrer '
+        f'Website am {_e(bericht.stand)} und sind dort nachprüfbar. '
+        f'Dieser Check ist kostenlos und unverbindlich.',
         ('<br>Gestaltung an die Farbwelt des Betriebs angelehnt '
          f'({_e(farbe.herkunft)}).' if farbe.uebernommen else ''),
         '</div>',

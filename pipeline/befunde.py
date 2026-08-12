@@ -78,8 +78,10 @@ TEXTE: dict[int, Text] = {
     ),
     5: Text(
         "Telefonnummer nicht antippbar",
+        # Kein „({wert})" hier: Der Messwert enthält die Nummer samt eigener
+        # Klammern und ergäbe verschachtelte Klammern im fertigen Satz.
         "Ihre Telefonnummer steht als Text auf der Seite, ist aber nicht als "
-        "Anruf-Link hinterlegt ({wert}).",
+        "Anruf-Link hinterlegt.",
         "Auf dem Handy kann man sie nicht antippen, um anzurufen — die Nummer "
         "muss abgetippt werden.",
         ABRUF,
@@ -194,8 +196,41 @@ Quelle findet, trägt sie in TEXTE ein und löscht den Eintrag hier.
 """
 
 
+POSITIV: dict[int, str] = {
+    2: "Ihre Seite ist verschlüsselt erreichbar.",
+    3: "Ihre Seite ist für Handys eingerichtet.",
+    5: "Ihre Telefonnummer lässt sich auf dem Handy antippen.",
+    6: "Man findet auf der Startseite einen Weg, Sie zu erreichen.",
+    7: "Ihr Impressum ist vorhanden und in sich stimmig.",
+    8: "Ihre Seite wird gepflegt — es gibt aktuelle Inhalte.",
+    9: "Sie haben eine Seite für offene Stellen.",
+    10: "Sie haben ein Formular für Anfragen.",
+    11: "Ihr Betriebsname steht im Seitentitel und damit in der Google-Trefferliste.",
+    12: "Für Google ist eine Beschreibung hinterlegt.",
+    13: "Ihre Seite läuft unter einer eigenen Adresse.",
+}
+"""Was nachweislich in Ordnung ist — für den Abschnitt „Was schon gut ist".
+
+Ein Check, der ausschließlich Mängel auflistet, wird als Angriff gelesen und
+abgewehrt. Zwei bis drei belegte Positivpunkte machen die Kritik glaubwürdig:
+Sie zeigen, dass wirklich geprüft und nicht nur gemeckert wurde.
+
+Nur echte Messwerte mit ok=True landen hier. Nichts davon ist Höflichkeit.
+"""
+
+
+def positives(bericht: Pruefbericht, hoechstens: int = 3) -> list[str]:
+    """Die stärksten belegten Positivpunkte, in Katalogreihenfolge."""
+    return [POSITIV[m.id] for m in sorted(bericht.messung, key=lambda x: x.id)
+            if m.ok is True and m.id in POSITIV][:hoechstens]
+
+
 def _fuellen(vorlage: str, messwert: Messwert, stand: str) -> str:
-    return vorlage.format(wert=messwert.wert, stand=stand).replace("  ", " ").strip()
+    text = vorlage.format(wert=messwert.wert, stand=stand).replace("  ", " ").strip()
+    # Manche Vorlagen bestehen nur aus dem Messwert („{wert}."). Messwerte sind
+    # klein geschrieben, weil sie sonst mitten im Satz stehen — als Satzanfang
+    # muss der erste Buchstabe groß sein.
+    return text[:1].upper() + text[1:] if text else text
 
 
 def bilden(bericht: Pruefbericht) -> Pruefbericht:
