@@ -1,0 +1,264 @@
+<title>Werkstatt trifft Prüfbericht</title>
+<style>
+/* ------------------------------------------------------------------
+   STRUKTURSTUDIE für die eigene Firmenseite.
+   Übernommen ist der Aufbau der Referenzseite, nicht deren Marke:
+   dunkle Fläche, minimaler Vorspann mit Metazeile, modulare Abschnitte
+   mit Kategoriemarke, textdichter Satz mit viel Weißraum, Datenblock
+   für harte Zahlen, ruhige Bewegung beim Scrollen.
+
+   Bewusst einfarbig dunkel gehalten, weil die Studie genau diese
+   Anmutung prüfen soll. Alle Farben sind gesetzt, nichts wird vom
+   Hintergrund geerbt.
+   ------------------------------------------------------------------ */
+:root{
+  --grund:#0C0C0B;        /* Anthrazit mit einem Hauch warm, nicht Schwarz */
+  --flaeche:#161614;
+  --linie:#2C2C28;
+  --text:#F3F2ED;
+  --gedaempft:#9B998F;
+  --signal:#E8B21C;       /* Signalgelb — Platzhalter, Markenfarbe steht aus */
+  --sans:"Segoe UI",-apple-system,Roboto,"Helvetica Neue",Arial,sans-serif;
+  --mono:ui-monospace,"SFMono-Regular",Menlo,Consolas,"Liberation Mono",monospace;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--grund);color:var(--text);font-family:var(--sans);
+ font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased}
+
+.hinweisleiste{background:var(--signal);color:#1A1405;font-family:var(--mono);
+ font-size:.8rem;padding:.55rem 1.5rem;text-align:center;line-height:1.4}
+
+.kopfleiste{position:sticky;top:0;z-index:50;background:rgba(12,12,11,.93);
+ backdrop-filter:blur(8px);border-bottom:1px solid var(--linie)}
+.kopfleiste .innen{max-width:74rem;margin:0 auto;padding:.9rem 1.5rem;
+ display:flex;align-items:center;justify-content:space-between;gap:1rem}
+.marke{font-family:var(--mono);font-size:.82rem;letter-spacing:.06em;
+ text-transform:uppercase;color:var(--text);text-decoration:none;white-space:nowrap}
+.marke b{color:var(--signal)}
+nav ul{list-style:none;display:flex;gap:1.4rem;margin:0;padding:0}
+nav a{color:var(--gedaempft);text-decoration:none;font-size:.9rem}
+nav a:hover,nav a:focus-visible{color:var(--text)}
+.ruf{font-family:var(--mono);font-size:.9rem;color:var(--text);text-decoration:none;
+ border:1px solid var(--linie);padding:.4rem .8rem;white-space:nowrap}
+.ruf:hover,.ruf:focus-visible{border-color:var(--signal)}
+a:focus-visible{outline:2px solid var(--signal);outline-offset:3px}
+@media(max-width:800px){nav{display:none}}
+
+.vorspann{max-width:74rem;margin:0 auto;padding:5rem 1.5rem 3rem}
+.kategorie{font-family:var(--mono);font-size:.78rem;letter-spacing:.14em;
+ text-transform:uppercase;color:var(--signal);margin:0 0 1.4rem}
+h1{font-size:clamp(2.1rem,6vw,4rem);line-height:1.08;letter-spacing:-.02em;
+ font-weight:700;margin:0 0 1.6rem;max-width:16em;text-wrap:balance}
+.metazeile{font-family:var(--mono);font-size:.82rem;color:var(--gedaempft);
+ display:flex;flex-wrap:wrap;gap:.9rem;padding-top:1.2rem;
+ border-top:1px solid var(--linie)}
+
+.abschnitt{max-width:74rem;margin:0 auto;padding:3.4rem 1.5rem;
+ border-top:1px solid var(--linie)}
+.raster{display:grid;grid-template-columns:12rem 1fr;gap:2.6rem}
+@media(max-width:800px){.raster{grid-template-columns:1fr;gap:1rem}}
+.marke-spalte{font-family:var(--mono);font-size:.78rem;letter-spacing:.12em;
+ text-transform:uppercase;color:var(--gedaempft);padding-top:.45rem}
+h2{font-size:clamp(1.4rem,3.2vw,2rem);line-height:1.2;margin:0 0 1rem;
+ font-weight:700;letter-spacing:-.01em;text-wrap:balance}
+h3{font-size:1.05rem;margin:2rem 0 .5rem;font-weight:700}
+p{margin:0 0 1rem;max-width:38em}
+p.fuehrung{font-size:1.15rem}
+.gedaempft{color:var(--gedaempft)}
+
+.daten{border-top:1px solid var(--linie);margin-top:1.8rem}
+.daten dl{display:grid;grid-template-columns:1fr auto;margin:0;
+ font-family:var(--mono);font-size:.92rem;font-variant-numeric:tabular-nums}
+.daten dt,.daten dd{padding:.75rem 0;border-bottom:1px solid var(--linie);margin:0}
+.daten dt{color:var(--gedaempft)}
+.daten dd{text-align:right}
+.daten dd b{font-size:1.15rem}
+
+/* Nummerierung nur hier: Das Verfahren ist tatsächlich eine Reihenfolge. */
+.schritte{counter-reset:s;margin:1.6rem 0 0;padding:0;list-style:none}
+.schritte li{counter-increment:s;position:relative;padding:1.1rem 0 1.1rem 3.2rem;
+ border-top:1px solid var(--linie)}
+.schritte li::before{content:counter(s,decimal-leading-zero);position:absolute;
+ left:0;top:1.1rem;font-family:var(--mono);font-size:.85rem;color:var(--signal)}
+.schritte b{display:block;margin-bottom:.2rem}
+
+.personen{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-top:1.6rem}
+@media(max-width:640px){.personen{grid-template-columns:1fr}}
+.person{border-top:2px solid var(--signal);padding-top:1rem}
+.person .name{font-size:1.2rem;font-weight:700;margin:0 0 .15rem}
+.person .rolle{font-family:var(--mono);font-size:.82rem;color:var(--gedaempft);
+ margin:0 0 .8rem}
+
+.abschluss{background:var(--flaeche);border-top:1px solid var(--linie)}
+.abschluss .innen{max-width:74rem;margin:0 auto;padding:3.4rem 1.5rem}
+.telefon{display:inline-block;font-family:var(--mono);
+ font-size:clamp(1.5rem,5vw,2.4rem);color:var(--text);text-decoration:none;
+ border-bottom:2px solid var(--signal);padding-bottom:.15rem;margin:.6rem 0 1.4rem}
+footer{max-width:74rem;margin:0 auto;padding:2.2rem 1.5rem 3rem;
+ font-family:var(--mono);font-size:.8rem;color:var(--gedaempft);
+ display:flex;flex-wrap:wrap;gap:1.2rem;justify-content:space-between}
+footer a{color:var(--gedaempft)}
+
+.auf{opacity:0;transform:translateY(14px);
+ transition:opacity .7s ease,transform .7s ease}
+.auf.da{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .auf{opacity:1;transform:none;transition:none}
+}
+</style>
+
+<p class="hinweisleiste">Strukturstudie — Aufbau und Bewegung, noch nicht die
+fertige Seite. Firmenname, Markenfarbe und Fotos stehen aus.</p>
+
+<header class="kopfleiste">
+  <div class="innen">
+    <a class="marke" href="#top"><b>■</b> Firmenname folgt</a>
+    <nav aria-label="Hauptmenü">
+      <ul>
+        <li><a href="#verfahren">Verfahren</a></li>
+        <li><a href="#preis">Preis</a></li>
+        <li><a href="#wir">Wer wir sind</a></li>
+        <li><a href="#kontakt">Kontakt</a></li>
+      </ul>
+    </nav>
+    <a class="ruf" href="tel:+4915201560005">01520 1560005</a>
+  </div>
+</header>
+
+<main id="top">
+
+  <section class="vorspann">
+    <p class="kategorie">Websites für Handwerksbetriebe</p>
+    <h1>Wir prüfen Ihre Website nach einem festen Katalog und zeigen Ihnen, was wir finden.</h1>
+    <div class="metazeile">
+      <span>Kerpen, Rhein-Erft-Kreis</span>
+      <span>Kira Moewes und Yannik Dettmer</span>
+      <span>Stand August 2026</span>
+    </div>
+  </section>
+
+  <section class="abschnitt auf">
+    <div class="raster">
+      <div class="marke-spalte">Was wir machen</div>
+      <div>
+        <p class="fuehrung">Wir bauen Websites für Handwerksbetriebe im
+        Rhein-Erft-Kreis und Umgebung. Elektro, Sanitär und Heizung, Garten- und
+        Landschaftsbau, Dach, Maler, Innenausbau, Fenster und Türen.</p>
+        <p class="gedaempft">Wir kommen nicht über Werbung zu Ihnen, sondern fahren
+        hin. Vorher sehen wir uns Ihre Seite an. Was wir finden, bringen wir
+        ausgedruckt mit.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="abschnitt auf" id="verfahren">
+    <div class="raster">
+      <div class="marke-spalte">Verfahren</div>
+      <div>
+        <h2>Drei Schritte, bevor Sie etwas bezahlen</h2>
+        <ol class="schritte">
+          <li><b>Wir prüfen Ihre bestehende Seite</b>
+          Nach einem festen Katalog, bei jedem Betrieb derselbe. Jeden Punkt können
+          Sie selbst nachsehen.</li>
+          <li><b>Wir bauen einen Entwurf</b>
+          Aus Ihren eigenen Texten und Bildern. Damit Sie sehen, worüber wir reden,
+          statt es sich vorstellen zu müssen.</li>
+          <li><b>Wir kommen vorbei</b>
+          Prüfbericht und Entwurf auf Papier. Zehn Minuten reichen für den Anfang.
+          Danach entscheiden Sie.</li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <section class="abschnitt auf" id="preis">
+    <div class="raster">
+      <div class="marke-spalte">Preis</div>
+      <div>
+        <h2>Zwei Zahlen, keine Pakete</h2>
+        <p>Was es kostet, steht hier und nicht erst im Gespräch.</p>
+        <div class="daten">
+          <dl>
+            <dt>Website, einmalig</dt><dd><b>1.800 €</b></dd>
+            <dt>Betreuung, monatlich</dt><dd><b>39 €</b></dd>
+            <dt>Mindestlaufzeit</dt><dd>12 Monate</dd>
+            <dt>Hosting und Domain</dt><dd>bleiben bei Ihnen</dd>
+          </dl>
+        </div>
+        <h3>Was die Betreuung enthält</h3>
+        <p class="gedaempft">Änderungen an Texten, Bildern, Öffnungszeiten und
+        Stellenanzeigen. Monatliche Prüfung, ob die Seite erreichbar ist. Sicherung
+        Ihrer Seite. Alle drei Monate ein kurzer Bericht.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="abschnitt auf" id="wir">
+    <div class="raster">
+      <div class="marke-spalte">Wer wir sind</div>
+      <div>
+        <h2>Zwei Leute aus Kerpen</h2>
+        <div class="personen">
+          <div class="person">
+            <p class="name">Kira Moewes</p>
+            <p class="rolle">Baut die Websites</p>
+            <p class="gedaempft">Platzhalter — ein bis zwei Sätze, selbst
+            geschrieben. Kein Werbetext.</p>
+          </div>
+          <div class="person">
+            <p class="name">Yannik Dettmer</p>
+            <p class="rolle">Kommt vorbei, baut mit</p>
+            <p class="gedaempft">Platzhalter — ein bis zwei Sätze, selbst
+            geschrieben.</p>
+          </div>
+        </div>
+        <h3>Was Sie wissen sollten</h3>
+        <p class="gedaempft">Wir haben gerade erst begonnen und noch keine Kunden.
+        Deshalb steht hier keine Referenzliste. Was wir können, sehen Sie an dem
+        Entwurf, den wir Ihnen mitbringen — und an dieser Seite.</p>
+        <p class="gedaempft">Wir arbeiten mit KI-Werkzeugen. Deshalb können wir
+        vorarbeiten, ohne dafür Geld zu verlangen. Jeden Punkt, den wir Ihnen zeigen,
+        haben wir selbst nachgeprüft.</p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<section class="abschluss auf" id="kontakt">
+  <div class="innen">
+    <div class="raster">
+      <div class="marke-spalte">Kontakt</div>
+      <div>
+        <h2>Rufen Sie an</h2>
+        <a class="telefon" href="tel:+4915201560005">01520&thinsp;1560005</a>
+        <p class="gedaempft">Oder schreiben Sie:
+        <a href="mailto:kira.moewes@gmail.com" style="color:var(--text)">kira.moewes@gmail.com</a></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span>Firmenname folgt · Kerpen</span>
+  <span><a href="#top">Impressum</a> &nbsp; <a href="#top">Datenschutz</a></span>
+</footer>
+
+<script>
+(function () {
+  var ziele = document.querySelectorAll('.auf');
+  if (!('IntersectionObserver' in window) ||
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    ziele.forEach(function (el) { el.classList.add('da'); });
+    return;
+  }
+  var beobachter = new IntersectionObserver(function (eintraege) {
+    eintraege.forEach(function (e) {
+      if (e.isIntersecting) { e.target.classList.add('da'); beobachter.unobserve(e.target); }
+    });
+  }, { rootMargin: '0px 0px -12% 0px' });
+  ziele.forEach(function (el) { beobachter.observe(el); });
+})();
+</script>

@@ -25,7 +25,7 @@ from . import katalog as K
 from .modelle import Kandidat, Messwert, Pruefbericht
 
 KOPFZEILEN = {
-    "User-Agent": "WebsiteCheck/1.0 (+kostenloser Website-Check; Kontakt siehe Anschreiben)",
+    "User-Agent": "WebsiteCheck/1.0 (Website-Pruefung; Kontakt siehe Anschreiben)",
     "Accept": "text/html,application/xhtml+xml",
     "Accept-Language": "de-DE,de;q=0.9",
 }

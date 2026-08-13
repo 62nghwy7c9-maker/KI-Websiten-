@@ -1,4 +1,4 @@
-"""Interne Übersicht zu einem Betrieb — das Arbeitsblatt, nicht das Geschenk.
+"""Interne Übersicht zu einem Betrieb — das Arbeitsblatt, nicht das Übergabestück.
 
 Klare Trennung zum Kundencheck (`check.py`):
 

@@ -87,21 +87,25 @@ def _css(s: Stilprobe, klassisch: bool = True) -> str:
     das im Gespräch als besser herausstellt.
     """
     if klassisch:
-        schrift = ('"Palatino Linotype", "Book Antiqua", Palatino, '
-                   '"Iowan Old Style", Georgia, serif')
-        akzent = "#1A1A1A"
-        linie = "#B8B5AC"
+        # Vorgabe vom 13.08.2026: Basis #16181C, Akzent gebranntes Ocker
+        # #A8681B, Grund Warmweiß #FAF8F4. Ocker behält seine Hierarchie auch
+        # auf einem schwarz-weiß gedruckten Blatt, weil der Kontrast über die
+        # Helligkeit entsteht und nicht über den Farbton.
+        schrift = ('"Franklin Gothic Book", "Segoe UI", Corbel, Candara, '
+                   'system-ui, Arial, sans-serif')
+        akzent = "#A8681B"
+        linie = "#D6D0C6"
         grund = "17px"
     else:
         schrift, akzent, linie, grund = s.schrift, s.akzent, "#DAD8D0", "16px"
 
     return f"""
-:root{{--akzent:{akzent};--ink:#12120F;--grau:#4A4842;--linie:{linie};
+:root{{--akzent:{akzent};--ink:#16181C;--grau:#5C5952;--linie:{linie};
  --warn:#8A2E20;--schrift:{schrift};}}
 *{{box-sizing:border-box}}
-body{{margin:0;background:#DEDCD6;color:var(--ink);font-family:var(--schrift);
+body{{margin:0;background:#EDE9E1;color:var(--ink);font-family:var(--schrift);
  font-size:{grund};line-height:1.55}}
-.blatt{{max-width:42rem;margin:0 auto;background:#fff;padding:3.6rem 3.2rem 2.8rem}}
+.blatt{{max-width:42rem;margin:0 auto;background:#FAF8F4;padding:3.6rem 3.2rem 2.8rem}}
 .sperre{{border:1px solid var(--warn);color:var(--warn);padding:.7rem .9rem;
  margin:0 0 2.4rem;font-size:.88rem;line-height:1.45}}
 .sperre small{{display:block;opacity:.85;margin-top:.25rem}}
@@ -134,7 +138,8 @@ h1{{font-size:1.85rem;line-height:1.22;margin:0 0 1rem;font-weight:700;
  padding:0 0 1.3rem;margin:0 0 1.3rem;border-bottom:1px solid var(--linie);
  break-inside:avoid}}
 .befund:last-of-type{{border-bottom:none}}
-.nr{{font-size:1.05rem;font-weight:700;padding-top:.02rem}}
+.nr{{font-size:1.05rem;font-weight:700;padding-top:.02rem;color:var(--akzent);
+ font-variant-numeric:tabular-nums}}
 .befund h2{{font-size:1.06rem;margin:0 0 .35rem;font-weight:700;line-height:1.35}}
 .befund p{{margin:0 0 .4rem}}
 .kostet{{color:var(--grau)}}
@@ -145,7 +150,7 @@ h1{{font-size:1.85rem;line-height:1.22;margin:0 0 1rem;font-weight:700;
 .gut h2{{font-size:1rem;font-weight:700;margin:0 0 .35rem}}
 .gut ul{{margin:0;padding-left:1.1rem;color:var(--grau)}}
 
-.angebot{{margin:2.4rem 0 0;padding:1.4rem 0 0;border-top:1.5px solid var(--ink);
+.angebot{{margin:2.4rem 0 0;padding:1.4rem 0 0;border-top:2px solid var(--akzent);
  break-inside:avoid}}
 .angebot h2{{margin:0 0 .5rem;font-size:1.1rem}}
 .angebot p{{margin:0 0 .55rem;max-width:32em}}
@@ -337,7 +342,7 @@ def bauen(bericht: Pruefbericht, absender: Absender,
         f'{_e(absender.telefon)} · {_e(absender.mail)}<br><br>',
         f'Geprüft wurde {_e(_kurz(k.url))} am {_e(_datum(bericht.stand))}. '
         f'Alle Punkte ohne eigene Quellenangabe stammen aus diesem Abruf und '
-        f'sind dort nachprüfbar. Der Check ist kostenlos und unverbindlich.',
+        f'sind dort nachprüfbar. Sie können jeden davon selbst aufrufen.',
         ('<br>Gestaltung an die Farbwelt des Betriebs angelehnt '
          f'({_e(stil.herkunft)}).' if stil.uebernommen else ''),
         '</div>',

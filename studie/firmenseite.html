@@ -1,0 +1,264 @@
+<title>Moewes und Dettmer</title>
+<meta name="description" content="Moewes und Dettmer aus Kerpen bauen Websites für Handwerksbetriebe im Rhein-Erft-Kreis. Seiten, über die sich auch Leute bewerben können.">
+<style>
+/* ==================================================================
+   Moewes und Dettmer — eigene Firmenseite
+   Farben, Schrift und Tonalität nach der Vorgabe vom 13.08.2026.
+   Werkstatt trifft Prüfbericht: Der Satzspiegel ist ein Formular,
+   keine Werbeseite. Linien statt Kästen, Zahlen rechtsbündig,
+   nichts, was sich bewegt.
+   ================================================================== */
+:root{
+  --basis:#16181C;      /* Anthrazit, wärmer als Schwarz — Text */
+  --akzent:#A8681B;     /* gebranntes Ocker — Links, Zahlen, Betonung */
+  --signal:#E8A33D;     /* helles Ocker — NUR auf dunklem Grund */
+  --grund:#FAF8F4;      /* Warmweiß */
+  --linie:#D6D0C6;      /* Hilfslinie, aus dem Grund abgeleitet */
+  --gedaempft:#5C5952;  /* Nebentext, 7,0:1 auf Warmweiß */
+
+  /* Franklin Gothic liegt auf Windows. Fällt es aus, hält Arial Narrow
+     die schmale, industrielle Anmutung. Nichts wird nachgeladen. */
+  --titel:"Franklin Gothic Medium","Franklin Gothic Demi","ITC Franklin Gothic",
+          "Liberation Sans Narrow","Arial Narrow",Arial,sans-serif;
+  --text:"Segoe UI",Corbel,Candara,system-ui,Arial,sans-serif;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--grund);color:var(--basis);
+ font-family:var(--text);font-size:17px;line-height:1.6}
+.bahn{max-width:52rem;margin:0 auto;padding:0 1.4rem}
+
+/* --- Kopf: Name links, Nummer rechts. Beides ohne Scrollen sichtbar. --- */
+.kopf{border-bottom:3px solid var(--basis)}
+.kopf .bahn{display:flex;align-items:flex-end;justify-content:space-between;
+ gap:1rem;padding-top:1.5rem;padding-bottom:.9rem;flex-wrap:wrap}
+.name{font-family:var(--titel);font-size:1.45rem;line-height:1.1;
+ letter-spacing:.01em;margin:0}
+.zusatz{font-size:.85rem;color:var(--gedaempft);margin:.2rem 0 0}
+.kopfnummer{font-family:var(--titel);font-size:1.3rem;color:var(--basis);
+ text-decoration:none;white-space:nowrap;border-bottom:3px solid var(--akzent);
+ padding-bottom:.1rem}
+.kopfnummer:hover,.kopfnummer:focus-visible{color:var(--akzent)}
+a:focus-visible{outline:2px solid var(--akzent);outline-offset:3px}
+
+/* --- Der Satz. Kein Bild, keine Fläche, nur Typografie. --- */
+.satz{padding:3.2rem 0 2.4rem}
+h1{font-family:var(--titel);font-size:clamp(1.9rem,5.4vw,3.1rem);line-height:1.14;
+ margin:0;font-weight:500;max-width:17em;text-wrap:balance}
+h1 em{font-style:normal;color:var(--akzent)}
+
+/* --- Kennblock: die Angaben, die ein Prüfbericht oben trägt. --- */
+.kennblock{border-top:1px solid var(--linie);border-bottom:1px solid var(--linie);
+ padding:.9rem 0;display:grid;grid-template-columns:repeat(3,1fr);gap:.8rem}
+@media(max-width:600px){.kennblock{grid-template-columns:1fr 1fr}}
+.kennblock dt{font-size:.72rem;letter-spacing:.09em;text-transform:uppercase;
+ color:var(--gedaempft);margin:0 0 .15rem}
+.kennblock dd{margin:0;font-size:.95rem}
+
+/* --- Abschnitte: nummeriert, weil das Verfahren eine Reihenfolge ist. --- */
+section{border-top:1px solid var(--linie);padding:2.6rem 0}
+h2{font-family:var(--titel);font-size:1.35rem;margin:0 0 1rem;font-weight:500;
+ display:flex;gap:.7rem;align-items:baseline}
+h2 .zahl{color:var(--akzent);font-size:.95rem;font-variant-numeric:tabular-nums}
+p{margin:0 0 .9rem;max-width:36em}
+.gedaempft{color:var(--gedaempft)}
+strong{font-weight:600}
+
+/* --- Verfahren: Ablauf als Liste mit echter Nummerierung --- */
+ol.ablauf{counter-reset:s;list-style:none;margin:1.2rem 0 0;padding:0}
+ol.ablauf li{counter-increment:s;position:relative;padding:.9rem 0 .9rem 2.6rem;
+ border-top:1px solid var(--linie);max-width:36em}
+ol.ablauf li::before{content:counter(s) ".";position:absolute;left:0;top:.9rem;
+ font-family:var(--titel);color:var(--akzent);font-variant-numeric:tabular-nums}
+ol.ablauf b{display:block}
+
+/* --- Preise: Betragsspalte rechts, Ziffern auf gleicher Breite --- */
+.preise{width:100%;border-collapse:collapse;max-width:36em;
+ font-variant-numeric:tabular-nums}
+.preise th{text-align:left;font-size:.72rem;letter-spacing:.09em;
+ text-transform:uppercase;color:var(--gedaempft);font-weight:600;
+ padding:0 0 .5rem;border-bottom:1px solid var(--basis)}
+.preise td{padding:.7rem 0;border-bottom:1px solid var(--linie);vertical-align:top}
+.preise td:last-child{text-align:right;white-space:nowrap;font-weight:600}
+.preise .betrag{font-family:var(--titel);font-size:1.25rem;color:var(--akzent)}
+.fussnote{font-size:.85rem;color:var(--gedaempft);margin-top:.8rem}
+
+/* --- Zwei Personen, zwei Spalten, keine Fotos --- */
+.leute{display:grid;grid-template-columns:1fr 1fr;gap:1.6rem;margin-top:.4rem}
+@media(max-width:600px){.leute{grid-template-columns:1fr}}
+.leute h3{font-family:var(--titel);font-size:1.1rem;margin:0 0 .1rem;
+ font-weight:500;border-top:3px solid var(--akzent);padding-top:.7rem}
+.leute .rolle{font-size:.85rem;color:var(--gedaempft);margin:0 0 .5rem}
+
+/* --- Kontakt: der einzige dunkle Block. Hier darf Signal-Ocker stehen. --- */
+.kontakt{background:var(--basis);color:var(--grund);border-top:none}
+.kontakt h2{color:var(--grund)}
+.kontakt h2 .zahl{color:var(--signal)}
+.kontakt p{color:#D9D5CD}
+.grossnummer{display:inline-block;font-family:var(--titel);
+ font-size:clamp(1.9rem,7vw,3rem);color:var(--grund);text-decoration:none;
+ border-bottom:3px solid var(--signal);padding-bottom:.15rem;margin:.6rem 0 1rem}
+.grossnummer:hover,.grossnummer:focus-visible{color:var(--signal)}
+.kontakt a{color:var(--grund)}
+.kontakt a:focus-visible{outline-color:var(--signal)}
+
+footer{border-top:1px solid var(--linie);font-size:.85rem;color:var(--gedaempft)}
+footer .bahn{display:flex;flex-wrap:wrap;gap:.6rem 1.4rem;
+ justify-content:space-between;padding-top:1.4rem;padding-bottom:2.4rem}
+footer a{color:var(--gedaempft)}
+
+.merker{background:var(--signal);color:#231803;font-size:.82rem;
+ padding:.5rem 1.4rem;text-align:center}
+
+@media print{
+  @page{margin:16mm}
+  body{background:#fff;font-size:11pt}
+  .merker,.kopfnummer{display:none}
+  .kontakt{background:#fff;color:#000;border-top:2px solid #000}
+  .kontakt h2,.kontakt p,.kontakt a,.grossnummer{color:#000}
+  .grossnummer{border-bottom:2px solid #000}
+  section{break-inside:avoid}
+}
+</style>
+
+<p class="merker">Entwurf. Firmenname „Moewes und Dettmer“ ist eine Annahme und
+noch nicht entschieden.</p>
+
+<header class="kopf">
+  <div class="bahn">
+    <div>
+      <p class="name">Moewes und Dettmer</p>
+      <p class="zusatz">Websites für Handwerksbetriebe · Kerpen</p>
+    </div>
+    <a class="kopfnummer" href="tel:+4915201560005">01520 1560005</a>
+  </div>
+</header>
+
+<main>
+
+  <div class="bahn satz">
+    <h1>Wir bauen Websites für Handwerksbetriebe im Rhein-Erft-Kreis.
+    Seiten, über die sich <em>auch Leute bewerben</em> können.</h1>
+  </div>
+
+  <div class="bahn">
+    <dl class="kennblock">
+      <div><dt>Wer</dt><dd>Kira Moewes, Yannik Dettmer</dd></div>
+      <div><dt>Wo</dt><dd>Kerpen, Rhein-Erft-Kreis</dd></div>
+      <div><dt>Stand</dt><dd>August 2026</dd></div>
+    </dl>
+  </div>
+
+  <section>
+    <div class="bahn">
+      <h2><span class="zahl">01</span> Was wir machen</h2>
+      <p>Wir bauen Websites für Handwerksbetriebe. Elektro, Sanitär und Heizung,
+      Garten- und Landschaftsbau, Dach, Maler, Innenausbau, Fenster und Türen,
+      Metallbau, Tischler.</p>
+      <p>Dazu gehört bei uns immer eine Seite für offene Stellen, auf der sich
+      jemand vom Handy aus in zwei Minuten melden kann. Auch für ein Praktikum.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="bahn">
+      <h2><span class="zahl">02</span> Wie wir arbeiten</h2>
+      <p>Bevor wir mit Ihnen sprechen, haben wir Ihre Seite schon angesehen.</p>
+      <ol class="ablauf">
+        <li><b>Wir prüfen Ihre Seite nach einem festen Katalog.</b>
+        Bei jedem Betrieb derselbe. Jeden Punkt können Sie selbst aufrufen und
+        nachsehen.</li>
+        <li><b>Wir bauen einen Entwurf aus Ihren Inhalten.</b>
+        Ihre Texte, Ihre Bilder. Damit Sie sehen, worüber wir reden, statt es
+        sich vorstellen zu müssen.</li>
+        <li><b>Wir kommen vorbei und legen beides auf den Tisch.</b>
+        Auf Papier. Zehn Minuten reichen. Danach entscheiden Sie in Ruhe.</li>
+      </ol>
+    </div>
+  </section>
+
+  <section>
+    <div class="bahn">
+      <h2><span class="zahl">03</span> Was es kostet</h2>
+      <table class="preise">
+        <thead>
+          <tr><th scope="col">Leistung</th><th scope="col" style="text-align:right">Preis</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Website</strong><br>
+            <span class="gedaempft">Einmalig. Aufbau, Texte, Bilder, Seite für
+            offene Stellen, Impressum und Datenschutz.</span></td>
+            <td><span class="betrag">1.800 €</span></td>
+          </tr>
+          <tr>
+            <td><strong>Betreuung</strong><br>
+            <span class="gedaempft">Monatlich. Änderungen an Texten, Bildern,
+            Öffnungszeiten und Stellen. Monatliche Prüfung, ob die Seite
+            erreichbar ist. Sicherung. Alle drei Monate ein kurzer Bericht.</span></td>
+            <td><span class="betrag">39 €</span><br>im Monat</td>
+          </tr>
+          <tr>
+            <td><strong>Erstes Projekt</strong><br>
+            <span class="gedaempft">Wir haben noch keinen Kunden. Der erste
+            Betrieb zahlt die Hälfte und erlaubt uns dafür, seine Seite als
+            Arbeitsprobe zu zeigen.</span></td>
+            <td><span class="betrag">900 €</span></td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="fussnote">Hosting und Domain bleiben bei Ihnen, dort ändert sich
+      nichts. Mindestlaufzeit der Betreuung 12 Monate, danach monatlich kündbar.
+      Bei Kündigung bleibt die Seite online und gehört Ihnen.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="bahn">
+      <h2><span class="zahl">04</span> Wer wir sind</h2>
+      <div class="leute">
+        <div>
+          <h3>Kira Moewes</h3>
+          <p class="rolle">Baut die Websites</p>
+          <p class="gedaempft">Hier stehen ein bis zwei Sätze, die Kira selbst
+          schreibt. Noch offen.</p>
+        </div>
+        <div>
+          <h3>Yannik Dettmer</h3>
+          <p class="rolle">Kommt vorbei, baut mit</p>
+          <p class="gedaempft">Hier stehen ein bis zwei Sätze, die Yannik selbst
+          schreibt. Noch offen.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="bahn">
+      <h2><span class="zahl">05</span> Was Sie wissen sollten</h2>
+      <p>Wir haben diese Firma gerade erst begonnen und noch keinen Kunden.
+      Deshalb steht hier keine Liste mit Referenzen. Was wir können, sehen Sie
+      an dem Entwurf, den wir Ihnen mitbringen — und an dieser Seite.</p>
+      <p>Wir arbeiten mit KI-Werkzeugen. Deshalb können wir die Prüfung und den
+      Entwurf machen, bevor Sie sich entschieden haben. Jeden Punkt, den wir
+      Ihnen zeigen, haben wir selbst nachgesehen.</p>
+    </div>
+  </section>
+
+  <section class="kontakt">
+    <div class="bahn">
+      <h2><span class="zahl">06</span> Kontakt</h2>
+      <p>Rufen Sie an. Wenn wir auf einer Baustelle sind, rufen wir zurück.</p>
+      <a class="grossnummer" href="tel:+4915201560005">01520&thinsp;1560005</a>
+      <p>Oder schreiben Sie an
+      <a href="mailto:kira.moewes@gmail.com">kira.moewes@gmail.com</a></p>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="bahn">
+    <span>Moewes und Dettmer · Kerpen, Rhein-Erft-Kreis · 2026</span>
+    <span><a href="#impressum">Impressum</a> · <a href="#datenschutz">Datenschutz</a></span>
+  </div>
+</footer>
