@@ -92,8 +92,8 @@ def bauen(bericht: Pruefbericht, absender_name: str, absender_telefon: str,
 ich habe mir Ihre Website angesehen — {_hook(gewaehlt)}.
 
 Weil das schnell behoben ist und Sie vermutlich Wichtigeres zu tun haben, habe
-ich {punkte} aufgeschrieben und lege Ihnen den Check bei. Er kostet nichts und
-Sie können jeden Punkt selbst nachprüfen.
+ich {punkte} aufgeschrieben und lege Ihnen den Check bei. Jeden Punkt können
+Sie selbst nachprüfen.
 
 Falls Sie darüber sprechen möchten: {absender_telefon}. Zehn Minuten reichen.
 

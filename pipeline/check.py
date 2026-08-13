@@ -35,6 +35,16 @@ class Absender:
     anschrift: str = "PLATZHALTER — Straße, PLZ Ort eintragen"
     telefon: str = "PLATZHALTER — Telefonnummer eintragen"
     mail: str = "PLATZHALTER — geschäftliche E-Mail eintragen"
+    telefon_name: str = ""
+    """Wer ans Telefon geht. Steht neben der Nummer.
+
+    Eine Nummer mit Namen wird eher gewählt als eine ohne — das ist dieselbe
+    Regel, nach der auf einer Kundenseite „Rufen Sie Herrn Merzenich an"
+    besser wirkt als „info@". Leer lassen, wenn es niemanden zu nennen gibt.
+    """
+    mail_name: str = ""
+    """Wer das Postfach liest. Nur nötig, wenn das eine andere Person ist als
+    am Telefon — sonst denkt der Empfänger, er schreibe dem Anrufpartner."""
     preis_hinweis: str = ""
     """Leer lassen = kein Preis auf dem Check. Das ist die Voreinstellung.
 
@@ -50,8 +60,9 @@ class Absender:
 
     @property
     def fehlend(self) -> list[str]:
+        frei = {"preis_hinweis", "telefon_name", "mail_name"}
         return [f for f, w in asdict(self).items()
-                if f != "preis_hinweis" and "PLATZHALTER" in str(w)]
+                if f not in frei and "PLATZHALTER" in str(w)]
 
     @staticmethod
     def laden(pfad: Path | str = STANDARD_ABSENDER) -> "Absender":
@@ -327,19 +338,27 @@ def bauen(bericht: Pruefbericht, absender: Absender,
     teile += [
         '<div class="angebot">',
         '<h2>Was sich ändern lässt</h2>',
+        # Kein "kostet nichts", kein "unverbindlich": Beides wertet die
+        # eigene Arbeit ab (Regelwerk 13.08.2026). Dass vorab gebaut wird,
+        # ist das Signal — es muss nicht auch noch verschenkt werden.
         '<p>Wir machen Websites für Handwerksbetriebe aus Kerpen und '
-        'Umgebung. Auf Wunsch bauen wir Ihnen vorab eine Seite zum Ansehen, '
-        'mit Ihren eigenen Texten und Bildern. Das kostet nichts und '
-        'verpflichtet zu nichts.</p>',
+        'Umgebung. Wenn Sie wollen, bauen wir Ihnen vorher eine Seite zum '
+        'Ansehen, mit Ihren eigenen Texten und Bildern.</p>',
         # Voreinstellung: kein Preis. Siehe Absender.preis_hinweis.
         (f'<p class="rahmen">{_e(absender.preis_hinweis)}</p>'
          if absender.preis_hinweis else ''),
         f'<p class="cta">Wenn Sie darüber reden wollen: '
-        f'{_e(absender.telefon)}. Zehn Minuten genügen.</p>',
+        f'{_e(absender.telefon)}'
+        + (f' — {_e(absender.telefon_name)}' if absender.telefon_name else '')
+        + f'. Zehn Minuten genügen.</p>',
         '</div>',
         '<div class="fuss">',
         f'<b>{_e(absender.name)}</b><br>{_e(absender.anschrift)}<br>'
-        f'{_e(absender.telefon)} · {_e(absender.mail)}<br><br>',
+        f'{_e(absender.telefon)}'
+        + (f' ({_e(absender.telefon_name)})' if absender.telefon_name else '')
+        + f' · {_e(absender.mail)}'
+        + (f' ({_e(absender.mail_name)})' if absender.mail_name else '')
+        + '<br><br>',
         f'Geprüft wurde {_e(_kurz(k.url))} am {_e(_datum(bericht.stand))}. '
         f'Alle Punkte ohne eigene Quellenangabe stammen aus diesem Abruf und '
         f'sind dort nachprüfbar. Sie können jeden davon selbst aufrufen.',
