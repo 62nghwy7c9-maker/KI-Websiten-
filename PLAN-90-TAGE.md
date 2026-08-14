@@ -170,6 +170,9 @@ In Woche 12 wird eine einzige Frage beantwortet:
 
 ## Offener Punkt
 
+> Die vollständige Liste aller offenen Punkte steht in **TODO.md**.
+> Hier bleibt nur der eine, an dem der ganze Plan hängt.
+
 Die Anzahl bisher verschickter Website-Checks und der daraus entstandenen Gespräche ist unbekannt.
 
 **Dieser Plan unterstellt: Gophai war der einzige.** Damit ist die Antwortquote des Kanals ungetestet, und B4 ist ein Experiment, kein Ausbau.
