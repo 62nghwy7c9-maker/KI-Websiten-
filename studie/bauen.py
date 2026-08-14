@@ -13,7 +13,9 @@ from __future__ import annotations
 import base64
 from pathlib import Path
 
-SCHRIFTEN = Path("/workspace/andrys-advisory-/assets/fonts")
+ANDRYS = Path("/workspace/andrys-advisory-")
+SCHRIFTEN = ANDRYS / "assets/fonts"
+KRISTALL = ANDRYS / "assets/js/crystal.js"
 VORLAGE = Path(__file__).parent / "firmenseite-vorlage.html"
 ZIEL = Path(__file__).parent / "firmenseite.html"
 
@@ -28,6 +30,9 @@ def main() -> None:
         "__SANS__": als_uri(SCHRIFTEN / "hanken-grotesk-latin-wght-normal.woff2"),
         "__MONO400__": als_uri(SCHRIFTEN / "ibm-plex-mono-latin-400-normal.woff2"),
         "__MONO500__": als_uri(SCHRIFTEN / "ibm-plex-mono-latin-500-normal.woff2"),
+        # Unverändert übernommen, nicht nachgebaut: Das ist das gebündelte
+        # Three.js samt Szene aus dem eigenen Repo. Three.js steht unter MIT.
+        "__KRISTALL__": KRISTALL.read_text(encoding="utf-8"),
     }
     html = VORLAGE.read_text(encoding="utf-8")
     for platzhalter, wert in ersetzungen.items():

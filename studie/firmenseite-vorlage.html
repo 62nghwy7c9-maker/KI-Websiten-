@@ -78,9 +78,22 @@ a:focus-visible{outline:2px solid var(--akzent);outline-offset:3px}
 .kopf-tel:hover{border-color:var(--akzent)}
 @media(max-width:860px){.menue{display:none}}
 
-/* ---- Vorspann ------------------------------------------------------ */
-.vorspann{position:relative;min-height:calc(100svh - var(--kopf-h));
- display:flex;align-items:center;padding:clamp(3rem,10vh,7rem) 0}
+/* ---- Vorspann ------------------------------------------------------
+   Übernommen aus dem eigenen Repo: Der Vorspann ist 230svh hoch, sein
+   Inhalt klebt einen vollen Bildschirm lang. Der Scrollweg 0…1 liegt als
+   --fs an und steuert das Abtauchen des Titels. Dieselbe Zahl liest die
+   Kristallszene. Kein Scroll-Hijacking — man scrollt ganz normal.
+   Die Klasse .hero bleibt, weil crystal.js danach sucht. */
+.vorspann{position:relative;height:230svh}
+.vorspann-buehne{position:sticky;top:0;height:100svh;display:flex;
+ flex-direction:column;justify-content:center;overflow:hidden;
+ background:radial-gradient(58vw 58vw at 50% 46%,rgba(255,253,249,.92),transparent 62%),
+ linear-gradient(var(--grund),var(--grund-2))}
+.vorspann-leinwand{position:absolute;inset:0;width:100%;height:100%}
+.vorspann .bahn{position:relative;z-index:2}
+.vorspann .gestaffelt{transform:translateY(calc(var(--fs,0) * -14vh));
+ opacity:calc(1 - var(--fs,0) * 1.4)}
+.vorspann .ecke{opacity:calc(1 - var(--fs,0) * 2.5)}
 .augenbraue{font-family:var(--mono);font-size:11px;letter-spacing:.2em;
  text-transform:uppercase;color:var(--akzent);margin:0 0 1.6rem}
 h1{font-family:var(--sans);font-weight:600;
@@ -104,8 +117,8 @@ h1 em{font-style:normal;color:var(--akzent)}
 .ecke{position:absolute;font-family:var(--mono);font-size:10.5px;
  letter-spacing:.12em;text-transform:uppercase;color:var(--gedaempft);
  line-height:1.7}
-.ecke-ul{left:var(--rand);bottom:1.4rem}
-.ecke-ur{right:var(--rand);bottom:1.4rem;text-align:right}
+.ecke-ul{left:var(--rand);bottom:1.4rem;z-index:3}
+.ecke-ur{right:var(--rand);bottom:1.4rem;text-align:right;z-index:3}
 @media(max-width:860px){.ecke{display:none}}
 
 /* ---- Kennzahlen: nur belegte Zahlen -------------------------------- */
@@ -195,6 +208,9 @@ p{margin:0 0 1rem;max-width:60ch}
 @media(prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
   [data-auf]{opacity:1;transform:none;transition:none}
+  .vorspann{height:auto}
+  .vorspann-buehne{position:static;height:auto;padding:4rem 0}
+  .vorspann .gestaffelt{transform:none;opacity:1}
   .gestaffelt>*{animation:none;opacity:1;transform:none}
   h1 .auf{animation:none;transform:none}
   .satzbild .w{opacity:1!important;transition:none}
@@ -202,7 +218,9 @@ p{margin:0 0 1rem;max-width:60ch}
 }
 @media print{
   @page{margin:16mm}
-  .schleier,.kopf,.ecke{display:none}
+  .schleier,.kopf,.ecke,.vorspann-leinwand{display:none}
+  .vorspann{height:auto}
+  .vorspann-buehne{position:static;height:auto;background:none}
   body{background:#fff;font-size:11pt}
   .kontakt,.fuss{background:#fff;color:#000}
   .kontakt h2,.kontakt p,.kontakt a,.grossnummer{color:#000}
@@ -235,7 +253,9 @@ p{margin:0 0 1rem;max-width:60ch}
 
 <main id="oben">
 
-  <section class="vorspann" aria-label="Einführung">
+  <section class="vorspann hero" id="vorspann" data-kino aria-label="Einführung">
+   <div class="vorspann-buehne">
+    <canvas class="vorspann-leinwand" id="crystal" aria-hidden="true"></canvas>
     <div class="bahn gestaffelt">
       <p class="augenbraue">Websites für Handwerksbetriebe · Kerpen</p>
       <h1>
@@ -250,6 +270,7 @@ p{margin:0 0 1rem;max-width:60ch}
     </div>
     <p class="ecke ecke-ul">Kerpen<br>Rhein-Erft-Kreis</p>
     <p class="ecke ecke-ur">Kira Moewes<br>Yannik Dettmer</p>
+   </div>
   </section>
 
   <section class="zahlen" aria-label="Zahlen">
@@ -428,6 +449,25 @@ p{margin:0 0 1rem;max-width:60ch}
   beimScrollen();
   window.addEventListener("scroll", beimScrollen, { passive: true });
 
+  /* Scrollweg des Vorspanns als --fs. Titel und Ecken tauchen damit ab;
+     dieselbe Zahl liest die Kristallszene über .hero. */
+  var vorspann = document.querySelector("[data-kino]");
+  if (vorspann && !ruhig) {
+    var laeuft = false;
+    function fortschritt() {
+      laeuft = false;
+      var weg = vorspann.offsetHeight - window.innerHeight;
+      var p = weg > 0
+        ? Math.min(Math.max(-vorspann.getBoundingClientRect().top / weg, 0), 1)
+        : 0;
+      vorspann.style.setProperty("--fs", p.toFixed(4));
+    }
+    window.addEventListener("scroll", function () {
+      if (!laeuft) { laeuft = true; requestAnimationFrame(fortschritt); }
+    }, { passive: true });
+    fortschritt();
+  }
+
   /* Einblenden beim Erreichen. */
   var ziele = document.querySelectorAll("[data-auf]");
   if (!("IntersectionObserver" in window) || ruhig) {
@@ -512,3 +552,8 @@ p{margin:0 0 1rem;max-width:60ch}
   }
 })();
 </script>
+
+<!-- Kristallszene: unveraendert aus dem eigenen Repo Andrys-Advisory-
+     uebernommen (assets/js/crystal.js). Enthaelt Three.js, MIT-Lizenz.
+     Sie sucht selbst nach #crystal und nach .hero fuer den Scrollweg. -->
+<script>__KRISTALL__</script>
