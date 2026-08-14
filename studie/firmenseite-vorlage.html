@@ -1,4 +1,5 @@
 <title>Webgewerk</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="Webgewerk aus Kerpen baut Websites für Handwerksbetriebe im Rhein-Erft-Kreis. Seiten, über die sich auch Leute bewerben können.">
 <style>
 /* ==================================================================
@@ -11,7 +12,8 @@
 
    NICHT übernommen: dessen Arctic-Palette. Sie ist grau-türkis und damit
    genau der Look, den das Regelwerk als Konkurrenz-Anmutung ausschließt.
-   Farben und Ton kommen aus der Vorgabe vom 13.08.2026.
+   Farben und Ton kommen aus der Vorgabe vom 13.08.2026. Auch die
+   Kristallszene ist umgefärbt — welche fünf Stellen, steht in bauen.py.
    ================================================================== */
 
 @font-face{font-family:"Hanken Grotesk";src:url("__SANS__") format("woff2");
@@ -56,44 +58,125 @@ a:focus-visible{outline:2px solid var(--akzent);outline-offset:3px}
 .schleier .zusatz{font-size:11px;letter-spacing:.22em;text-transform:uppercase;
  color:var(--signal)}
 
-/* ---- Kopfleiste ---------------------------------------------------- */
+/* ---- Kopfleiste ----------------------------------------------------
+   Zwei Zustände: über der dunklen Bühne durchsichtig und hell beschriftet,
+   danach die warmweiße Leiste. Der Wechsel hängt nicht an einer geratenen
+   Scrollhöhe, sondern daran, wo der Vorspann tatsächlich endet. */
 .kopf{position:sticky;top:0;z-index:50;height:var(--kopf-h);
- display:flex;align-items:center;background:rgba(250,248,244,.86);
- backdrop-filter:blur(10px);border-bottom:1px solid transparent;
- transition:border-color .35s var(--ease),background .35s var(--ease)}
-.kopf.gescrollt{border-bottom-color:var(--linie)}
+ display:flex;align-items:center;background:transparent;color:var(--grund);
+ border-bottom:1px solid transparent;
+ transition:border-color .35s var(--ease),background .35s var(--ease),
+            color .35s var(--ease)}
+.kopf.hell{background:rgba(250,248,244,.86);backdrop-filter:blur(10px);
+ color:var(--basis)}
+.kopf.hell.gescrollt{border-bottom-color:var(--linie)}
 .kopf .bahn{display:flex;align-items:center;justify-content:space-between;
  gap:1rem;width:100%}
 .wortmarke{font-family:var(--mono);font-size:13px;letter-spacing:.14em;
- text-transform:uppercase;text-decoration:none;font-weight:500}
-.wortmarke .punkt{color:var(--akzent)}
+ text-transform:uppercase;text-decoration:none;font-weight:500;color:inherit}
+.wortmarke .punkt{color:var(--signal)}
+.kopf.hell .wortmarke .punkt{color:var(--akzent)}
 .menue{display:flex;gap:1.6rem;list-style:none;margin:0;padding:0}
 .menue a{font-family:var(--mono);font-size:11px;letter-spacing:.12em;
- text-transform:uppercase;text-decoration:none;color:var(--gedaempft);
+ text-transform:uppercase;text-decoration:none;color:rgba(250,248,244,.66);
  transition:color .25s var(--ease)}
-.menue a:hover{color:var(--basis)}
+.menue a:hover{color:var(--grund)}
+.kopf.hell .menue a{color:var(--gedaempft)}
+.kopf.hell .menue a:hover{color:var(--basis)}
 .kopf-tel{font-family:var(--mono);font-size:11.5px;letter-spacing:.1em;
- text-decoration:none;border:1px solid var(--linie);padding:.45rem .8rem;
- white-space:nowrap;transition:border-color .25s var(--ease)}
-.kopf-tel:hover{border-color:var(--akzent)}
+ text-decoration:none;color:inherit;border:1px solid var(--linie-dunkel);
+ padding:.45rem .8rem;white-space:nowrap;
+ transition:border-color .25s var(--ease)}
+.kopf-tel:hover{border-color:var(--signal)}
+.kopf.hell .kopf-tel{border-color:var(--linie)}
+.kopf.hell .kopf-tel:hover{border-color:var(--akzent)}
 @media(max-width:860px){.menue{display:none}}
 
-/* ---- Vorspann ------------------------------------------------------
-   Übernommen aus dem eigenen Repo: Der Vorspann ist 230svh hoch, sein
-   Inhalt klebt einen vollen Bildschirm lang. Der Scrollweg 0…1 liegt als
-   --fs an und steuert das Abtauchen des Titels. Dieselbe Zahl liest die
-   Kristallszene. Kein Scroll-Hijacking — man scrollt ganz normal.
+/* ---- Vorspann: die dunkle Bühne ------------------------------------
+   Vorher stand der Kristall blass auf Warmweiß, mittig, und der Satz lag
+   quer darüber. Beides kämpfte um dieselbe Fläche und beides verlor.
+
+   Jetzt: Der Schleier ist anthrazit — der Vorspann bleibt es. Der Schleier
+   löst sich also nicht in einen Sprung auf Warmweiß auf, sondern gibt eine
+   Fläche frei, auf der sich schon etwas dreht. Der Kristall steht rechts
+   und glüht warm, der Satz steht links auf freiem Grund. Sie überlagern
+   sich nicht mehr, sie stehen nebeneinander.
+
+   Der Rest der Seite bleibt hell. Dunkel sind nur zwei Blöcke: der
+   Vorspann und der Kontakt am Ende — Anfang und Schluss als Klammer.
+
+   Höhe 140svh statt 230: Bei 230 war der Satz nach zwei Dritteln des
+   Scrollwegs weg und der letzte Bildschirm zeigte nur noch einen leeren
+   Grund. Jetzt endet die Bühne kurz nachdem der Satz abgetaucht ist.
+   Der Scrollweg 0…1 liegt als --fs an; ihn lesen der Titel, die
+   Fortschrittslinie und die Kristallszene.
+   Kein Scroll-Hijacking — man scrollt ganz normal.
    Die Klasse .hero bleibt, weil crystal.js danach sucht. */
-.vorspann{position:relative;height:230svh}
+.vorspann{position:relative;height:calc(140svh + var(--kopf-h));
+ margin-top:calc(var(--kopf-h) * -1);background:var(--basis)}
 .vorspann-buehne{position:sticky;top:0;height:100svh;display:flex;
  flex-direction:column;justify-content:center;overflow:hidden;
- background:radial-gradient(58vw 58vw at 50% 46%,rgba(255,253,249,.92),transparent 62%),
- linear-gradient(var(--grund),var(--grund-2))}
-.vorspann-leinwand{position:absolute;inset:0;width:100%;height:100%}
+ padding-top:var(--kopf-h);color:var(--grund);
+ background:
+  radial-gradient(44vw 44vw at 72% 42%,rgba(168,104,27,.34),transparent 68%),
+  radial-gradient(76vw 46vw at 24% 96%,rgba(232,163,61,.08),transparent 72%),
+  var(--basis)}
+
+/* Rissraster: senkrechte Haarlinien im Abstand einer Handbreit, oben und
+   unten weggeblendet. Angelehnt an ein Aufmaß auf Millimeterpapier — das
+   ist die Handschrift eines Betriebs, der misst, nicht die eines
+   Verlaufsbanners. */
+.vorspann-buehne::before{content:"";position:absolute;inset:0;z-index:0;
+ pointer-events:none;
+ background-image:repeating-linear-gradient(90deg,
+  rgba(250,248,244,.06) 0 1px,transparent 1px 7.5rem);
+ -webkit-mask-image:linear-gradient(180deg,transparent,#000 20%,#000 74%,transparent);
+ mask-image:linear-gradient(180deg,transparent,#000 20%,#000 74%,transparent)}
+
+/* Der Kristall sitzt rechts. Er wächst beim Scrollen — das steckt in der
+   Szene selbst — und würde dabei in den Satz hineinlaufen. Deshalb wandert
+   er zugleich nach rechts aus dem Bild und wird leiser. */
+.vorspann-leinwand{position:absolute;top:0;right:-5vw;bottom:0;left:auto;
+ width:min(52%,760px);height:100%;z-index:1;
+ transform:translateX(calc(var(--fs,0) * 9vw));
+ opacity:calc(.94 - var(--fs,0) * .42)}
+@media(max-width:900px){
+  .vorspann-leinwand{right:0;left:0;width:100%;transform:none;opacity:.4}}
+
+/* Schleier von links: Damit der Satz seinen Grund behält, egal wo der
+   Kristall gerade steht. Eine Textstelle, deren Lesbarkeit von der Drehung
+   eines Objekts abhängt, ist keine. */
+.vorspann-buehne::after{content:"";position:absolute;inset:0;z-index:1;
+ pointer-events:none;
+ background:linear-gradient(100deg,
+  rgba(22,24,28,.94) 0%,rgba(22,24,28,.82) 30%,
+  rgba(22,24,28,.34) 52%,transparent 70%)}
+@media(max-width:900px){
+  .vorspann-buehne::after{background:linear-gradient(180deg,
+   rgba(22,24,28,.72),rgba(22,24,28,.88))}}
+
+/* Fortschritt des Vorspanns als Haarlinie am unteren Rand. Sie beantwortet
+   die Frage, wie lange das noch geht, ohne sie zu stellen. */
+.vorspann-lauf{position:absolute;left:0;bottom:0;width:100%;height:2px;
+ background:rgba(250,248,244,.10);z-index:3}
+.vorspann-lauf::after{content:"";display:block;height:100%;
+ width:calc(var(--fs,0) * 100%);background:var(--signal)}
+
 .vorspann .bahn{position:relative;z-index:2}
-.vorspann .gestaffelt{transform:translateY(calc(var(--fs,0) * -14vh));
- opacity:calc(1 - var(--fs,0) * 1.4)}
-.vorspann .ecke{opacity:calc(1 - var(--fs,0) * 2.5)}
+.vorspann .gestaffelt{max-width:min(54%,620px);
+ transform:translateY(calc(var(--fs,0) * -14vh));
+ opacity:calc(1 - var(--fs,0) * 1.15)}
+@media(max-width:900px){.vorspann .gestaffelt{max-width:none}}
+/* Kleiner als auf einer ganzen Breite: Die drei Zeilen der Überschrift
+   sind gesetzt, jede Zeile hat ihre eigene Maske. Bricht eine davon
+   zusätzlich um, zerfällt der Aufstieg. Deshalb hier eine eigene Größe
+   statt der aus dem Fließtext. */
+.vorspann h1{font-size:clamp(1.9rem,4.2vw,3.4rem);max-width:none}
+.vorspann .ecke{opacity:calc(1 - var(--fs,0) * 2.5);color:#8E8880}
+.vorspann h1{color:var(--grund)}
+.vorspann h1 em{color:var(--signal)}
+.vorspann .augenbraue{color:var(--signal)}
+.vorspann .vorspann-sub{color:#B9B2A6}
 .augenbraue{font-family:var(--mono);font-size:11px;letter-spacing:.2em;
  text-transform:uppercase;color:var(--akzent);margin:0 0 1.6rem}
 h1{font-family:var(--sans);font-weight:600;
@@ -208,9 +291,15 @@ p{margin:0 0 1rem;max-width:60ch}
 @media(prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
   [data-auf]{opacity:1;transform:none;transition:none}
+  /* Die klebende Bühne fällt auf einen normalen Abschnitt zurück. Dunkel
+     und warm bleibt sie — das ist Gestaltung, keine Bewegung. Weg sind
+     nur der Kristall und die Fortschrittslinie: beide sagen nichts, wenn
+     nichts läuft. */
   .vorspann{height:auto}
-  .vorspann-buehne{position:static;height:auto;padding:4rem 0}
-  .vorspann .gestaffelt{transform:none;opacity:1}
+  .vorspann-buehne{position:static;height:auto;padding:clamp(4rem,12vw,7rem) 0}
+  .vorspann-leinwand,.vorspann-lauf{display:none}
+  .vorspann .gestaffelt{transform:none;opacity:1;max-width:none}
+  .vorspann .ecke{opacity:1}
   .gestaffelt>*{animation:none;opacity:1;transform:none}
   h1 .auf{animation:none;transform:none}
   .satzbild .w{opacity:1!important;transition:none}
@@ -218,9 +307,17 @@ p{margin:0 0 1rem;max-width:60ch}
 }
 @media print{
   @page{margin:16mm}
-  .schleier,.kopf,.ecke,.vorspann-leinwand{display:none}
-  .vorspann{height:auto}
-  .vorspann-buehne{position:static;height:auto;background:none}
+  .schleier,.kopf,.ecke,.vorspann-leinwand,.vorspann-lauf{display:none}
+  .vorspann{height:auto;background:#fff}
+  .vorspann-buehne{position:static;height:auto;background:none;color:#000;
+   padding:0 0 2rem}
+  /* Beide Auflagen weg: Raster und Schleier sind für einen dunklen Grund
+     gemacht. Auf Papier bleibt von ihnen nur ein grauer Schleier über der
+     Schrift. */
+  .vorspann-buehne::before,.vorspann-buehne::after{display:none}
+  .vorspann .gestaffelt{transform:none;opacity:1;max-width:none}
+  .vorspann h1,.vorspann h1 em,.vorspann .augenbraue{color:#000}
+  .vorspann .vorspann-sub{color:#333}
   body{background:#fff;font-size:11pt}
   .kontakt,.fuss{background:#fff;color:#000}
   .kontakt h2,.kontakt p,.kontakt a,.grossnummer{color:#000}
@@ -270,6 +367,7 @@ p{margin:0 0 1rem;max-width:60ch}
     </div>
     <p class="ecke ecke-ul">Kerpen<br>Rhein-Erft-Kreis</p>
     <p class="ecke ecke-ur">Kira Moewes<br>Yannik Dettmer</p>
+    <div class="vorspann-lauf" aria-hidden="true"></div>
    </div>
   </section>
 
@@ -431,6 +529,15 @@ p{margin:0 0 1rem;max-width:60ch}
 <script>
 (function () {
   "use strict";
+
+  /* Sprache setzen. Gehört eigentlich als lang="de" an das <html>-Element;
+     diese Datei hat aber bewusst kein eigenes <html>, damit sie sowohl als
+     Vorschau als auch später auf dem eigenen Hosting funktioniert. Ohne die
+     Angabe liest ein Screenreader deutschen Text mit englischer Aussprache.
+     Beim Umzug auf das eigene Hosting gehört lang="de" trotzdem ins
+     <html>-Element — dann kann diese Zeile weg. */
+  document.documentElement.lang = "de";
+
   var ruhig = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   /* Schleier: kurz zeigen, dann weg. Wer Bewegung abgeschaltet hat,
@@ -441,13 +548,22 @@ p{margin:0 0 1rem;max-width:60ch}
     else { setTimeout(function () { schleier.classList.add("weg"); }, 1150); }
   }
 
-  /* Kopfleiste bekommt beim Scrollen eine Linie. */
+  /* Kopfleiste: hell erst, wenn die dunkle Bühne durchgelaufen ist. Die
+     Grenze wird an der Bühne gemessen, nicht an einer festen Scrollhöhe —
+     sonst kippt die Schrift auf einem hohen Bildschirm zu früh und wird
+     für einen Moment unlesbar. Die Linie kommt dazu, sobald überhaupt
+     gescrollt wurde. */
   var kopf = document.getElementById("kopf");
+  var buehne = document.querySelector(".vorspann");
   function beimScrollen() {
     kopf.classList.toggle("gescrollt", window.scrollY > 12);
+    var dunkel = buehne
+      && buehne.getBoundingClientRect().bottom > kopf.offsetHeight;
+    kopf.classList.toggle("hell", !dunkel);
   }
   beimScrollen();
   window.addEventListener("scroll", beimScrollen, { passive: true });
+  window.addEventListener("resize", beimScrollen);
 
   /* Scrollweg des Vorspanns als --fs. Titel und Ecken tauchen damit ab;
      dieselbe Zahl liest die Kristallszene über .hero. */

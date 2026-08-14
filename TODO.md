@@ -33,6 +33,8 @@ Entwurf: `studie/firmenseite.html` · Vorschau unter
 | ☐ | Prüfen, wie **Franklin Gothic** auf einem Windows-Rechner aussieht | K |
 | ☐ | Entscheiden: **Kontaktformular** ja oder nein — und wenn ja, über welchen Weg | K |
 | ☐ | **Prüfkatalog Punkt für Punkt** über die eigene Seite laufen lassen (Schritt 5 aus dem Ablauf) | C |
+| ☐ | Beim Umzug aufs eigene Hosting `lang="de"` ins `<html>`-Element schreiben. Solange die Seite eine einzelne Datei ohne eigenen `<html>`-Rahmen ist, setzt ein Skript es nach — das ist ein Notbehelf | C |
+| ☐ | Entscheiden, ob die **226 KB Three.js** bleiben. Sie sind zwei Drittel der Seite. Auf einem alten Handy ist das der Punkt, an dem wir unseren eigenen Katalog reißen könnten — einmal echt messen, nicht schätzen | K/C |
 | ☐ | **Domain** klären, dann Seite online stellen | K/Y |
 | ☐ | **Hosting** wählen — mit PHP, falls ein Formular kommen soll | K/Y |
 
@@ -132,6 +134,8 @@ ob Anerkennung hilft oder Druck wegnimmt.
 
 | Datum | Punkt |
 |---|---|
+| 14.08.2026 | Vorspann der Firmenseite neu gebaut: dunkle Bühne, Kristall in Ocker statt Schiefergrau, Satz und Objekt nebeneinander statt übereinander |
+| 14.08.2026 | **Fehlendes `viewport`-Meta gefunden und behoben.** Die eigene Seite wäre auf dem Handy in Desktop-Breite geladen — Prüfpunkt 3 aus dem eigenen Katalog, an der eigenen Seite gerissen |
 | 13.08.2026 | Firmenname entschieden: **Webgewerk**, Zusatz „Ihr Gewerk im Fokus" |
 | 13.08.2026 | Regelwerk auf den Check angewandt — Farben, verbotene Wörter entfernt, Kontaktnamen ergänzt |
 | 13.08.2026 | Entwurf der eigenen Firmenseite steht |
