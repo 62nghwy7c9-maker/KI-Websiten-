@@ -23,53 +23,53 @@ Zuständigkeit: **K** = Kira, **Y** = Yannik, **C** = Claude.
 
 ## 2 · Eigene Firmenseite
 
-Entwurf: `studie/firmenseite.html` · Vorschau unter
-`claude.ai/code/artifact/769987cb-b408-4317-a577-cd3a047ccbaf`
+Quelle: `studie/seite/` (drei Seiten, ein gemeinsames `stil.css`).
+Vorschau: `claude.ai/code/artifact/769987cb-b408-4317-a577-cd3a047ccbaf`
+— erzeugt mit `python3 studie/bauen.py`, **nicht von Hand bearbeiten**.
 
 | | Punkt | Wer |
 |---|---|---|
-| ☐ | **Zwei Selbstbeschreibungen** schreiben, je ein bis zwei Sätze | K und Y |
 | ☐ | **Anschrift** in Impressum und Datenschutz eintragen — die Seiten stehen, nur die Angabe fehlt | K/Y |
-| ☐ | Prüfen, wie die **Systemschrift** auf einem Windows-Rechner aussieht. Es werden keine Schriften mehr geladen; Windows zeigt Segoe UI, Mac zeigt SF | K |
-| ☑ | **Impressum und Datenschutz als eigene Seiten** angelegt (15.08.) — die Lücken sind sichtbar markiert, nicht erfunden | C |
+| ☐ | **Zwei Selbstbeschreibungen** schreiben, je ein bis zwei Sätze. Solange sie fehlen, steht dort Platzhaltertext — Prüfpunkt 15, an der eigenen Seite | K und Y |
+| ☐ | **Kein Google-Unternehmensprofil.** Prüfpunkt 14 verlangt von Kunden, dass Profil und Website übereinstimmen. Wir haben keins | K/Y |
+| ☐ | **Domain** klären, dann Seite online stellen | K/Y |
+| ☐ | **Hosting** wählen — mit PHP, falls ein Formular kommen soll | K/Y |
+| ☐ | **Hostinganbieter in die Datenschutzerklärung** eintragen: Name, Speicherdauer der Protokolle, Vertrag zur Auftragsverarbeitung | C, nach Wahl von K/Y |
 | ☐ | Entscheiden: **Kontaktformular** ja oder nein — und wenn ja, über welchen Weg | K |
-| ☑ | **Prüfkatalog über die eigene Seite gelaufen** am 15.08.2026 — Ergebnis unten | C |
-| ☐ | **Kein Google-Unternehmensprofil.** Prüfpunkt 14 sagt Kunden, Profil und Website müssten übereinstimmen. Wir haben keins. Für einen Betrieb mit örtlichem Bezug ist das ein echter Befund | K/Y |
-| ☐ | **Platzhaltertext auf der eigenen Seite** (Prüfpunkt 15): zweimal „Hier stehen ein bis zwei Sätze … Noch offen." Genau die Sorte Text, die wir bei Kunden anstreichen | K und Y |
+| ☐ | **Anwaltlich prüfen lassen**, sobald die Rechtsform steht. Beide Rechtsseiten sind nach dem Gesetzeswortlaut gegliedert, aber nicht geprüft | K/Y |
+| ☐ | Prüfen, wie die **Systemschrift** auf einem Windows-Rechner aussieht. Es werden keine Schriften mehr geladen; Windows zeigt Segoe UI, Mac zeigt SF | K |
+| ☐ | Beim Umzug aufs eigene Hosting `lang="de"` ins `<html>`-Element schreiben. Solange die Seiten keinen eigenen `<html>`-Rahmen haben, setzt ein Skript es nach — das ist ein Notbehelf | C |
+| ☑ | **Impressum und Datenschutz als eigene Seiten** angelegt (15.08.) — die Lücken sind sichtbar markiert, nicht erfunden | C |
+| ☑ | **Stil in eine gemeinsame Datei** gezogen (15.08.) — `studie/seite/stil.css` | C |
+| ☑ | **Prüfkatalog über die eigene Seite gelaufen** (15.08.) — Ergebnis unten | C |
 
 ### Ergebnis der Selbstprüfung vom 15.08.2026
 
-Gemessen an `studie/firmenseite.html`, Bildschirmbreite 390 px.
+Gemessen an der Startseite, Bildschirmbreite 390 px.
 
 | Nr | Punkt | Ergebnis |
 |---|---|---|
 | 1 | Erreichbarkeit | nicht prüfbar — keine Domain, kein Hosting |
 | 2 | HTTPS | nicht prüfbar — kein Hosting |
 | 3 | Mobiltauglichkeit | **bestanden** — `viewport` gesetzt, 0 px waagerechtes Scrollen |
-| 4 | Ladezeit mobil | Anzeichen gut (33 KB, nichts wird nachgeladen), aber **echte Messung steht aus** — lokal gemessene 80 ms sind kein Beleg |
+| 4 | Ladezeit mobil | Anzeichen gut (35 KB, nichts wird nachgeladen), aber **echte Messung steht aus** — lokal gemessene 96 ms sind kein Beleg |
 | 5 | Klickbare Telefonnummer | **bestanden** — zwei `tel:`-Verweise |
 | 6 | Kontaktweg | **bestanden** — Telefon und Mail auf der Startseite, ein Klick |
-| 7 | Impressum | **gerissen** — der Verweis auf `impressum.html` geht ins Leere |
+| 7 | Impressum | ~~gerissen~~ → **behoben am 15.08.**, Seite angelegt |
 | 8 | Aktualität | **bestanden** — Jahreszahl wird gesetzt, nicht getippt |
 | 9 | Karriereseite | nicht anwendbar — wir suchen niemanden |
-| 10 | Formular | **gerissen** — kein `<form>`, bekannt |
+| 10 | Formular | **gerissen** — kein `<form>`, bekannter Widerspruch (siehe unten) |
 | 11 | Seitentitel | **bestanden** |
 | 12 | Meta-Description | **bestanden** — 128 Zeichen, im Fenster 50–160 |
 | 13 | Eigene Domain | **gerissen** — es gibt keine |
 | 14 | Google-Unternehmensprofil | **gerissen** — existiert nicht |
 | 15 | Platzhaltertext | **gerissen** — zwei Stellen „Noch offen" |
 
-**Fünf Befunde.** Der Schwellwert `QUALIFIKATION_AB_BEFUNDEN` steht bei drei —
-nach unserem eigenen Maßstab wären wir ein Kandidat, bei dem sich ein Anschreiben
-lohnt. Drei der fünf lösen sich mit Domain und Hosting von selbst auf; zwei
-(Google-Profil, Platzhaltertext) nicht.
-
-| ☐ | Beim Umzug aufs eigene Hosting `lang="de"` ins `<html>`-Element schreiben. Solange die Seite eine einzelne Datei ohne eigenen `<html>`-Rahmen ist, setzt ein Skript es nach — das ist ein Notbehelf | C |
-| ☑ | **CSS in eine eigene Datei gezogen** (15.08.) — `studie/seite/stil.css`, geteilt von allen drei Seiten | C |
-| ☐ | **Anwaltlich prüfen lassen**, sobald die Rechtsform steht. Beide Rechtsseiten sind nach dem Gesetzeswortlaut gegliedert, aber nicht geprüft | K/Y |
-| ☐ | **Hostinganbieter in die Datenschutzerklärung** eintragen: Name, Speicherdauer der Protokolle, Vertrag zur Auftragsverarbeitung | C, nach Wahl von K/Y |
-| ☐ | **Domain** klären, dann Seite online stellen | K/Y |
-| ☐ | **Hosting** wählen — mit PHP, falls ein Formular kommen soll | K/Y |
+Fünf Befunde am 15.08., einer davon noch am selben Tag behoben. Der
+Schwellwert `QUALIFIKATION_AB_BEFUNDEN` steht bei drei — nach unserem
+eigenen Maßstab wären wir also ein Kandidat, bei dem sich ein Anschreiben
+lohnt. Zwei der verbleibenden vier lösen sich mit Domain und Hosting von
+selbst auf; Google-Profil und Platzhaltertext nicht.
 
 ### Der Widerspruch beim Formular
 
