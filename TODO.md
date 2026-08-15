@@ -1,6 +1,6 @@
 # Offene Punkte
 
-**Stand:** 13. August 2026
+**Stand:** 15. August 2026
 **Gilt für:** Webgewerk — Check-Pipeline und eigene Firmenseite
 
 Sortiert nach dem, was blockiert. Was oben steht, hält etwas anderes auf.
@@ -33,7 +33,37 @@ Entwurf: `studie/firmenseite.html` · Vorschau unter
 | ☐ | Prüfen, wie die **Systemschrift** auf einem Windows-Rechner aussieht. Es werden keine Schriften mehr geladen; Windows zeigt Segoe UI, Mac zeigt SF | K |
 | ☐ | **Impressum und Datenschutz als eigene Seiten** anlegen. Die Fußzeile verweist auf `impressum.html` und `datenschutz.html` — beide gibt es noch nicht, die Links gehen ins Leere | C, nach Inhalt von K |
 | ☐ | Entscheiden: **Kontaktformular** ja oder nein — und wenn ja, über welchen Weg | K |
-| ☐ | **Prüfkatalog Punkt für Punkt** über die eigene Seite laufen lassen (Schritt 5 aus dem Ablauf) | C |
+| ☑ | **Prüfkatalog über die eigene Seite gelaufen** am 15.08.2026 — Ergebnis unten | C |
+| ☐ | **Kein Google-Unternehmensprofil.** Prüfpunkt 14 sagt Kunden, Profil und Website müssten übereinstimmen. Wir haben keins. Für einen Betrieb mit örtlichem Bezug ist das ein echter Befund | K/Y |
+| ☐ | **Platzhaltertext auf der eigenen Seite** (Prüfpunkt 15): zweimal „Hier stehen ein bis zwei Sätze … Noch offen." Genau die Sorte Text, die wir bei Kunden anstreichen | K und Y |
+
+### Ergebnis der Selbstprüfung vom 15.08.2026
+
+Gemessen an `studie/firmenseite.html`, Bildschirmbreite 390 px.
+
+| Nr | Punkt | Ergebnis |
+|---|---|---|
+| 1 | Erreichbarkeit | nicht prüfbar — keine Domain, kein Hosting |
+| 2 | HTTPS | nicht prüfbar — kein Hosting |
+| 3 | Mobiltauglichkeit | **bestanden** — `viewport` gesetzt, 0 px waagerechtes Scrollen |
+| 4 | Ladezeit mobil | Anzeichen gut (33 KB, nichts wird nachgeladen), aber **echte Messung steht aus** — lokal gemessene 80 ms sind kein Beleg |
+| 5 | Klickbare Telefonnummer | **bestanden** — zwei `tel:`-Verweise |
+| 6 | Kontaktweg | **bestanden** — Telefon und Mail auf der Startseite, ein Klick |
+| 7 | Impressum | **gerissen** — der Verweis auf `impressum.html` geht ins Leere |
+| 8 | Aktualität | **bestanden** — Jahreszahl wird gesetzt, nicht getippt |
+| 9 | Karriereseite | nicht anwendbar — wir suchen niemanden |
+| 10 | Formular | **gerissen** — kein `<form>`, bekannt |
+| 11 | Seitentitel | **bestanden** |
+| 12 | Meta-Description | **bestanden** — 128 Zeichen, im Fenster 50–160 |
+| 13 | Eigene Domain | **gerissen** — es gibt keine |
+| 14 | Google-Unternehmensprofil | **gerissen** — existiert nicht |
+| 15 | Platzhaltertext | **gerissen** — zwei Stellen „Noch offen" |
+
+**Fünf Befunde.** Der Schwellwert `QUALIFIKATION_AB_BEFUNDEN` steht bei drei —
+nach unserem eigenen Maßstab wären wir ein Kandidat, bei dem sich ein Anschreiben
+lohnt. Drei der fünf lösen sich mit Domain und Hosting von selbst auf; zwei
+(Google-Profil, Platzhaltertext) nicht.
+
 | ☐ | Beim Umzug aufs eigene Hosting `lang="de"` ins `<html>`-Element schreiben. Solange die Seite eine einzelne Datei ohne eigenen `<html>`-Rahmen ist, setzt ein Skript es nach — das ist ein Notbehelf | C |
 | ☐ | **CSS in eine eigene Datei ziehen**, sobald es mehr als eine Seite gibt — sonst steht derselbe Stil dreimal in drei Dateien | C |
 | ☐ | **Domain** klären, dann Seite online stellen | K/Y |
