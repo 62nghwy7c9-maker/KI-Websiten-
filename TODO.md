@@ -29,9 +29,9 @@ Entwurf: `studie/firmenseite.html` · Vorschau unter
 | | Punkt | Wer |
 |---|---|---|
 | ☐ | **Zwei Selbstbeschreibungen** schreiben, je ein bis zwei Sätze | K und Y |
-| ☐ | **Impressum** und **Datenschutzerklärung** inhaltlich liefern | K |
+| ☐ | **Anschrift** in Impressum und Datenschutz eintragen — die Seiten stehen, nur die Angabe fehlt | K/Y |
 | ☐ | Prüfen, wie die **Systemschrift** auf einem Windows-Rechner aussieht. Es werden keine Schriften mehr geladen; Windows zeigt Segoe UI, Mac zeigt SF | K |
-| ☐ | **Impressum und Datenschutz als eigene Seiten** anlegen. Die Fußzeile verweist auf `impressum.html` und `datenschutz.html` — beide gibt es noch nicht, die Links gehen ins Leere | C, nach Inhalt von K |
+| ☑ | **Impressum und Datenschutz als eigene Seiten** angelegt (15.08.) — die Lücken sind sichtbar markiert, nicht erfunden | C |
 | ☐ | Entscheiden: **Kontaktformular** ja oder nein — und wenn ja, über welchen Weg | K |
 | ☑ | **Prüfkatalog über die eigene Seite gelaufen** am 15.08.2026 — Ergebnis unten | C |
 | ☐ | **Kein Google-Unternehmensprofil.** Prüfpunkt 14 sagt Kunden, Profil und Website müssten übereinstimmen. Wir haben keins. Für einen Betrieb mit örtlichem Bezug ist das ein echter Befund | K/Y |
@@ -65,7 +65,9 @@ lohnt. Drei der fünf lösen sich mit Domain und Hosting von selbst auf; zwei
 (Google-Profil, Platzhaltertext) nicht.
 
 | ☐ | Beim Umzug aufs eigene Hosting `lang="de"` ins `<html>`-Element schreiben. Solange die Seite eine einzelne Datei ohne eigenen `<html>`-Rahmen ist, setzt ein Skript es nach — das ist ein Notbehelf | C |
-| ☐ | **CSS in eine eigene Datei ziehen**, sobald es mehr als eine Seite gibt — sonst steht derselbe Stil dreimal in drei Dateien | C |
+| ☑ | **CSS in eine eigene Datei gezogen** (15.08.) — `studie/seite/stil.css`, geteilt von allen drei Seiten | C |
+| ☐ | **Anwaltlich prüfen lassen**, sobald die Rechtsform steht. Beide Rechtsseiten sind nach dem Gesetzeswortlaut gegliedert, aber nicht geprüft | K/Y |
+| ☐ | **Hostinganbieter in die Datenschutzerklärung** eintragen: Name, Speicherdauer der Protokolle, Vertrag zur Auftragsverarbeitung | C, nach Wahl von K/Y |
 | ☐ | **Domain** klären, dann Seite online stellen | K/Y |
 | ☐ | **Hosting** wählen — mit PHP, falls ein Formular kommen soll | K/Y |
 
@@ -165,6 +167,8 @@ ob Anerkennung hilft oder Druck wegnimmt.
 
 | Datum | Punkt |
 |---|---|
+| 15.08.2026 | Impressum und Datenschutz als eigene Seiten, Stil in `stil.css` geteilt, Sperrbalken nach dem Muster des Kundenchecks |
+| 15.08.2026 | Selbstprüfung gelaufen — fünf Befunde, zwei davon vorher unbekannt |
 | 15.08.2026 | Firmenseite auf das Gerüst aus `durchgeplant-` umgestellt: Plan-Set-Motiv, Systemschriften, Dunkelmodus, Sicherheitsnetz ohne JavaScript |
 | 15.08.2026 | **Three.js und Kristall entfernt.** An ihrer Stelle steht der Prüfvorgang selbst. 674 KB → 32 KB |
 | 15.08.2026 | Entschieden: Webgewerk und durchgeplant sind verwandt, aber unterscheidbar — gleiches Motiv, eigene Farben |
