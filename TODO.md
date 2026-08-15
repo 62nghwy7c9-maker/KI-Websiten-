@@ -115,6 +115,7 @@ buchstabiert werden.
 | ☐ | **Platzhalter auf Unterseiten** werden nicht gefunden. Die Handfunde „mehr als ?? Jahren" (Apeler) und „(Bild in Beratungssituation)" (Maler Manufaktur) fehlen deshalb | C |
 | ☐ | **Overpass-Live-Abruf** ist ungetestet — die Container-IP ist gesperrt. Der Weg über overpass-turbo.eu funktioniert und ist geprüft | K |
 | ☐ | **Kosten-Sätze ohne Beleg**: Meta-Description, eigene Domain, Speisekarte als Bild. Sie erscheinen im Check nur als Beobachtung. Quelle suchen oder so belassen | C |
+| ☐ | **Kandidat für Prüfpunkt 7 gefunden, noch nicht eingebaut:** § 33 Abs. 2 Nr. 1 DDG macht ein unvollständiges Impressum zur Ordnungswidrigkeit, § 33 Abs. 6 Nr. 3 nennt einen Bußgeldrahmen bis 50.000 €. Quelle: gesetze-im-internet.de/ddg. **Vor dem Einbau ein zweites Mal unabhängig prüfen** — die Zahl ginge auf ein Blatt, das ein Meister in die Hand bekommt | C |
 | ☐ | **Google für Jobs als Prüfpunkt** aufnehmen — dann steht im Dossier, ob die Stellen eines Betriebs dort auffindbar sind | C |
 | ☐ | Konzept nachziehen: **eigene Unterseite je Stelle** (Google verlangt das, im Konzept steht es noch anders) | C |
 
