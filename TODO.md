@@ -30,11 +30,12 @@ Entwurf: `studie/firmenseite.html` · Vorschau unter
 |---|---|---|
 | ☐ | **Zwei Selbstbeschreibungen** schreiben, je ein bis zwei Sätze | K und Y |
 | ☐ | **Impressum** und **Datenschutzerklärung** inhaltlich liefern | K |
-| ☐ | Prüfen, wie **Franklin Gothic** auf einem Windows-Rechner aussieht | K |
+| ☐ | Prüfen, wie die **Systemschrift** auf einem Windows-Rechner aussieht. Es werden keine Schriften mehr geladen; Windows zeigt Segoe UI, Mac zeigt SF | K |
+| ☐ | **Impressum und Datenschutz als eigene Seiten** anlegen. Die Fußzeile verweist auf `impressum.html` und `datenschutz.html` — beide gibt es noch nicht, die Links gehen ins Leere | C, nach Inhalt von K |
 | ☐ | Entscheiden: **Kontaktformular** ja oder nein — und wenn ja, über welchen Weg | K |
 | ☐ | **Prüfkatalog Punkt für Punkt** über die eigene Seite laufen lassen (Schritt 5 aus dem Ablauf) | C |
 | ☐ | Beim Umzug aufs eigene Hosting `lang="de"` ins `<html>`-Element schreiben. Solange die Seite eine einzelne Datei ohne eigenen `<html>`-Rahmen ist, setzt ein Skript es nach — das ist ein Notbehelf | C |
-| ☐ | Entscheiden, ob die **226 KB Three.js** bleiben. Sie sind zwei Drittel der Seite. Auf einem alten Handy ist das der Punkt, an dem wir unseren eigenen Katalog reißen könnten — einmal echt messen, nicht schätzen | K/C |
+| ☐ | **CSS in eine eigene Datei ziehen**, sobald es mehr als eine Seite gibt — sonst steht derselbe Stil dreimal in drei Dateien | C |
 | ☐ | **Domain** klären, dann Seite online stellen | K/Y |
 | ☐ | **Hosting** wählen — mit PHP, falls ein Formular kommen soll | K/Y |
 
@@ -134,6 +135,9 @@ ob Anerkennung hilft oder Druck wegnimmt.
 
 | Datum | Punkt |
 |---|---|
+| 15.08.2026 | Firmenseite auf das Gerüst aus `durchgeplant-` umgestellt: Plan-Set-Motiv, Systemschriften, Dunkelmodus, Sicherheitsnetz ohne JavaScript |
+| 15.08.2026 | **Three.js und Kristall entfernt.** An ihrer Stelle steht der Prüfvorgang selbst. 674 KB → 32 KB |
+| 15.08.2026 | Entschieden: Webgewerk und durchgeplant sind verwandt, aber unterscheidbar — gleiches Motiv, eigene Farben |
 | 14.08.2026 | Vorspann der Firmenseite neu gebaut: dunkle Bühne, Kristall in Ocker statt Schiefergrau, Satz und Objekt nebeneinander statt übereinander |
 | 14.08.2026 | **Fehlendes `viewport`-Meta gefunden und behoben.** Die eigene Seite wäre auf dem Handy in Desktop-Breite geladen — Prüfpunkt 3 aus dem eigenen Katalog, an der eigenen Seite gerissen |
 | 13.08.2026 | Firmenname entschieden: **Webgewerk**, Zusatz „Ihr Gewerk im Fokus" |
