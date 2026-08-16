@@ -1,0 +1,316 @@
+<title>Webgewerk Aufgabenliste</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+:root{
+  --grund:#FAF8F4; --flaeche:#FFFFFF; --basis:#16181C; --text:#3A3A38;
+  --gedaempft:#6B665C; --akzent:#A8681B; --akzent-weich:#F0E5D6;
+  --linie:#E4DED4; --linie-stark:#CFC7B9;
+  --sperr:#8A2C1E; --sperr-weich:#F6E4DF;
+  --k:#1F5E8C; --y:#7A4E9E; --c:#2F6B4F;
+  --mono:ui-monospace,"SF Mono","JetBrains Mono",Menlo,Consolas,monospace;
+  --sans:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --grund:#141619; --flaeche:#1B1E23; --basis:#F2EEE6; --text:#C9C4BA;
+    --gedaempft:#918B81; --akzent:#D89440; --akzent-weich:#33261A;
+    --linie:#2A2D34; --linie-stark:#3A3E46;
+    --sperr:#E08672; --sperr-weich:#33201C;
+    --k:#6FAAD4; --y:#B694DC; --c:#79BF9C;
+  }
+}
+:root[data-theme="dark"]{
+  --grund:#141619; --flaeche:#1B1E23; --basis:#F2EEE6; --text:#C9C4BA;
+  --gedaempft:#918B81; --akzent:#D89440; --akzent-weich:#33261A;
+  --linie:#2A2D34; --linie-stark:#3A3E46;
+  --sperr:#E08672; --sperr-weich:#33201C;
+  --k:#6FAAD4; --y:#B694DC; --c:#79BF9C;
+}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--grund);color:var(--text);font-family:var(--sans);
+ font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased}
+.bahn{max-width:50rem;margin:0 auto;padding:0 clamp(1.15rem,4vw,2.5rem)}
+h1,h2,h3{color:var(--basis);font-weight:700;letter-spacing:-.012em;
+ line-height:1.15;margin:0;text-wrap:balance}
+h1{font-size:clamp(1.9rem,4.6vw,2.7rem)}
+h2{font-size:clamp(1.25rem,2.6vw,1.55rem)}
+p{margin:0 0 .85rem;max-width:62ch}
+a{color:var(--akzent)}
+:focus-visible{outline:2px solid var(--akzent);outline-offset:3px}
+code{font-family:var(--mono);font-size:.86em}
+strong{color:var(--basis)}
+.marke{display:flex;align-items:center;gap:.7rem;margin:0 0 1rem;
+ font-family:var(--mono);font-size:11px;letter-spacing:.16em;
+ text-transform:uppercase;color:var(--gedaempft)}
+.marke::before{content:"";width:26px;height:1px;background:var(--akzent);flex:none}
+
+header{padding:clamp(2.5rem,7vw,4rem) 0 1.6rem;border-bottom:2px solid var(--akzent);
+ background:var(--flaeche)}
+.unter{font-family:var(--mono);font-size:12px;color:var(--gedaempft);
+ line-height:1.9;margin:.9rem 0 0}
+
+.sperrblock{background:var(--sperr-weich);border-left:4px solid var(--sperr);
+ padding:1.1rem 1.2rem;margin:1.5rem 0 0}
+.sperrblock b{display:block;font-family:var(--mono);font-size:10.5px;
+ letter-spacing:.11em;text-transform:uppercase;color:var(--sperr);margin-bottom:.3rem}
+.sperrblock p{margin:0;font-size:15px}
+
+section{padding:2.6rem 0 0}
+.phase{display:flex;flex-wrap:wrap;align-items:baseline;gap:.5rem .9rem;
+ border-top:1px solid var(--linie-stark);padding-top:1.3rem;margin-bottom:.3rem}
+.phase h2{margin:0}
+.wann{font-family:var(--mono);font-size:11px;letter-spacing:.1em;
+ text-transform:uppercase;color:var(--gedaempft)}
+.hinweis{color:var(--gedaempft);font-size:15px;margin:.5rem 0 1.2rem;max-width:60ch}
+
+ul.liste{list-style:none;margin:0;padding:0}
+ul.liste li{display:grid;grid-template-columns:1.5rem 3.2rem 1fr;gap:0 .7rem;
+ padding:.8rem 0;border-bottom:1px solid var(--linie);align-items:start}
+.kasten{width:15px;height:15px;border:1.5px solid var(--linie-stark);
+ border-radius:2px;margin-top:.25rem}
+.wer{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;
+ text-transform:uppercase;font-weight:600;padding-top:.28rem;white-space:nowrap}
+.w-k{color:var(--k)} .w-y{color:var(--y)} .w-c{color:var(--c)}
+.w-b{color:var(--gedaempft)}
+.was{font-size:15.5px}
+.was em{font-style:normal;color:var(--gedaempft);display:block;font-size:14px;
+ margin-top:.15rem}
+li.wichtig .was strong{color:var(--sperr)}
+
+.legende{display:flex;flex-wrap:wrap;gap:.5rem 1.5rem;margin:1.2rem 0 0;
+ font-family:var(--mono);font-size:11px;letter-spacing:.06em;color:var(--gedaempft)}
+
+.fertig{margin-top:3rem;border-top:1px solid var(--linie-stark);padding-top:1.5rem}
+.fertig ul{list-style:none;margin:0;padding:0}
+.fertig li{padding:.45rem 0 .45rem 1.5rem;position:relative;font-size:15px;
+ color:var(--gedaempft);border-bottom:1px solid var(--linie)}
+.fertig li::before{content:"✓";position:absolute;left:0;color:var(--c);
+ font-weight:700}
+footer{margin-top:2.5rem;border-top:1px solid var(--linie-stark);
+ font-family:var(--mono);font-size:11.5px;color:var(--gedaempft);line-height:1.9}
+footer .bahn{padding-block:1.4rem 2.5rem}
+
+@media print{
+  @page{margin:16mm}
+  body{background:#fff;color:#000;font-size:10pt}
+  .bahn{max-width:none;padding:0}
+  .phase{break-after:avoid}
+  li{break-inside:avoid}
+  .kasten{border-color:#000}
+}
+@media(max-width:560px){
+  ul.liste li{grid-template-columns:1.5rem 1fr;gap:.15rem .7rem}
+  .wer{grid-column:2;padding-top:0}
+}
+</style>
+
+<header>
+  <div class="bahn">
+    <p class="marke">Aufgabenliste</p>
+    <h1>Was zu tun ist</h1>
+    <p class="unter">
+      Stand 17.08.2026 · alle offenen Punkte aus dem Unternehmenskonzept und
+      dem Konzept-Check<br>
+      Sortiert nach dem, was blockiert. Was oben steht, hält etwas anderes auf.
+    </p>
+    <div class="legende">
+      <span class="w-k">■ K — Kira</span>
+      <span class="w-y">■ Y — Yannik</span>
+      <span class="w-b">■ K+Y — beide</span>
+      <span class="w-c">■ C — Claude</span>
+    </div>
+    <div class="sperrblock">
+      <b>Blockiert alles</b>
+      <p>Die <strong>ladungsfähige Anschrift</strong> fehlt. Ohne sie trägt jeder
+      Check einen roten Sperrbalken (§ 5 DDG) und darf nicht übergeben werden.
+      Elf fertige Pakete warten nur darauf. Es ist eine Entscheidung, keine
+      Recherche — und sie dauert fünf Minuten.</p>
+    </div>
+  </div>
+</header>
+
+<main class="bahn">
+
+<section>
+  <div class="phase"><h2>1 · Diese Woche</h2><span class="wann">Entscheidungen, keine Arbeit</span></div>
+  <p class="hinweis">Alles hier sind Festlegungen, die nichts kosten außer
+  einem Entschluss — und von denen anderes abhängt.</p>
+  <ul class="liste">
+    <li class="wichtig"><span class="kasten"></span><span class="wer w-b">K+Y</span>
+      <span class="was"><strong>Ladungsfähige Anschrift festlegen</strong> und in
+      <code>absender.json</code> eintragen
+      <em>Danach fallen die Sperrbalken auf allen elf Checks und auf der Firmenseite.</em></span></li>
+    <li><span class="kasten"></span><span class="wer w-b">K+Y</span>
+      <span class="was">Entscheiden, <strong>welche Telefonnummer gilt</strong>
+      <em>Bisher zwei im Umlauf: 0152 01560005 und 0162 3242260. Auf einem gedruckten Blatt ist eine falsche Nummer der teuerste Fehler.</em></span></li>
+    <li><span class="kasten"></span><span class="wer w-b">K+Y</span>
+      <span class="was">Klären: Betreuung <strong>69 € oder 59 €</strong> im Monat
+      <em>Im Konzept stehen 69 €. Am 17.08. fiel die Zahl 59 — bitte einmal bestätigen, bevor sie auf ein Angebot kommt.</em></span></li>
+    <li><span class="kasten"></span><span class="wer w-k">K</span>
+      <span class="was">Die <strong>zwei Selbstbeschreibungen</strong> schreiben, je ein bis zwei Sätze
+      <em>Solange sie fehlen, steht auf der eigenen Seite Platzhaltertext — Prüfpunkt 15, an der eigenen Seite gerissen.</em></span></li>
+    <li><span class="kasten"></span><span class="wer w-b">K+Y</span>
+      <span class="was"><strong>Vier fertige Befunde freigeben</strong>: Sander-Bau, Lindam, Merzenich, Labau
+      <em>Die Pipeline reproduziert alle vier. Die Freigabe steht aus.</em></span></li>
+    <li><span class="kasten"></span><span class="wer w-b">K+Y</span>
+      <span class="was"><strong>Termin mit der Rechtsberatung</strong> in der Familie vereinbaren — mit festem Datum
+      <em>Unentgeltliche Hilfe hat keine Rechnung und deshalb keinen Druck. Sie ist das Erste, was liegen bleibt.</em></span></li>
+  </ul>
+</section>
+
+<section>
+  <div class="phase"><h2>2 · Vorlauf</h2><span class="wann">rund sechs Wochen bis Tag 1</span></div>
+  <p class="hinweis">Tag 1 ist der Tag, an dem der erste Check übergeben wird.
+  Alles hier muss vorher stehen.</p>
+  <ul class="liste">
+    <li><span class="kasten"></span><span class="wer w-b">K+Y</span>
+      <span class="was"><strong>Verfügbare Wochenstunden</strong>, feste Tage und Uhrzeiten schriftlich festhalten
+      <em>Ohne diese Zahl ist die Wirtschaftlichkeit nicht rechenbar und der 90-Tage-Plan nicht planbar. Der wichtigste offene Punkt des Konzepts.</em></span></li>
+    <li class="wichtig"><span class="kasten"></span><span class="wer w-b">K+Y</span>
+      <span class="was"><strong>Wovon wir im ersten Jahr leben</strong> — schriftlich, mit Betrag und Monaten
+      <em>Das Neugeschäft bringt im ersten Jahr 21–44 € je Arbeitsstunde. Wer das nicht vorher weiß, hört nach dem dritten Kunden auf.</em></span></li>
+    <li><span class="kasten"></span><span class="wer w-b">K+Y</span>
+      <span class="was">Schriftlicher <strong>GbR-Gesellschaftsvertrag</strong> — Gewinnverteilung, Geschäftsführung, Kündigung, Ausscheiden, Umgang mit laufenden Kundenverträgen</span></li>
+    <li><span class="kasten"></span><span class="wer w-b">K+Y</span>
+      <span class="was"><strong>Gewerbeanmeldung</strong> je Gesellschafter beim Gewerbeamt der Wohnsitzgemeinde</span></li>
+    <li><span class="kasten"></span><span class="wer w-y">Y</span>
+      <span class="was"><strong>Vermögensschaden-/IT-Haftpflicht</strong> — drei Angebote einholen, abschließen
+      <em>300–700 €/Jahr. Bei unbeschränkter Privathaftung nicht optional.</em></span></li>
+    <li><span class="kasten"></span><span class="wer w-y">Y</span>
+      <span class="was"><strong>Vertrag und AGB</strong> vorformulieren und prüfen lassen — Abnahme mit Rügefrist und Eskalation, Mahnwesen, Rechte an übernommenen Texten, Herausgabe bei Ende</span></li>
+    <li><span class="kasten"></span><span class="wer w-y">Y</span>
+      <span class="was">§ 7 UWG und die <strong>DSGVO-Kette bis Anthropic</strong> an eine Fachstelle geben, falls die Familienberatung dort nicht zu Hause ist</span></li>
+    <li><span class="kasten"></span><span class="wer w-y">Y</span>
+      <span class="was"><strong>Domain sichern</strong> und geschäftliche E-Mail einrichten
+      <em>Stand 13.08.: webgewerk.de ist registriert und geparkt, webgewerk.com frei. Bei denic.de/webwhois nach dem Halter fragen.</em></span></li>
+    <li><span class="kasten"></span><span class="wer w-y">Y</span>
+      <span class="was"><strong>DPMA-Markenrecherche</strong> auf entgegenstehende Marken</span></li>
+    <li><span class="kasten"></span><span class="wer w-k">K</span>
+      <span class="was"><strong>Formulardienst</strong> mit EU-Serverstandort und AV-Vertrag auswählen
+      <em>Ohne ihn ist kein Projekt auslieferbar — der Kontaktweg ist Prüfpunkt 6 des eigenen Katalogs.</em></span></li>
+    <li><span class="kasten"></span><span class="wer w-k">K</span>
+      <span class="was"><strong>Verzeichnis von Verarbeitungstätigkeiten</strong> anlegen (Art. 30 DSGVO)</span></li>
+    <li><span class="kasten"></span><span class="wer w-k">K</span>
+      <span class="was"><strong>Bauanleitung schreiben</strong>, damit die Produktion nicht an einer Person hängt
+      <em>Derzeit kann nur Kira produzieren. Fällt sie aus, steht alles.</em></span></li>
+    <li><span class="kasten"></span><span class="wer w-b">K+Y</span>
+      <span class="was"><strong>Betriebsliste</strong> mit Sperrlisten-Spalte und Wiedervorlage sowie das <strong>Zeitprotokoll</strong> anlegen</span></li>
+    <li><span class="kasten"></span><span class="wer w-y">Y</span>
+      <span class="was"><strong>Art.-14-Datenschutzhinweis</strong> als Beilage zum Check formulieren</span></li>
+    <li><span class="kasten"></span><span class="wer w-b">K+Y</span>
+      <span class="was">Von den gezeigten Arbeitsproben <strong>schriftliche Zeigeerlaubnis</strong> einholen
+      <em>Zwei Sätze per Mail. Ohne sie wird nichts gezeigt.</em></span></li>
+    <li><span class="kasten"></span><span class="wer w-y">Y</span>
+      <span class="was"><strong>Wettbewerberpreise belegen</strong>: sieben Angebotsseiten aufrufen, Preis und Abrufdatum notieren, Screenshot ablegen — und feststellen, wer davon im Fahrgebiet arbeitet
+      <em>Antwort auf Befund 19. Rund eine Stunde. Danach steht fest, ob wirklich IONOS und STRATO der Hauptgegner sind.</em></span></li>
+    <li><span class="kasten"></span><span class="wer w-b">K+Y</span>
+      <span class="was">Eine <strong>belastbare Zahl zum Fachkräftemangel</strong> im Handwerk suchen
+      <em>„Wer voll ausgelastet ist, sucht Leute" trägt die ganze Positionierung und hat keine Quelle. Anlaufstellen: ZDH-Konjunkturbericht, Handwerkskammer Köln.</em></span></li>
+    <li><span class="kasten"></span><span class="wer w-c">C</span>
+      <span class="was"><strong>Eigene Website fertigstellen</strong>: Impressum und Datenschutz mit Anschrift, Selbstbeschreibungen einsetzen, Sperrbalken entfernen</span></li>
+    <li><span class="kasten"></span><span class="wer w-c">C</span>
+      <span class="was">Entscheiden: <strong>lokale Ladezeitmessung oder Googles PageSpeed-API</strong>
+      <em>Der Satz „Google bewertet über 4 Sekunden als schlecht" trägt nur, wenn die Zahl auch von Google kommt. Dafür braucht es einen Schlüssel und einen Weg für den Fall, dass das Kontingent voll ist.</em></span></li>
+  </ul>
+</section>
+
+<section>
+  <div class="phase"><h2>3 · Tag 1 bis 90</h2><span class="wann">der eigentliche Test</span></div>
+  <p class="hinweis">Gemessen wird eins: Wie viele antworten? Die Antwortquote
+  des Kanals ist bis heute ungetestet — Stichprobe eins.</p>
+  <ul class="liste">
+    <li><span class="kasten"></span><span class="wer w-b">K+Y</span>
+      <span class="was"><strong>40 Checks übergeben</strong>, in Touren zu fünf Betrieben
+      <em>Einzeln ausgefahren wäre die persönliche Übergabe mit dem Zeitziel unvereinbar. Gebündelt fällt die Fahrzeit je Check auf zwölf Minuten.</em></span></li>
+    <li><span class="kasten"></span><span class="wer w-b">K+Y</span>
+      <span class="was"><strong>Ist-Zeit je Check</strong> mitschreiben, ab dem ersten
+      <em>Der Weg von zwei Stunden auf 45 Minuten verdoppelt den effektiven Stundensatz. Eine Preiserhöhung um 500 € täte das nicht.</em></span></li>
+    <li><span class="kasten"></span><span class="wer w-b">K+Y</span>
+      <span class="was">Drei <strong>Pilotkunden</strong> gewinnen, versetzt starten mit rund zwei Wochen Abstand</span></li>
+    <li><span class="kasten"></span><span class="wer w-k">K</span>
+      <span class="was"><strong>Ist-Zeit je Projekt</strong> nach Arbeitsschritt erfassen, Projekt 1 auswerten bevor Projekt 2 beginnt</span></li>
+    <li><span class="kasten"></span><span class="wer w-b">K+Y</span>
+      <span class="was"><strong>Wöchentlicher Termin</strong>, 60–90 Minuten, Kennzahlen eintragen
+      <em>Fester Punkt auf der Tagesordnung: Stimmt der Katalog im Code noch mit Anhang A überein?</em></span></li>
+    <li><span class="kasten"></span><span class="wer w-k">K</span>
+      <span class="was">Nach Projekt 3: <strong>Produktionsvorlage</strong> ableiten und entscheiden, ob <strong>Paket S</strong> bleibt
+      <em>Beworben wird „ab 990 €", verkauft werden soll M. Entweder S streichen oder auf einen Umfang zuschneiden, den es zu dem Preis wirklich gibt.</em></span></li>
+    <li><span class="kasten"></span><span class="wer w-c">C</span>
+      <span class="was">Prüfpunkte <strong>1–5 und 11–13 automatisieren</strong></span></li>
+  </ul>
+</section>
+
+<section>
+  <div class="phase"><h2>4 · Pipeline</h2><span class="wann">bekannte Lücken</span></div>
+  <ul class="liste">
+    <li><span class="kasten"></span><span class="wer w-c">C</span>
+      <span class="was"><strong>Platzhalter auf Unterseiten</strong> werden nicht gefunden
+      <em>Die Handfunde „mehr als ?? Jahren" (Apeler) und „(Bild in Beratungssituation)" (Maler Manufaktur) fehlen deshalb.</em></span></li>
+    <li><span class="kasten"></span><span class="wer w-k">K</span>
+      <span class="was"><strong>Screenshots</strong> einmal auf einem Rechner ohne Netzsperre prüfen
+      <em>Im Container entstehen sie nur bei HTTP-Seiten, also 2 von 11.</em></span></li>
+    <li><span class="kasten"></span><span class="wer w-k">K</span>
+      <span class="was"><strong>Overpass-Live-Abruf</strong> testen
+      <em>Die Container-IP ist gesperrt. Der Weg über overpass-turbo.eu funktioniert und ist geprüft.</em></span></li>
+    <li><span class="kasten"></span><span class="wer w-c">C</span>
+      <span class="was"><strong>Google für Jobs</strong> als Prüfpunkt aufnehmen</span></li>
+    <li><span class="kasten"></span><span class="wer w-c">C</span>
+      <span class="was"><strong>Kostensatz für Prüfpunkt 7 belegen</strong>: § 33 DDG nennt einen Bußgeldrahmen bis 50.000 €
+      <em>Quelle liegt vor, aber die Zahl geht auf ein Blatt, das ein Meister in die Hand bekommt — vorher ein zweites Mal unabhängig prüfen.</em></span></li>
+    <li><span class="kasten"></span><span class="wer w-c">C</span>
+      <span class="was"><strong>Auswahlregel zweistufig umsetzen</strong>: erst filtern, was das Paket behebt, dann nach Schweregrad sortieren</span></li>
+  </ul>
+</section>
+
+<section>
+  <div class="phase"><h2>5 · Später, aber nicht vergessen</h2><span class="wann">nach dem ersten Kunden</span></div>
+  <ul class="liste">
+    <li><span class="kasten"></span><span class="wer w-b">K+Y</span>
+      <span class="was"><strong>Google-Unternehmensprofil</strong> für Webgewerk anlegen
+      <em>Prüfpunkt 14 verlangt von Kunden, dass Profil und Website übereinstimmen. Wir haben keins.</em></span></li>
+    <li><span class="kasten"></span><span class="wer w-k">K</span>
+      <span class="was"><strong>Barrierefreiheit</strong>: Betroffenheit nach dem BFSG klären</span></li>
+    <li><span class="kasten"></span><span class="wer w-y">Y</span>
+      <span class="was"><strong>E-Rechnungs-Empfang</strong> und revisionssichere Ablage einrichten</span></li>
+    <li><span class="kasten"></span><span class="wer w-y">Y</span>
+      <span class="was">Separates <strong>Konto für die Steuerrücklage</strong> — 30 % jeder Einnahme</span></li>
+    <li><span class="kasten"></span><span class="wer w-b">K+Y</span>
+      <span class="was"><strong>DRV-Statusklärung</strong> § 7a SGB IV und Befreiungsantrag § 6 Abs. 1a SGB VI</span></li>
+    <li><span class="kasten"></span><span class="wer w-y">Y</span>
+      <span class="was">Steuerberatung: <strong>§ 19 UStG</strong> beibehalten oder verzichten</span></li>
+    <li><span class="kasten"></span><span class="wer w-k">K</span>
+      <span class="was"><strong>AVV-Vorlage</strong> für Betreuungskunden erstellen (Art. 28 DSGVO)</span></li>
+    <li><span class="kasten"></span><span class="wer w-c">C</span>
+      <span class="was">Die drei überholten Konzeptfassungen <strong>löschen oder als überholt kennzeichnen</strong>
+      <em>Vier Dokumente im Umlauf waren der Grund für drei verschiedene Prüfkataloge.</em></span></li>
+  </ul>
+</section>
+
+<div class="fertig">
+  <div class="bahn" style="padding:0">
+    <p class="marke">Erledigt</p>
+    <ul>
+      <li>17.08. — Konzept überarbeitet: Webgewerk, Preisliste, 19 Prüfpunkte, Hosting beim Kunden</li>
+      <li>17.08. — Abnahme mit Rügefrist und Eskalation geregelt</li>
+      <li>17.08. — Verfahren für den Domainumzug samt MX-Sicherung ausgearbeitet</li>
+      <li>17.08. — Sperrliste, Wiedervorlage, Anlassfilter, Einwandbehandlung aufgenommen</li>
+      <li>17.08. — Kapitalbedarf vollständig beziffert: 995–1.764 €</li>
+      <li>16.08. — Konzept-Check: 43 Befunde in zwei Durchgängen</li>
+      <li>15.08. — Impressum und Datenschutz als eigene Seiten, Stil geteilt</li>
+      <li>15.08. — Prüfkatalog über die eigene Seite gelaufen</li>
+      <li>14.08. — Fehlendes viewport-Meta gefunden und behoben</li>
+      <li>13.08. — Firmenname entschieden: Webgewerk</li>
+      <li>12.08. — Pipeline reproduziert alle vier von Hand erstellten Befunde</li>
+      <li>12.08. — Elf Pakete erzeugt, je fünf Dateien</li>
+    </ul>
+  </div>
+</div>
+
+</main>
+
+<footer>
+  <div class="bahn">
+    Webgewerk · Aufgabenliste · Stand 17.08.2026<br>
+    Quellen: Unternehmenskonzept Fassung 17.08. und Konzept-Check vom 16.08.
+  </div>
+</footer>
