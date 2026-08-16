@@ -1,0 +1,1221 @@
+<title>Webgewerk Unternehmenskonzept</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+/* Fassung 17.08.2026. Gestaltung folgt dem eigenen Regelwerk vom
+   13.08.2026 — dieselben Farben und Schriften wie Firmenseite und
+   Konzept-Check. Kein Webfont, nichts wird nachgeladen.
+   Zum Drucken: Strg/Cmd+P, „Hintergrundgrafiken" nicht nötig. */
+:root{
+  --grund:#FAF8F4; --flaeche:#FFFFFF; --basis:#16181C; --text:#3A3A38;
+  --gedaempft:#6B665C; --akzent:#A8681B; --akzent-weich:#F0E5D6;
+  --linie:#E4DED4; --linie-stark:#CFC7B9;
+  --neu:#8C6512; --neu-weich:#F5EBD6;
+  --offen:#8A2C1E; --offen-weich:#F6E4DF;
+  --mono:ui-monospace,"SF Mono","JetBrains Mono",Menlo,Consolas,monospace;
+  --sans:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --grund:#141619; --flaeche:#1B1E23; --basis:#F2EEE6; --text:#C9C4BA;
+    --gedaempft:#918B81; --akzent:#D89440; --akzent-weich:#33261A;
+    --linie:#2A2D34; --linie-stark:#3A3E46;
+    --neu:#D9A945; --neu-weich:#302716;
+    --offen:#E08672; --offen-weich:#33201C;
+  }
+}
+:root[data-theme="dark"]{
+  --grund:#141619; --flaeche:#1B1E23; --basis:#F2EEE6; --text:#C9C4BA;
+  --gedaempft:#918B81; --akzent:#D89440; --akzent-weich:#33261A;
+  --linie:#2A2D34; --linie-stark:#3A3E46;
+  --neu:#D9A945; --neu-weich:#302716;
+  --offen:#E08672; --offen-weich:#33201C;
+}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--grund);color:var(--text);font-family:var(--sans);
+ font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
+.bahn{max-width:52rem;margin:0 auto;padding:0 clamp(1.15rem,4vw,2.5rem)}
+h1,h2,h3,h4{color:var(--basis);font-weight:700;letter-spacing:-.012em;
+ line-height:1.15;margin:0;text-wrap:balance}
+h1{font-size:clamp(1.9rem,4.6vw,2.8rem)}
+h2{font-size:clamp(1.3rem,2.8vw,1.7rem);margin:2.6rem 0 .8rem;
+ padding-top:1.4rem;border-top:1px solid var(--linie-stark)}
+h3{font-size:1.08rem;margin:1.8rem 0 .5rem}
+h4{font-size:.98rem;margin:1.2rem 0 .35rem}
+p{margin:0 0 .85rem;max-width:64ch}
+ul,ol{margin:0 0 .95rem;padding-left:1.25rem;max-width:64ch}
+li{margin-bottom:.32rem}
+a{color:var(--akzent)}
+:focus-visible{outline:2px solid var(--akzent);outline-offset:3px}
+code{font-family:var(--mono);font-size:.86em}
+strong{color:var(--basis)}
+.kapitel{font-family:var(--mono);font-size:11px;letter-spacing:.16em;
+ text-transform:uppercase;color:var(--akzent);margin:0 0 .9rem;
+ display:flex;align-items:center;gap:.7rem}
+.kapitel::before{content:"";width:26px;height:1px;background:var(--akzent);flex:none}
+
+header.kopf{padding:clamp(2.5rem,7vw,4.5rem) 0 1.8rem;
+ border-bottom:2px solid var(--akzent);background:var(--flaeche)}
+.unter{margin:1rem 0 0;font-family:var(--mono);font-size:12px;
+ letter-spacing:.04em;color:var(--gedaempft);line-height:1.95}
+
+/* Vermerke: was gegenüber der Fassung vom 16.08. geändert wurde, und was
+   offen bleibt. Beides gehört sichtbar ins Dokument, nicht in eine Mail. */
+.vermerk{margin:1rem 0 1.3rem;padding:.8rem 1rem;font-size:14.5px;
+ border-left:3px solid var(--neu);background:var(--neu-weich);max-width:64ch}
+.vermerk b{display:block;font-family:var(--mono);font-size:10px;
+ letter-spacing:.11em;text-transform:uppercase;color:var(--neu);
+ margin-bottom:.25rem}
+.vermerk p{margin:0}.vermerk p+p{margin-top:.5rem}
+.offen{border-left-color:var(--offen);background:var(--offen-weich)}
+.offen b{color:var(--offen)}
+
+.rahmen{overflow-x:auto;margin:1rem 0 1.4rem;border:1px solid var(--linie);
+ background:var(--flaeche)}
+table{width:100%;border-collapse:collapse;font-size:14px;
+ font-variant-numeric:tabular-nums}
+th,td{text-align:left;padding:.6rem .8rem;border-bottom:1px solid var(--linie);
+ vertical-align:top}
+th{font-family:var(--mono);font-size:10px;letter-spacing:.09em;
+ text-transform:uppercase;color:var(--gedaempft);font-weight:500;
+ background:var(--grund);white-space:nowrap}
+tr:last-child td{border-bottom:0}
+td.z{text-align:right;white-space:nowrap}
+.g3{color:var(--offen);font-weight:600}
+
+.inhalt{columns:2;column-gap:2.5rem;font-size:14.5px;margin:1.5rem 0 0}
+.inhalt a{display:block;padding:.22rem 0;text-decoration:none;color:var(--text);
+ break-inside:avoid}
+.inhalt a:hover{color:var(--akzent)}
+.inhalt .n{font-family:var(--mono);color:var(--gedaempft);margin-right:.5rem}
+@media(max-width:640px){.inhalt{columns:1}}
+
+footer.fuss{margin-top:3rem;border-top:1px solid var(--linie-stark);
+ font-family:var(--mono);font-size:11.5px;color:var(--gedaempft);line-height:1.9}
+footer.fuss .bahn{padding-block:1.5rem 2.5rem}
+
+@media print{
+  @page{margin:18mm}
+  body{background:#fff;color:#000;font-size:10.5pt}
+  .bahn{max-width:none;padding:0}
+  h2{break-after:avoid;border-top:1px solid #999}
+  h3,h4{break-after:avoid}
+  .rahmen{break-inside:avoid;border-color:#999}
+  table{font-size:9pt}
+  .vermerk{border-left-color:#000;background:#fff;border:1px solid #999;
+   break-inside:avoid}
+  .inhalt{display:none}
+  tr{break-inside:avoid}
+}
+</style>
+
+<header class="kopf">
+  <div class="bahn">
+    <p class="kapitel">Unternehmenskonzept</p>
+    <h1>Webgewerk</h1>
+    <p class="unter">
+      Fassung 17.08.2026 · ersetzt die Fassung vom 16.08.2026<br>
+      Kira Moewes und Yannik Dettmer · Kerpen, Rhein-Erft-Kreis
+    </p>
+    <div class="vermerk">
+      <b>Was diese Fassung ändert</b>
+      <p>Vier Entscheidungen sind eingearbeitet: Die Firma heißt
+      <strong>Webgewerk</strong>. Die Preisliste dieses Konzepts gilt und
+      ersetzt alle abweichenden Angaben. Der Prüfkatalog hat
+      <strong>19 Punkte</strong> in der Nummerierung der laufenden Software.
+      Hosting und Domain bleiben beim Kunden.</p>
+      <p>Dazu sind die Widersprüche und Leerstellen aus dem Konzept-Check vom
+      16.08. eingearbeitet. Jede Änderung steht in einem Kasten wie diesem.
+      Rote Kästen sind offene Punkte mit Verantwortlichem.</p>
+    </div>
+    <nav class="inhalt" aria-label="Inhalt">
+      <a href="#k1"><span class="n">1</span>Kurzfassung</a>
+      <a href="#k2"><span class="n">2</span>Markt und Wettbewerb</a>
+      <a href="#k3"><span class="n">3</span>Zielgruppe und Auswahl</a>
+      <a href="#k4"><span class="n">4</span>Angebot</a>
+      <a href="#k5"><span class="n">5</span>Positionierung und Marke</a>
+      <a href="#k6"><span class="n">6</span>Preis und Erlösmodell</a>
+      <a href="#k7"><span class="n">7</span>Produktion und Technik</a>
+      <a href="#k8"><span class="n">8</span>Betrieb nach Livegang</a>
+      <a href="#k9"><span class="n">9</span>Vertrieb</a>
+      <a href="#k10"><span class="n">10</span>Wirtschaftlichkeit</a>
+      <a href="#k11"><span class="n">11</span>Ziele und Kennzahlen</a>
+      <a href="#k12"><span class="n">12</span>Rollen und Rechtsform</a>
+      <a href="#k13"><span class="n">13</span>Recht, Steuern, Datenschutz</a>
+      <a href="#k14"><span class="n">14</span>Risiken</a>
+      <a href="#k15"><span class="n">15</span>Meilensteine</a>
+      <a href="#k16"><span class="n">16</span>Dokumentation</a>
+      <a href="#ka"><span class="n">A</span>Prüfkatalog, 19 Punkte</a>
+      <a href="#kb"><span class="n">B</span>Aufbau des Website-Checks</a>
+      <a href="#kc"><span class="n">C</span>Gründungs-Checkliste</a>
+    </nav>
+  </div>
+</header>
+
+<main class="bahn">
+
+<h2 id="k1">1 · Kurzfassung</h2>
+<p>Webgewerk baut Handwerksbetrieben im Rhein-Erft-Kreis eine neue Website zum
+festen Preis und mit festem Termin. Der Einstieg ist ein kostenloser,
+individuell erstellter Website-Check, der belegbare Mängel der Bestandsseite
+benennt — bevor überhaupt ein Verkaufsgespräch stattfindet.</p>
+<ul>
+  <li><strong>Zielkunde:</strong> bau- und ausbaunahe Gewerke, 3 bis 50
+  Mitarbeiter, im Fahrgebiet Kerpen–Grevenbroich, mit bestehender Website und
+  mindestens drei belegten Mängeln.</li>
+  <li><strong>Angebot:</strong> Festpreis ab 990 € (Paket S), Standardpaket M
+  1.490 €, Paket L 2.290 €. 40 % Anzahlung vor Baubeginn. Betreuung
+  69 €/Monat.</li>
+  <li><strong>Aufwand beim Kunden:</strong> ein Vorgespräch, einmal Material
+  zusammenstellen, zwei Rückmeldungen.</li>
+  <li><strong>Alleinstellung:</strong> fester Preis, fester Termin, ein
+  Ansprechpartner — und ein nachgewiesener Mangel, bevor wir etwas verkaufen.</li>
+</ul>
+<div class="vermerk">
+  <b>Geändert</b>
+  <p><strong>Firmenname Webgewerk</strong> durchgängig, auch in Anhang C.
+  <strong>Die Preise dieses Abschnitts gelten</strong> und ersetzen alle
+  abweichenden Angaben, auch die auf der Firmenseite — die wird nachgezogen.</p>
+  <p>Die frühere Zusage „rund zwei Stunden Zeitaufwand beim Kunden" ist
+  gestrichen. Sie war nie gemessen und widersprach den Mitwirkungspflichten in
+  Abschnitt 4.3. An ihrer Stelle steht, was tatsächlich verlangt wird. Die
+  echte Stundenzahl wird in den drei Pilotprojekten erhoben und danach hier
+  eingetragen.</p>
+</div>
+
+<h2 id="k2">2 · Markt und Wettbewerb</h2>
+
+<h3>2.1 Was belegt ist</h3>
+<ul>
+  <li><strong>94 % der deutschen Handwerksbetriebe haben eine eigene Website</strong>
+  (Bitkom/ZDH 2025, n = 504, repräsentativ, ±4 %). Wir bedienen einen
+  Ersatzmarkt, keinen Erstausstattungsmarkt. Die Ansprache kann nie „Sie
+  brauchen eine Website" lauten, sondern nur „Ihre Website hat ein konkretes,
+  messbares Problem".</li>
+  <li><strong>Höchstens 45 % der Handwerker-Websites funktionierten mobil
+  optimal</strong> (Bitkom/ZDH 2020). Die belastbarste Stütze des Modells — und
+  sechs Jahre alt. Eine neuere Erhebung existiert nicht.</li>
+  <li><strong>76 % nennen Investitionskosten als größtes
+  Digitalisierungshemmnis</strong> (Bitkom/ZDH 2020). Der Festpreis adressiert
+  genau diesen Einwand.</li>
+</ul>
+<p><strong>Nicht verwenden:</strong> „Jeder zweite Handwerker hat keine
+Website" (Gelbe Seiten 2018, rund 100 Betriebe in der Stichprobe) und „nur
+35 % haben eine Internetpräsenz" (kursiert ohne Quelle). Beide widersprechen
+Bitkom/ZDH und halten einer Nachfrage im Gespräch nicht stand.</p>
+
+<h4>Eigene Messreihe — erste Zahlen liegen vor</h4>
+<p>Elf Betriebe im Fahrgebiet sind vollständig geprüft. <strong>Acht davon,
+also 73 %, haben drei oder mehr belegte Befunde</strong> und gelten damit als
+Zielkunden. Häufigste Befunde: Telefonnummer nicht antippbar (8 von 11), kein
+Anfrageformular (8), keine Karriereseite (7), nicht für Handys eingerichtet (5),
+keine Beschreibung für Google (5).</p>
+<div class="vermerk">
+  <b>Neu</b>
+  <p>Die Trichterannahme in Abschnitt 11 (60 geprüfte Betriebe ergeben 40
+  Checks, also 67 %) ist damit nicht mehr Annahme, sondern durch die eigene
+  Messreihe gedeckt. Stichprobe elf — klein, aber es ist unsere.</p>
+</div>
+
+<h3>2.2 Wettbewerb</h3>
+<div class="rahmen">
+<table>
+  <thead><tr><th>Segment</th><th>Beispiele</th><th>Preis</th><th>Was dort fehlt</th></tr></thead>
+  <tbody>
+    <tr><td>Baukasten Selbstbau</td><td>Wix, Jimdo, IONOS, STRATO</td><td>12–30 €/Monat</td><td>Zeit und Können des Kunden</td></tr>
+    <tr><td>Baukasten mit Bau-Service</td><td>IONOS, STRATO</td><td>30–85 €/Mon. · 3 Jahre 1.600–1.800 €</td><td>Eigentum, Individualität, Ansprechpartner</td></tr>
+    <tr><td>Template-Festpreis</td><td>werkerweb, goldfein</td><td>329–699 €</td><td>Beratung, Individualität</td></tr>
+    <tr><td>Direkte Preisnachbarn</td><td>Werbeagentur Landau, meinBetrieb online, PagePartner</td><td>759–1.739 €</td><td>zu prüfen — siehe Vermerk</td></tr>
+    <tr><td>Kleinagentur individuell</td><td>neuzeitwerber, Netfame</td><td>2.500–5.000 €</td><td>Preis, Tempo</td></tr>
+    <tr><td>Miete / Leasing</td><td>webseiten-fuer-handwerker.net</td><td>75–175 €/Mon., 36 Mon.</td><td>Eigentum an der Seite</td></tr>
+  </tbody>
+</table>
+</div>
+<p><strong>Schlussfolgerung.</strong> Unser Hauptgegner ist nicht die teure
+Agentur, sondern das Bau-Service-Abo von IONOS und STRATO. Über drei Jahre
+landet der Kunde dort bei 1.600 bis 1.800 € — praktisch unserem Preis. Was er
+dort nicht bekommt: Eigentum an der Seite, echte Individualität und einen
+Menschen, der zu ihm fährt. Der Preis ist nicht unser Argument.</p>
+<div class="offen vermerk">
+  <b>Offen · Yannik, vor dem ersten Angebot</b>
+  <p>Für keinen Wettbewerberpreis in dieser Tabelle gibt es eine Quelle mit
+  Abrufdatum. Ein Dokument, das bei Marktzahlen Stichprobengröße und
+  Fehlertoleranz angibt, kann sich das hier nicht leisten.</p>
+  <p>Vor allem die Zeile <strong>„Direkte Preisnachbarn"</strong>: Sie liegen im
+  selben Preisband und arbeiten mit vergleichbarem Modell. Die Behauptung, sie
+  seien nicht im Rheinland aktiv, ist ungeprüft. Drei Angebotsseiten aufrufen,
+  Datum notieren, Fahrgebiet feststellen.</p>
+</div>
+
+<h3>2.3 Warum wir</h3>
+<ul>
+  <li>Der Check liefert den belegten Mangel vor dem Gespräch. Kein Anbieter in
+  diesem Preissegment tut das.</li>
+  <li>Persönliche Übergabe im Fahrgebiet. Ein Fernanbieter kann das nicht
+  nachmachen.</li>
+  <li>KI-gestützte Produktion senkt unsere Kosten. Nach außen ist das kein
+  Verkaufsargument (Abschnitt 5).</li>
+  <li>Der Nachteil, den wir aktiv beantworten müssen: neu, ohne Referenzen.
+  Antwort ist das Pilotprogramm in 9.4.</li>
+</ul>
+
+<h2 id="k3">3 · Zielgruppe und Auswahl</h2>
+
+<h3>3.1 Branchen und Region</h3>
+<ul>
+  <li><strong>Hauptbranche:</strong> bau- und ausbaunahe Gewerke — Elektro,
+  Sanitär/Heizung, Fenster/Türen, Innenausbau, Dach, Maler. Verkaufsargument
+  dort: Außenwirkung und Mitarbeitergewinnung, nicht Auftragsgewinnung.</li>
+  <li><strong>Nebenbranchen, später:</strong> Gastronomie, Vereine. Erweiterung
+  erst nach dem dritten zahlenden Kunden in der Hauptbranche.</li>
+  <li><strong>Region:</strong> Erstkontakt ausschließlich im Fahrgebiet Kerpen,
+  Bergheim, Elsdorf, Bedburg, Grevenbroich. DACH ist Fernziel und kein
+  Planungshorizont — die persönliche Übergabe ist der Kanal, und der endet an
+  der Fahrtzeit.</li>
+  <li><strong>Betriebslisten:</strong> durchgeplant.de, Handwerkskammer-Verzeichnis,
+  OpenStreetMap über Overpass, Google Maps, Gelbe Seiten.</li>
+</ul>
+<div class="offen vermerk">
+  <b>Offen · beide, vor Tag 1</b>
+  <p>„Wer voll ausgelastet ist, sucht Leute, keine Kunden" trägt die gesamte
+  Positionierung der Hauptbranche und hat keine Quelle. Nötig ist eine
+  belastbare Zahl aus dem Handwerk — offene Stellen, unbesetzte
+  Ausbildungsplätze, Dauer einer Vakanz. Ohne sie gibt es auf die Frage „was
+  bringt mir das?" keine erlaubte Antwort: Umsatzaussagen sind untersagt
+  (Anhang B), Bewerber sind unbeziffert. Erste Anlaufstelle: ZDH-Konjunktur­bericht,
+  Handwerkskammer Köln.</p>
+</div>
+
+<h3>3.2 Auswahl</h3>
+<ul>
+  <li>Zielkunde ab <strong>drei sicher belegten Befunden</strong> aus dem
+  Prüfkatalog (Anhang A). Auf den Check kommen maximal vier.</li>
+  <li>Betriebsgröße 3 bis 50 Mitarbeiter. Annahme, nach 20 Gesprächen prüfen.</li>
+  <li><strong>Anlass, wenn erkennbar:</strong> offene Stellenanzeige,
+  Betriebsübergabe, Umzug, neuer Standort. Ein Anlass hebt den Betrieb in der
+  Reihenfolge nach vorn — er ersetzt aber keinen Befund.</li>
+  <li><strong>Ausschluss:</strong> keine Website und kein Google-Profil ·
+  Seite erkennbar in den letzten zwölf Monaten neu gebaut · Betrieb
+  geschlossen, in Insolvenz oder Übergabe · Filiale einer Kette mit zentraler
+  Website · Doppeleintrag oder bereits kontaktiert · kein belegbarer Defekt ·
+  <strong>Widerspruch nach Art. 21 DSGVO eingelegt</strong>.</li>
+</ul>
+<div class="vermerk">
+  <b>Neu</b>
+  <p><strong>Anlass als Sortierkriterium.</strong> Bisher filterte die Auswahl
+  nur auf technische Mängel. Warum ein Betrieb <em>gerade jetzt</em> kauft, kam
+  nicht vor — dabei ist eine offene Stellenanzeige der beste Anlass, den dieses
+  Modell haben kann, und sie ist frei sichtbar.</p>
+  <p><strong>Sperrliste.</strong> Wer widerspricht, kommt in eine eigene Spalte
+  der Betriebsliste und wird vor jedem Versand abgeglichen. Ohne diesen Schritt
+  bekommt er in sechs Monaten wieder Post — genau der Fall, aus dem die
+  Abmahnung wird.</p>
+  <p><strong>Betriebe ganz ohne Website</strong> bleiben ausgeschlossen, aber
+  jetzt mit Begründung: Ohne Bestandsseite gibt es nichts zu messen, und der
+  Check ist unser einziger Einstieg. Sobald eine zweite Ansprache existiert,
+  gehört diese Gruppe wieder aufgenommen — es sind rund 6 % und der einfachste
+  Verkauf.</p>
+</div>
+
+<h2 id="k4">4 · Angebot</h2>
+
+<h3>4.1 Pakete</h3>
+<div class="rahmen">
+<table>
+  <thead><tr><th>Paket</th><th>Umfang</th><th class="z">Kalkuliert</th><th class="z">Preis</th></tr></thead>
+  <tbody>
+    <tr><td><strong>S</strong></td><td>Auftritt, 4–5 Seiten, Übernahme vorhandener Texte, Aufbereitung des gelieferten Bildmaterials, Kontaktformular, Impressum und Datenschutz nach Vorlage</td><td class="z">15 h</td><td class="z"><strong>990 €</strong></td></tr>
+    <tr><td><strong>M</strong><br>Standard</td><td>Auftritt und Karriereseite, 6–8 Seiten, Texte aus Kundenstichpunkten formuliert, technisches SEO-Grundsetup</td><td class="z">22 h</td><td class="z"><strong>1.490 €</strong></td></tr>
+    <tr><td><strong>L</strong></td><td>zusätzlich Texte aus einem geführten Interview, erweiterte Bildaufbereitung, bis 12 Seiten</td><td class="z">32 h</td><td class="z"><strong>2.290 €</strong></td></tr>
+    <tr><td><strong>Betreuung</strong></td><td>Domainverwaltung, monatliches Backup, monatliche Erreichbarkeits- und Zertifikatsprüfung, bis 2 h Inhaltsänderungen pro Jahr, Reaktion auf Störungen innerhalb von zwei Werktagen</td><td class="z">laufend</td><td class="z"><strong>69 €/Mon.</strong></td></tr>
+  </tbody>
+</table>
+</div>
+<p><strong>In jedem Paket enthalten:</strong> Einrichtung einer eigenen Domain,
+falls der Betrieb bisher auf einer Baukasten-Adresse läuft. Die Gebühr von rund
+12 € im Jahr zahlt der Kunde direkt beim Anbieter — die Arbeit ist unsere.</p>
+<p><strong>Nicht enthalten:</strong> Online-Shop, Buchungs- und Bestellsystem,
+Mehrsprachigkeit, laufende SEO-Betreuung, Newsletter, Social-Media-Betreuung,
+Logo-Design, Fotoshooting, gekaufte Stockfotos, geprüfte Rechtstexte,
+Einrichtung des Google-Unternehmensprofils.</p>
+
+<h4>Hinweis zum Paket S</h4>
+<p>990 € bei 15 kalkulierten Stunden ergeben 66 € je Stunde. Realistisch dauern
+die ersten Projekte das Zwei- bis Dreifache; bei S fällt der effektive Satz
+damit unter 25 €. S ist das Paket mit dem größten Verlustrisiko und zugleich
+der Preisanker. <strong>S nur verkaufen, wenn der Umfang wirklich bei 4–5
+Seiten liegt und die Inhalte vollständig vorliegen</strong> — sonst auf M
+führen. Ab dem vierten Projekt, wenn die Vorlage steht, ist S unkritisch.</p>
+<div class="offen vermerk">
+  <b>Offen · beide, nach Projekt drei</b>
+  <p>Beworben wird „ab 990 €", verkauft werden soll M zu 1.490 €. Das ist ein
+  Muster, das dem eigenen Ton widerspricht („jede Aussage nachprüfbar",
+  Abschnitt 5). Zwei saubere Auswege: S ganz streichen und mit „Festpreis ab
+  1.490 €" werben, oder S auf einen Umfang zuschneiden, den es zu diesem Preis
+  wirklich gibt. Entscheiden, sobald die Ist-Zeiten aus den drei Piloten
+  vorliegen.</p>
+</div>
+
+<h3>4.2 Anpassungen, Abnahme, Termine</h3>
+<ul>
+  <li><strong>Zwei Anpassungsrunden inklusive</strong>, im Angebot
+  festgeschrieben. Eine Runde ist eine gesammelte Rückmeldung, nicht ein
+  Einzelwunsch. Ab der dritten Runde 70 €/h nach Aufwand, vorher schriftlich
+  angekündigt.</li>
+  <li><strong>Abnahme.</strong> Nach der zweiten Runde legen wir den Stand
+  schriftlich zur Abnahme vor. Der Kunde hat sieben Tage für eine begründete
+  Rüge; erfolgt keine, gilt die Leistung als abgenommen. Eine begründete Rüge
+  betrifft nur zugesagte Leistungen, nicht Geschmacksfragen — die sind Gegenstand
+  der beiden Runden. Danach: Livegang und Schlussrechnung.</li>
+  <li><strong>Umsetzungszeit vier Wochen ab vollständiger Inhaltslieferung</strong>
+  — nicht ab Vertragsschluss. Der Unterschied gehört ins Angebot, sonst haften
+  wir für die Trägheit des Kunden.</li>
+</ul>
+<div class="vermerk">
+  <b>Neu</b>
+  <p>Die Abnahme fehlte vollständig. Der bisherige Ablauf ging von „zwei
+  Anpassungsrunden" direkt zu „Livegang" zu „Schlussrechnung" — ohne Regel für
+  den Fall, dass der Kunde nach Runde zwei nicht zufrieden ist. Genau dann
+  stehen 60 % der Summe offen. Das ist der wahrscheinlichste Konflikt des
+  Geschäfts und braucht eine Klausel im Vertrag.</p>
+</div>
+
+<h3>4.3 Mitwirkung des Kunden</h3>
+<ul>
+  <li>Inhalte (Texte, Bilder, Logo, Domain- und Hosting-Zugang) innerhalb von
+  14 Tagen nach Anzahlung. Rückmeldung auf einen Entwurf innerhalb von 7 Tagen.</li>
+  <li>Nach 30 Tagen ohne Lieferung ruht das Projekt. Die Anzahlung verfällt
+  nicht und wird nicht erstattet, Wiederaufnahme jederzeit möglich.</li>
+  <li>Bilder liefert der Kunde und garantiert schriftlich, dass er sie verwenden
+  darf. Keine Stockfotos auf eigene Rechnung, kein Fotoshooting. Ohne brauchbare
+  Fotos wird mit Flächen und Typografie gearbeitet, nicht mit Symbolbildern.</li>
+  <li>Übernommene Texte der Bestandsseite: Der Kunde bestätigt schriftlich, dass
+  er die Rechte daran hat. Häufig hat sie eine Agentur geschrieben.</li>
+  <li>Unsere Antwortzeit im laufenden Projekt: 2 Werktage.</li>
+</ul>
+<div class="offen vermerk">
+  <b>Offen · Kira, vor dem ersten Pilotprojekt</b>
+  <p>Bildmaterial ist der wahrscheinlichste Qualitätskiller und wird von uns
+  ausdrücklich nicht beschafft. Wenn ein Betrieb nur Handyfotos von 2014 hat,
+  ist „besser als vorher" nicht garantiert — und die Referenz, auf der das
+  Pilotprogramm beruht, auch nicht. Mindestens für die drei Piloten braucht es
+  eine Antwort: eigene Aufnahmen gegen Aufpreis, oder eine Gestaltung, die ohne
+  Fotos trägt und vorher gezeigt wird.</p>
+</div>
+
+<h3>4.4 Feste Fragen im Vorgespräch</h3>
+<ol>
+  <li>Wie läuft der Betrieb, und was ist für die nächsten zwölf Monate geplant?</li>
+  <li>Welche Inhalte gibt es schon, was bleibt, was wird ersetzt?</li>
+  <li>Was soll die Website vor allem erreichen — Aufträge, Bewerber oder Seriosität?</li>
+  <li>Wer entscheidet, und wer liefert die Inhalte?</li>
+  <li>Wer verwaltet heute Domain und E-Mail-Postfach, und bei welchem Anbieter?</li>
+</ol>
+
+<h4>Die drei Einwände, die sicher kommen</h4>
+<div class="rahmen">
+<table>
+  <thead><tr><th>Einwand</th><th>Antwort</th></tr></thead>
+  <tbody>
+    <tr><td>„Zu teuer."</td><td>Gegenrechnung, keine Rechtfertigung: Das Bau-Service-Abo bei IONOS oder STRATO kostet über drei Jahre 1.600 bis 1.800 €. Danach gehört Ihnen nichts. Bei uns gehört Ihnen die Seite ab dem ersten Tag.</td></tr>
+    <tr><td>„Das macht mein Neffe."</td><td>Nicht dagegen argumentieren. Fragen, wann er zuletzt Zeit hatte, und auf den Check zeigen: Diese Punkte stehen seit Jahren offen. Anbieten, dass er den Zugang behält.</td></tr>
+    <tr><td>„Dafür hab ich keine Zeit."</td><td>Genau darum die feste Liste: ein Vorgespräch, einmal Material zusammenstellen, zwei Rückmeldungen. Termine machen wir nach Ihrem Kalender, auch nach Feierabend.</td></tr>
+  </tbody>
+</table>
+</div>
+<div class="vermerk">
+  <b>Neu</b>
+  <p>Das Dokument regelte Fristen, Schweregrade und Rechtsformen bis ins Detail
+  und ließ das Gespräch selbst leer — obwohl daran alles hängt.</p>
+</div>
+
+<h2 id="k5">5 · Positionierung und Marke</h2>
+<ul>
+  <li><strong>Name: Webgewerk.</strong> Zusatz „Ihr Gewerk im Fokus".
+  Entschieden.</li>
+  <li><strong>Versprechen in einem Satz:</strong> „Eine fertige Website für
+  Ihren Betrieb — fester Preis, fester Termin, ein Ansprechpartner."</li>
+  <li><strong>Ton:</strong> sachlich, konkret, jede Aussage nachprüfbar. Kein
+  Guru-Vokabular, keine Superlative, keine Emojis als Aufzählungszeichen, keine
+  Aussage über Umsatzsteigerung.</li>
+  <li><strong>Rolle der KI:</strong> intern Kostenvorteil in der Produktion. Bei
+  Handwerksbetrieben nach außen kein Verkaufsargument — „mit KI gebaut" wird als
+  billig gelesen. Auf direkte Nachfrage antworten wir offen; Verschweigen kostet
+  mehr Vertrauen, als Erklären kostet.</li>
+  <li><strong>Ein Ansprechpartner je Kunde</strong>, und zwar der, der das
+  Vorgespräch geführt hat. Da Yannik den Vertrieb führt (Abschnitt 12), trägt
+  der Check <strong>Yanniks Namen und Yanniks E-Mail-Adresse</strong>.</li>
+</ul>
+<div class="vermerk">
+  <b>Geändert</b>
+  <p>Der Name auf dem Check war als offener Punkt geführt, obwohl der Grundsatz
+  „ein Ansprechpartner" ihn bereits festlegt. Er ist damit entschieden. Auf der
+  aktuellen Check-Vorlage steht Yanniks Name mit Kiras Mailadresse — das ist zu
+  korrigieren, sonst ist es genau der Widerspruch, den die Regel auflösen soll.</p>
+  <p><strong>Domainrecherche gilt weiter:</strong> Am 13.08. geprüft.
+  <code>webgewerk.de</code> ist registriert und geparkt (kein Wettbewerber),
+  <code>webgewerk.com</code> und <code>web-gewerk.com</code> sind frei. Für
+  <code>.de</code>, <code>.koeln</code>, <code>.nrw</code> gibt es keine
+  öffentliche Registerabfrage — fehlender DNS-Eintrag ist kein Nachweis.</p>
+</div>
+
+<h2 id="k6">6 · Preis und Erlösmodell</h2>
+<ul>
+  <li><strong>Verbindliche Festpreise.</strong> Der Check nennt den Rahmen
+  („Festpreis ab 990 €, fertig in vier Wochen"), das Angebot nennt ihn
+  verbindlich. Die Beratungsleistung ist in jedem Paket enthalten.</li>
+  <li><strong>Nachlass nur gegen Umfang.</strong> Ein Preis wird nicht frei
+  verhandelt; wer weniger zahlt, bekommt weniger Seiten.</li>
+  <li><strong>40 % Anzahlung vor Baubeginn</strong>, ohne Ausnahme.
+  Schlussrechnung nach Abnahme und Livegang.</li>
+  <li><strong>Pilotpreis:</strong> die ersten drei Projekte zu 50 % (Paket M:
+  745 €) gegen vollständige Referenzrechte — Nennung mit Firmenname,
+  Vorher-Nachher-Werte, schriftliches Zitat, Zeigeerlaubnis für Website und
+  Check. Befristet auf drei Abschlüsse, danach kein Rabatt.</li>
+  <li><strong>Betreuung 69 €/Monat</strong>, Mindestlaufzeit zwölf Monate,
+  danach monatlich kündbar.</li>
+</ul>
+<div class="vermerk">
+  <b>Geändert</b>
+  <p>Der frühere „Verhandlungsspielraum bis 10 % nach unten frei" ist
+  gestrichen. Er widersprach zwei Zeilen weiter oben der eigenen Begründung,
+  ein verhandelter Preis zerstöre die Alleinstellung. Bei Paket M waren es
+  149 € — zu wenig, um einen Abschluss zu drehen, und genug, um den
+  Ausgangspreis unglaubwürdig zu machen.</p>
+</div>
+<p><strong>Marktvergleich:</strong> Wartungspakete im Kleinstsegment liegen bei
+29–69 €/Monat; ab etwa 89 € erwarten Kunden Reporting und zugesagte
+Reaktionszeiten. 69 € ist das obere Ende ohne Service-Level-Zusage. Deshalb muss
+der Leistungsumfang exakt benannt sein — sonst verhandelt ihn der Kunde nach
+oben, ohne dass der Preis steigt.</p>
+
+<h2 id="k7">7 · Produktion und Technik</h2>
+
+<h3>7.1 Bauweise, Hosting, Domain</h3>
+<p>Websites werden mit Claude Code als statische Seiten gebaut und je Kunde in
+einem eigenen Git-Repository versioniert. Ausgeliefert wird HTML, CSS und
+minimales JavaScript, ohne CMS und ohne Datenbank.</p>
+<p><strong>Was das bringt:</strong> sehr kurze Ladezeiten — ausgerechnet der
+Prüfpunkt, mit dem wir bei fremden Seiten argumentieren. Praktisch keine
+Sicherheitsupdates, kein Plugin-Risiko, vollständige Versionshistorie, und ein
+Fehler ist durch Rücksprung auf die Vorversion behoben statt durch Reparatur.</p>
+
+<h4>Hosting und Domain bleiben beim Kunden</h4>
+<ul>
+  <li>Die <strong>Domain läuft auf den Namen des Kunden</strong>, das
+  <strong>Hosting ebenfalls auf seinen Vertrag</strong>. Er ist Eigentümer und
+  kann jederzeit gehen. Für uns entstehen dadurch keine laufenden Kosten je
+  Kunde.</li>
+  <li>Wir brauchen dafür <strong>Zugang</strong>, nicht Eigentum: SFTP- oder
+  Git-Zugang beim Hoster des Kunden. Das gehört in die Mitwirkungspflichten
+  (4.3) und ins Angebot.</li>
+  <li><strong>Voraussetzung an das Hosting:</strong> Es muss das Hochladen
+  eigener Dateien erlauben. Ein reiner Baukasten-Tarif kann das nicht — dort ist
+  ein Wechsel Teil des Projekts und wird im Vorgespräch geklärt.</li>
+  <li>Die monatliche Erreichbarkeits- und Zertifikatsprüfung läuft ohnehin von
+  außen und braucht keinen Zugang.</li>
+</ul>
+<div class="vermerk">
+  <b>Geändert · entschieden</b>
+  <p>Die Vorfassung hielt „Hosting beim Kunden" für unvereinbar mit der
+  Betreuung. Das löst sich auf: Wir brauchen Zugriff, nicht Besitz. Damit
+  entfällt auch die unklare Kostenzeile „rund 5 € laufende Kosten" bei
+  20 Betreuungskunden — es sind <strong>0 €</strong>, weil der Kunde sein
+  Hosting selbst bezahlt.</p>
+</div>
+
+<h4>Der Kunde kann nichts selbst ändern</h4>
+<p>Konsequenz: Die Betreuung ist faktisch nicht optional, sondern Teil des
+Produkts. Sie wird im Angebot als empfohlene Standardleistung geführt, nicht als
+Zusatzoption. Änderungen ohne Betreuungsvertrag: 70 €/h, mindestens eine halbe
+Stunde. Wer das im Verkauf verschweigt, verliert den Kunden beim ersten
+Änderungswunsch. Bei Livegang erhält der Kunde das Repository und die fertigen
+Dateien; dass ein Nachfolger den Code neu aufbauen müsste, sagen wir dazu.</p>
+
+<h4>Livegang: der riskanteste Schritt</h4>
+<ul>
+  <li>An der Domain hängt in der Regel das <strong>Geschäfts-E-Mail-Postfach</strong>.
+  Vor jeder Umstellung werden die bestehenden MX-Einträge dokumentiert und
+  unverändert übernommen.</li>
+  <li>Umstellung nur <strong>Dienstag bis Donnerstag vormittags</strong>, nie
+  vor einem Wochenende.</li>
+  <li>Nach der Umstellung: Testmail an das Betriebspostfach, Rückmeldung des
+  Kunden abwarten, erst dann Schlussrechnung.</li>
+  <li>Rückweg: alte DNS-Einträge werden vor der Änderung gesichert.</li>
+</ul>
+<div class="vermerk">
+  <b>Neu</b>
+  <p>„Livegang auf Kundendomain" war ein Wort im Ablauf. Ein Betrieb, dessen
+  E-Mail einen Tag ausfällt, wird nie eine Referenz.</p>
+</div>
+
+<h4>Übergabe an den Kunden</h4>
+<p>Bei Livegang übergeben wir schriftlich: Zugangsdaten zu Domain und Hosting
+(soweit wir sie angelegt haben), Einladung zum Git-Repository, eine
+Ein-Seiten-Anleitung, was wo liegt, und die Übergabeliste aus Anhang A —
+also die Punkte, die der Kunde selbst erledigen muss.</p>
+
+<div class="offen vermerk">
+  <b>Offen · Kira, vor dem ersten Pilotprojekt</b>
+  <p><strong>Kontaktformular.</strong> Eine statische Seite hat keinen Server.
+  Es braucht einen Formulardienst mit Serverstandort in der EU und
+  Auftragsverarbeitungsvertrag oder einen eigenen kleinen Endpunkt beim Hoster
+  des Kunden. Bis das entschieden ist, ist kein Projekt auslieferbar — der
+  Kontaktweg ist Prüfpunkt 6 unseres eigenen Katalogs.</p>
+</div>
+
+<h3>7.2 Produktionsvorlage und Abnahme</h3>
+<ul>
+  <li>Die ersten drei Websites werden vollständig von Hand gebaut, mit
+  mitgeschriebener Ist-Zeit je Arbeitsschritt. Erst danach wird daraus eine
+  wiederverwendbare Vorlage abgeleitet.</li>
+  <li><strong>Annahme, ungeprüft:</strong> Die kalkulierten 15, 22 bzw. 32
+  Stunden gelten erst ab Projekt vier. Für die Pilotprojekte ist das Zwei- bis
+  Dreifache einzuplanen.</li>
+</ul>
+
+<h4>Definition of Done — geteilt</h4>
+<p>Der Prüfkatalog hat zwei Aufgaben: Mängel bei fremden Seiten finden und
+verhindern, dass wir liefern, was wir anstreichen. Für die zweite Aufgabe wird
+er geteilt:</p>
+<ul>
+  <li><strong>Was wir steuern</strong> — Prüfpunkte 1, 2, 3, 4, 5, 7, 8, 9, 10,
+  11, 12, 15 sowie die Branchenzusätze 21, 22, 23. Eine ausgelieferte Seite hat
+  hier <strong>null Befunde</strong>. Ohne Ausnahme.</li>
+  <li><strong>Was der Kunde steuert</strong> — Prüfpunkt 13 (eigene Domain, er
+  muss sie bezahlen), 14 (Google-Unternehmensprofil), 20 (Speisekarte als Text,
+  er muss sie liefern) sowie Punkt 6, solange der Formulardienst nicht
+  entschieden ist. Diese Punkte stehen auf der <strong>Übergabeliste</strong>
+  und werden schriftlich erklärt, nicht stillschweigend offen gelassen.</li>
+</ul>
+<div class="vermerk">
+  <b>Geändert</b>
+  <p>Bisher hieß es „besteht den vollständigen Prüfkatalog ohne einen einzigen
+  Befund". Das war nicht erfüllbar, weil drei Punkte am Kunden hängen — und es
+  hätte auch den ersten Kundenkontakt blockiert, weil die eigene Seite dieselben
+  Punkte offen hat. Kein Punkt fällt weg, sie sind nur zugeordnet.</p>
+</div>
+
+<h3>7.3 Ablauf</h3>
+<p>Betrieb geprüft → Check und Designentwurf erstellt → persönlich übergeben →
+Nachfassanruf nach drei Werktagen → Vorgespräch mit Zieldefinition → Angebot
+und 40 % Anzahlung → Bau → maximal zwei Anpassungsrunden →
+<strong>Abnahme</strong> → Livegang auf Kundendomain →
+<strong>Übergabe</strong> → Schlussrechnung → Betreuung anbieten.</p>
+
+<h2 id="k8">8 · Betrieb nach Livegang</h2>
+<ul>
+  <li><strong>In der Betreuung enthalten (69 €/Monat):</strong> Domainverwaltung,
+  monatliches Backup, monatliche Erreichbarkeits- und Zertifikatsprüfung, bis
+  zwei Stunden Inhaltsänderungen pro Jahr, Reaktion auf Störungsmeldungen
+  <strong>innerhalb eines Werktages</strong>.</li>
+  <li><strong>Nicht enthalten:</strong> neue Seiten, Umbauten,
+  Funktionserweiterungen, SEO-Betreuung, Textarbeit über den Änderungsumfang
+  hinaus — 70 €/h nach vorheriger schriftlicher Freigabe.</li>
+  <li><strong>Kündigung:</strong> zwölf Monate Mindestlaufzeit, danach monatlich
+  zum Monatsende. Bei Kündigung übergeben wir Repository und Dateien; Domain und
+  Hosting gehören ohnehin dem Kunden.</li>
+  <li><strong>Preisanpassung:</strong> frühestens nach 24 Monaten, mit drei
+  Monaten Ankündigung und Sonderkündigungsrecht.</li>
+  <li><strong>Bei Betriebseinstellung unsererseits:</strong> Herausgabe aller
+  Dateien und Zugänge binnen 14 Tagen. Gehört in den Vertrag.</li>
+</ul>
+<div class="vermerk">
+  <b>Geändert</b>
+  <p>Die Reaktionszeit auf Störungen ist von zwei Werktagen auf einen gesenkt.
+  Zwei Werktage über ein Wochenende sind vier Tage, in denen die Telefonnummer
+  des Betriebs nicht erreichbar ist. Bei statischen Seiten ist die Behebung ein
+  Rücksprung auf die Vorversion und dauert Minuten — die alte Zusage verschenkte
+  genau das Argument, das sie tragen soll.</p>
+  <p>Neu: Preisanpassungsklausel und die Regelung für den Fall, dass wir
+  aufhören.</p>
+</div>
+
+<h2 id="k9">9 · Vertrieb</h2>
+
+<h3>9.1 Kanal und Reihenfolge</h3>
+<p><strong>Rechtssichere Reihenfolge:</strong> Website-Check persönlich oder per
+Post übergeben → telefonisches Nachfassen frühestens drei Werktage später →
+E-Mail erst, nachdem der Betrieb selbst geantwortet hat.</p>
+<p><strong>Begründung.</strong> E-Mail-Werbung an Unternehmen ist ohne vorherige
+ausdrückliche Einwilligung unzulässig (§ 7 Abs. 2 Nr. 2 UWG) — das gilt auch für
+LinkedIn- und Xing-Nachrichten, die als elektronische Post zählen.
+Telefonwerbung im B2B setzt eine mutmaßliche Einwilligung voraus (§ 7 Abs. 2
+Nr. 1 UWG), und seit dem Urteil des Bundesverwaltungsgerichts vom 29.01.2025
+(6 C 3.23) ist sie zusätzlich datenschutzrechtlich angreifbar. Der zuvor
+übergebene, individuell erstellte Check ist der sachliche Anknüpfungspunkt, der
+den Anruf trägt — ohne ihn rufen wir nicht an.</p>
+<ul>
+  <li>Kein Preis im Anschreiben, keine Aussage zu Umsatz oder Erfolg, genau ein
+  Handlungsaufruf: ein unverbindliches Gespräch. Ein Satz Bezug zum Betrieb, ein
+  Satz zum Beiliegenden, vollständige Absenderangaben.</li>
+  <li><strong>Nachfassen höchstens einmal — dann Wiedervorlage nach sechs
+  Monaten.</strong> Der häufigste Grund für ein Nein ist nicht „will nicht",
+  sondern „gerade nicht".</li>
+  <li>Jedem Check liegt ein kurzer Datenschutzhinweis nach Art. 14 DSGVO bei:
+  woher die Daten stammen, wozu wir sie nutzen, Widerspruchsrecht nach Art. 21
+  Abs. 2 DSGVO. <strong>Ein Widerspruch führt sofort in die Sperrliste</strong>
+  (3.2).</li>
+  <li><strong>Weiterempfehlung</strong> ist der zweite Kanal und der einzige mit
+  erwartbar besserer Quote. Nach jedem Livegang aktiv danach fragen. Erster
+  konkreter Anknüpfungspunkt: das Umfeld von durchgeplant.</li>
+</ul>
+<div class="vermerk">
+  <b>Neu</b>
+  <p>Wiedervorlage statt endgültigem Abhaken: Bei 40 Checks und 8 Vorgesprächen
+  wären sonst 32 Betriebe nach einem Anruf erledigt — darin stecken rund
+  64 Arbeitsstunden.</p>
+</div>
+
+<h3>9.2 Website-Check</h3>
+<ul>
+  <li>Maximal vier Befunde. <strong>Auswahl in zwei Stufen:</strong> erst
+  <em>filtern</em> — auf den Check kommt nur, was das angebotene Paket auch
+  behebt —, dann <em>sortieren</em> nach Schweregrad absteigend, bei Gleichstand
+  zuerst die Punkte, die das Standardpaket ohnehin löst.</li>
+  <li>Was wir nicht beheben (Punkt 14, Google-Profil), erscheint <strong>nicht
+  auf dem gedruckten Check</strong>, sondern nur im internen Dossier — als
+  Stoff für das Gespräch.</li>
+  <li>Befund und Angebot auf getrennten Seiten: Seite 1–2 neutraler Befund,
+  Seite 3 Ausblick und Preisrahmen.</li>
+  <li>Der Check nimmt Farben und Anmutung des Betriebs auf, aber nicht dessen
+  Logo. Zwei Farben aus der Bestandsseite ableiten, dazu eine von drei
+  Schriftvarianten nach Branche. Das volle Kundenlogo kommt erst ins Mockup.</li>
+  <li>Gemessene Fakten statt Wertung: „Ladezeit auf dem Handy: 8,4 Sekunden.
+  Google bewertet über 4 Sekunden als schlecht."</li>
+</ul>
+<div class="vermerk">
+  <b>Geändert</b>
+  <p>Die frühere Fassung enthielt zwei Regeln, die einander widersprachen:
+  „sortiert nach Schweregrad absteigend" und „ausschließlich solche, die das
+  Standardpaket auch behebt". Weil die Sortierung Schweregrad 3 nach oben zieht,
+  landeten bevorzugt genau die Punkte oben, die die zweite Regel verbietet.
+  Filter zuerst, Sortierung danach — dann vertragen sich beide.</p>
+  <p><strong>Punkt 13 (eigene Domain) darf jetzt auf den Check:</strong> Wir
+  richten sie ein, der Kunde zahlt die rund 12 €/Jahr direkt beim Anbieter. Er
+  ist damit behebbar, nur nicht im Preis enthalten.</p>
+</div>
+
+<h3>9.3 Aufwand je Check</h3>
+<p><strong>Annahme, ungeprüft:</strong> 2 Stunden je bearbeitetem Betrieb
+(Recherche, Prüfung, Check-Erstellung, Druck). Wird ab dem ersten Check
+mitgeschrieben. Ziel nach 20 Checks: unter 45 Minuten, erreicht durch
+Automatisierung der Prüfpunkte 1–5 und 11–13.</p>
+<h4>Fahrzeit wird getrennt gerechnet und gebündelt</h4>
+<p>Die 45 Minuten gelten für die Erstellung, <strong>nicht</strong> für die
+Übergabe. Eine Fahrt Kerpen–Grevenbroich und zurück ist rund eine Stunde;
+einzeln ausgefahren wäre die persönliche Übergabe mit dem Zeitziel unvereinbar.
+Deshalb: <strong>Checks werden gesammelt und in Touren zu fünf Betrieben
+ausgefahren.</strong> Damit fällt die Fahrzeit je Check auf etwa zwölf Minuten.</p>
+<div class="vermerk">
+  <b>Neu</b>
+  <p>Der Zielkonflikt stand nirgends: Der wichtigste wirtschaftliche Hebel
+  (45 Minuten je Check) und das wichtigste Verkaufsargument (persönliche
+  Übergabe) schlossen sich gegenseitig aus. Die Tour löst ihn.</p>
+</div>
+
+<h3>9.4 Pilotprogramm und Kaltstart</h3>
+<ul>
+  <li>Drei Pilotprojekte zu 745 € (Paket M). Gegenleistung schriftlich fixiert:
+  Firmenname als Referenz, Vorher-Nachher-Werte, ein Zitat, Zeigeerlaubnis für
+  Website und Check.</li>
+  <li><strong>Alle drei parallel starten</strong>, nicht nacheinander — sonst
+  hängt die erste Referenz an einem einzigen Kunden.</li>
+  <li>Vor dem ersten Kundenkontakt steht die eigene Website von Webgewerk, die
+  den Prüfkatalog in den Punkten besteht, die wir steuern (7.2).</li>
+</ul>
+
+<h3>9.5 Was wir nicht wissen</h3>
+<p>Für die Kombination Check-Übergabe plus telefonisches Nachfassen im
+deutschen Kleinunternehmenssegment existiert keine belastbare Quote. Die
+kursierenden Werte stammen aus Bestandskundenaktionen oder aus
+US-amerikanischem Softwarevertrieb. Wir schätzen hier nicht — wir messen
+(Abschnitt 11).</p>
+
+<h2 id="k10">10 · Wirtschaftlichkeit</h2>
+
+<h3>10.1 Fixkosten</h3>
+<div class="rahmen">
+<table>
+  <thead><tr><th>Position</th><th class="z">monatlich</th><th>Anmerkung</th></tr></thead>
+  <tbody>
+    <tr><td>Claude-Abo</td><td class="z">80 €</td><td>Prüfauftrag: kommerzieller Tarif mit AV-Vertrag nötig, siehe 13.4</td></tr>
+    <tr><td>Eigene Domain und Hosting</td><td class="z">~10 €</td><td>nur für uns; Kundenhosting zahlt der Kunde</td></tr>
+    <tr><td>Vermögensschaden-/IT-Haftpflicht</td><td class="z">25–58 €</td><td>300–700 €/Jahr für eine Zwei-Personen-GbR</td></tr>
+    <tr><td>Druck und Porto der Checks</td><td class="z">50–80 €</td><td>bei 20 Checks: 2,50–4 € je Stück, mehrseitiger Farbdruck plus Art.-14-Blatt</td></tr>
+    <tr><td>Fahrtkosten</td><td class="z">40–70 €</td><td>vier Touren im Monat à rund 60 km, 0,30 €/km</td></tr>
+    <tr><td><strong>Summe</strong></td><td class="z"><strong>205–298 €</strong></td><td></td></tr>
+  </tbody>
+</table>
+</div>
+<div class="vermerk">
+  <b>Geändert</b>
+  <p>Fahrtkosten kamen bisher überhaupt nicht vor — bei einem Modell, dessen
+  Kanal das Hinfahren ist. Druck und Porto waren mit 30 € für 20 Checks
+  angesetzt, also 1,50 € je Stück; das reicht für einen mehrseitigen Farbdruck
+  plus Beilage plus Porto nicht. Die Summe steigt damit von 150–180 € auf
+  205–298 €. Am Ergebnis ändert das nichts: Die Fixkosten sind nicht das
+  Problem, der Engpass ist Zeit.</p>
+</div>
+
+<h3>10.2 Kapitalbedarf bis zum ersten Geld</h3>
+<div class="rahmen">
+<table>
+  <thead><tr><th>Position</th><th class="z">Betrag</th></tr></thead>
+  <tbody>
+    <tr><td>Gewerbeanmeldung, zwei Personen</td><td class="z">30–120 €</td></tr>
+    <tr><td>Vermögensschaden-/IT-Haftpflicht, Jahresbeitrag</td><td class="z">300–700 €</td></tr>
+    <tr><td>Gesellschaftsvertrag GbR</td><td class="z g3">offen</td></tr>
+    <tr><td>Anwaltliche Prüfung von Vertrag und AGB</td><td class="z g3">offen</td></tr>
+    <tr><td>Domain, Hosting, geschäftliche E-Mail, Einrichtung</td><td class="z">~50 €</td></tr>
+    <tr><td>Laufende Fixkosten bis zur ersten Anzahlung (3 Monate)</td><td class="z">615–894 €</td></tr>
+    <tr><td><strong>Bekannt bisher</strong></td><td class="z"><strong>995–1.764 €</strong> zzgl. zwei offener Posten</td></tr>
+  </tbody>
+</table>
+</div>
+<p>Das erste Geld ist die Anzahlung des ersten Pilotkunden: 40 % von 745 €,
+also <strong>298 €</strong>.</p>
+<div class="offen vermerk">
+  <b>Offen · Yannik, vor Tag 1</b>
+  <p>Zwei Angebote für den Gesellschaftsvertrag und zwei für die anwaltliche
+  Prüfung von Vertrag und AGB einholen und hier eintragen. Ohne diese beiden
+  Zahlen gibt es keine Antwort auf „wie viel Geld müssen wir hinlegen, bevor der
+  erste Euro kommt" — die erste Frage jeder Bank und jeder Steuerberatung.</p>
+</div>
+<div class="offen vermerk">
+  <b>Offen · beide, vor Tag 1</b>
+  <p><strong>Wovon leben wir im ersten Jahr?</strong> Das Neugeschäft trägt sich
+  im ersten Jahr nicht als Stundenlohn (10.3). Anstellung nebenher, Rücklage,
+  Gründungszuschuss — schriftlich festhalten, mit Betrag und Dauer. Von allen
+  offenen Punkten ist das der, an dem Vorhaben tatsächlich scheitern.</p>
+</div>
+
+<h3>10.3 Was eine Stunde wirklich bringt</h3>
+<p>Paket S ergibt rechnerisch 66 € je kalkulierter Produktionsstunde, M 68 €,
+L 72 €. Das ist die halbe Wahrheit, weil die Vertriebszeit fehlt. Vollständig
+gerechnet, je gewonnenem Kunden (Paket M):</p>
+<div class="rahmen">
+<table>
+  <thead><tr><th>Szenario</th><th class="z">Vertrieb</th><th class="z">Produktion</th><th class="z">Gesamt</th><th class="z">Umsatz</th><th class="z">je Stunde</th></tr></thead>
+  <tbody>
+    <tr><td>20 Checks à 2 h → 4 Gespräche → 1 Abschluss</td><td class="z">48 h</td><td class="z">22 h</td><td class="z">70 h</td><td class="z">1.490 €</td><td class="z">21 €</td></tr>
+    <tr><td>20 Checks à 2 h → 4 Gespräche → 2 Abschlüsse</td><td class="z">48 h</td><td class="z">44 h</td><td class="z">92 h</td><td class="z">2.980 €</td><td class="z">32 €</td></tr>
+    <tr><td>20 Checks à 45 Min. → 4 Gespräche → 2 Abschlüsse</td><td class="z">23 h</td><td class="z">44 h</td><td class="z">67 h</td><td class="z">2.980 €</td><td class="z">44 €</td></tr>
+  </tbody>
+</table>
+</div>
+<p><em>Die Vertriebszeit enthält die Checks plus vier Gespräche à zwei Stunden.
+Die Konversionsannahmen (20 % Vorgespräch, 5–10 % Abschluss) sind ungeprüft und
+durch keine Quelle gedeckt. Sie stehen hier, um die Größenordnung sichtbar zu
+machen — nicht als Planung.</em></p>
+<p><strong>Drei Schlussfolgerungen:</strong></p>
+<ul>
+  <li>Der Check-Aufwand ist der entscheidende Hebel, nicht der Verkaufspreis.
+  Von zwei Stunden auf 45 Minuten zu kommen verdoppelt den effektiven
+  Stundensatz — eine Preiserhöhung um 500 € täte das nicht.</li>
+  <li>Das Neugeschäft trägt sich im ersten Jahr nicht als Stundenlohn. Es
+  finanziert den Aufbau von Vorlage, Referenzen und Betreuungsbestand.</li>
+  <li>Der Betreuungsbestand ist das eigentliche Geschäft — aber er ist weit
+  entfernt, siehe 10.4.</li>
+</ul>
+
+<h3>10.4 Wann der Betreuungsbestand trägt</h3>
+<p>20 Betreuungskunden zu 69 € sind 1.380 € im Monat, bei rund 0 € laufenden
+Kosten und etwa zwei Arbeitsstunden im Jahr je Kunde. Die Frage ist, wann.</p>
+<div class="rahmen">
+<table>
+  <thead><tr><th>Annahme</th><th class="z">Verträge/Jahr</th><th class="z">bis 20 Kunden</th></tr></thead>
+  <tbody>
+    <tr><td>Rate aus Abschnitt 11 fortgeschrieben (1 je 90 Tage)</td><td class="z">4</td><td class="z g3">5 Jahre</td></tr>
+    <tr><td>Bestfall: jeder gewonnene Kunde nimmt Betreuung</td><td class="z">8</td><td class="z">2,5 Jahre</td></tr>
+  </tbody>
+</table>
+</div>
+<div class="vermerk">
+  <b>Neu</b>
+  <p>Diese Rechnung fehlte. Der Teil, der das Modell tragen soll, trägt
+  frühestens im dritten Jahr. Das ändert nichts an seiner Richtigkeit, aber
+  alles an der Planung der ersten beiden. Eine Kündigungsquote ist dabei noch
+  gar nicht angesetzt — 20 gewonnene Kunden sind nicht 20 gehaltene.</p>
+</div>
+
+<h3>10.5 Rücklagen</h3>
+<p>30 % jeder Einnahme als Steuerrücklage auf ein separates Konto. Als
+Kleinunternehmer fällt keine Umsatzsteuer an — Einkommensteuer fällt trotzdem
+an, und Gewerbesteuer ab 24.500 € Gewerbeertrag der Gesellschaft.</p>
+
+<h2 id="k11">11 · Ziele und Kennzahlen</h2>
+<p>Tag 1 ist der Tag, an dem der erste Check übergeben wird, nicht der Tag der
+Gewerbeanmeldung.</p>
+<div class="rahmen">
+<table>
+  <thead><tr><th>Kennzahl</th><th class="z">Ziel in 90 Tagen</th><th>gemessen wie</th></tr></thead>
+  <tbody>
+    <tr><td>Geprüfte Betriebe</td><td class="z">60</td><td>Betriebsliste</td></tr>
+    <tr><td>Übergebene Checks</td><td class="z">40</td><td>Betriebsliste</td></tr>
+    <tr><td>Vorgespräche</td><td class="z">8</td><td>Betriebsliste</td></tr>
+    <tr><td>Zahlende Kunden</td><td class="z">3</td><td>gestellte Rechnungen</td></tr>
+    <tr><td>Live-Seiten</td><td class="z">3</td><td>Betriebsliste</td></tr>
+    <tr><td>Projekte mit erfasster Ist-Zeit</td><td class="z">3</td><td>Zeitprotokoll</td></tr>
+    <tr><td>Zeit je Check</td><td class="z">&lt; 45 Min. ab Check 20</td><td>Zeitprotokoll</td></tr>
+    <tr><td>Betreuungsverträge</td><td class="z">2</td><td>Verträge</td></tr>
+  </tbody>
+</table>
+</div>
+<div class="vermerk">
+  <b>Geändert</b>
+  <p>Die Kennzahlen standen im Widerspruch zu den Meilensteinen: Dort waren drei
+  abgeschlossene Pilotprojekte geplant, hier nur eine Live-Seite und zwei
+  zahlende Kunden. Da alle drei Piloten parallel starten (9.4), gilt drei.</p>
+</div>
+<ul>
+  <li><strong>Wöchentlicher fester Termin von 60 bis 90 Minuten</strong>, an dem
+  diese Zahlen eingetragen und besprochen werden. Ohne festen Termin verfällt
+  die Messung innerhalb von drei Wochen. Fester Tagesordnungspunkt:
+  <em>Stimmt der Prüfkatalog im Code noch mit Anhang A überein?</em></li>
+  <li><strong>Abbruch- und Korrekturkriterien.</strong> Nach 20 Checks ohne ein
+  einziges Vorgespräch wird der Brief überarbeitet, nicht die Zielgruppe. Nach
+  <strong>35 Checks</strong> ohne Vorgespräch wird der Kanal in Frage gestellt.
+  Nach <strong>40 Checks</strong> ohne Abschluss wird das Konzept neu bewertet —
+  dann stimmen Zielgruppe, Preis oder Angebot nicht.</li>
+</ul>
+<div class="vermerk">
+  <b>Geändert</b>
+  <p>Die strengste Schwelle lag bei 60 Checks — bei einem 90-Tage-Ziel von 40.
+  Sie hätte nie ausgelöst. Beide Schwellen liegen jetzt innerhalb des
+  Planungshorizonts.</p>
+</div>
+
+<h2 id="k12">12 · Rollen, Kapazität, Rechtsform</h2>
+<ul>
+  <li><strong>Yannik:</strong> Vertrieb, Erstkontakt, Vorgespräch, Angebot.
+  <strong>Kira:</strong> Produktion, Technik, Betreuung.</li>
+  <li>Der Check trägt Yanniks Namen und Yanniks E-Mail-Adresse (Abschnitt 5).</li>
+</ul>
+<div class="offen vermerk">
+  <b>Offen · beide, vor Tag 1</b>
+  <p><strong>Verfügbare Stunden je Woche, feste Tage und Uhrzeiten,
+  schriftlich.</strong> Ohne diese Zahl ist Abschnitt 10 nicht rechenbar und
+  Abschnitt 11 nicht planbar. Das ist der wichtigste offene Punkt des Dokuments.</p>
+  <p><strong>Ausfall einer Person.</strong> Produzieren kann derzeit nur Kira.
+  Fällt sie aus, steht alles. Mindestens nötig: eine schriftliche Anleitung, wie
+  ein Projekt gebaut und ausgeliefert wird, und Zugriff beider auf alle
+  Zugänge.</p>
+</div>
+<p><strong>Rechtsform.</strong> Die GbR besteht bereits, sobald wir gemeinsam
+nach außen auftreten — sie entsteht automatisch und auch ohne schriftlichen
+Vertrag (§ 705 BGB). Wir haften persönlich, unbeschränkt und gesamtschuldnerisch
+mit dem Privatvermögen (§ 721 BGB). Es gibt nichts zu entscheiden, nur etwas zu
+regeln: schriftlicher Gesellschaftsvertrag (Gewinnverteilung, Geschäftsführung,
+Kündigung, Ausscheiden — einschließlich der Frage, was mit laufenden
+Kundenverträgen passiert) und je eine eigene Gewerbeanmeldung beider
+Gesellschafter vor dem ersten Kunden.</p>
+
+<h2 id="k13">13 · Recht, Steuern, Datenschutz</h2>
+<p>Alle Punkte mit Prüfauftrag stehen mit Verantwortlichem und Frist in
+Anhang C. Hier steht nur, was das Geschäftsmodell berührt. <strong>Das ist keine
+Rechtsberatung.</strong></p>
+
+<h3>13.1 Werbung</h3>
+<p>Kaltakquise per Mail an Unternehmen fällt unter § 7 UWG und trägt ein
+Abmahnrisiko. Daraus folgt die Kanalreihenfolge in 9.1. Risiko bei Verstoß:
+Streitwerte von 1.000 bis 6.000 €, Abmahnkosten meist 250 bis 900 €. Teurer wird
+die vorformulierte Unterlassungserklärung mit Vertragsstrafen von häufig 5.000 €
+je Fall, die jahrzehntelang bindet — solche Erklärungen nie ungeprüft
+unterschreiben.</p>
+
+<h3>13.2 Steuern</h3>
+<ul>
+  <li>Webdesign ist gewerblich (§ 15 EStG), nicht freiberuflich:
+  Gewerbeanmeldung, IHK-Mitgliedschaft, Gewerbesteuer. Der Freibetrag von
+  24.500 € (§ 11 GewStG) gilt <strong>einmal je Gesellschaft</strong>, nicht je
+  Gesellschafter. Der IHK-Beitrag entfällt für Kleingewerbe mit Gewerbeertrag
+  bis 5.200 € in den ersten Jahren — die Mitgliedschaft besteht trotzdem.</li>
+  <li><strong>Kleinunternehmerregelung § 19 UStG:</strong> Nettogrenzen 25.000 €
+  Vorjahr und 100.000 € laufendes Jahr, seit 01.01.2025. Greift bei Neugründung
+  automatisch. Bei Überschreiten der 100.000 € ist bereits der auslösende Umsatz
+  voll steuerpflichtig, ohne Schonfrist. Im Gründungsjahr gilt allein die
+  25.000-€-Grenze, ohne Hochrechnung.</li>
+  <li><strong>Zu prüfen:</strong> Ein Verzicht auf § 19 UStG bindet fünf Jahre,
+  bringt aber den Vorsteuerabzug. Da unsere Kunden B2B sind und die
+  Umsatzsteuer dort ein durchlaufender Posten ist, kostet der Ausweis sie
+  nichts — der Verzicht ist eine ernsthafte Option.</li>
+</ul>
+
+<h3>13.3 Rechnungen und Aufbewahrung</h3>
+<p>Empfangspflicht für E-Rechnungen im inländischen B2B seit 01.01.2025, auch
+für Kleinunternehmer, ohne Übergangsfrist; Archivierung im Originalformat (XML),
+ein Ausdruck genügt nicht. Eine <strong>Ausstellungspflicht besteht für
+Kleinunternehmer dauerhaft nicht</strong> (§ 34a UStDV). Buchungsbelege sind
+8 Jahre aufzubewahren (§ 147 Abs. 3 AO), Bücher und Abschlüsse 10 Jahre.</p>
+
+<h3>13.4 Datenschutz</h3>
+<ul>
+  <li><strong>Art. 14 DSGVO</strong> — Informationspflicht bei Daten aus
+  öffentlichen Quellen. Gelöst durch die Beilage zum Check (9.1).</li>
+  <li><strong>Art. 21 DSGVO</strong> — jeder Widerspruch führt in die Sperrliste
+  und wird vor jedem Versand abgeglichen (3.2).</li>
+  <li><strong>Art. 30 DSGVO</strong> — Verzeichnis von Verarbeitungstätigkeiten
+  ist Pflicht. Die Ausnahme für kleine Unternehmen greift bei regelmäßiger
+  Verarbeitung nicht.</li>
+  <li><strong>Löschfristen.</strong> Messdaten und Kontaktangaben abgelehnter
+  Betriebe werden nach <strong>24 Monaten gelöscht</strong>; Einträge der
+  Sperrliste bleiben dauerhaft, aber auf das Minimum reduziert (Firma, Ort,
+  Datum des Widerspruchs) — sonst wäre die Sperre nicht durchsetzbar.</li>
+  <li><strong>Art. 28 DSGVO</strong> — mit jedem Betreuungskunden ein
+  Auftragsverarbeitungsvertrag, einschließlich Nennung aller
+  Unterauftragsverarbeiter.</li>
+  <li><strong>Claude / Anthropic.</strong> Sobald Kundendaten in Claude Code
+  eingegeben werden, ist Anthropic Auftragsverarbeiter. Das erfordert einen
+  Vertrag nach Art. 28, die Nennung als Unterauftragsverarbeiter im AVV mit dem
+  Kunden und die Aufnahme ins Verarbeitungsverzeichnis. Alternative: konsequente
+  Anonymisierung vor der Eingabe. Da die gesamte Produktion über Claude läuft,
+  ist das Voraussetzung für das erste Projekt.</li>
+</ul>
+<div class="offen vermerk">
+  <b>Offen · Kira, vor dem ersten Angebot</b>
+  <p><strong>Barrierefreiheit.</strong> Das Barrierefreiheitsstärkungsgesetz
+  gilt seit Juni 2025. Ob es Handwerksbetriebe mit reiner Informationsseite
+  trifft, ist ungeklärt — Kleinstunternehmen sind voraussichtlich ausgenommen.
+  <strong>Das ist eine Prüffrage, keine Rechtsaussage.</strong> Kunden fragen
+  danach, und im Prüfkatalog fehlt der Punkt. Anlaufstelle: Handwerkskammer,
+  Fachanwalt IT-Recht.</p>
+</div>
+
+<h3>13.5 Verträge, Haftung, Versicherung</h3>
+<ul>
+  <li><strong>Widerrufsrecht.</strong> Die 14 Tage gelten nur gegenüber
+  Verbrauchern. Maßgeblich ist der Zweck des konkreten Vertrags, nicht der
+  Gewerbeschein — bei Einzelunternehmern die Unternehmereigenschaft schriftlich
+  bestätigen lassen. Bei Dienstleistungen erlischt das Widerrufsrecht nach
+  vollständiger Erbringung nur, wenn der Kunde vorher ausdrücklich zugestimmt und
+  den Erlöschenshinweis bestätigt hat (§ 356 Abs. 4 BGB).</li>
+  <li><strong>Vertrag und AGB müssen abdecken:</strong> Leistungsumfang,
+  Mitwirkung mit Frist und Folge, <strong>Abnahme mit Rügefrist</strong>,
+  Zahlungsverzug und Mahnwesen, Kündigung, Haftung bei Ausfall, Fehler und
+  Datenverlust, Nutzungsrechte an Bildern, Schriften <strong>und übernommenen
+  Texten</strong>, Verwendung fremder Farben auf den Befundseiten, Herausgabe
+  der Dateien bei Ende der Zusammenarbeit — auch bei unserer
+  Betriebseinstellung.</li>
+  <li><strong>Versicherung.</strong> Entscheidend ist die
+  Vermögensschaden-/IT-Haftpflicht — fehlerhafte Umsetzung, Datenverlust,
+  Urheber- und Lizenzverletzungen, DSGVO-Verstöße —, nicht die
+  Betriebshaftpflicht. Übliche Deckung 250.000 bis 500.000 €, für eine
+  Zwei-Personen-GbR etwa 300 bis 700 € im Jahr. Bei unbeschränkter
+  Privathaftung nicht optional.</li>
+  <li><strong>Künstlersozialabgabe.</strong> Beauftragen wir Texter, Fotografen
+  oder Grafiker als Selbstständige, schuldet die GbR 4,9 % (Satz 2026) auf diese
+  Honorare, Bagatellgrenze 450 € im Kalenderjahr. Zahlungen an eine GmbH oder UG
+  sind abgabefrei.</li>
+  <li><strong>KSK-Mitgliedschaft.</strong> Die Formel stammt aus BSG vom
+  07.07.2005 (B 3 KR 37/04 R) und gilt für gestalterische Arbeit; Wartung,
+  Hosting und SEO zählen nicht dazu. Bei unserem Leistungsmix und der
+  gewerblichen Einstufung ist eine Aufnahme unsicher, eine rückwirkende
+  Aufhebung mit Beitragsnachforderung ein reales Risiko. Nachrangig prüfen.</li>
+  <li><strong>Rentenversicherung.</strong> § 2 Satz 1 Nr. 9 SGB VI greift nur,
+  wenn beide Merkmale zusammentreffen: kein versicherungspflichtiger Arbeitnehmer
+  <em>und</em> dauerhaft im Wesentlichen nur ein Auftraggeber (über 5/6 der
+  Einnahmen). Bei vielen kleinen Kunden trifft das nicht zu. Existenzgründer
+  können sich bis zu drei Jahre befreien lassen (§ 6 Abs. 1a SGB VI). Prüfung
+  personenbezogen je Gesellschafter, Klärung über § 7a SGB IV.</li>
+</ul>
+
+<h2 id="k14">14 · Risiken</h2>
+<div class="rahmen">
+<table>
+  <thead><tr><th>Risiko</th><th>Wirkung</th><th>Gegenmaßnahme</th></tr></thead>
+  <tbody>
+    <tr><td>Checks führen zu keinem Abschluss</td><td>Modell trägt nicht</td><td>Abbruchkriterien in Abschnitt 11; zuerst den Brief überarbeiten, nicht die Zielgruppe</td></tr>
+    <tr><td>Produktionszeit deutlich über Plan</td><td>Stundensatz kippt, besonders bei S</td><td>Ist-Zeit ab Projekt 1 messen, Vorlage nach Projekt 3 ableiten</td></tr>
+    <tr><td>Zeitkapazität neben anderen Verpflichtungen</td><td>Projekte bleiben liegen</td><td>feste Wochentermine schriftlich; Auftragsannahme begrenzen statt Termine reißen</td></tr>
+    <tr><td><strong>Ausfall einer Person</strong></td><td>Produktion steht komplett</td><td>schriftliche Bauanleitung, beidseitiger Zugriff auf alle Zugänge</td></tr>
+    <tr><td><strong>Kunde zahlt die Schlussrechnung nicht</strong></td><td>60 % offen, Seite ist live</td><td>40 % Anzahlung; Mahnstufen im Vertrag; Zahlungsziel 14 Tage</td></tr>
+    <tr><td><strong>E-Mail-Ausfall beim Domainumzug</strong></td><td>Kunde verloren, keine Referenz</td><td>Verfahren in 7.1: MX sichern, Zeitfenster, Testmail</td></tr>
+    <tr><td>Abmahnung wegen Werbung</td><td>250–900 € plus Vertragsstrafe</td><td>nur Übergabe und Brief, Telefon erst danach, Art.-14-Beilage, Sperrliste</td></tr>
+    <tr><td>Persönliche Haftung der GbR</td><td>Privatvermögen</td><td>Vermögensschadenhaftpflicht, AGB mit Haftungsbegrenzung</td></tr>
+    <tr><td>Kunde will die Seite selbst pflegen</td><td>Einwand im Gespräch</td><td>offen benennen, Betreuung als Standard führen, Änderungszusage geben</td></tr>
+    <tr><td>Abhängigkeit von Claude</td><td>Produktion steht</td><td>Repository und Dateien sind vollständig auch ohne Claude nutzbar</td></tr>
+    <tr><td>Erster Pilotkunde springt ab</td><td>keine Referenz</td><td>drei Pilotprojekte parallel starten</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2 id="k15">15 · Meilensteine</h2>
+<div class="rahmen">
+<table>
+  <thead><tr><th>Zeitraum</th><th>Was fertig sein muss</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Vorlauf</strong><br>Wochen −6 bis 0</td><td>Gesellschaftsvertrag · zwei Gewerbeanmeldungen · Domain und geschäftliche E-Mail · eigene Website, die den Katalog in den Punkten besteht, die wir steuern · Vermögensschadenhaftpflicht · Entscheidung Formulardienst · Vertrags- und Angebotsvorlage anwaltlich geprüft · Check-Vorlage mit Absenderangaben und Art.-14-Hinweis · Betriebsliste mit Sperrlisten-Spalte und Zeitprotokoll angelegt · verfügbare Wochenstunden schriftlich · Kapitalbedarf beziffert</td></tr>
+    <tr><td>Tag 1–30</td><td>20 Checks übergeben (vier Touren) · erste Vorgespräche · Ist-Zeit je Check gemessen · <strong>alle drei Pilotkunden beauftragt</strong></td></tr>
+    <tr><td>Tag 30–60</td><td>drei Pilotprojekte parallel gebaut · vollständiges Zeitprotokoll · weitere 20 Checks</td></tr>
+    <tr><td>Tag 60–90</td><td>drei Pilotprojekte live und abgenommen · Produktionsvorlage abgeleitet · Referenzunterlagen vollständig · Prüfpunkte 1–5 und 11–13 automatisiert · zwei Betreuungsverträge · Konzept gegen die Messwerte überarbeitet</td></tr>
+  </tbody>
+</table>
+</div>
+<div class="vermerk">
+  <b>Geändert</b>
+  <p>Zwei Korrekturen. Erstens gab es keinen Zeitraum <em>vor</em> Tag 1 — rund
+  zwölf Aufgaben ohne Datum, während der 90-Tage-Plan an einem unbekannten Tag
+  begann. Der Vorlauf ist jetzt benannt und mit sechs Wochen angesetzt.
+  Zweitens starteten die Piloten nacheinander, obwohl Abschnitt 9.4
+  ausdrücklich das Gegenteil verlangt.</p>
+</div>
+
+<h2 id="k16">16 · Dokumentation und Lernprotokoll</h2>
+<ul>
+  <li><strong>Betriebsliste:</strong> alle geprüften und angefragten Betriebe.
+  Spalten: Name, Ort, Gewerk, Mitarbeiterzahl, erkennbarer Anlass, gefundene
+  Befunde, Datum der Übergabe, Datum des Anrufs, Ergebnis, <strong>Widerspruch
+  ja/nein</strong>, Wiedervorlage, nächster Schritt. Eine Zeile je Betrieb, auch
+  für Ausschlüsse.</li>
+  <li><strong>Zeitprotokoll</strong> je Projekt und je Check, nach Arbeitsschritt
+  getrennt. Ohne diese Daten sind die Abschnitte 10 und 11 wertlos.</li>
+  <li><strong>Lernprotokoll:</strong> nach jedem Vorgespräch und jeder Absage ein
+  Satz, was daraus folgt. Alle Startwerte in diesem Dokument werden monatlich
+  dagegen geprüft und ersetzt.</li>
+  <li><strong>Abgleich Konzept und Software.</strong> Fester Punkt im
+  Wochentermin: Stimmt der Katalog in <code>pipeline/katalog.py</code> noch mit
+  Anhang A überein? Aus dieser fehlenden Schleife sind drei verschiedene
+  Katalogfassungen entstanden.</li>
+  <li><strong>Gültigkeitsregel.</strong> Jede Fassung trägt im Kopf, welche sie
+  ersetzt. Überholte Fassungen werden gelöscht, nicht abgelegt.</li>
+</ul>
+
+<h2 id="ka">Anhang A · Prüfkatalog, 19 Punkte</h2>
+<p>Dies ist die Fassung, die auch die laufende Software umsetzt
+(<code>pipeline/katalog.py</code>) und auf der die bereits erzeugten
+Kundenpakete beruhen. Startwerte, keine Festlegung — das Lernprotokoll
+korrigiert sie. <strong>Ein Befund entsteht nur bei sicherem Beleg, nie bei
+Verdacht.</strong></p>
+<p><strong>Spalte „Wer":</strong> <em>wir</em> = zählt zur Definition of Done,
+null Befunde bei Auslieferung. <em>Kunde</em> = steht auf der Übergabeliste.</p>
+<div class="rahmen">
+<table>
+  <thead><tr><th>#</th><th>Prüfpunkt</th><th>Befund wenn</th><th class="z">Grad</th><th>Erhebung</th><th>Wer</th></tr></thead>
+  <tbody>
+    <tr><td>1</td><td>Erreichbarkeit</td><td>HTTP-Status 4xx/5xx oder keine Antwort binnen 15 s</td><td class="z g3">3</td><td>automatisch</td><td>wir</td></tr>
+    <tr><td>2</td><td>HTTPS</td><td>kein HTTPS, ungültiges oder abgelaufenes Zertifikat, oder keine Weiterleitung von http auf https</td><td class="z g3">3</td><td>automatisch</td><td>wir</td></tr>
+    <tr><td>3</td><td>Mobiltauglichkeit</td><td>viewport-Angabe fehlt oder die Seite scrollt bei 390 px horizontal</td><td class="z g3">3</td><td>automatisch</td><td>wir</td></tr>
+    <tr><td>4</td><td>Ladezeit mobil</td><td>LCP über 4,0 s (Google: schlecht)</td><td class="z">2</td><td>automatisch</td><td>wir</td></tr>
+    <tr><td>5</td><td>Klickbare Telefonnummer</td><td>eine Telefonnummer ist sichtbar, aber es gibt keinen tel:-Link</td><td class="z">2</td><td>automatisch</td><td>wir</td></tr>
+    <tr><td>6</td><td>Kontaktweg</td><td>weder Formular noch mailto: noch tel: in zwei Klicks erreichbar</td><td class="z g3">3</td><td>automatisch</td><td>wir*</td></tr>
+    <tr><td>7</td><td>Impressum</td><td>Impressumsseite fehlt oder Name, Anschrift oder Kontaktweg fehlt</td><td class="z g3">3</td><td>Existenz automatisch, Inhalt manuell</td><td>wir</td></tr>
+    <tr><td>8</td><td>Aktualität</td><td>jüngste Jahreszahl auf der Seite liegt mehr als drei Jahre zurück</td><td class="z">1</td><td>manuell · rückt nur nach</td><td>wir</td></tr>
+    <tr><td>9</td><td>Karriereseite</td><td>kein Link auf Karriere, Jobs oder Stellen · nur Handwerk</td><td class="z">2</td><td>automatisch</td><td>wir</td></tr>
+    <tr><td>10</td><td>Formular</td><td>kein <code>&lt;form&gt;</code> auf der Startseite · nie blind absenden</td><td class="z">1</td><td>automatisch · rückt nur nach</td><td>wir</td></tr>
+    <tr><td>11</td><td>Seitentitel</td><td>title fehlt, ist leer oder trägt einen Vorlagenwert</td><td class="z">2</td><td>automatisch</td><td>wir</td></tr>
+    <tr><td>12</td><td>Meta-Description</td><td>fehlt oder kürzer als 50 Zeichen</td><td class="z">2</td><td>automatisch</td><td>wir</td></tr>
+    <tr><td>13</td><td>Eigene Domain</td><td>die Seite läuft auf einer Baukasten-Adresse statt auf eigener Domain</td><td class="z g3">3</td><td>automatisch</td><td>Kunde</td></tr>
+    <tr><td>14</td><td>Google-Unternehmensprofil</td><td>kein Profil, oder Adresse und Telefon weichen von der Website ab</td><td class="z g3">3</td><td>manuell</td><td>Kunde</td></tr>
+    <tr><td>15</td><td>Platzhalter- und Fremdtext</td><td>sichtbarer Vorlagen- oder fremdsprachiger Text auf der Seite</td><td class="z">2</td><td>manuell</td><td>wir</td></tr>
+    <tr><td>20</td><td>Speisekarte als Text · Gastro</td><td>die Karte ist nur als Bild oder PDF eingebunden</td><td class="z g3">3</td><td>manuell</td><td>Kunde</td></tr>
+    <tr><td>21</td><td>Bestell- oder Anfrageweg · Gastro</td><td>kein Weg, eine Bestellung oder Catering-Anfrage zu senden</td><td class="z">2</td><td>automatisch</td><td>wir</td></tr>
+    <tr><td>22</td><td>Bewerbungsweg · Handwerk</td><td>Karriereseite vorhanden, aber kein Formular und keine Mailadresse</td><td class="z">2</td><td>automatisch</td><td>wir</td></tr>
+    <tr><td>23</td><td>Weg zur Mitgliedschaft · Verein</td><td>weder Formular noch benannter Ansprechpartner</td><td class="z">2</td><td>manuell</td><td>wir</td></tr>
+  </tbody>
+</table>
+</div>
+<p>* Punkt 6 zählt zu unserer Verantwortung, sobald der Formulardienst
+entschieden ist (7.1). Bis dahin steht er auf der Übergabeliste.</p>
+<p><strong>Auswahl für den Check:</strong> erst filtern — nur was das
+angebotene Paket behebt —, dann sortieren nach Schweregrad absteigend, bei
+Gleichstand zuerst die Punkte, die das Standardpaket ohnehin löst. Maximal vier
+auf dem Check. <strong>Ab drei Befunden gilt der Betrieb als Zielkunde.</strong>
+Punkte 8 und 10 rücken nur nach, wenn sonst weniger als vier Befunde vorliegen.</p>
+<div class="vermerk">
+  <b>Geändert · entschieden</b>
+  <p>Die Vorfassung hatte den Katalog auf 13 Punkte gekürzt und neu
+  nummeriert — während Software, Kundenpakete und Firmenseite bei 19 blieben.
+  <strong>19 gilt, in dieser Nummerierung.</strong> Die beiden Einwände der
+  Kürzung bleiben als Regeln erhalten, statt Punkte zu streichen: Aktualität
+  erzeugt nur bei hartem Indiz einen Befund und rückt nur nach; ein fremdes
+  Formular wird nie abgesendet, geprüft wird nur seine Existenz.</p>
+  <p>Gemessen an elf Betrieben ändert die Rückkehr auf 19 die Zielkundenquote
+  nicht (73 %), bringt aber „kein Anfrageformular" zurück — mit 8 von 11 der
+  zweithäufigste Befund überhaupt.</p>
+</div>
+
+<h2 id="kb">Anhang B · Aufbau und Textregeln des Website-Checks</h2>
+<h4>Aufbau</h4>
+<ul>
+  <li><strong>Seite 1–2 — Befund, neutral.</strong> Interesse und Bezug zum
+  Betrieb in einem Satz. Dann maximal vier gemessene Befunde, je Befund: was
+  gemessen wurde, der Wert, der Vergleichsmaßstab. Keine Wertung, keine
+  Adjektive.</li>
+  <li><strong>Seite 3 — Ausblick und Preis.</strong> Was die Lösung praktisch
+  bedeutet, unser Preisrahmen und die Umsetzungszeit. Ein Handlungsaufruf: ein
+  unverbindliches Gespräch.</li>
+  <li><strong>Gestaltung.</strong> Zwei Farben aus der Bestandsseite abgeleitet,
+  eine von drei Schriftvarianten nach Branche. Kein Kundenlogo — das erscheint
+  erst im Mockup nach Auftragserteilung.</li>
+  <li><strong>Absenderangaben vollständig auf jeder Ausfertigung:</strong> Name,
+  ladungsfähige Anschrift, Telefon, geschäftliche E-Mail. Dazu der
+  Datenschutzhinweis nach Art. 14 DSGVO.</li>
+</ul>
+<h4>Textregeln</h4>
+<ul>
+  <li>Gemessene Fakten statt Bewertung.</li>
+  <li>Keine Behauptung zur Umsatzsteigerung.</li>
+  <li>Belegte Grundlage für das Ladezeit-Argument sind Googles Core Web Vitals
+  (LCP bis 2,5 s gut, über 4 s schlecht). Die verbreitete Zahl „53 % springen ab
+  3 Sekunden ab" stammt von Google/SOASTA 2016/17 — nur mit Jahresangabe
+  verwenden oder besser weglassen.</li>
+  <li>Nur Mängel nennen, die das angebotene Paket auch behebt.</li>
+  <li>Kein Marktvergleich auf dem Check — der gehört ins Gespräch.</li>
+  <li>Später, sobald vorhanden: Wirkungsdaten aus den drei Pilotprojekten.</li>
+</ul>
+<div class="offen vermerk">
+  <b>Offen · Kira und Yannik, blockiert alles</b>
+  <p><strong>Ladungsfähige Anschrift.</strong> § 5 DDG verlangt sie auf jedem
+  geschäftlichen Dokument. Bis sie eingetragen ist, trägt jeder erzeugte Check
+  einen roten Sperrbalken und darf nicht übergeben werden. Elf Pakete liegen
+  fertig und warten nur darauf.</p>
+</div>
+
+<h2 id="kc">Anhang C · Gründungs-Checkliste</h2>
+<p>Jede Zeile hat Verantwortlichen und Frist — ohne beides gehört sie nicht in
+die Liste.</p>
+<div class="rahmen">
+<table>
+  <thead><tr><th>Aufgabe</th><th>Wer</th><th>Bis wann</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Ladungsfähige Anschrift festlegen und eintragen</strong></td><td>beide</td><td>sofort</td></tr>
+    <tr><td>Entscheiden, welche Telefonnummer gilt</td><td>beide</td><td>sofort</td></tr>
+    <tr><td>Schriftlicher GbR-Gesellschaftsvertrag, einschließlich Kundenverträge bei Ausscheiden</td><td>beide</td><td>Vorlauf</td></tr>
+    <tr><td>Gewerbeanmeldung je Gesellschafter</td><td>beide</td><td>Vorlauf</td></tr>
+    <tr><td>Fragebogen zur steuerlichen Erfassung über ELSTER</td><td>beide</td><td>1 Monat nach Anmeldung</td></tr>
+    <tr><td>Steuerberatung: § 19 UStG beibehalten oder verzichten</td><td>Yannik</td><td>Vorlauf</td></tr>
+    <tr><td>Vermögensschaden-/IT-Haftpflicht — drei Angebote, abschließen</td><td>Yannik</td><td>Vorlauf</td></tr>
+    <tr><td><strong>Kapitalbedarf beziffern</strong> (Gesellschaftsvertrag, anwaltliche Prüfung)</td><td>Yannik</td><td>Vorlauf</td></tr>
+    <tr><td><strong>Wovon wir im ersten Jahr leben — schriftlich</strong></td><td>beide</td><td>Vorlauf</td></tr>
+    <tr><td>Domain <code>webgewerk</code> sichern, geschäftliche E-Mail einrichten</td><td>Yannik</td><td>Vorlauf</td></tr>
+    <tr><td>DPMA-Markenrecherche auf entgegenstehende Marken</td><td>Yannik</td><td>Vorlauf</td></tr>
+    <tr><td>Eigene Website: besteht den Katalog in den Punkten, die wir steuern</td><td>Kira</td><td>Vorlauf</td></tr>
+    <tr><td>Formulardienst mit EU-Serverstandort und AV-Vertrag auswählen</td><td>Kira</td><td>Vorlauf</td></tr>
+    <tr><td>Claude-Tarif prüfen: Vertrag nach Art. 28 DSGVO vorhanden?</td><td>Kira</td><td>vor erstem Pilotprojekt</td></tr>
+    <tr><td>Verzeichnis von Verarbeitungstätigkeiten anlegen (Art. 30)</td><td>Kira</td><td>Vorlauf</td></tr>
+    <tr><td>AVV-Vorlage für Betreuungskunden erstellen (Art. 28)</td><td>Kira</td><td>vor erstem Betreuungsvertrag</td></tr>
+    <tr><td>Vertrag und AGB vorformulieren, anwaltlich prüfen lassen — inkl. Abnahme, Mahnwesen, Textrechte</td><td>Yannik</td><td>Vorlauf</td></tr>
+    <tr><td>Art.-14-Datenschutzhinweis als Beilage formulieren</td><td>Yannik</td><td>Vorlauf</td></tr>
+    <tr><td>Betriebsliste (mit Sperrlisten-Spalte) und Zeitprotokoll anlegen</td><td>beide</td><td>Vorlauf</td></tr>
+    <tr><td>Verfügbare Wochenstunden, feste Tage und Uhrzeiten schriftlich</td><td>beide</td><td>Vorlauf</td></tr>
+    <tr><td>Bauanleitung schreiben, damit Produktion nicht an einer Person hängt</td><td>Kira</td><td>vor Tag 1</td></tr>
+    <tr><td>Wettbewerberpreise mit Quelle und Abrufdatum belegen</td><td>Yannik</td><td>vor erstem Angebot</td></tr>
+    <tr><td>Belastbare Zahl zum Fachkräftemangel im Handwerk suchen</td><td>beide</td><td>vor Tag 1</td></tr>
+    <tr><td>Barrierefreiheit: Betroffenheit klären</td><td>Kira</td><td>vor erstem Angebot</td></tr>
+    <tr><td>E-Rechnungs-Empfang und revisionssichere Ablage einrichten</td><td>Yannik</td><td>vor erster Rechnung</td></tr>
+    <tr><td>DRV-Statusklärung § 7a SGB IV, Befreiungsantrag § 6 Abs. 1a SGB VI</td><td>beide</td><td>binnen 3 Monaten</td></tr>
+    <tr><td>Separates Konto für Steuerrücklage einrichten</td><td>Yannik</td><td>vor erster Rechnung</td></tr>
+  </tbody>
+</table>
+</div>
+
+</main>
+
+<footer class="fuss">
+  <div class="bahn">
+    Webgewerk · Unternehmenskonzept · Fassung 17.08.2026 · ersetzt die Fassung
+    vom 16.08.2026<br>
+    Rechtliche Punkte sind Prüfaufträge an eine benannte Stelle und keine
+    Rechtsberatung.
+  </div>
+</footer>
