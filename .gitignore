@@ -9,3 +9,6 @@ kandidaten.csv
 absender.json
 checks/
 kunden/
+studie/word/node_modules/
+studie/word/package-lock.json
+studie/word/package.json
