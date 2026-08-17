@@ -112,8 +112,45 @@ class Abruf:
         return 200 <= self.status < 400 and not self.fehler
 
 
-def hole(url: str, timeout: int = K.TIMEOUT_SEKUNDEN) -> Abruf:
-    """Ruft eine URL ab und folgt Weiterleitungen."""
+VERSUCHE = 3
+"""Wie oft ein Abruf wiederholt wird, bevor „nicht erreichbar" gilt.
+
+Nicht kosmetisch. Am 17.08.2026 gemessen: Bei drei Aufrufen derselben,
+nachweislich erreichbaren Seite scheiterte einer mit „Connection reset by
+peer" — und erzeugte damit Prüfpunkt 1, den schwersten Befund im Katalog.
+Der wäre ungeprüft auf ein gedrucktes Blatt gewandert und dort schlicht
+falsch gewesen. Ein Betrieb, dem man das vorlegt, hört nach dem ersten Satz
+auf zu lesen, und zwar zu Recht.
+
+Wiederholt wird nur bei Netzfehlern. Eine echte 404 oder 500 kommt vom
+Server und ist beim zweiten Mal dieselbe — die wird sofort übernommen.
+"""
+
+WARTEN_SEKUNDEN = (0.8, 2.0)
+"""Pause vor dem zweiten und dritten Versuch."""
+
+
+def hole(url: str, timeout: int = K.TIMEOUT_SEKUNDEN,
+         versuche: int = VERSUCHE) -> Abruf:
+    """Ruft eine URL ab, folgt Weiterleitungen, wiederholt bei Netzfehlern.
+
+    Ein einzelner Aussetzer darf keinen Befund erzeugen. Erst wenn alle
+    Versuche scheitern, gilt die Seite als nicht erreichbar — und der
+    Fehlertext sagt dann, wie oft es probiert wurde.
+    """
+    letzter = None
+    for nr in range(versuche):
+        a = _einmal_holen(url, timeout)
+        if not a.fehler:            # Antwort erhalten, auch 404 oder 500
+            return a
+        letzter = a
+        if nr < versuche - 1:
+            time.sleep(WARTEN_SEKUNDEN[min(nr, len(WARTEN_SEKUNDEN) - 1)])
+    letzter.fehler = f"{letzter.fehler} (nach {versuche} Versuchen)"
+    return letzter
+
+
+def _einmal_holen(url: str, timeout: int) -> Abruf:
     a = Abruf(url)
     start = time.monotonic()
     try:

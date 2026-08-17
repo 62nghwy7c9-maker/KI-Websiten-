@@ -1,0 +1,400 @@
+<title>Wettbewerbsanalyse Rhein-Erft</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+:root{
+  --grund:#FAF8F4; --flaeche:#FFFFFF; --basis:#16181C; --text:#3A3A38;
+  --gedaempft:#6B665C; --akzent:#A8681B; --akzent-weich:#F0E5D6;
+  --linie:#E4DED4; --linie-stark:#CFC7B9;
+  --nah:#8A2C1E; --nah-weich:#F6E4DF;
+  --fern:#4A5A46; --fern-weich:#E7EBE3;
+  --gut:#3E6B54;
+  --mono:ui-monospace,"SF Mono","JetBrains Mono",Menlo,Consolas,monospace;
+  --sans:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --grund:#141619; --flaeche:#1B1E23; --basis:#F2EEE6; --text:#C9C4BA;
+    --gedaempft:#918B81; --akzent:#D89440; --akzent-weich:#33261A;
+    --linie:#2A2D34; --linie-stark:#3A3E46;
+    --nah:#E08672; --nah-weich:#33201C;
+    --fern:#9CB394; --fern-weich:#1E241D; --gut:#6FA986;
+  }
+}
+:root[data-theme="dark"]{
+  --grund:#141619; --flaeche:#1B1E23; --basis:#F2EEE6; --text:#C9C4BA;
+  --gedaempft:#918B81; --akzent:#D89440; --akzent-weich:#33261A;
+  --linie:#2A2D34; --linie-stark:#3A3E46;
+  --nah:#E08672; --nah-weich:#33201C;
+  --fern:#9CB394; --fern-weich:#1E241D; --gut:#6FA986;
+}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--grund);color:var(--text);font-family:var(--sans);
+ font-size:16.5px;line-height:1.6;-webkit-font-smoothing:antialiased}
+.bahn{max-width:54rem;margin:0 auto;padding:0 clamp(1.15rem,4vw,2.5rem)}
+h1,h2,h3{color:var(--basis);font-weight:700;letter-spacing:-.015em;
+ line-height:1.13;margin:0;text-wrap:balance}
+h1{font-size:clamp(1.9rem,4.6vw,2.9rem)}
+h2{font-size:clamp(1.35rem,3vw,1.9rem);margin:0 0 .6rem}
+h3{font-size:1.06rem;letter-spacing:0;line-height:1.35}
+p{margin:0 0 .9rem;max-width:64ch}
+ul{margin:0 0 1rem;padding-left:1.2rem;max-width:64ch}
+li{margin-bottom:.35rem}
+a{color:var(--akzent)}
+:focus-visible{outline:2px solid var(--akzent);outline-offset:3px}
+code{font-family:var(--mono);font-size:.85em}
+strong{color:var(--basis)}
+.marke{display:flex;align-items:center;gap:.7rem;margin:0 0 .9rem;
+ font-family:var(--mono);font-size:11px;letter-spacing:.16em;
+ text-transform:uppercase;color:var(--akzent)}
+.marke::before{content:"";width:26px;height:1px;background:var(--akzent);flex:none}
+
+header{padding:clamp(2.5rem,7vw,4.5rem) 0 2rem;border-bottom:2px solid var(--akzent);
+ background:var(--flaeche)}
+.unter{font-family:var(--mono);font-size:12px;color:var(--gedaempft);
+ line-height:1.95;margin:1rem 0 0}
+.anriss{font-size:1.1rem;max-width:46ch;color:var(--gedaempft);margin:1rem 0 0}
+
+.kern{background:var(--nah-weich);border-left:4px solid var(--nah);
+ padding:1.2rem 1.3rem;margin:1.6rem 0}
+.kern b{display:block;font-family:var(--mono);font-size:10.5px;
+ letter-spacing:.11em;text-transform:uppercase;color:var(--nah);margin-bottom:.35rem}
+.kern p{margin:0;font-size:15.5px}
+.kern p+p{margin-top:.55rem}
+
+section{padding:2.8rem 0 0}
+.einleitung{color:var(--gedaempft);max-width:60ch;margin-bottom:1.6rem}
+
+.rahmen{overflow-x:auto;margin:1.2rem 0 1.5rem;border:1px solid var(--linie);
+ background:var(--flaeche)}
+table{width:100%;border-collapse:collapse;font-size:14px;
+ font-variant-numeric:tabular-nums}
+th,td{text-align:left;padding:.62rem .8rem;border-bottom:1px solid var(--linie);
+ vertical-align:top}
+th{font-family:var(--mono);font-size:10px;letter-spacing:.09em;
+ text-transform:uppercase;color:var(--gedaempft);font-weight:500;
+ background:var(--grund);white-space:nowrap}
+tr:last-child td{border-bottom:0}
+td.z{text-align:right;white-space:nowrap}
+.b3{color:var(--nah);font-weight:700}
+.b0{color:var(--gut);font-weight:700}
+
+/* Ein Wettbewerber */
+.gegner{border-top:1px solid var(--linie-stark);padding:1.6rem 0 .4rem}
+.gegner-kopf{display:flex;flex-wrap:wrap;align-items:baseline;gap:.5rem .9rem;
+ margin-bottom:.2rem}
+.chip{font-family:var(--mono);font-size:10px;letter-spacing:.1em;
+ text-transform:uppercase;padding:.2rem .5rem;border-radius:2px;white-space:nowrap}
+.c-nah{background:var(--nah-weich);color:var(--nah)}
+.c-fern{background:var(--fern-weich);color:var(--fern)}
+.quelle{font-family:var(--mono);font-size:11px;color:var(--gedaempft);
+ margin:.1rem 0 .8rem}
+.zeile{display:grid;grid-template-columns:7.5rem 1fr;gap:.15rem .9rem;
+ font-size:15px;margin-bottom:.45rem;max-width:64ch}
+.zeile b{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;
+ text-transform:uppercase;color:var(--gedaempft);font-weight:600;padding-top:.22rem}
+@media(max-width:560px){.zeile{grid-template-columns:1fr;gap:0}}
+
+.liste-gut,.liste-schlecht{list-style:none;padding:0;margin:.6rem 0 0;max-width:64ch}
+.liste-gut li,.liste-schlecht li{position:relative;padding-left:1.4rem;
+ font-size:15px;margin-bottom:.3rem}
+.liste-gut li::before{content:"+";position:absolute;left:0;color:var(--gut);
+ font-weight:700;font-family:var(--mono)}
+.liste-schlecht li::before{content:"−";position:absolute;left:0;color:var(--nah);
+ font-weight:700;font-family:var(--mono)}
+
+.schluss{margin-top:3rem;border-top:2px solid var(--akzent);background:var(--flaeche)}
+.schluss .bahn{padding-block:clamp(2rem,5vw,3rem)}
+footer{border-top:1px solid var(--linie-stark);font-family:var(--mono);
+ font-size:11.5px;color:var(--gedaempft);line-height:1.9}
+footer .bahn{padding-block:1.5rem 2.5rem}
+
+@media print{
+  @page{margin:16mm}
+  body{background:#fff;color:#000;font-size:10pt}
+  .bahn{max-width:none;padding:0}
+  .gegner{break-inside:avoid}
+  .rahmen{break-inside:avoid;border-color:#999}
+  h2{break-after:avoid}
+}
+</style>
+
+<header>
+  <div class="bahn">
+    <p class="marke">Wettbewerbsanalyse</p>
+    <h1>Wer im Rhein-Erft-Kreis dasselbe verkauft</h1>
+    <p class="anriss">Zehn Anbieter, jeder mit unserem eigenen Prüfkatalog
+    gemessen. Mit einem Ergebnis, das eine Kernannahme des Konzepts
+    widerlegt.</p>
+    <p class="unter">
+      Erhoben am 17.08.2026 · Preise mit Quelle und Abrufdatum je Anbieter<br>
+      Messung: <code>python -m pipeline messen</code>, 19-Punkte-Katalog
+    </p>
+    <div class="kern">
+      <b>Der wichtigste Befund</b>
+      <p>Das Konzept sagt in Abschnitt 2.2, den direkten Preisnachbarn fehle
+      „regionale Nähe im Rheinland“, und in 2.3, ein Fernanbieter könne die
+      persönliche Übergabe nicht nachmachen. <strong>Beides stimmt nicht.</strong></p>
+      <p>Mindestens fünf Anbieter werben ausdrücklich für Kerpen und Bergheim.
+      Einer sitzt <strong>in Kerpen</strong> und nennt Handwerksbetriebe als
+      Kernklientel — zu einem Preis unter unserem Einstieg. Ein zweiter sitzt
+      in <strong>Leverkusen</strong>, 30 km entfernt.</p>
+    </div>
+  </div>
+</header>
+
+<main class="bahn">
+
+<section>
+  <h2>Die Messung</h2>
+  <p class="einleitung">Jeder Anbieter wurde mit demselben Katalog geprüft, den
+  wir bei Kunden anlegen. Die Spalte „Befunde“ zählt nur die automatisch
+  belegten — Sichtprüfungen sind nicht enthalten, die Zahl ist also eher zu
+  niedrig. Ab drei Befunden gilt ein Betrieb bei uns als Zielkunde.</p>
+  <div class="rahmen">
+  <table>
+    <thead><tr><th>Anbieter</th><th>Sitz</th><th>Preis</th><th class="z">Befunde</th><th>wäre unser Kunde?</th></tr></thead>
+    <tbody>
+      <tr><td>werkerweb.de</td><td>Leipzig</td><td>ab 329 € einmalig</td><td class="z b3">5</td><td class="b3">ja</td></tr>
+      <tr><td>stefansommerfeld.de</td><td>nicht ermittelt</td><td>nicht veröffentlicht</td><td class="z b3">4</td><td class="b3">ja</td></tr>
+      <tr><td><strong>webseiten-fuer-handwerker.net</strong><br>A Vista Studios</td><td><strong>Leverkusen</strong></td><td>75–175 €/Monat, 36 Monate</td><td class="z b3">3</td><td class="b3">ja</td></tr>
+      <tr><td><strong>webdesigner-kerpen.de</strong><br>P1 Commerce</td><td><strong>Kerpen</strong></td><td>ab 800 € netto</td><td class="z b3">3</td><td class="b3">ja</td></tr>
+      <tr><td>netmedial.de</td><td>wirbt für Bergheim, Kerpen</td><td>nicht veröffentlicht</td><td class="z b3">3</td><td class="b3">ja</td></tr>
+      <tr><td>lukas-kimmel.de<br>Website Evolution</td><td>Landau, Pfalz</td><td>nicht veröffentlicht</td><td class="z b3">3</td><td class="b3">ja</td></tr>
+      <tr><td>wir-machen-die-website.de</td><td>wirbt für Kerpen</td><td>Festpreis, Betrag nicht geprüft</td><td class="z">2</td><td>knapp nicht</td></tr>
+      <tr><td>werbeagentur-landau.com<br>Agentur Luppert</td><td>Bad Bergzabern</td><td>759 / 1.339 / 1.739 €</td><td class="z b0">1</td><td>nein</td></tr>
+      <tr><td>meinbetriebonline.de</td><td>Berlin-Brandenburg</td><td>700 / 1.000 €</td><td class="z b0">1</td><td>nein</td></tr>
+      <tr><td>die-webseiten-macher.de</td><td>wirbt für Bergheim</td><td>ab 790 €</td><td class="z b0">1</td><td>nein</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="kern">
+    <b>Sechs von zehn wären unsere Kunden</b>
+    <p>Das ist die stärkste Bestätigung des Katalogs, die man bekommen kann:
+    Er findet belegbare Mängel selbst bei Leuten, die Websites verkaufen.
+    Gleichzeitig heißt es, dass der Markt unpoliert ist — und dass niemand
+    Sorgfalt als Verkaufsargument benutzt.</p>
+    <p><strong>Neun von zehn haben keine Karriereseite.</strong> Mehrere von
+    ihnen verkaufen Mitarbeitergewinnung.</p>
+  </div>
+</section>
+
+<section>
+  <h2>Die vier, die uns wirklich betreffen</h2>
+
+  <div class="gegner">
+    <div class="gegner-kopf"><span class="chip c-nah">gefährlichster</span>
+      <h3>P1 Commerce — webdesigner-kerpen.de</h3></div>
+    <p class="quelle">Kerpen · ab 800 € netto (rund 952 € brutto) · abgerufen 17.08.2026</p>
+    <div class="zeile"><b>Angebot</b><span>WordPress-Websites. Handwerksbetriebe ausdrücklich als Kernklientel: Elektriker, Maler, Sanitär, Schreiner.</span></div>
+    <div class="zeile"><b>Argumente</b><span>„Eine klare Website mit sichtbarer Telefonnummer, Leistungsübersicht und Kontaktformular“ — praktisch unsere Prüfpunkte 5, 6 und 10.</span></div>
+    <div class="zeile"><b>Überschneidung</b><span>Vollständig. Gleicher Ort, gleiche Zielgruppe, gleiche Argumente, günstiger.</span></div>
+    <ul class="liste-schlecht">
+      <li>Impressum unvollständig — E-Mail fehlt</li>
+      <li>Sichtbarer Platzhaltertext <code>[email protected]</code> im Fließtext</li>
+      <li>Keine Karriereseite</li>
+    </ul>
+    <p><strong>Wie wir gewinnen:</strong> Nicht über den Preis — er ist unter
+    uns. Über den Nachweis: Er behauptet, eine Website brauche eine sichtbare
+    Telefonnummer. Wir <em>messen</em>, ob sie antippbar ist, und legen das
+    Ergebnis auf den Tisch. Und über den Bewerbungsweg, den er selbst nicht
+    hat.</p>
+  </div>
+
+  <div class="gegner">
+    <div class="gegner-kopf"><span class="chip c-nah">Nachbar</span>
+      <h3>A Vista Studios — webseiten-fuer-handwerker.net</h3></div>
+    <p class="quelle">Leverkusen, rund 30 km · 75 / 125 / 175 € im Monat, 36 Monate Mindestlaufzeit · abgerufen 17.08.2026</p>
+    <div class="zeile"><b>Modell</b><span>Miete, kein Kauf. Hosting, E-Mail-Postfächer, SSL und Rechtstexte enthalten.</span></div>
+    <div class="zeile"><b>Über 3 Jahre</b><span>2.700 € (L) bis 6.300 € (XXL) — und die Seite gehört ihm nie.</span></div>
+    <div class="rahmen">
+      <table>
+        <thead><tr><th>Über 36 Monate</th><th class="z">A Vista, Paket L</th><th class="z">Webgewerk, Paket M</th></tr></thead>
+        <tbody>
+          <tr><td>Einmalig</td><td class="z">0 €</td><td class="z">1.490 €</td></tr>
+          <tr><td>Monatlich</td><td class="z">75 € × 36 = 2.700 €</td><td class="z">69 € × 36 = 2.484 €</td></tr>
+          <tr><td>Hosting</td><td class="z">enthalten</td><td class="z">~180–360 € beim Kunden</td></tr>
+          <tr><td><strong>Summe</strong></td><td class="z"><strong>2.700 €</strong></td><td class="z b3"><strong>4.154–4.334 €</strong></td></tr>
+          <tr><td>Seite gehört</td><td class="z">A Vista</td><td class="z b0">dem Kunden, ab Tag 1</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p><strong>Das ist unangenehm und muss vorbereitet sein.</strong> Über drei
+    Jahre sind wir rund 1.500 € teurer. Das Gegenargument ist nicht der Preis,
+    sondern was danach passiert: Nach 36 Monaten steht der Kunde bei A Vista
+    wieder bei null und muss weiterzahlen oder alles verlieren. Bei uns gehört
+    ihm die Seite ab dem ersten Tag, und die Betreuung ist nach zwölf Monaten
+    monatlich kündbar — <em>ohne dass die Seite verschwindet</em>.</p>
+    <ul class="liste-schlecht">
+      <li>Impressum unvollständig — E-Mail fehlt</li>
+      <li>Sichtbarer Platzhaltertext: <code>[ab Paket XL]</code> und <code>[-ät-]</code></li>
+      <li>Keine Karriereseite · keine Jahreszahl auf der Seite</li>
+    </ul>
+  </div>
+
+  <div class="gegner">
+    <div class="gegner-kopf"><span class="chip c-fern">bester Wettbewerber</span>
+      <h3>meinBetrieb online</h3></div>
+    <p class="quelle">Berlin-Brandenburg · 700 € (1 Seite) und 1.000 € (5–7 Seiten) · Hosting ab 15 €/Mon., Wartung ab 49 €/Mon. · abgerufen 17.08.2026</p>
+    <div class="zeile"><b>Versprechen</b><span>„Website in ca. 7 Tagen“ nach Inhaltslieferung.</span></div>
+    <div class="zeile"><b>Enthalten</b><span>Texte aus Stichpunkten, Kontaktformular, Rechtstexte — <strong>und im großen Paket die vollständige Einrichtung des Google-Unternehmensprofils sowie 60 Tage Betreuung nach Livegang.</strong></span></div>
+    <ul class="liste-gut">
+      <li>Nur ein Befund im ganzen Katalog — sauberste Seite im Feld</li>
+      <li><strong>Hat als einziger eine Karriereseite mit Bewerbungsweg</strong></li>
+      <li>Stellt die eigenen Preise offen einer Vergleichstabelle gegenüber</li>
+    </ul>
+    <p><strong>Was das für uns heißt:</strong> Sie sind nicht in unserer
+    Region — aber sie liefern für 1.000 € mehr, als wir für 1.490 € anbieten.
+    Google-Profil steht bei uns ausdrücklich <em>nicht</em> im Leistungsumfang,
+    obwohl es unser eigener Prüfpunkt 14 ist. Und „7 Tage“ ist ein
+    schärferes Versprechen als unsere „vier Wochen“.</p>
+  </div>
+
+  <div class="gegner">
+    <div class="gegner-kopf"><span class="chip c-fern">Vorlagen</span>
+      <h3>werkerweb.de</h3></div>
+    <p class="quelle">Leipzig · ab 329 € brutto einmalig · Texte 230 €, Formular-Plugin 59 €, Einrichtung 39 €, Bilder 4,90–55 € · abgerufen 17.08.2026</p>
+    <div class="zeile"><b>Modell</b><span>Über 60 fertige Vorlagen zum Ansehen. Kunde schickt Texte und Bilder per Mail, online in zwei Tagen. 50 % Anzahlung.</span></div>
+    <div class="zeile"><b>Der Haken</b><span>Der Grundpreis trägt nicht weit. Mit Texten und Formular liegt eine Seite realistisch bei 620 bis 680 €.</span></div>
+    <ul class="liste-schlecht">
+      <li><strong>Fünf Befunde — der schlechteste Wert im Feld</strong></li>
+      <li>Kein Kontaktweg auf der Startseite · kein Formular</li>
+      <li>Telefonnummer sichtbar, aber nicht antippbar</li>
+      <li>Impressum unvollständig · keine Karriereseite</li>
+    </ul>
+    <p>Ein Anbieter, der Websites verkauft und auf der eigenen Startseite
+    weder Formular noch antippbare Nummer hat, ist im Gespräch ein
+    brauchbares Beispiel — <em>ohne Namen zu nennen</em>.</p>
+  </div>
+
+  <div class="gegner">
+    <div class="gegner-kopf"><span class="chip c-fern">weit weg</span>
+      <h3>Lukas Kimmel · Website Evolution</h3></div>
+    <p class="quelle">Landau in der Pfalz, rund 250 km · keine Preise veröffentlicht · abgerufen 17.08.2026</p>
+    <div class="zeile"><b>Angebot</b><span>Webdesign, Google Ads, Meta Ads, SEO. WordPress mit Elementor. DACH-weit, keine Branchenfokussierung.</span></div>
+    <div class="zeile"><b>Verkauf</b><span>Kostenloses Strategiegespräch, 30 Minuten. Kein Preis auf der Seite. Blog als Reichweitenkanal.</span></div>
+    <div class="zeile"><b>Ton</b><span>„Webdesign, das verkauft.“ · „verkaufspsychologisch durchdacht“ · „Über 150 Webprojekte im DACH-Raum“</span></div>
+    <ul class="liste-schlecht">
+      <li><strong>Eine seit acht Monaten abgelaufene Aktion steht noch auf der Seite:</strong> „Aktion bis 31. Dezember 2025 — sichere dir 30 % Rabatt“</li>
+      <li><strong>Die Vertrauenszahlen zeigen null:</strong> „realisierte Projekte 0+“, „durchschnittliche Conversion-Steigerung 0 %“, „Jahre Erfahrung 0“ — die Hochzähl-Animation läuft nicht</li>
+      <li>Unaufgelöster WordPress-Kurzbefehl im Text: <code>[sibwp_form id=2]</code></li>
+      <li>Telefonnummer auf der Startseite widerspricht der im Impressum</li>
+      <li>421 KB, 64 Skripte, 33 Stylesheets, <strong>20 fremde Hosts</strong> — darunter Google Fonts, Google Tag Manager, Calendly, Gravatar</li>
+    </ul>
+    <p><strong>Überschneidung: gering.</strong> Andere Region, andere
+    Zielgruppe, anderes Modell. Er ist kein Wettbewerber, sondern das Muster
+    dessen, wogegen wir positionieren — und das beste Beispiel dafür, warum
+    Sorgfalt ein Verkaufsargument sein kann.</p>
+  </div>
+</section>
+
+<section>
+  <h2>Was wir übernehmen sollten</h2>
+  <ul>
+    <li><strong>Ein konkretes Zeitversprechen.</strong> meinBetrieb sagt
+    „ca. 7 Tage“, Luppert „14 bis 21 Werktage“. Wir sagen „vier Wochen ab
+    vollständiger Inhaltslieferung“ — vorsichtiger und schwächer. Nach den
+    drei Piloten wissen wir, was stimmt; dann sollte die schärfste Zahl dort
+    stehen, die wir halten können.</li>
+    <li><strong>Google-Profil ins Paket.</strong> meinBetrieb macht es für
+    1.000 €, wir schließen es bei 1.490 € aus — obwohl es unser eigener
+    Prüfpunkt 14 ist. Das ist schwer zu erklären. Eine Stunde Arbeit, und
+    Punkt 14 wandert von der Übergabeliste in unsere Verantwortung.</li>
+    <li><strong>Ortsseiten für die Suche.</strong> Alle lokalen Wettbewerber
+    haben eigene Seiten für „Webdesign Bergheim“, „Webdesign Kerpen“. Wir
+    haben noch nicht einmal eine Website online. Vier Ortsseiten sind ein
+    Nachmittag Arbeit.</li>
+    <li><strong>Vorher etwas zum Ansehen.</strong> werkerweb zeigt 60 Demos.
+    Wir bringen einen Entwurf mit — das ist stärker, aber erst im zweiten
+    Schritt. Zwei bis drei Arbeitsproben gehören auf die eigene Seite.</li>
+  </ul>
+  <h3 style="margin-top:1.6rem">Was wir ausdrücklich nicht übernehmen</h3>
+  <ul>
+    <li>Wirkungsversprechen. Luppert verspricht „30 bis 60 Prozent mehr
+    potenzielle Anfragen“ und erste Anfragen „meist binnen 4 Wochen nach
+    Launch“. Kimmel verspricht Websites, „die verkaufen“. Beides ist nicht
+    belegbar — und unser Regelwerk verbietet es aus gutem Grund.</li>
+    <li>Rabattaktionen mit Frist. Das Beispiel oben zeigt, wie das endet.</li>
+    <li>36 Monate Bindung.</li>
+  </ul>
+</section>
+
+<section>
+  <h2>Wie wir sie schlagen — ehrlich sortiert</h2>
+  <div class="rahmen">
+    <table>
+      <thead><tr><th>Vorteil</th><th>Trägt er?</th><th>Wie lange</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Der Check: belegter Mangel vor dem Gespräch</strong></td><td>Ja. Keiner der zehn tut das. Alle beginnen mit einem Verkaufsversuch.</td><td class="b3">bis es jemand kopiert — technisch in einer Woche machbar</td></tr>
+        <tr><td><strong>Karriereseite mit Bewerbungsweg als Standard</strong></td><td>Ja. Neun von zehn haben nicht einmal selbst eine.</td><td class="b0">dauerhaft, solange die Branche es übersieht</td></tr>
+        <tr><td><strong>Nichts wird nachgeladen</strong></td><td>Ja, und es ist nachprüfbar. Kimmel: 20 fremde Hosts. Wir: null.</td><td class="b0">dauerhaft — es widerspricht dem WordPress-Modell</td></tr>
+        <tr><td>Fester, veröffentlichter Preis</td><td>Teilweise. Luppert, meinBetrieb, werkerweb und die-webseiten-macher nennen ihre Preise auch.</td><td>kein Alleinstellungsmerkmal</td></tr>
+        <tr><td>Persönlich vor Ort</td><td>Nein — die Lokalen sind auch vor Ort.</td><td class="b3">gilt nur gegen Fernanbieter</td></tr>
+        <tr><td>Preis</td><td>Nein. Vier Anbieter liegen unter unserem Einstieg.</td><td class="b3">—</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="kern">
+    <b>Der unbequeme Teil</b>
+    <p>Von sechs behaupteten Vorteilen tragen drei. Der stärkste — der Check —
+    ist zugleich der kopierbarste: Er besteht aus einer Idee und einem
+    Werkzeug. Die Idee ist nach dem ersten Check bei einem geschwätzigen
+    Kunden öffentlich.</p>
+    <p>Was nicht kopierbar ist, ist die Ausführung: der Katalog, der elf
+    Betriebe reproduzierbar misst, und die Disziplin, nichts zu behaupten, was
+    nicht belegt ist. Das dauert Monate, nicht eine Woche. <strong>Der
+    Vorsprung ist real, aber er ist befristet</strong> — und das spricht
+    dafür, die ersten 40 Checks bald zu übergeben statt das Konzept weiter zu
+    verfeinern.</p>
+  </div>
+</section>
+
+<section>
+  <h2>Was im Konzept geändert werden muss</h2>
+  <ul>
+    <li><strong>Abschnitt 2.2, Tabelle:</strong> „Werbeagentur Landau“ ist die
+    Agentur Luppert in Bad Bergzabern und arbeitet für Süddeutschland.
+    „meinBetrieb online“ sitzt in Berlin-Brandenburg. Beide sind keine
+    Preisnachbarn im Rheinland. Die Spalte „Was dort fehlt — regionale Nähe
+    im Rheinland“ ist damit falsch.</li>
+    <li><strong>Abschnitt 2.2, Schlussfolgerung:</strong> „Unser Hauptgegner
+    ist das Bau-Service-Abo von IONOS und STRATO“ trifft nicht zu. Der
+    Hauptgegner sitzt in Kerpen und heißt P1 Commerce.</li>
+    <li><strong>Abschnitt 2.3:</strong> „Persönliche Übergabe im Fahrgebiet.
+    Ein Fernanbieter kann das nicht nachmachen.“ Richtig — nur sind die
+    relevanten Wettbewerber keine Fernanbieter.</li>
+    <li><strong>Abschnitt 6:</strong> „Wir sind nicht billiger, wir sind
+    endlich.“ Der zweite Teil stimmt. Der erste stimmt jetzt belegt: Vier
+    Anbieter liegen unter unserem Einstiegspreis.</li>
+    <li><strong>Neu aufzunehmen:</strong> das Mietmodell aus Leverkusen mit
+    der Drei-Jahres-Rechnung — als vorbereitete Antwort, nicht als
+    Überraschung im Gespräch.</li>
+  </ul>
+</section>
+
+</main>
+
+<div class="schluss">
+  <div class="bahn">
+    <p class="marke">Nebenbefund</p>
+    <h2>Die Messung hat einen Fehler in unserem eigenen Werkzeug gefunden</h2>
+    <p>Beim ersten Durchlauf meldete die Pipeline <code>meinbetriebonline.de</code>
+    als <strong>„nicht erreichbar“</strong> — Prüfpunkt 1, Schweregrad 3, der
+    schwerste Befund im Katalog. Die Seite war erreichbar.</p>
+    <p>Nachgestellt: Von drei Abrufen derselben Seite scheiterte einer an einem
+    zufälligen Netzfehler. <strong>Jeder dritte Check hätte einem Betrieb
+    schriftlich bescheinigt, seine Website sei tot.</strong> Wer so ein Blatt
+    bekommt, liest nicht weiter — zu Recht.</p>
+    <p>Behoben am 17.08.2026: Ein Abruf wird bis zu dreimal wiederholt, bevor
+    „nicht erreichbar“ gilt; wiederholt wird nur bei Netzfehlern, eine echte
+    404 zählt sofort. Danach fünf von fünf Abrufen erfolgreich, 33 Tests grün.</p>
+  </div>
+</div>
+
+<footer>
+  <div class="bahn">
+    Wettbewerbsanalyse Rhein-Erft · erhoben 17.08.2026 · alle Preise mit
+    Abrufdatum<br>
+    Messung mit dem eigenen 19-Punkte-Katalog. Nur automatisch belegte Befunde
+    gezählt — Sichtprüfungen nicht enthalten.
+  </div>
+</footer>
