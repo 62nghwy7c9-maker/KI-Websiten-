@@ -47,12 +47,47 @@ HOOKS: dict[int, str] = {
 STANDARD_HOOK = "mir sind ein paar Dinge an Ihrer Website aufgefallen"
 
 
-def _hook(befunde: list[Befund]) -> str:
+def _hook(befunde: list[Befund], sucht: str = "") -> str:
+    """Der erste Satz. Eine belegte offene Stelle schlägt jeden Mangel.
+
+    Ein technischer Mangel interessiert einen Meister mäßig — er hat seit
+    Jahren damit gelebt. Eine unbesetzte Stelle kostet ihn jeden Monat Geld,
+    und das weiß er. Wenn wir belegen können, dass er sucht, ist das der
+    einzige Satz, der ihn beim ersten Blick auf das Blatt hält.
+
+    Entscheidend ist die Form: **Feststellung, keine Frage.** „Sie suchen
+    einen Elektriker" ist etwas, das wir gesehen haben und zeigen können.
+    „Suchen Sie Personal?" wäre eine Verkaufsfrage — und die erkennt jeder,
+    der schon einmal Post von einer Agentur bekommen hat.
+    """
+    if sucht.strip():
+        return f"Sie suchen {sucht.strip()}"
     for b in befunde:
         if b.id in HOOKS:
             jahr = b.beobachtung.split()[-1].rstrip(".")
             return HOOKS[b.id].format(jahr=jahr)
     return STANDARD_HOOK
+
+
+GESPRAECHSFRAGEN = (
+    ("Wie lange suchen Sie schon jemanden?",
+     "Monate mal Deckungsbeitrag eines Gesellen. Die Zahl kennt er, wir nicht."),
+    ("Wie viele Anfragen lehnen Sie im Monat ab, weil Leute fehlen?",
+     "Macht die unbesetzte Stelle in Aufträgen sichtbar."),
+    ("Woher kam Ihr letzter Bewerber?",
+     "Meist über Bekannte. Dann ist die Frage, was passiert, wenn dieser "
+     "Kanal versiegt."),
+)
+"""Die drei Fragen aus Konzept 3.1 — bewusst **nicht** im Anschreiben.
+
+Ihr ganzer Wert liegt darin, dass der Betrieb selbst rechnet: Er nennt die
+Monate, er kennt den Deckungsbeitrag, die Zahl ist am Ende seine. Auf Papier
+kann er nicht antworten. Dort wird aus jeder Frage eine rhetorische, und
+rhetorische Fragen in kalter Post liest jeder als das, was sie sind.
+
+Sie stehen deshalb unten in der Gesprächsnotiz — damit sie beim Telefonat
+und im Vorgespräch auf dem Tisch liegen, wo sie wirken.
+"""
 
 
 def _anrede(inhaber: str) -> str:
@@ -67,6 +102,48 @@ def _anrede(inhaber: str) -> str:
         return "Sehr geehrte Damen und Herren,"
     nachname = inhaber.strip().split()[-1]
     return f"Sehr geehrte/r Frau/Herr {nachname},   ← Anrede prüfen"
+
+
+def _stellennotiz(k) -> str:
+    """Zeile über die belegte offene Stelle — oder der Hinweis, dass sie fehlt.
+
+    Steht in der internen Notiz, nie auf dem Check. Fehlt der Beleg, sagt die
+    Notiz das offen: Dann darf im Gespräch auch nicht behauptet werden, der
+    Betrieb suche jemanden.
+    """
+    if k.sucht.strip() and k.sucht_beleg.strip():
+        return (f"\n**Belegte offene Stelle:** {k.sucht.strip()} "
+                f"— gefunden über {k.sucht_beleg.strip()}. "
+                "Damit beginnt das Anschreiben.\n")
+    return ("\n**Keine offene Stelle belegt.** Vor dem Anruf zwei Minuten "
+            "suchen: Google, Indeed, Handwerkskammer, Fahrzeugbeschriftung. "
+            "Wird etwas gefunden, `sucht` und `sucht_beleg` eintragen und den "
+            "Brief neu erzeugen — der Aufhänger wird dadurch deutlich "
+            "stärker. Ohne Fund wird nichts behauptet.\n")
+
+
+def _einstieg(k, gewaehlt: list[Befund], punkte: str) -> str:
+    """Die beiden ersten Sätze. Zwei Fassungen, je nach Beleglage.
+
+    Mit belegter offener Stelle führt der Brief damit — und stellt die
+    Verbindung zur Website her, statt sie zu behaupten. Ohne Beleg bleibt es
+    beim Mangel als Aufhänger.
+    """
+    if k.sucht.strip() and k.sucht_beleg.strip():
+        return (
+            f"Sie suchen {k.sucht.strip()} — das habe ich gesehen "
+            f"({k.sucht_beleg.strip()}). Auf Ihrer Website findet ein "
+            "Bewerber davon nichts.\n\n"
+            "Ich habe mir die Seite deshalb einmal angesehen und "
+            f"{punkte} aufgeschrieben, die einem Bewerber im Weg stehen. "
+            "Der Check liegt bei; jeden Punkt können Sie selbst nachprüfen."
+        )
+    return (
+        f"ich habe mir Ihre Website angesehen — {_hook(gewaehlt)}.\n\n"
+        "Weil das schnell behoben ist und Sie vermutlich Wichtigeres zu tun "
+        f"haben, habe ich {punkte} aufgeschrieben und lege Ihnen den Check "
+        "bei. Jeden Punkt können Sie selbst nachprüfen."
+    )
 
 
 def bauen(bericht: Pruefbericht, absender_name: str, absender_telefon: str,
@@ -89,11 +166,7 @@ def bauen(bericht: Pruefbericht, absender_name: str, absender_telefon: str,
 
 {_anrede(k.inhaber)}
 
-ich habe mir Ihre Website angesehen — {_hook(gewaehlt)}.
-
-Weil das schnell behoben ist und Sie vermutlich Wichtigeres zu tun haben, habe
-ich {punkte} aufgeschrieben und lege Ihnen den Check bei. Jeden Punkt können
-Sie selbst nachprüfen.
+{_einstieg(k, gewaehlt, punkte)}
 
 Falls Sie darüber sprechen möchten: {absender_telefon}. Zehn Minuten reichen.
 
@@ -117,10 +190,22 @@ Erstkontakt.*
 Diese Punkte stehen auf dem Check:
 
 {chr(10).join(f"{i}. **{b.titel}** — {b.beobachtung}" for i, b in enumerate(gewaehlt, 1))}
+{_stellennotiz(k)}
+### Die drei Fragen — im Gespräch stellen, nicht auf Papier
+
+Sie gehören nicht ins Anschreiben. Ihr Wert liegt darin, dass der Betrieb
+selbst rechnet: Er nennt die Monate, er kennt den Deckungsbeitrag, die Zahl
+ist am Ende **seine**. Auf Papier kann er nicht antworten — dort wird aus
+jeder Frage eine rhetorische.
+
+{chr(10).join(f'{i}. **„{f}"** — {w}' for i, (f, w) in enumerate(GESPRAECHSFRAGEN, 1))}
+
+Nicht abhaken wie einen Fragebogen. Eine Frage stellen, zuhören, die Zahl
+stehen lassen. Wer selbst ausrechnet, dass ihn eine unbesetzte Stelle im Jahr
+fünfstellig kostet, braucht kein Verkaufsargument mehr.
 
 Kein Preis auf dem Check und kein Preis im ersten Satz. Erst fragen, wie viele
-Mitarbeiter der Betrieb hat und ob gerade jemand gesucht wird — danach eine
-Zahl nennen (Konzept, Abschnitt 4).
+Mitarbeiter der Betrieb hat — danach eine Zahl nennen (Konzept, Abschnitt 4).
 """
 
 

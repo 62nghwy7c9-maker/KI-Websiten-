@@ -33,6 +33,22 @@ class Kandidat:
     feiner unterscheidet. Für die Gestaltung ist der Unterschied aber
     entscheidend: Ein Elektrobetrieb und ein Gartenbaubetrieb treten
     grundverschieden auf."""
+    sucht: str = ""
+    """Welche Stelle der Betrieb ausgeschrieben hat — „einen Elektriker",
+    „eine Auszubildende zur Anlagenmechanikerin".
+
+    Nur ausfüllen, wenn es **belegt** ist: eine Anzeige bei Google, Indeed,
+    der Handwerkskammer, am Fahrzeug, am Bauzaun. Woher der Beleg stammt,
+    gehört in `sucht_beleg`.
+
+    Ist das Feld gefüllt, wechselt das Anschreiben den Aufhänger: Statt mit
+    einem technischen Mangel beginnt es mit dem, was den Betrieb gerade
+    tatsächlich beschäftigt. Ein Mangel interessiert einen Meister mäßig;
+    eine unbesetzte Stelle kostet ihn jeden Monat Geld."""
+    sucht_beleg: str = ""
+    """Woher die Angabe stammt. Ohne Beleg wird `sucht` nicht verwendet —
+    dieselbe Regel wie beim Befund: Was wir nicht zeigen können, sagen wir
+    nicht. „Die suchen bestimmt jemanden" ist kein Beleg."""
 
     def schluessel(self) -> str:
         """Stabiler Schlüssel für Dedup und Dateinamen."""

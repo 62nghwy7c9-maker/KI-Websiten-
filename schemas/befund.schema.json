@@ -57,6 +57,14 @@
         "gewerk": {
           "type": "string",
           "description": "Gewerk im Wortlaut der Lead-Liste. Optional."
+        },
+        "sucht": {
+          "type": "string",
+          "description": "Belegte offene Stelle des Betriebs, im Wortlaut fuer das Anschreiben: „einen Elektriker“. Nur mit Beleg in sucht_beleg."
+        },
+        "sucht_beleg": {
+          "type": "string",
+          "description": "Woher die Angabe zur offenen Stelle stammt. Ohne diesen Eintrag wird sucht nicht verwendet."
         }
       }
     },
