@@ -15,7 +15,8 @@
           "21.08.",
           "Ladungsfähige Anschrift festlegen und in absender.json eintragen",
           "blockiert alles: ohne sie trägt jeder Check einen roten Sperrbalken (§ 5 DDG). Elf fertige Pakete warten nur darauf",
-          "R"
+          "R",
+          "Anhang B"
         ],
         [
           "K+Y",
@@ -29,7 +30,8 @@
           "21.08.",
           "Klären: Betreuung 69 € oder 59 € im Monat",
           "im Konzept stehen 69 €, am 17.08. fiel die Zahl 59. Bestätigen, bevor sie auf ein Angebot kommt",
-          "R"
+          "R",
+          "1"
         ],
         [
           "K+Y",
@@ -43,7 +45,8 @@
           "21.08.",
           "Verfügbare Wochenstunden, feste Tage und Uhrzeiten schriftlich festhalten",
           "ohne diese Zahl ist die Wirtschaftlichkeit nicht rechenbar und der 90-Tage-Plan nicht planbar. Der wichtigste offene Punkt des Konzepts",
-          "R"
+          "R",
+          "12"
         ],
         [
           "K+Y",
@@ -72,6 +75,14 @@
           "DPMA-Markenrecherche auf entgegenstehende Marken",
           "30 Minuten, und sie muss vor die Gewerbeanmeldung. Danach ist der Name teuer zu ändern",
           "S"
+        ],
+        [
+          "C",
+          "21.08.",
+          "Check-Vorlage korrigieren: sie trägt Yanniks Namen mit Kiras Mailadresse",
+          "steht seit dem Konzept-Check offen und ist in keiner Aufgabenliste je aufgetaucht. Auf einem gedruckten Blatt ist das derselbe Fehler wie eine falsche Telefonnummer",
+          "R",
+          "5"
         ]
       ]
     },
@@ -105,7 +116,8 @@
           "28.08.",
           "Wovon wir im ersten Jahr leben — schriftlich, mit Betrag und Monaten",
           "das Neugeschäft bringt im ersten Jahr 21–44 € je Arbeitsstunde. Wer das nicht vorher weiß, hört nach dem dritten Kunden auf",
-          "R"
+          "R",
+          "10.2"
         ],
         [
           "Y",
@@ -119,7 +131,8 @@
           "28.08.",
           "Steuerberatung: § 19 UStG beibehalten oder verzichten",
           "muss vor dem ELSTER-Fragebogen entschieden sein — der Verzicht bindet fünf Jahre",
-          "S"
+          "S",
+          "13.2"
         ],
         [
           "Y",
@@ -167,7 +180,8 @@
           "11.09.",
           "Claude-Tarif prüfen: liegt ein Vertrag nach Art. 28 DSGVO vor, und was kostet der kommerzielle Tarif?",
           "die Produktion läuft über Claude. Ohne diesen Vertrag ist die Kette bis Anthropic nicht geschlossen",
-          "BL"
+          "BL",
+          "10.1 · 13.4"
         ],
         [
           "K+Y",
@@ -188,7 +202,24 @@
           "11.09.",
           "Wettbewerberpreise belegen: sieben Angebotsseiten, Preis und Abrufdatum, Screenshot",
           "rund eine Stunde. Danach steht fest, ob wirklich IONOS und STRATO der Hauptgegner sind — oder die zehn Anbieter aus der Wettbewerbsanalyse",
-          "R"
+          "R",
+          "2.2"
+        ],
+        [
+          "Y",
+          "11.09.",
+          "Die 15 % Minderung und den Einbehalt der Anzahlung prüfen lassen",
+          "beides steht im Konzept 4.2 als Vorschlag, nicht als geprüfte Klausel. Gehört in denselben Termin wie Vertrag und AGB",
+          "R",
+          "4.2"
+        ],
+        [
+          "Y",
+          "11.09.",
+          "KSK-Aufnahme klären: kommt sie in Frage, und droht eine rückwirkende Beitragsnachforderung?",
+          "im Konzept 13.5 als Unsicherheit vermerkt, in keiner Aufgabenliste je aufgetaucht. Rückwirkend kann das teuer werden",
+          "R",
+          "13.5"
         ]
       ]
     },
@@ -221,35 +252,40 @@
           "02.10.",
           "Pflegebereich und Kontaktformular auf echtem Hosting testen — vor allem, ob der Mailversand ankommt",
           "entschieden und gebaut am 19.08. (studie/pflege). Lokal nicht prüfbar: mail() gibt es im Container nicht",
-          "BL"
+          "BL",
+          "7.1"
         ],
         [
           "K",
           "02.10.",
           "Bauanleitung schreiben, damit die Produktion nicht an einer Person hängt",
           "derzeit kann nur Kira produzieren. Fällt sie aus, steht alles",
-          "S"
+          "S",
+          "12"
         ],
         [
           "K",
           "02.10.",
           "Preis für einen halben Tag Fotoaufnahmen festlegen und den Fotografen fragen, ob er genannt werden will",
           "Anhaltspunkt: vier bis fünf Stunden zu 70 €",
-          "S"
+          "S",
+          "4.3"
         ],
         [
           "K+Y",
           "02.10.",
           "Eine belastbare Zahl zum Fachkräftemangel im Handwerk suchen",
           "nützlich fürs Gespräch, aber nicht mehr die Grundlage — der Betrieb rechnet selbst (Konzept 3.1)",
-          "S"
+          "S",
+          "3.1"
         ],
         [
           "K",
           "02.10.",
           "Barrierefreiheit: Betroffenheit nach dem BFSG klären",
           "muss vor dem ersten Angebot feststehen, sonst wird sie zur Nachforderung",
-          "R"
+          "R",
+          "13.4"
         ],
         [
           "K+Y",
@@ -263,7 +299,8 @@
           "02.10.",
           "Einwandbehandlung ausarbeiten",
           "die drei Einwände stehen als Entwurf im Konzept 4.4 — verfeinern statt neu anfangen",
-          "S"
+          "S",
+          "4.4"
         ],
         [
           "K",
@@ -388,7 +425,8 @@
           "02.01.",
           "Nach Projekt 3: Produktionsvorlage ableiten und entscheiden, ob Paket S bleibt",
           "beworben wird „ab 990 €“, verkauft werden soll M. Entweder S streichen oder auf einen Umfang zuschneiden, den es zu dem Preis wirklich gibt",
-          "R"
+          "R",
+          "4.1"
         ],
         [
           "K+Y",
@@ -469,5 +507,17 @@
     "13.08. — Firmenname entschieden: Webgewerk",
     "12.08. — Pipeline reproduziert alle vier von Hand erstellten Befunde",
     "12.08. — Elf Pakete erzeugt, je fünf Dateien"
+  ],
+  "konzept_bewertungen": [
+    [
+      "10.3",
+      "Konversionsannahmen sind ungeprüft und durch keine Quelle gedeckt",
+      "K+Y"
+    ],
+    [
+      "10.4",
+      "Betreuungsbestand trägt bei jetziger Rate erst nach fünf Jahren",
+      "K+Y"
+    ]
   ]
 }

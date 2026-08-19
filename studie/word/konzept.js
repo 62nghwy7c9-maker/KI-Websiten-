@@ -13,37 +13,54 @@ add(p([["Diese Fassung ersetzt alle vorherigen — insbesondere die Fassung vom 
 add(abstand());
 add(legende());
 
-/* ---- Ubersicht der offenen Punkte ---------------------------------- */
-add(h("Was in diesem Dokument noch offen ist", 1, ROT_H()));
-function ROT_H(){ return R; }
-add(p([["Alle rot gesetzten Stellen auf einen Blick, damit man sie nicht suchen muss. Die Nummer ist der Abschnitt, in dem sie steht.", R]]));
+/* ---- Ubersicht der offenen Punkte ----------------------------------
+ * Wird aus studie/aufgaben.json erzeugt, nicht von Hand gepflegt. Sonst
+ * stehen in Konzept und Aufgabenliste zwei verschiedene Listen offener
+ * Punkte — und genau das ist am 19.08. aufgefallen: fuenf Punkte aus dem
+ * Konzept hatten es nie in eine Aufgabenliste geschafft.
+ */
+const aufgaben = JSON.parse(
+  fs.readFileSync(path.join(__dirname, "..", "aufgaben.json"), "utf8"));
+
+function sortierschluessel(wo) {
+  if (wo.startsWith("Anhang")) return [99, 0];
+  const teile = wo.split(" ")[0].split(".").map(Number);
+  return [teile[0] || 0, teile[1] || 0];
+}
+
+const offene = [];
+for (const block of aufgaben.bloecke) {
+  for (const z of block.zeilen) {
+    if (z.length < 6) continue;
+    const [wer, frist, was, , farbe, wo] = z;
+    offene.push({ wo, was, wer, frist, farbe: farbe === "BL" ? BL : R });
+  }
+}
+offene.sort((a, b) => {
+  const [x1, y1] = sortierschluessel(a.wo), [x2, y2] = sortierschluessel(b.wo);
+  return x1 - x2 || y1 - y2;
+});
+
+add(h("Was in diesem Dokument noch offen ist", 1, R));
+add(p([["Alle rot gesetzten Stellen auf einen Blick, damit man sie nicht suchen muss. Die Nummer ist der Abschnitt, in dem sie steht; die Frist ist dieselbe wie in der Aufgabenliste. Beide Dokumente lesen dieselbe Datei — sie koennen nicht auseinanderlaufen.", R]]));
 add(tabelle(
-  ["Wo", "Was offen ist", "Wer"],
-  [
-    [[["1", R]], [["Betreuung 69 € oder 59 € im Monat", R]], [["K+Y", R]]],
-    [[["2.2", R]], [["Kein Wettbewerberpreis hat eine Quelle mit Abrufdatum. Vor allem: Arbeiten die direkten Preisnachbarn im Fahrgebiet?", R]], [["Y", R]]],
-    [[["3.1", R]], [["Der Satz zur Auslastung hat keine Quelle. Belastbare Branchenzahl suchen", R]], [["K+Y", R]]],
-    [[["4.1", R]], [["Paket S: beworben wird 990 €, verkauft werden soll 1.490 €. Streichen oder zuschneiden?", R]], [["K+Y", R]]],
-    [[["4.2", R]], [["Die 15 % Minderung und der Einbehalt der Anzahlung sind Vorschläge, keine geprüften Klauseln", R]], [["Y", R]]],
-    [[["4.3", R]], [["Preis für einen halben Tag Fotoaufnahmen festlegen, Fotograf fragen", R]], [["K", R]]],
-    [[["4.4", R]], [["Einwandbehandlung ist ein Entwurf und wird noch ausgearbeitet", R]], [["K+Y", R]]],
-    [[["5", R]], [["Check-Vorlage trägt Yanniks Namen mit Kiras Mailadresse — korrigieren", R]], [["C", R]]],
-    [[["7.1", BL]], [["Pflegebereich und Kontaktformular sind entschieden und gebaut — offen bleibt nur der erste Mailversand auf echtem Hosting", BL]], [["K+Y", BL]]],
-    [[["10.1", R]], [["Claude-Abo: kommerzieller Tarif mit AV-Vertrag nötig, Preis prüfen", R]], [["K", R]]],
-    [[["10.2", R]], [["Wovon wir im ersten Jahr leben — schriftlich, mit Betrag und Dauer", R]], [["K+Y", R]]],
-    [[["10.3", R]], [["Konversionsannahmen sind ungeprüft und durch keine Quelle gedeckt", R]], [["K+Y", R]]],
-    [[["10.4", R]], [["Betreuungsbestand trägt bei jetziger Rate erst nach fünf Jahren", R]], [["K+Y", R]]],
-    [[["12", R]], [["Verfügbare Wochenstunden, feste Tage und Uhrzeiten — der wichtigste offene Punkt", R]], [["K+Y", R]]],
-    [[["12", R]], [["Ausfall einer Person: produzieren kann nur Kira", R]], [["K", R]]],
-    [[["13.2", R]], [["Verzicht auf § 19 UStG prüfen — bindet fünf Jahre, bringt Vorsteuerabzug", R]], [["Y", R]]],
-    [[["13.4", R]], [["Claude/Anthropic: Vertrag nach Art. 28 DSGVO. Voraussetzung für das erste Projekt", R]], [["K", R]]],
-    [[["13.4", R]], [["Barrierefreiheit: Betroffenheit nach dem BFSG klären", R]], [["K", R]]],
-    [[["13.5", R]], [["KSK-Aufnahme unsicher, rückwirkende Beitragsnachforderung möglich", R]], [["Y", R]]],
-    [[["Anhang B", R, true]], [["Ladungsfähige Anschrift — blockiert alle elf fertigen Checks", R, true]], [["K+Y", R, true]]],
-  ],
+  ["Wo", "Was offen ist", "Wer", "Bis wann"],
+  offene.map((o) => [
+    [[o.wo, o.farbe, o.wo.startsWith("Anhang")]],
+    [[o.was, o.farbe, o.wo.startsWith("Anhang")]],
+    [[o.wer, o.farbe]],
+    [[o.frist, o.farbe]],
+  ]),
+  [900, 5300, 900, 1900]));
+add(abstand());
+
+add(p([["Zwei Punkte stehen bewusst nicht in der Aufgabenliste, weil sie keine Aufgaben sind, sondern Bewertungen dieses Konzepts — sie werden nicht abgehakt, sondern widerlegt oder bestaetigt:", R]]));
+add(tabelle(["Wo", "Was zu bezweifeln ist", "Wer"],
+  aufgaben.konzept_bewertungen.map(([wo, was, wer]) =>
+    [[[wo, R]], [[was, R]], [[wer, R]]]),
   [900, 6400, 1700]));
 add(abstand());
-add(p([["Blau gesetzt ist alles, was im Gespräch vom 16./17.08.2026 neu hinzugekommen ist — das ist rund ein Drittel dieses Dokuments und steht nicht in dieser Übersicht, weil es sonst eine zweite Fassung des Konzepts wäre.", BL]]));
+add(p([["Blau gesetzt ist alles, was in den Gespraechen vom 16. bis 19.08.2026 neu hinzugekommen ist — das ist rund ein Drittel dieses Dokuments und steht nicht in dieser Uebersicht, weil es sonst eine zweite Fassung des Konzepts waere.", BL]]));
 
 /* ---- 1 Kurzfassung -------------------------------------------------- */
 add(h("1 · Kurzfassung", 1));

@@ -30,7 +30,11 @@ def hervorheben(text: str) -> str:
     return f"<strong>{sicher}</strong>"
 
 
-def zeile(wer: str, frist: str, was: str, grund: str, farbe: str) -> str:
+def zeile(wer: str, frist: str, was: str, grund: str, farbe: str,
+          konzept: str = "") -> str:
+    """Eine Aufgabenzeile. `konzept` ist der Abschnitt im Unternehmenskonzept,
+    an dem derselbe Punkt steht — vorhanden nur bei den Zeilen, die dort in der
+    Übersicht der offenen Punkte auftauchen."""
     klasse = KLASSE.get(wer, "w-b")
     wichtig = ' class="wichtig"' if farbe == "R" else ""
     notiz = f"\n      <em>{html.escape(grund)}</em>" if grund else ""
