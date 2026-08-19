@@ -1,8 +1,12 @@
 /* Die Todo-Liste als Word-Datei — eine Seite Papier, keine Tabellen.
  *
  * Kira, 19.08.: „Ich will eine einfache Todo-Liste, die mir genau sagt, was
- * ich noch tun muss." Deshalb steht hier nur das: eine Zeile je Aufgabe, mit
- * Namen und Datum. Kein Grund, keine Quelle, keine Farben, keine Tabellen.
+ * ich noch tun muss." Und danach: „Ohne Datum, nur Reihenfolge."
+ *
+ * Deshalb eine einzige durchnummerierte Liste. Was oben steht, kommt zuerst.
+ * Kein Datum, kein Grund, keine Farben, keine Tabellen, keine Abschnitte.
+ * Die Termine stehen weiter in aufgaben.json — sie stehen nur nicht mehr auf
+ * dem Blatt, das abgehakt wird.
  *
  * Warum das kein Verlust ist: Das Warum steht im Unternehmenskonzept, und
  * zwar an der Stelle, an der es hingehört. Wer hier eine Zeile nicht
@@ -22,17 +26,33 @@ const d = JSON.parse(
 
 const NAME = { K: "Kira", Y: "Yannik", "K+Y": "beide" };
 
-// Eine Aufgabenzeile: Kästchen, Aufgabe, dahinter Wer und Wann.
-function zeile(text, wer, frist) {
+// Eine Aufgabenzeile: Nummer, Kästchen, Aufgabe, dahinter der Name.
+function zeile(nr, text, wer, wann) {
+  const kinder = [
+    new TextRun({ text: String(nr).padStart(2, " ") + ".  ", color: S, size: 22 }),
+    new TextRun({ text: "☐   ", color: S, size: 22 }),
+    new TextRun({ text: text, color: S, size: 22 }),
+  ];
+  // Nur die Aufgaben, die an einem Ereignis hängen, tragen noch einen
+  // Zusatz — bei ihnen ist die Reihenfolge allein keine Anweisung.
+  if (wann) kinder.push(new TextRun({ text: ` (${wann})`, color: S, size: 20 }));
+  kinder.push(new TextRun({ text: `   · ${wer}`, color: S, size: 20 }));
   return new Paragraph({
     spacing: { after: 100, line: 264 },
-    indent: { left: 340, hanging: 340 },
-    children: [
-      new TextRun({ text: "☐   ", color: S, size: 22 }),
-      new TextRun({ text: text, color: S, size: 22 }),
-      new TextRun({ text: `   (${wer}, ${frist})`, color: S, size: 20 }),
-    ],
+    indent: { left: 560, hanging: 560 },
+    children: kinder,
   });
+}
+
+/* Aus der Frist wird der Auslöser — oder nichts.
+ * Ein reines Datum fällt weg. „vor der ersten Rechnung" bleibt, weil es
+ * keine Frist ist, sondern die Bedingung, unter der die Aufgabe ansteht. */
+function auslöser(frist) {
+  if (/^\d{2}\.\d{2}\.$/.test(frist)) return "";
+  return frist
+    .replace(/,? *spätestens \d{2}\.\d{2}\.?/, "")
+    .replace(/ ab \d{2}\.\d{2}\.?/, "")
+    .trim();
 }
 
 function kurzfassung(text) {
@@ -44,22 +64,21 @@ const inhalt = [];
 const add = (...x) => inhalt.push(...x.flat());
 
 add(titel("Was ich noch tun muss"));
-add(p([["Webgewerk · Stand " + d.stand + " · eine Zeile je Aufgabe, mit Namen und Datum.", S]]));
-add(p([["Warum eine Aufgabe drinsteht, steht im Unternehmenskonzept. Zum Abhaken braucht man es nicht.", S]]));
+add(p([["Webgewerk · Stand " + d.stand + " · in der Reihenfolge, in der es gemacht wird.", S]]));
+add(p([["Von oben nach unten. Was weiter unten steht, setzt meistens etwas weiter oben voraus. Warum eine Aufgabe drinsteht, steht im Unternehmenskonzept — zum Abhaken braucht man es nicht.", S]]));
 
-let gesamt = 0;
+let nr = 0;
 for (const block of d.bloecke) {
-  const zeilen = block.zeilen.filter((z) => z[0] !== "C");
-  if (!zeilen.length) continue;
-  add(h(block.titel.split(" — ")[0], 1));
-  for (const z of zeilen) {
-    add(zeile(kurzfassung(z[2]), NAME[z[0]] || z[0], z[1]));
-    gesamt++;
+  for (const z of block.zeilen) {
+    if (z[0] === "C") continue;
+    nr++;
+    add(zeile(nr, kurzfassung(z[2]), NAME[z[0]] || z[0], auslöser(z[1])));
   }
 }
+const gesamt = nr;
 
-add(h("Zuerst", 1));
-add(p([["Die ladungsfähige Anschrift. Ohne sie trägt jeder Check einen roten Sperrbalken und darf nicht übergeben werden — elf fertige Pakete warten nur darauf. Es ist eine Entscheidung, keine Recherche.", S]]));
+add(p([["", S]]));
+add(p([["Nummer 1 ist die einzige, die wirklich eilt: Ohne die ladungsfähige Anschrift darf keiner der elf fertigen Checks das Haus verlassen.", S]]));
 
 const doc = dokument(inhalt);
 Packer.toBuffer(doc).then((buf) => {
