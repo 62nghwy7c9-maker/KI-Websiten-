@@ -519,5 +519,25 @@
       "Betreuungsbestand trägt bei jetziger Rate erst nach fünf Jahren",
       "K+Y"
     ]
-  ]
+  ],
+  "kurz": {
+    "Claude-Tarif prüfen: liegt ein Vertrag nach Art. 28 DSGVO vor, und was kostet der kommerzielle Tarif?": "Claude-Tarif prüfen: Art.-28-Vertrag vorhanden, was kostet er?",
+    "Preis für einen halben Tag Fotoaufnahmen festlegen und den Fotografen fragen, ob er genannt werden will": "Preis für einen halben Tag Fotoaufnahmen festlegen, Fotograf fragen",
+    "Ist-Zeit je Projekt nach Arbeitsschritt erfassen, Projekt 1 auswerten bevor Projekt 2 beginnt": "Ist-Zeit je Projekt erfassen, Projekt 1 vor Projekt 2 auswerten",
+    "KSK-Aufnahme klären: kommt sie in Frage, und droht eine rückwirkende Beitragsnachforderung?": "KSK-Aufnahme klären — rückwirkende Nachforderung möglich",
+    "Betriebsliste mit Sperrlisten-Spalte und Wiedervorlage sowie das Zeitprotokoll anlegen": "Betriebsliste und Zeitprotokoll anlegen",
+    "Wettbewerberpreise belegen: sieben Angebotsseiten, Preis und Abrufdatum, Screenshot": "Wettbewerberpreise belegen, mit Quelle und Datum",
+    "Ladungsfähige Anschrift festlegen und in absender.json eintragen": "Ladungsfähige Anschrift festlegen",
+    "Gewerbeanmeldung je Gesellschafter beim Gewerbeamt der Wohnsitzgemeinde": "Gewerbeanmeldung, jeder für sich, beim Gewerbeamt",
+    "Vermögensschaden-/IT-Haftpflicht: drei Angebote einholen und abschließen": "IT-Haftpflicht: drei Angebote einholen und abschließen",
+    "Separates Konto für die Steuerrücklage einrichten — 30 % jeder Einnahme": "Separates Konto für die Steuerrücklage einrichten",
+    "§ 7 UWG und die DSGVO-Kette bis Anthropic an eine Fachstelle geben": "§ 7 UWG und Datenschutz an eine Fachstelle geben",
+    "Von den gezeigten Arbeitsproben schriftliche Zeigeerlaubnis einholen": "Zeigeerlaubnis für die Arbeitsproben einholen",
+    "Bauanleitung schreiben, damit die Produktion nicht an einer Person hängt": "Bauanleitung schreiben, damit es nicht an Kira allein hängt",
+    "DRV-Statusklärung § 7a SGB IV und Befreiungsantrag § 6 Abs. 1a SGB VI stellen": "Rentenversicherung: Statusklärung und Befreiungsantrag stellen",
+    "Drei Pilotkunden gewinnen, versetzt starten mit rund zwei Wochen Abstand": "Drei Pilotkunden gewinnen, versetzt mit zwei Wochen Abstand",
+    "Verfahren für den Domainumzug einmal an einer eigenen Domain durchspielen": "Domainumzug einmal an einer eigenen Domain üben",
+    "Verfügbare Wochenstunden, feste Tage und Uhrzeiten schriftlich festhalten": "Wochenstunden, feste Tage und Uhrzeiten aufschreiben",
+    "Termin mit der Rechtsberatung in der Familie vereinbaren — mit festem Datum im Kalender": "Termin mit der Rechtsberatung — mit Datum im Kalender"
+  }
 }

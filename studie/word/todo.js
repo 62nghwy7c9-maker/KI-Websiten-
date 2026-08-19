@@ -1,70 +1,69 @@
-/* Aufgabenliste Webgewerk als Word-Datei.
+/* Die Todo-Liste als Word-Datei — eine Seite Papier, keine Tabellen.
  *
- * Regel dieser Fassung (Kira, 19.08.): Jede Zeile hat einen Verantwortlichen
- * und eine Frist. Ohne beides gehört sie nicht in die Liste. Zeilen ohne
- * Termin sind deshalb entweder mit einem Datum versehen oder gestrichen und
- * unten begründet worden.
+ * Kira, 19.08.: „Ich will eine einfache Todo-Liste, die mir genau sagt, was
+ * ich noch tun muss." Deshalb steht hier nur das: eine Zeile je Aufgabe, mit
+ * Namen und Datum. Kein Grund, keine Quelle, keine Farben, keine Tabellen.
  *
- * Der Inhalt steht in studie/aufgaben.json und wird von dieser Datei und von
- * studie/todo-bauen.js gelesen — damit Word-Fassung und HTML-Fassung nicht
- * auseinanderlaufen können.
+ * Warum das kein Verlust ist: Das Warum steht im Unternehmenskonzept, und
+ * zwar an der Stelle, an der es hingehört. Wer hier eine Zeile nicht
+ * versteht, schlägt dort nach — muss es aber beim Abhaken nicht lesen.
+ *
+ * Aufgaben, die Claude erledigt, stehen nicht drin. Sie sind keine Arbeit
+ * für Kira und Yannik und machen die Liste nur länger.
+ *
+ * Inhalt: studie/aufgaben.json — dieselbe Datei wie für alles andere.
  */
 const B = require("./bauen.js");
-const { SCHWARZ: S, ROT: R, BLAU: BL, p, h, titel, liste, tabelle, abstand,
-        dokument, legende, Packer, fs, path } = B;
+const { SCHWARZ: S, p, h, titel, dokument, Packer, fs, path } = B;
+const { Paragraph, TextRun, AlignmentType } = require("docx");
 
-const daten = JSON.parse(
+const d = JSON.parse(
   fs.readFileSync(path.join(__dirname, "..", "aufgaben.json"), "utf8"));
 
-const FARBE = { S, R, BL };
+const NAME = { K: "Kira", Y: "Yannik", "K+Y": "beide" };
+
+// Eine Aufgabenzeile: Kästchen, Aufgabe, dahinter Wer und Wann.
+function zeile(text, wer, frist) {
+  return new Paragraph({
+    spacing: { after: 100, line: 264 },
+    indent: { left: 340, hanging: 340 },
+    children: [
+      new TextRun({ text: "☐   ", color: S, size: 22 }),
+      new TextRun({ text: text, color: S, size: 22 }),
+      new TextRun({ text: `   (${wer}, ${frist})`, color: S, size: 20 }),
+    ],
+  });
+}
+
+function kurzfassung(text) {
+  if (d.kurz && d.kurz[text]) return d.kurz[text];
+  return text.length > 85 ? text.split(" — ")[0] : text;
+}
 
 const inhalt = [];
 const add = (...x) => inhalt.push(...x.flat());
 
-// Eine Aufgabenzeile: Kästchen, Wer, Bis wann, Aufgabe.
-function aufgaben(zeilen) {
-  return tabelle(["", "Wer", "Bis wann", "Aufgabe"],
-    zeilen.map(([wer, frist, text, grund, farbe]) => {
-      const f = FARBE[farbe] || S;
-      const aufgabe = grund
-        ? [[text + " ", f, true], ["— " + grund, f]]
-        : [[text, f]];
-      return ["☐", [[wer, f, true]], [[frist, f, true]], aufgabe];
-    }),
-    [420, 800, 1500, 6280]);
+add(titel("Was ich noch tun muss"));
+add(p([["Webgewerk · Stand " + d.stand + " · eine Zeile je Aufgabe, mit Namen und Datum.", S]]));
+add(p([["Warum eine Aufgabe drinsteht, steht im Unternehmenskonzept. Zum Abhaken braucht man es nicht.", S]]));
+
+let gesamt = 0;
+for (const block of d.bloecke) {
+  const zeilen = block.zeilen.filter((z) => z[0] !== "C");
+  if (!zeilen.length) continue;
+  add(h(block.titel.split(" — ")[0], 1));
+  for (const z of zeilen) {
+    add(zeile(kurzfassung(z[2]), NAME[z[0]] || z[0], z[1]));
+    gesamt++;
+  }
 }
 
-add(titel("Webgewerk — Was zu tun ist"));
-add(p([["Stand " + daten.stand + " · zusammengeführt aus der Aufgabenliste vom 17.08. und der Terminliste aus dem Konzept. Diese Fassung ersetzt beide.", S]]));
-add(p([["Jede Zeile hat einen Verantwortlichen und eine Frist. Was beides nicht hat, steht nicht drin.", S]]));
-add(abstand());
-add(legende());
-add(p([["K = Kira · Y = Yannik · K+Y = beide · C = Claude", S]]));
-add(abstand());
-
-add(h("Der Anker: Tag 1", 1));
-add(p([["Tag 1 ist der Tag, an dem der erste Check übergeben wird. Vorgeschlagen: " + daten.anker.tag1 + ". Tag 90 ist dann " + daten.anker.tag90 + ". Alle Fristen im Vorlauf hängen an diesem Datum — wird es verschoben, verschieben sich alle mit. Deshalb steht es selbst als erste Aufgabe in der Liste.", BL]]));
-add(p([["Ein zweiter Anker ist die Gewerbeanmeldung (" + daten.anker.gruendung + "). An ihr hängen die ELSTER-Frist und die Frist für den Befreiungsantrag bei der Rentenversicherung.", BL]]));
-
-for (const b of daten.bloecke) {
-  add(h(b.titel, 1));
-  if (b.vorspann) add(p([[b.vorspann, S]]));
-  add(aufgaben(b.zeilen));
-  add(abstand());
-}
-
-add(h("Aus der älteren Liste herausgefallen — und warum", 1));
-add(p([["Damit niemand die alte Fassung sucht und die Zeilen vermisst.", S]]));
-add(liste(daten.gestrichen.map(([was, warum]) => [[was + " ", BL, true], ["— " + warum, BL]])));
-add(abstand());
-
-add(h("Erledigt", 1));
-add(liste(daten.erledigt));
+add(h("Zuerst", 1));
+add(p([["Die ladungsfähige Anschrift. Ohne sie trägt jeder Check einen roten Sperrbalken und darf nicht übergeben werden — elf fertige Pakete warten nur darauf. Es ist eine Entscheidung, keine Recherche.", S]]));
 
 const doc = dokument(inhalt);
 Packer.toBuffer(doc).then((buf) => {
-  const ziel = path.join(__dirname, "Webgewerk-Aufgabenliste.docx");
+  const ziel = path.join(__dirname, "Webgewerk-Todo.docx");
   fs.writeFileSync(ziel, buf);
-  const n = daten.bloecke.reduce((a, b) => a + b.zeilen.length, 0);
-  console.log(ziel, Math.round(buf.length / 1024) + " KB,", n, "Aufgaben");
+  console.log(ziel, Math.round(buf.length / 1024) + " KB,", gesamt, "Aufgaben");
 });
