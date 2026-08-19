@@ -669,17 +669,41 @@ tatsächlich ändern — Öffnungszeiten, Telefonnummer, eine Stellenanzeige, ei
 Absatz Text, ein Bild. Alles andere bleibt bei uns. Ein Baukasten, in dem der
 Kunde das Layout zerlegen kann, ist ausdrücklich <em>nicht</em> das Ziel: Dann
 wären wir wieder da, wo Wix und Jimdo stehen.</p>
-<div class="offen vermerk">
-  <b>Offen · Kira, vor dem ersten Pilotprojekt</b>
-  <p>Welcher der drei Wege es wird, ist noch nicht entschieden — die Optionen
-  und ihre Folgen für Preis und Betreuung stehen im Gespräch vom 17.08. Der
-  Weg hängt technisch mit dem Kontaktformular zusammen: Beides braucht dieselbe
-  Sorte kleinen Endpunkt beim Hoster des Kunden. <strong>Zusammen
-  entscheiden, nicht getrennt.</strong></p>
-  <p>Was die Entscheidung berührt: den Änderungsumfang der Betreuung (dann sind
-  zwei Änderungen im Monat vielleicht gar nicht mehr nötig), das
-  Abhängigkeitsargument im Verkauf, und die Anforderung an das Hosting des
-  Kunden.</p>
+<div class="vermerk">
+  <b>Entschieden · 19.08. — gebaut und geprüft</b>
+  <p>Es wird der eigene kleine Endpunkt beim Hoster des Kunden. Drei
+  PHP-Dateien, kein Fremddienst, keine Datenbank, keine laufenden Kosten. Sie
+  liegen im Repository unter <code>studie/pflege/</code>, die Anleitung
+  daneben in <code>LIESMICH.md</code>.</p>
+  <p><strong>So funktioniert es:</strong> Im HTML wird eine änderbare Stelle
+  zwischen zwei Markierungen gesetzt —
+  <code>&lt;!--wg:telefon--&gt;02237 1234567&lt;!--/wg--&gt;</code>. Der
+  Pflegebereich findet diese Stellen von selbst, zeigt sie dem Kunden als
+  beschriftete Formularfelder und schreibt den neuen Text an genau dieselbe
+  Stelle zurück. Das HTML drumherum bekommt er nie zu sehen. Wird die
+  Telefonnummer geändert, wird der anklickbare <code>tel:</code>-Verweis
+  mitgezogen — sonst stünde die neue Nummer auf der Seite und der Anruf ginge
+  an die alte.</p>
+  <p><strong>Dieselbe Entscheidung löst das Kontaktformular</strong>, weil es
+  dieselbe Sorte Datei ist: <code>formular.php</code> nimmt die Anfrage
+  entgegen und schickt sie direkt ins Postfach des Betriebs. Kein
+  Formulardienst, kein weiterer Auftragsverarbeitungsvertrag, kein weiterer
+  Anbieter in der Datenschutzerklärung. Gegen Spam zwei unsichtbare Fallen
+  statt eines Captchas — ein Meister, der Verkehrsschilder anklicken muss,
+  ruft nicht an.</p>
+  <p><strong>Was das im Konzept verschiebt:</strong> Der Betreuungsumfang „bis
+  zu zwei Änderungen im Monat" (6.3) verliert an Gewicht, weil Öffnungszeiten,
+  Telefonnummer, Stellenanzeige und Hinweise der Kunde selbst ändert. Das
+  Abhängigkeitsargument im Verkauf wird stärker. Die Anforderung an das
+  Hosting wächst um einen Punkt: <strong>Es muss PHP können.</strong> Alle
+  üblichen Tarife können das; ein reiner Baukasten-Tarif nicht — der scheitert
+  aber ohnehin schon am Hochladen eigener Dateien.</p>
+  <p><strong>Geprüft:</strong> Felder lesen, Speichern (das umgebende HTML
+  bleibt per <code>diff</code> unverändert), Sicherung vor jedem Speichern,
+  Nachziehen des <code>tel:</code>-Verweises, Anmeldung mit falschem und
+  richtigem Passwort, beide Spamfallen. <strong>Nicht geprüft:</strong> der
+  tatsächliche Mailversand — das geht erst auf echtem Hosting und ist der
+  erste Test beim Pilotprojekt.</p>
 </div>
 <p>Bei Livegang erhält der Kunde in jedem Fall das Repository und die fertigen
 Dateien; dass ein Nachfolger den Code neu aufbauen müsste, sagen wir dazu.</p>
@@ -746,13 +770,13 @@ Monat nach dem Umzug kündigen</strong> — das kostet den Kunden einmalig
 Ein-Seiten-Anleitung, was wo liegt, und die Übergabeliste aus Anhang A —
 also die Punkte, die der Kunde selbst erledigen muss.</p>
 
-<div class="offen vermerk">
-  <b>Offen · Kira, vor dem ersten Pilotprojekt</b>
-  <p><strong>Kontaktformular.</strong> Eine statische Seite hat keinen Server.
-  Es braucht einen Formulardienst mit Serverstandort in der EU und
-  Auftragsverarbeitungsvertrag oder einen eigenen kleinen Endpunkt beim Hoster
-  des Kunden. Bis das entschieden ist, ist kein Projekt auslieferbar — der
-  Kontaktweg ist Prüfpunkt 6 unseres eigenen Katalogs.</p>
+<div class="vermerk">
+  <b>Erledigt · 19.08.</b>
+  <p><strong>Kontaktformular.</strong> Entschieden zusammen mit dem
+  Pflegebereich, weil es dieselbe Sorte Datei ist: eigener Endpunkt beim
+  Hoster des Kunden, kein Formulardienst. <code>studie/pflege/formular.php</code>
+  samt Einbaublock <code>formular-baustein.html</code>. Damit ist Prüfpunkt 6
+  auf unseren eigenen Seiten erfüllbar.</p>
 </div>
 
 <h3>7.2 Produktionsvorlage und Abnahme</h3>

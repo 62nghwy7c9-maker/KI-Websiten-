@@ -28,8 +28,7 @@ add(tabelle(
     [[["4.3", R]], [["Preis für einen halben Tag Fotoaufnahmen festlegen, Fotograf fragen", R]], [["K", R]]],
     [[["4.4", R]], [["Einwandbehandlung ist ein Entwurf und wird noch ausgearbeitet", R]], [["K+Y", R]]],
     [[["5", R]], [["Check-Vorlage trägt Yanniks Namen mit Kiras Mailadresse — korrigieren", R]], [["C", R]]],
-    [[["7.1", R]], [["Was der Kunde selbst bedienen kann: drei Wege, noch nicht entschieden", R]], [["K", R]]],
-    [[["7.1", R]], [["Kontaktformular — ohne Entscheidung ist kein Projekt auslieferbar", R]], [["K", R]]],
+    [[["7.1", BL]], [["Pflegebereich und Kontaktformular sind entschieden und gebaut — offen bleibt nur der erste Mailversand auf echtem Hosting", BL]], [["K+Y", BL]]],
     [[["10.1", R]], [["Claude-Abo: kommerzieller Tarif mit AV-Vertrag nötig, Preis prüfen", R]], [["K", R]]],
     [[["10.2", R]], [["Wovon wir im ersten Jahr leben — schriftlich, mit Betrag und Dauer", R]], [["K+Y", R]]],
     [[["10.3", R]], [["Konversionsannahmen sind ungeprüft und durch keine Quelle gedeckt", R]], [["K+Y", R]]],
@@ -245,8 +244,10 @@ add(liste([
 add(h("Der Kunde kann nichts selbst ändern — das soll sich ändern", 3, BL));
 add(p([["Bisher läuft jede Änderung über uns. Entschieden am 17.08.: Das wird umgebaut. Statt eine schnelle Reaktionszeit zu versprechen, bekommt der Kunde etwas, das er selbst bedienen kann. Eine zugesagte Reaktionszeit ist ein Versprechen, das man brechen kann; ein Feld, das er selbst ändert, ist keins.", BL]]));
 add(p([["Die Grenze bleibt eng: kein CMS, keine Datenbank, kein Fremddienst. Selbst bedienbar werden nur die Felder, die sich tatsächlich ändern — Öffnungszeiten, Telefonnummer, eine Stellenanzeige, ein Absatz Text, ein Bild. Ein Baukasten, in dem der Kunde das Layout zerlegen kann, ist ausdrücklich nicht das Ziel.", BL]]));
-add(p([["Offen — Kira, vor dem ersten Pilotprojekt: Welcher von drei Wegen es wird, ist nicht entschieden. Der Weg hängt technisch mit dem Kontaktformular zusammen — beides braucht dieselbe Sorte kleinen Endpunkt beim Hoster des Kunden. Zusammen entscheiden, nicht getrennt. Betroffen sind außerdem der Änderungsumfang der Betreuung, das Abhängigkeitsargument im Verkauf und die Anforderung an das Hosting.", R]]));
-add(p([["Offen — Kira, vor dem ersten Pilotprojekt: Kontaktformular. Eine statische Seite hat keinen Server. Es braucht einen Formulardienst mit EU-Serverstandort und AV-Vertrag oder einen eigenen kleinen Endpunkt. Bis das entschieden ist, ist kein Projekt auslieferbar — der Kontaktweg ist Prüfpunkt 6 unseres eigenen Katalogs.", R]]));
+add(p([["Entschieden am 19.08., gebaut und geprüft: Es wird der eigene kleine Endpunkt beim Hoster des Kunden — drei PHP-Dateien, kein Fremddienst, keine Datenbank, keine laufenden Kosten. Im HTML wird eine änderbare Stelle zwischen zwei Markierungen gesetzt; der Pflegebereich zeigt sie dem Kunden als beschriftetes Formularfeld und schreibt den neuen Text an dieselbe Stelle zurück. Das HTML drumherum bekommt er nie zu sehen. Wird die Telefonnummer geändert, wird der anklickbare Verweis mitgezogen.", BL]]));
+add(p([["Dieselbe Entscheidung löst das Kontaktformular, weil es dieselbe Sorte Datei ist: Die Anfrage geht direkt in das Postfach des Betriebs. Kein Formulardienst, kein weiterer AV-Vertrag, kein weiterer Anbieter in der Datenschutzerklärung. Gegen Spam zwei unsichtbare Fallen statt eines Captchas. Damit ist Prüfpunkt 6 auf unseren eigenen Seiten erfüllbar.", BL]]));
+add(p([["Was das verschiebt: Der Betreuungsumfang von bis zu zwei Änderungen im Monat verliert an Gewicht, weil Öffnungszeiten, Telefonnummer, Stellenanzeige und Hinweise der Kunde selbst ändert. Das Abhängigkeitsargument im Verkauf wird stärker. Die Anforderung an das Hosting wächst um einen Punkt: Es muss PHP können. Alle üblichen Tarife können das.", BL]]));
+add(p([["Geprüft: Felder lesen, Speichern ohne Veränderung des umgebenden HTML, Sicherung vor jedem Speichern, Nachziehen des Telefonverweises, Anmeldung mit falschem und richtigem Passwort, beide Spamfallen. Nicht geprüft: der tatsächliche Mailversand — das geht erst auf echtem Hosting und ist der erste Test beim Pilotprojekt.", R]]));
 
 add(h("Livegang: der riskanteste Schritt", 3, BL));
 add(p([["An der Domain hängt fast immer das Geschäfts-E-Mail-Postfach. Wer beim Umstellen der Website den Mailverkehr mit abräumt, hat einen Betrieb unerreichbar gemacht. Zwei Fälle, die man vorher unterscheiden muss:", BL]]));

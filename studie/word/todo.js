@@ -39,7 +39,7 @@ add(aufgaben([
   ["K", "Die zwei Selbstbeschreibungen schreiben, je ein bis zwei Sätze", "solange sie fehlen, steht auf der eigenen Seite Platzhaltertext — Prüfpunkt 15, an der eigenen Seite gerissen", R],
   ["K+Y", "Vier fertige Befunde freigeben: Sander-Bau, Lindam, Merzenich, Labau", "die Pipeline reproduziert alle vier, die Freigabe steht aus", S],
   ["K+Y", "Termin mit der Rechtsberatung in der Familie vereinbaren — mit festem Datum", "unentgeltliche Hilfe hat keine Rechnung und deshalb keinen Druck. Sie ist das Erste, was liegen bleibt", BL],
-  ["K+Y", "Entscheiden, was der Kunde selbst bedienen kann — drei Wege stehen zur Wahl", "hängt technisch am Kontaktformular: beides braucht dieselbe Sorte Endpunkt. Zusammen entscheiden", BL],
+  ["K+Y", "Pflegebereich und Kontaktformular auf echtem Hosting testen — vor allem, ob der Mailversand ankommt", "entschieden und gebaut (studie/pflege). Offen ist nur der Test auf einem Tarif eines Kunden", BL],
 ]));
 add(abstand());
 

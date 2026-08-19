@@ -1,0 +1,54 @@
+<!-- Kontaktformular — dieser Block wird in die Kundenseite kopiert.
+     Er gehoert zu formular.php. Drei Dinge sind wichtig und duerfen nicht
+     wegfallen:
+       1. das versteckte Feld "website" (die Spamfalle),
+       2. das Feld "zeit" mit dem Zeitstempel,
+       3. required und type auf den echten Feldern.
+     Der Zeitstempel wird von JavaScript gesetzt. Ohne JavaScript bleibt er
+     leer — formular.php laesst die Anfrage dann trotzdem durch, weil sonst
+     ein Kunde mit abgeschaltetem JavaScript nicht anfragen koennte. -->
+
+<form action="formular.php" method="post" class="anfrage">
+
+  <label for="f-name">Ihr Name</label>
+  <input id="f-name" name="name" type="text" autocomplete="name" required>
+
+  <!-- E-Mail und Telefon sind einzeln, weil formular.php die E-Mail auf
+       Gueltigkeit prueft. Wer eine Telefonnummer in das Mailfeld schreibt,
+       bekaeme sonst eine Fehlermeldung. Eines von beiden genuegt. -->
+  <label for="f-mail">Ihre E-Mail-Adresse</label>
+  <input id="f-mail" name="mail" type="email" autocomplete="email">
+
+  <label for="f-telefon">oder Ihre Telefonnummer</label>
+  <input id="f-telefon" name="telefon" type="tel" autocomplete="tel">
+
+  <label for="f-nachricht">Worum geht es?</label>
+  <textarea id="f-nachricht" name="nachricht" rows="6" required></textarea>
+
+  <!-- Spamfalle. Fuer Menschen unsichtbar, deshalb kein display:none
+       (das erkennen manche Programme), sondern aus dem Bild geschoben. -->
+  <p class="fallgrube" aria-hidden="true">
+    <label for="f-website">Dieses Feld bitte leer lassen</label>
+    <input id="f-website" name="website" type="text" tabindex="-1" autocomplete="off">
+  </p>
+
+  <input type="hidden" name="zeit" value="">
+
+  <p class="klein">Ihre Angaben gehen ausschliesslich an uns und werden nur zur
+  Beantwortung Ihrer Anfrage verwendet. Mehr dazu in der
+  <a href="datenschutz.html">Datenschutzerklaerung</a>.</p>
+
+  <button type="submit">Anfrage senden</button>
+</form>
+
+<style>
+  .anfrage .fallgrube { position:absolute; left:-9999px; width:1px; height:1px;
+                        overflow:hidden }
+</style>
+
+<script>
+  /* Zeitstempel setzen, sobald die Seite geladen ist. Wer in unter drei
+     Sekunden absendet, hat nicht getippt. */
+  document.querySelector('.anfrage [name=zeit]').value =
+      Math.floor(Date.now() / 1000);
+</script>
