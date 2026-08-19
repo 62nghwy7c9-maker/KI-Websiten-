@@ -1,0 +1,473 @@
+{
+  "stand": "19.08.2026",
+  "anker": {
+    "tag1": "Mo, 05.10.2026",
+    "tag90": "Sa, 02.01.2027",
+    "gruendung": "Fr, 28.08.2026"
+  },
+  "bloecke": [
+    {
+      "titel": "Bis Freitag, 21.08.2026 — Entscheidungen, keine Arbeit",
+      "vorspann": "Nichts hiervon kostet mehr als ein paar Minuten. Alles hiervon hält etwas anderes auf.",
+      "zeilen": [
+        [
+          "K+Y",
+          "21.08.",
+          "Ladungsfähige Anschrift festlegen und in absender.json eintragen",
+          "blockiert alles: ohne sie trägt jeder Check einen roten Sperrbalken (§ 5 DDG). Elf fertige Pakete warten nur darauf",
+          "R"
+        ],
+        [
+          "K+Y",
+          "21.08.",
+          "Entscheiden, welche Telefonnummer gilt",
+          "zwei im Umlauf: 0152 01560005 und 0162 3242260. Auf einem gedruckten Blatt ist eine falsche Nummer der teuerste Fehler",
+          "R"
+        ],
+        [
+          "K+Y",
+          "21.08.",
+          "Klären: Betreuung 69 € oder 59 € im Monat",
+          "im Konzept stehen 69 €, am 17.08. fiel die Zahl 59. Bestätigen, bevor sie auf ein Angebot kommt",
+          "R"
+        ],
+        [
+          "K+Y",
+          "21.08.",
+          "Tag 1 als festes Datum setzen — Vorschlag: Montag, 05.10.2026",
+          "Tag 1 ist der Tag, an dem der erste Check übergeben wird. Jede Frist weiter unten hängt daran. Ohne Datum ist „Vorlauf“ kein Termin, sondern eine Hoffnung",
+          "BL"
+        ],
+        [
+          "K+Y",
+          "21.08.",
+          "Verfügbare Wochenstunden, feste Tage und Uhrzeiten schriftlich festhalten",
+          "ohne diese Zahl ist die Wirtschaftlichkeit nicht rechenbar und der 90-Tage-Plan nicht planbar. Der wichtigste offene Punkt des Konzepts",
+          "R"
+        ],
+        [
+          "K+Y",
+          "21.08.",
+          "Termin mit der Rechtsberatung in der Familie vereinbaren — mit festem Datum im Kalender",
+          "unentgeltliche Hilfe hat keine Rechnung und deshalb keinen Druck. Sie ist das Erste, was liegen bleibt",
+          "S"
+        ],
+        [
+          "K+Y",
+          "21.08.",
+          "Vier fertige Befunde freigeben: Sander-Bau, Lindam, Merzenich, Labau",
+          "die Pipeline reproduziert alle vier. Nur die Freigabe steht aus",
+          "S"
+        ],
+        [
+          "K",
+          "21.08.",
+          "Die zwei Selbstbeschreibungen schreiben, je ein bis zwei Sätze",
+          "solange sie fehlen, steht auf der eigenen Seite Platzhaltertext — Prüfpunkt 15, an der eigenen Seite gerissen",
+          "R"
+        ],
+        [
+          "Y",
+          "21.08.",
+          "DPMA-Markenrecherche auf entgegenstehende Marken",
+          "30 Minuten, und sie muss vor die Gewerbeanmeldung. Danach ist der Name teuer zu ändern",
+          "S"
+        ]
+      ]
+    },
+    {
+      "titel": "Bis Freitag, 28.08.2026 — Gründung anstoßen",
+      "vorspann": "Alles mit Vorlauf bei Ämtern, Versicherern und Banken. Was hier liegen bleibt, verschiebt Tag 1.",
+      "zeilen": [
+        [
+          "K+Y",
+          "28.08.",
+          "Schriftlicher GbR-Gesellschaftsvertrag",
+          "Gewinnverteilung, Geschäftsführung, Kündigung, Ausscheiden — und ausdrücklich: was mit laufenden Kundenverträgen passiert, wenn einer geht",
+          "S"
+        ],
+        [
+          "K+Y",
+          "28.08.",
+          "Gewerbeanmeldung je Gesellschafter beim Gewerbeamt der Wohnsitzgemeinde",
+          "setzt die Uhr für ELSTER und für die DRV-Fristen weiter unten",
+          "S"
+        ],
+        [
+          "Y",
+          "28.08.",
+          "Domain webgewerk sichern und geschäftliche E-Mail einrichten",
+          "Stand 13.08.: webgewerk.de ist registriert und geparkt, webgewerk.com frei. Bei denic.de/webwhois nach dem Halter fragen",
+          "S"
+        ],
+        [
+          "K+Y",
+          "28.08.",
+          "Wovon wir im ersten Jahr leben — schriftlich, mit Betrag und Monaten",
+          "das Neugeschäft bringt im ersten Jahr 21–44 € je Arbeitsstunde. Wer das nicht vorher weiß, hört nach dem dritten Kunden auf",
+          "R"
+        ],
+        [
+          "Y",
+          "28.08.",
+          "Vermögensschaden-/IT-Haftpflicht: drei Angebote einholen und abschließen",
+          "300–700 €/Jahr. Bei unbeschränkter Privathaftung (§ 721 BGB) nicht optional",
+          "S"
+        ],
+        [
+          "Y",
+          "28.08.",
+          "Steuerberatung: § 19 UStG beibehalten oder verzichten",
+          "muss vor dem ELSTER-Fragebogen entschieden sein — der Verzicht bindet fünf Jahre",
+          "S"
+        ],
+        [
+          "Y",
+          "28.08.",
+          "Separates Konto für die Steuerrücklage einrichten — 30 % jeder Einnahme",
+          "zwanzig Minuten. Später kostet es die Liquidität, die nicht da ist",
+          "S"
+        ]
+      ]
+    },
+    {
+      "titel": "Bis Freitag, 11.09.2026 — Recht, Datenschutz, Unterlagen",
+      "vorspann": "Das Papier, ohne das der erste Check das Haus nicht verlassen darf.",
+      "zeilen": [
+        [
+          "Y",
+          "11.09.",
+          "Vertrag und AGB vorformulieren und prüfen lassen",
+          "Abnahme mit Rügefrist und Eskalation, Mahnwesen, Rechte an übernommenen Texten, Herausgabe bei Vertragsende",
+          "S"
+        ],
+        [
+          "Y",
+          "11.09.",
+          "§ 7 UWG und die DSGVO-Kette bis Anthropic an eine Fachstelle geben",
+          "falls die Familienberatung dort nicht zu Hause ist. Beides sind Spezialgebiete, und beides trifft uns ab dem ersten Anschreiben",
+          "S"
+        ],
+        [
+          "Y",
+          "11.09.",
+          "Art.-14-Datenschutzhinweis als Beilage zum Check formulieren",
+          "wir verarbeiten Daten über Betriebe, die uns nicht gefragt haben. Der Hinweis gehört auf dieselbe Sendung",
+          "S"
+        ],
+        [
+          "K",
+          "11.09.",
+          "Verzeichnis von Verarbeitungstätigkeiten anlegen (Art. 30 DSGVO)",
+          "eine Tabelle, kein Projekt. Sie muss existieren, bevor die erste Betriebsliste gefüllt wird",
+          "S"
+        ],
+        [
+          "K",
+          "11.09.",
+          "Claude-Tarif prüfen: liegt ein Vertrag nach Art. 28 DSGVO vor, und was kostet der kommerzielle Tarif?",
+          "die Produktion läuft über Claude. Ohne diesen Vertrag ist die Kette bis Anthropic nicht geschlossen",
+          "BL"
+        ],
+        [
+          "K+Y",
+          "11.09.",
+          "Betriebsliste mit Sperrlisten-Spalte und Wiedervorlage sowie das Zeitprotokoll anlegen",
+          "die Sperrliste ist eine Pflicht, kein Komfort: Wer einmal Nein gesagt hat, wird nie wieder angeschrieben",
+          "S"
+        ],
+        [
+          "K+Y",
+          "11.09.",
+          "Von den gezeigten Arbeitsproben schriftliche Zeigeerlaubnis einholen",
+          "zwei Sätze per Mail. Ohne sie wird nichts gezeigt",
+          "S"
+        ],
+        [
+          "Y",
+          "11.09.",
+          "Wettbewerberpreise belegen: sieben Angebotsseiten, Preis und Abrufdatum, Screenshot",
+          "rund eine Stunde. Danach steht fest, ob wirklich IONOS und STRATO der Hauptgegner sind — oder die zehn Anbieter aus der Wettbewerbsanalyse",
+          "R"
+        ]
+      ]
+    },
+    {
+      "titel": "Bis Freitag, 25.09.2026 — an ein Amt gebunden",
+      "vorspann": "Diese Frist läuft nicht ab unserem Kalender, sondern ab der Gewerbeanmeldung.",
+      "zeilen": [
+        [
+          "K+Y",
+          "25.09.",
+          "Fragebogen zur steuerlichen Erfassung über ELSTER einreichen",
+          "einen Monat nach der Gewerbeanmeldung fällig. Setzt die Entscheidung zu § 19 UStG voraus",
+          "BL"
+        ]
+      ]
+    },
+    {
+      "titel": "Bis Freitag, 02.10.2026 — die letzte Woche vor Tag 1",
+      "vorspann": "Ab hier wird nichts mehr entschieden, nur noch fertiggestellt.",
+      "zeilen": [
+        [
+          "K",
+          "02.10.",
+          "Eigene Website fertigstellen und den eigenen Katalog bestehen — in allen Punkten, die wir selbst steuern",
+          "Impressum und Datenschutz mit Anschrift, Selbstbeschreibungen einsetzen, Sperrbalken entfernen. Wer fremde Seiten misst, muss die eigene bestehen",
+          "S"
+        ],
+        [
+          "K",
+          "02.10.",
+          "Pflegebereich und Kontaktformular auf echtem Hosting testen — vor allem, ob der Mailversand ankommt",
+          "entschieden und gebaut am 19.08. (studie/pflege). Lokal nicht prüfbar: mail() gibt es im Container nicht",
+          "BL"
+        ],
+        [
+          "K",
+          "02.10.",
+          "Bauanleitung schreiben, damit die Produktion nicht an einer Person hängt",
+          "derzeit kann nur Kira produzieren. Fällt sie aus, steht alles",
+          "S"
+        ],
+        [
+          "K",
+          "02.10.",
+          "Preis für einen halben Tag Fotoaufnahmen festlegen und den Fotografen fragen, ob er genannt werden will",
+          "Anhaltspunkt: vier bis fünf Stunden zu 70 €",
+          "S"
+        ],
+        [
+          "K+Y",
+          "02.10.",
+          "Eine belastbare Zahl zum Fachkräftemangel im Handwerk suchen",
+          "nützlich fürs Gespräch, aber nicht mehr die Grundlage — der Betrieb rechnet selbst (Konzept 3.1)",
+          "S"
+        ],
+        [
+          "K",
+          "02.10.",
+          "Barrierefreiheit: Betroffenheit nach dem BFSG klären",
+          "muss vor dem ersten Angebot feststehen, sonst wird sie zur Nachforderung",
+          "R"
+        ],
+        [
+          "K+Y",
+          "02.10.",
+          "Google-Unternehmensprofil für Webgewerk anlegen",
+          "Prüfpunkt 14 verlangt von Kunden, dass Profil und Website übereinstimmen. Wir haben keins",
+          "R"
+        ],
+        [
+          "K+Y",
+          "02.10.",
+          "Einwandbehandlung ausarbeiten",
+          "die drei Einwände stehen als Entwurf im Konzept 4.4 — verfeinern statt neu anfangen",
+          "S"
+        ],
+        [
+          "K",
+          "02.10.",
+          "Screenshots einmal auf einem Rechner ohne Netzsperre prüfen",
+          "im Container entstehen sie nur bei HTTP-Seiten, also bei 2 von 11",
+          "R"
+        ],
+        [
+          "K",
+          "02.10.",
+          "Overpass-Live-Abruf testen",
+          "die Container-IP ist gesperrt. Der Weg über overpass-turbo.eu funktioniert und ist geprüft",
+          "S"
+        ],
+        [
+          "C",
+          "02.10.",
+          "Feld „gruende“ in die Pipeline: ein bis drei individuelle Gründe je Betrieb, jeder mit Beleg",
+          "erscheint im Dossier und im Anschreiben, nie auf dem gedruckten Check",
+          "S"
+        ],
+        [
+          "C",
+          "02.10.",
+          "Auswahlregel zweistufig umsetzen",
+          "erst filtern, was das Paket behebt, dann nach Schweregrad sortieren",
+          "S"
+        ],
+        [
+          "C",
+          "02.10.",
+          "Platzhalter auf Unterseiten finden",
+          "die Handfunde „mehr als ?? Jahren“ (Apeler) und „(Bild in Beratungssituation)“ (Maler Manufaktur) fehlen der Pipeline bisher",
+          "R"
+        ],
+        [
+          "C",
+          "02.10.",
+          "Kostensatz für Prüfpunkt 7 ein zweites Mal belegen",
+          "§ 33 DDG nennt einen Bußgeldrahmen bis 50.000 €. Die Quelle liegt vor — aber die Zahl geht auf ein Blatt, das ein Meister in die Hand bekommt",
+          "R"
+        ],
+        [
+          "C",
+          "02.10.",
+          "Entscheiden: lokale Ladezeitmessung oder Googles PageSpeed-API",
+          "der Satz „Google bewertet über 4 Sekunden als schlecht“ trägt nur, wenn die Zahl auch von Google kommt",
+          "S"
+        ],
+        [
+          "C",
+          "02.10.",
+          "Die drei überholten Konzeptfassungen löschen oder als überholt kennzeichnen",
+          "vier Dokumente im Umlauf waren der Grund für drei verschiedene Prüfkataloge",
+          "S"
+        ]
+      ]
+    },
+    {
+      "titel": "Tag 1 bis Tag 90 — Mo, 05.10.2026 bis Sa, 02.01.2027",
+      "vorspann": "Gemessen wird eins: Wie viele antworten? Die Antwortquote des Kanals ist bis heute ungetestet — Stichprobe eins.",
+      "zeilen": [
+        [
+          "K+Y",
+          "laufend ab 05.10.",
+          "Ist-Zeit je Check mitschreiben, ab dem allerersten",
+          "der Weg von zwei Stunden auf 45 Minuten verdoppelt den effektiven Stundensatz. Eine Preiserhöhung um 500 € täte das nicht",
+          "S"
+        ],
+        [
+          "K+Y",
+          "jede Woche ab 05.10.",
+          "Fester Termin, 60–90 Minuten, Kennzahlen eintragen",
+          "fester Tagesordnungspunkt: Stimmt der Prüfkatalog im Code noch mit Anhang A überein?",
+          "S"
+        ],
+        [
+          "K+Y",
+          "06.11.",
+          "Die ersten 20 Checks übergeben, in Touren zu fünf Betrieben",
+          "einzeln ausgefahren wäre die persönliche Übergabe mit dem Zeitziel unvereinbar. Gebündelt fällt die Fahrzeit je Check auf zwölf Minuten",
+          "S"
+        ],
+        [
+          "C",
+          "06.11.",
+          "Prüfpunkte 1–5 und 11–13 automatisieren, Google für Jobs als Prüfpunkt aufnehmen",
+          "solange das von Hand läuft, ist das 45-Minuten-Ziel je Check nicht erreichbar",
+          "S"
+        ],
+        [
+          "K+Y",
+          "27.11.",
+          "DRV-Statusklärung § 7a SGB IV und Befreiungsantrag § 6 Abs. 1a SGB VI stellen",
+          "drei Monate nach Aufnahme der Tätigkeit — danach wirkt der Befreiungsantrag nicht mehr rückwirkend",
+          "S"
+        ],
+        [
+          "K+Y",
+          "02.01.",
+          "40 Checks insgesamt übergeben",
+          "die zweite Hälfte erst, wenn die Ist-Zeiten der ersten zwanzig ausgewertet sind",
+          "S"
+        ],
+        [
+          "K+Y",
+          "02.01.",
+          "Drei Pilotkunden gewinnen, versetzt starten mit rund zwei Wochen Abstand",
+          "damit die Auswertung von Projekt 1 vor dem Baubeginn von Projekt 2 steht",
+          "S"
+        ],
+        [
+          "K",
+          "02.01.",
+          "Ist-Zeit je Projekt nach Arbeitsschritt erfassen, Projekt 1 auswerten bevor Projekt 2 beginnt",
+          "",
+          "S"
+        ],
+        [
+          "K",
+          "02.01.",
+          "Nach Projekt 3: Produktionsvorlage ableiten und entscheiden, ob Paket S bleibt",
+          "beworben wird „ab 990 €“, verkauft werden soll M. Entweder S streichen oder auf einen Umfang zuschneiden, den es zu dem Preis wirklich gibt",
+          "R"
+        ],
+        [
+          "K+Y",
+          "02.01.",
+          "Zweiter Kanal: Betriebe ohne Website ansprechen",
+          "erst ab dem 21. Check, damit sich die Kanäle in der Auswertung nicht vermischen",
+          "S"
+        ]
+      ]
+    },
+    {
+      "titel": "An ein Ereignis gebunden — spätestens Sa, 02.01.2027",
+      "vorspann": "Diese vier haben keinen Kalendertermin, sondern einen Auslöser. Der Auslöser kommt zuerst, das Datum ist die Notbremse.",
+      "zeilen": [
+        [
+          "K",
+          "vor dem ersten Betreuungsvertrag, spätestens 02.01.",
+          "AVV-Vorlage für Betreuungskunden erstellen (Art. 28 DSGVO)",
+          "wir bekommen Zugang zu Hosting und Postfach des Kunden. Ohne AVV ist das nicht zulässig",
+          "S"
+        ],
+        [
+          "Y",
+          "vor der ersten Rechnung, spätestens 02.01.",
+          "E-Rechnungs-Empfang und revisionssichere Ablage einrichten",
+          "der Empfang von E-Rechnungen ist Pflicht, unabhängig von der eigenen Größe. Ablage nach § 147 AO",
+          "S"
+        ],
+        [
+          "K+Y",
+          "vor dem ersten Livegang auf Kundendomain",
+          "Verfahren für den Domainumzug einmal an einer eigenen Domain durchspielen",
+          "das ist der riskanteste Schritt im ganzen Projekt: Wer beim Umstellen die MX-Einträge abräumt, macht einen Betrieb unerreichbar (Konzept 7.1)",
+          "BL"
+        ],
+        [
+          "K+Y",
+          "am Tag der ersten Absage",
+          "Sperrliste zum ersten Mal benutzen",
+          "wer einmal Nein gesagt hat, wird nie wieder angeschrieben. Die Zeile existiert, damit es beim ersten Mal nicht vergessen wird",
+          "S"
+        ]
+      ]
+    }
+  ],
+  "gestrichen": [
+    [
+      "Formulardienst mit EU-Serverstandort und AV-Vertrag auswählen",
+      "erledigt am 19.08.: Wir nehmen keinen Formulardienst. formular.php liegt beim Kunden, die Anfrage geht direkt in sein Postfach — kein weiterer Anbieter, kein weiterer AV-Vertrag.",
+      "19.08."
+    ],
+    [
+      "Entscheiden, was der Kunde selbst bedienen kann — drei Wege stehen zur Wahl",
+      "erledigt am 19.08.: entschieden und gebaut. Markierte Stellen im HTML, ein Pflegebereich mit Passwort. Übrig bleibt der Test auf echtem Hosting — der steht jetzt im Block bis 02.10.",
+      "19.08."
+    ],
+    [
+      "Termin mit der Rechtsberatung (ohne Datum)",
+      "steht weiter drin, aber jetzt mit Frist: ein Termin ohne Datum ist kein Termin.",
+      "umgestellt"
+    ]
+  ],
+  "erledigt": [
+    "19.08. — Pflegebereich und Kontaktformular entschieden, gebaut und geprüft (studie/pflege)",
+    "19.08. — Anschreiben führt mit der belegten offenen Stelle statt mit einem Mangel",
+    "18.08. — Wettbewerbsanalyse: zehn Anbieter mit dem eigenen Katalog gemessen",
+    "17.08. — Konzept überarbeitet: Webgewerk, Preisliste, 19 Prüfpunkte, Hosting beim Kunden",
+    "17.08. — Abnahme mit Rügefrist und Eskalation geregelt",
+    "17.08. — Verfahren für den Domainumzug samt MX-Sicherung ausgearbeitet",
+    "17.08. — Sperrliste, Anlassfilter, Löschfristen, Gründe je Betrieb aufgenommen",
+    "17.08. — Kein zweiter Anruf; Wiedervorlage nur mit neuem Messergebnis",
+    "17.08. — Betriebe ohne Website: eigener kurzer Einstieg statt Ausschluss",
+    "17.08. — Fotos und Texte als Zusatzleistung, Fotograf ohne Provision",
+    "17.08. — Kapitalbedarf vollständig beziffert: 995–1.764 €",
+    "16.08. — Konzept-Check: 43 Befunde in zwei Durchgängen",
+    "15.08. — Impressum und Datenschutz als eigene Seiten, Stil geteilt",
+    "14.08. — Fehlendes viewport-Meta auf der eigenen Seite gefunden und behoben",
+    "13.08. — Firmenname entschieden: Webgewerk",
+    "12.08. — Pipeline reproduziert alle vier von Hand erstellten Befunde",
+    "12.08. — Elf Pakete erzeugt, je fünf Dateien"
+  ]
+}

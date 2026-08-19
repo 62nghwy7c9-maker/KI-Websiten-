@@ -64,7 +64,7 @@ section{padding:2.6rem 0 0}
 .hinweis{color:var(--gedaempft);font-size:15px;margin:.5rem 0 1.2rem;max-width:60ch}
 
 ul.liste{list-style:none;margin:0;padding:0}
-ul.liste li{display:grid;grid-template-columns:1.5rem 3.2rem 1fr;gap:0 .7rem;
+ul.liste li{display:grid;grid-template-columns:1.5rem 3.2rem 6.2rem 1fr;gap:0 .7rem;
  padding:.8rem 0;border-bottom:1px solid var(--linie);align-items:start}
 .kasten{width:15px;height:15px;border:1.5px solid var(--linie-stark);
  border-radius:2px;margin-top:.25rem}
@@ -72,6 +72,10 @@ ul.liste li{display:grid;grid-template-columns:1.5rem 3.2rem 1fr;gap:0 .7rem;
  text-transform:uppercase;font-weight:600;padding-top:.28rem;white-space:nowrap}
 .w-k{color:var(--k)} .w-y{color:var(--y)} .w-c{color:var(--c)}
 .w-b{color:var(--gedaempft)}
+.kasten.haken{border-color:var(--c);color:var(--c);font-size:11px;
+ line-height:12px;text-align:center;font-weight:700}
+.frist{font-family:var(--mono);font-size:11px;letter-spacing:.04em;
+ font-weight:600;color:var(--akzent);padding-top:.28rem}
 .was{font-size:15.5px}
 .was em{font-style:normal;color:var(--gedaempft);display:block;font-size:14px;
  margin-top:.15rem}
@@ -101,6 +105,7 @@ footer .bahn{padding-block:1.4rem 2.5rem}
 @media(max-width:560px){
   ul.liste li{grid-template-columns:1.5rem 1fr;gap:.15rem .7rem}
   .wer{grid-column:2;padding-top:0}
+  .frist{grid-column:2;padding-top:0}
 }
 </style>
 
@@ -109,9 +114,10 @@ footer .bahn{padding-block:1.4rem 2.5rem}
     <p class="marke">Aufgabenliste</p>
     <h1>Was zu tun ist</h1>
     <p class="unter">
-      Stand 17.08.2026 · alle offenen Punkte aus dem Unternehmenskonzept und
-      dem Konzept-Check<br>
-      Sortiert nach dem, was blockiert. Was oben steht, hält etwas anderes auf.
+      Stand 19.08.2026 · zusammengeführt aus der Aufgabenliste vom 17.08.
+      und der Terminliste aus dem Konzept. Diese Fassung ersetzt beide.<br>
+      Jede Zeile hat einen Verantwortlichen und eine Frist. Was beides nicht
+      hat, steht nicht drin.
     </p>
     <div class="legende">
       <span class="w-k">■ K — Kira</span>
@@ -120,11 +126,13 @@ footer .bahn{padding-block:1.4rem 2.5rem}
       <span class="w-c">■ C — Claude</span>
     </div>
     <div class="sperrblock">
-      <b>Blockiert alles</b>
-      <p>Die <strong>ladungsfähige Anschrift</strong> fehlt. Ohne sie trägt jeder
-      Check einen roten Sperrbalken (§ 5 DDG) und darf nicht übergeben werden.
-      Elf fertige Pakete warten nur darauf. Es ist eine Entscheidung, keine
-      Recherche — und sie dauert fünf Minuten.</p>
+      <b>Der Anker: Tag 1</b>
+      <p>Tag 1 ist der Tag, an dem der erste Check übergeben wird.
+      Vorgeschlagen: <strong>Mo, 05.10.2026</strong>, Tag 90 ist dann
+      Sa, 02.01.2027. Alle Fristen im Vorlauf hängen daran — wird das
+      Datum verschoben, verschieben sich alle mit. Zweiter Anker ist die
+      Gewerbeanmeldung (Fr, 28.08.2026): An ihr hängen die
+      ELSTER-Frist und der Befreiungsantrag bei der Rentenversicherung.</p>
     </div>
   </div>
 </header>
@@ -132,198 +140,260 @@ footer .bahn{padding-block:1.4rem 2.5rem}
 <main class="bahn">
 
 <section>
-  <div class="phase"><h2>1 · Diese Woche</h2><span class="wann">Entscheidungen, keine Arbeit</span></div>
-  <p class="hinweis">Alles hier sind Festlegungen, die nichts kosten außer
-  einem Entschluss — und von denen anderes abhängt.</p>
+  <div class="phase"><h2>Bis Freitag, 21.08.2026</h2><span class="wann">Entscheidungen, keine Arbeit</span></div>
+  <p class="hinweis">Nichts hiervon kostet mehr als ein paar Minuten. Alles hiervon hält etwas anderes auf.</p>
   <ul class="liste">
-    <li class="wichtig"><span class="kasten"></span><span class="wer w-b">K+Y</span>
-      <span class="was"><strong>Ladungsfähige Anschrift festlegen</strong> und in
-      <code>absender.json</code> eintragen
-      <em>Danach fallen die Sperrbalken auf allen elf Checks und auf der Firmenseite.</em></span></li>
-    <li><span class="kasten"></span><span class="wer w-b">K+Y</span>
-      <span class="was">Entscheiden, <strong>welche Telefonnummer gilt</strong>
-      <em>Bisher zwei im Umlauf: 0152 01560005 und 0162 3242260. Auf einem gedruckten Blatt ist eine falsche Nummer der teuerste Fehler.</em></span></li>
-    <li><span class="kasten"></span><span class="wer w-b">K+Y</span>
-      <span class="was">Klären: Betreuung <strong>69 € oder 59 €</strong> im Monat
-      <em>Im Konzept stehen 69 €. Am 17.08. fiel die Zahl 59 — bitte einmal bestätigen, bevor sie auf ein Angebot kommt.</em></span></li>
-    <li><span class="kasten"></span><span class="wer w-k">K</span>
-      <span class="was">Die <strong>zwei Selbstbeschreibungen</strong> schreiben, je ein bis zwei Sätze
-      <em>Solange sie fehlen, steht auf der eigenen Seite Platzhaltertext — Prüfpunkt 15, an der eigenen Seite gerissen.</em></span></li>
-    <li><span class="kasten"></span><span class="wer w-b">K+Y</span>
-      <span class="was"><strong>Vier fertige Befunde freigeben</strong>: Sander-Bau, Lindam, Merzenich, Labau
-      <em>Die Pipeline reproduziert alle vier. Die Freigabe steht aus.</em></span></li>
-    <li><span class="kasten"></span><span class="wer w-b">K+Y</span>
-      <span class="was"><strong>Termin mit der Rechtsberatung</strong> in der Familie vereinbaren — mit festem Datum
-      <em>Unentgeltliche Hilfe hat keine Rechnung und deshalb keinen Druck. Sie ist das Erste, was liegen bleibt.</em></span></li>
-  </ul>
-</section>
-
-<section>
-  <div class="phase"><h2>2 · Vorlauf</h2><span class="wann">rund sechs Wochen bis Tag 1</span></div>
-  <p class="hinweis">Tag 1 ist der Tag, an dem der erste Check übergeben wird.
-  Alles hier muss vorher stehen.</p>
-  <ul class="liste">
-    <li><span class="kasten"></span><span class="wer w-b">K+Y</span>
+    <li class="wichtig"><span class="kasten"></span><span class="wer w-b">K+Y</span><span class="frist">21.08.</span>
+      <span class="was"><strong>Ladungsfähige Anschrift festlegen</strong> und in absender.json eintragen
+      <em>blockiert alles: ohne sie trägt jeder Check einen roten Sperrbalken (§ 5 DDG). Elf fertige Pakete warten nur darauf</em></span></li>
+    <li class="wichtig"><span class="kasten"></span><span class="wer w-b">K+Y</span><span class="frist">21.08.</span>
+      <span class="was"><strong>Entscheiden, welche Telefonnummer gilt</strong>
+      <em>zwei im Umlauf: 0152 01560005 und 0162 3242260. Auf einem gedruckten Blatt ist eine falsche Nummer der teuerste Fehler</em></span></li>
+    <li class="wichtig"><span class="kasten"></span><span class="wer w-b">K+Y</span><span class="frist">21.08.</span>
+      <span class="was"><strong>Klären: Betreuung 69 € oder 59 € im Monat</strong>
+      <em>im Konzept stehen 69 €, am 17.08. fiel die Zahl 59. Bestätigen, bevor sie auf ein Angebot kommt</em></span></li>
+    <li><span class="kasten"></span><span class="wer w-b">K+Y</span><span class="frist">21.08.</span>
+      <span class="was"><strong>Tag 1 als festes Datum setzen</strong> — Vorschlag: Montag, 05.10.2026
+      <em>Tag 1 ist der Tag, an dem der erste Check übergeben wird. Jede Frist weiter unten hängt daran. Ohne Datum ist „Vorlauf“ kein Termin, sondern eine Hoffnung</em></span></li>
+    <li class="wichtig"><span class="kasten"></span><span class="wer w-b">K+Y</span><span class="frist">21.08.</span>
       <span class="was"><strong>Verfügbare Wochenstunden</strong>, feste Tage und Uhrzeiten schriftlich festhalten
-      <em>Ohne diese Zahl ist die Wirtschaftlichkeit nicht rechenbar und der 90-Tage-Plan nicht planbar. Der wichtigste offene Punkt des Konzepts.</em></span></li>
-    <li class="wichtig"><span class="kasten"></span><span class="wer w-b">K+Y</span>
+      <em>ohne diese Zahl ist die Wirtschaftlichkeit nicht rechenbar und der 90-Tage-Plan nicht planbar. Der wichtigste offene Punkt des Konzepts</em></span></li>
+    <li><span class="kasten"></span><span class="wer w-b">K+Y</span><span class="frist">21.08.</span>
+      <span class="was"><strong>Termin mit der Rechtsberatung in der Familie vereinbaren</strong> — mit festem Datum im Kalender
+      <em>unentgeltliche Hilfe hat keine Rechnung und deshalb keinen Druck. Sie ist das Erste, was liegen bleibt</em></span></li>
+    <li><span class="kasten"></span><span class="wer w-b">K+Y</span><span class="frist">21.08.</span>
+      <span class="was"><strong>Vier fertige Befunde freigeben</strong>: Sander-Bau, Lindam, Merzenich, Labau
+      <em>die Pipeline reproduziert alle vier. Nur die Freigabe steht aus</em></span></li>
+    <li class="wichtig"><span class="kasten"></span><span class="wer w-k">K</span><span class="frist">21.08.</span>
+      <span class="was"><strong>Die zwei Selbstbeschreibungen schreiben</strong>, je ein bis zwei Sätze
+      <em>solange sie fehlen, steht auf der eigenen Seite Platzhaltertext — Prüfpunkt 15, an der eigenen Seite gerissen</em></span></li>
+    <li><span class="kasten"></span><span class="wer w-y">Y</span><span class="frist">21.08.</span>
+      <span class="was"><strong>DPMA-Markenrecherche auf entgegenstehende Marken</strong>
+      <em>30 Minuten, und sie muss vor die Gewerbeanmeldung. Danach ist der Name teuer zu ändern</em></span></li>
+  </ul>
+</section>
+
+<section>
+  <div class="phase"><h2>Bis Freitag, 28.08.2026</h2><span class="wann">Gründung anstoßen</span></div>
+  <p class="hinweis">Alles mit Vorlauf bei Ämtern, Versicherern und Banken. Was hier liegen bleibt, verschiebt Tag 1.</p>
+  <ul class="liste">
+    <li><span class="kasten"></span><span class="wer w-b">K+Y</span><span class="frist">28.08.</span>
+      <span class="was"><strong>Schriftlicher GbR-Gesellschaftsvertrag</strong>
+      <em>Gewinnverteilung, Geschäftsführung, Kündigung, Ausscheiden — und ausdrücklich: was mit laufenden Kundenverträgen passiert, wenn einer geht</em></span></li>
+    <li><span class="kasten"></span><span class="wer w-b">K+Y</span><span class="frist">28.08.</span>
+      <span class="was"><strong>Gewerbeanmeldung je Gesellschafter beim Gewerbeamt der Wohnsitzgemeinde</strong>
+      <em>setzt die Uhr für ELSTER und für die DRV-Fristen weiter unten</em></span></li>
+    <li><span class="kasten"></span><span class="wer w-y">Y</span><span class="frist">28.08.</span>
+      <span class="was"><strong>Domain webgewerk sichern</strong> und geschäftliche E-Mail einrichten
+      <em>Stand 13.08.: webgewerk.de ist registriert und geparkt, webgewerk.com frei. Bei denic.de/webwhois nach dem Halter fragen</em></span></li>
+    <li class="wichtig"><span class="kasten"></span><span class="wer w-b">K+Y</span><span class="frist">28.08.</span>
       <span class="was"><strong>Wovon wir im ersten Jahr leben</strong> — schriftlich, mit Betrag und Monaten
-      <em>Das Neugeschäft bringt im ersten Jahr 21–44 € je Arbeitsstunde. Wer das nicht vorher weiß, hört nach dem dritten Kunden auf.</em></span></li>
-    <li><span class="kasten"></span><span class="wer w-b">K+Y</span>
-      <span class="was">Schriftlicher <strong>GbR-Gesellschaftsvertrag</strong> — Gewinnverteilung, Geschäftsführung, Kündigung, Ausscheiden, Umgang mit laufenden Kundenverträgen</span></li>
-    <li><span class="kasten"></span><span class="wer w-b">K+Y</span>
-      <span class="was"><strong>Gewerbeanmeldung</strong> je Gesellschafter beim Gewerbeamt der Wohnsitzgemeinde</span></li>
-    <li><span class="kasten"></span><span class="wer w-y">Y</span>
-      <span class="was"><strong>Vermögensschaden-/IT-Haftpflicht</strong> — drei Angebote einholen, abschließen
-      <em>300–700 €/Jahr. Bei unbeschränkter Privathaftung nicht optional.</em></span></li>
-    <li><span class="kasten"></span><span class="wer w-y">Y</span>
-      <span class="was"><strong>Vertrag und AGB</strong> vorformulieren und prüfen lassen — Abnahme mit Rügefrist und Eskalation, Mahnwesen, Rechte an übernommenen Texten, Herausgabe bei Ende</span></li>
-    <li><span class="kasten"></span><span class="wer w-y">Y</span>
-      <span class="was">§ 7 UWG und die <strong>DSGVO-Kette bis Anthropic</strong> an eine Fachstelle geben, falls die Familienberatung dort nicht zu Hause ist</span></li>
-    <li><span class="kasten"></span><span class="wer w-y">Y</span>
-      <span class="was"><strong>Domain sichern</strong> und geschäftliche E-Mail einrichten
-      <em>Stand 13.08.: webgewerk.de ist registriert und geparkt, webgewerk.com frei. Bei denic.de/webwhois nach dem Halter fragen.</em></span></li>
-    <li><span class="kasten"></span><span class="wer w-y">Y</span>
-      <span class="was"><strong>DPMA-Markenrecherche</strong> auf entgegenstehende Marken</span></li>
-    <li><span class="kasten"></span><span class="wer w-k">K</span>
-      <span class="was"><strong>Formulardienst</strong> mit EU-Serverstandort und AV-Vertrag auswählen
-      <em>Ohne ihn ist kein Projekt auslieferbar — der Kontaktweg ist Prüfpunkt 6 des eigenen Katalogs.</em></span></li>
-    <li><span class="kasten"></span><span class="wer w-k">K</span>
-      <span class="was"><strong>Verzeichnis von Verarbeitungstätigkeiten</strong> anlegen (Art. 30 DSGVO)</span></li>
-    <li><span class="kasten"></span><span class="wer w-k">K</span>
+      <em>das Neugeschäft bringt im ersten Jahr 21–44 € je Arbeitsstunde. Wer das nicht vorher weiß, hört nach dem dritten Kunden auf</em></span></li>
+    <li><span class="kasten"></span><span class="wer w-y">Y</span><span class="frist">28.08.</span>
+      <span class="was"><strong>Vermögensschaden-/IT-Haftpflicht</strong>: drei Angebote einholen und abschließen
+      <em>300–700 €/Jahr. Bei unbeschränkter Privathaftung (§ 721 BGB) nicht optional</em></span></li>
+    <li><span class="kasten"></span><span class="wer w-y">Y</span><span class="frist">28.08.</span>
+      <span class="was"><strong>Steuerberatung</strong>: § 19 UStG beibehalten oder verzichten
+      <em>muss vor dem ELSTER-Fragebogen entschieden sein — der Verzicht bindet fünf Jahre</em></span></li>
+    <li><span class="kasten"></span><span class="wer w-y">Y</span><span class="frist">28.08.</span>
+      <span class="was"><strong>Separates Konto für die Steuerrücklage einrichten</strong> — 30 % jeder Einnahme
+      <em>zwanzig Minuten. Später kostet es die Liquidität, die nicht da ist</em></span></li>
+  </ul>
+</section>
+
+<section>
+  <div class="phase"><h2>Bis Freitag, 11.09.2026</h2><span class="wann">Recht, Datenschutz, Unterlagen</span></div>
+  <p class="hinweis">Das Papier, ohne das der erste Check das Haus nicht verlassen darf.</p>
+  <ul class="liste">
+    <li><span class="kasten"></span><span class="wer w-y">Y</span><span class="frist">11.09.</span>
+      <span class="was"><strong>Vertrag und AGB vorformulieren</strong> und prüfen lassen
+      <em>Abnahme mit Rügefrist und Eskalation, Mahnwesen, Rechte an übernommenen Texten, Herausgabe bei Vertragsende</em></span></li>
+    <li><span class="kasten"></span><span class="wer w-y">Y</span><span class="frist">11.09.</span>
+      <span class="was"><strong>§ 7 UWG und die DSGVO-Kette bis Anthropic an eine Fachstelle geben</strong>
+      <em>falls die Familienberatung dort nicht zu Hause ist. Beides sind Spezialgebiete, und beides trifft uns ab dem ersten Anschreiben</em></span></li>
+    <li><span class="kasten"></span><span class="wer w-y">Y</span><span class="frist">11.09.</span>
+      <span class="was"><strong>Art.-14-Datenschutzhinweis als Beilage zum Check formulieren</strong>
+      <em>wir verarbeiten Daten über Betriebe, die uns nicht gefragt haben. Der Hinweis gehört auf dieselbe Sendung</em></span></li>
+    <li><span class="kasten"></span><span class="wer w-k">K</span><span class="frist">11.09.</span>
+      <span class="was"><strong>Verzeichnis von Verarbeitungstätigkeiten anlegen</strong> (Art. 30 DSGVO)
+      <em>eine Tabelle, kein Projekt. Sie muss existieren, bevor die erste Betriebsliste gefüllt wird</em></span></li>
+    <li><span class="kasten"></span><span class="wer w-k">K</span><span class="frist">11.09.</span>
+      <span class="was"><strong>Claude-Tarif prüfen</strong>: liegt ein Vertrag nach Art. 28 DSGVO vor, und was kostet der kommerzielle Tarif?
+      <em>die Produktion läuft über Claude. Ohne diesen Vertrag ist die Kette bis Anthropic nicht geschlossen</em></span></li>
+    <li><span class="kasten"></span><span class="wer w-b">K+Y</span><span class="frist">11.09.</span>
+      <span class="was"><strong>Betriebsliste mit Sperrlisten-Spalte</strong> und Wiedervorlage sowie das Zeitprotokoll anlegen
+      <em>die Sperrliste ist eine Pflicht, kein Komfort: Wer einmal Nein gesagt hat, wird nie wieder angeschrieben</em></span></li>
+    <li><span class="kasten"></span><span class="wer w-b">K+Y</span><span class="frist">11.09.</span>
+      <span class="was"><strong>Von den gezeigten Arbeitsproben schriftliche Zeigeerlaubnis einholen</strong>
+      <em>zwei Sätze per Mail. Ohne sie wird nichts gezeigt</em></span></li>
+    <li class="wichtig"><span class="kasten"></span><span class="wer w-y">Y</span><span class="frist">11.09.</span>
+      <span class="was"><strong>Wettbewerberpreise belegen</strong>: sieben Angebotsseiten, Preis und Abrufdatum, Screenshot
+      <em>rund eine Stunde. Danach steht fest, ob wirklich IONOS und STRATO der Hauptgegner sind — oder die zehn Anbieter aus der Wettbewerbsanalyse</em></span></li>
+  </ul>
+</section>
+
+<section>
+  <div class="phase"><h2>Bis Freitag, 25.09.2026</h2><span class="wann">an ein Amt gebunden</span></div>
+  <p class="hinweis">Diese Frist läuft nicht ab unserem Kalender, sondern ab der Gewerbeanmeldung.</p>
+  <ul class="liste">
+    <li><span class="kasten"></span><span class="wer w-b">K+Y</span><span class="frist">25.09.</span>
+      <span class="was"><strong>Fragebogen zur steuerlichen Erfassung</strong> über ELSTER einreichen
+      <em>einen Monat nach der Gewerbeanmeldung fällig. Setzt die Entscheidung zu § 19 UStG voraus</em></span></li>
+  </ul>
+</section>
+
+<section>
+  <div class="phase"><h2>Bis Freitag, 02.10.2026</h2><span class="wann">die letzte Woche vor Tag 1</span></div>
+  <p class="hinweis">Ab hier wird nichts mehr entschieden, nur noch fertiggestellt.</p>
+  <ul class="liste">
+    <li><span class="kasten"></span><span class="wer w-k">K</span><span class="frist">02.10.</span>
+      <span class="was"><strong>Eigene Website fertigstellen</strong> und den eigenen Katalog bestehen — in allen Punkten, die wir selbst steuern
+      <em>Impressum und Datenschutz mit Anschrift, Selbstbeschreibungen einsetzen, Sperrbalken entfernen. Wer fremde Seiten misst, muss die eigene bestehen</em></span></li>
+    <li><span class="kasten"></span><span class="wer w-k">K</span><span class="frist">02.10.</span>
+      <span class="was"><strong>Pflegebereich</strong> und Kontaktformular auf echtem Hosting testen — vor allem, ob der Mailversand ankommt
+      <em>entschieden und gebaut am 19.08. (studie/pflege). Lokal nicht prüfbar: mail() gibt es im Container nicht</em></span></li>
+    <li><span class="kasten"></span><span class="wer w-k">K</span><span class="frist">02.10.</span>
       <span class="was"><strong>Bauanleitung schreiben</strong>, damit die Produktion nicht an einer Person hängt
-      <em>Derzeit kann nur Kira produzieren. Fällt sie aus, steht alles.</em></span></li>
-    <li><span class="kasten"></span><span class="wer w-b">K+Y</span>
-      <span class="was"><strong>Betriebsliste</strong> mit Sperrlisten-Spalte und Wiedervorlage sowie das <strong>Zeitprotokoll</strong> anlegen</span></li>
-    <li><span class="kasten"></span><span class="wer w-y">Y</span>
-      <span class="was"><strong>Art.-14-Datenschutzhinweis</strong> als Beilage zum Check formulieren</span></li>
-    <li><span class="kasten"></span><span class="wer w-b">K+Y</span>
-      <span class="was">Von den gezeigten Arbeitsproben <strong>schriftliche Zeigeerlaubnis</strong> einholen
-      <em>Zwei Sätze per Mail. Ohne sie wird nichts gezeigt.</em></span></li>
-    <li><span class="kasten"></span><span class="wer w-y">Y</span>
-      <span class="was"><strong>Wettbewerberpreise belegen</strong>: sieben Angebotsseiten aufrufen, Preis und Abrufdatum notieren, Screenshot ablegen — und feststellen, wer davon im Fahrgebiet arbeitet
-      <em>Antwort auf Befund 19. Rund eine Stunde. Danach steht fest, ob wirklich IONOS und STRATO der Hauptgegner sind.</em></span></li>
-    <li><span class="kasten"></span><span class="wer w-b">K+Y</span>
-      <span class="was">Eine <strong>belastbare Zahl zum Fachkräftemangel</strong> suchen — nützlich fürs Gespräch, aber nicht mehr die Grundlage
-      <em>Die Argumentation dreht sich um: Der Betrieb rechnet selbst, wir stellen drei Fragen (Konzept 3.1).</em></span></li>
-    <li><span class="kasten"></span><span class="wer w-c">C</span>
-      <span class="was"><strong>Eigene Website fertigstellen</strong>: Impressum und Datenschutz mit Anschrift, Selbstbeschreibungen einsetzen, Sperrbalken entfernen</span></li>
-    <li class="wichtig"><span class="kasten"></span><span class="wer w-b">K+Y</span>
-      <span class="was"><strong>Pflegebereich und Kontaktformular auf echtem Hosting testen</strong> — vor allem, ob der Mailversand ankommt
-      <em>Entschieden und gebaut am 19.08. (<code>studie/pflege/</code>). Offen ist nur der Test auf dem Tarif eines Kunden: <code>mail()</code> lässt sich lokal nicht prüfen.</em></span></li>
-    <li><span class="kasten"></span><span class="wer w-c">C</span>
-      <span class="was"><strong>Feld <code>gruende</code> in die Pipeline</strong>: ein bis drei individuelle Gründe je Betrieb, jeder mit Beleg
-      <em>Erscheint im Dossier und im Anschreiben, nie auf dem gedruckten Check.</em></span></li>
-    <li><span class="kasten"></span><span class="wer w-k">K</span>
-      <span class="was"><strong>Preis für einen halben Tag Fotoaufnahmen</strong> festlegen und den Fotografen fragen, ob er genannt werden will</span></li>
-    <li><span class="kasten"></span><span class="wer w-c">C</span>
-      <span class="was">Entscheiden: <strong>lokale Ladezeitmessung oder Googles PageSpeed-API</strong>
-      <em>Der Satz „Google bewertet über 4 Sekunden als schlecht" trägt nur, wenn die Zahl auch von Google kommt. Dafür braucht es einen Schlüssel und einen Weg für den Fall, dass das Kontingent voll ist.</em></span></li>
+      <em>derzeit kann nur Kira produzieren. Fällt sie aus, steht alles</em></span></li>
+    <li><span class="kasten"></span><span class="wer w-k">K</span><span class="frist">02.10.</span>
+      <span class="was"><strong>Preis für einen halben Tag Fotoaufnahmen festlegen</strong> und den Fotografen fragen, ob er genannt werden will
+      <em>Anhaltspunkt: vier bis fünf Stunden zu 70 €</em></span></li>
+    <li><span class="kasten"></span><span class="wer w-b">K+Y</span><span class="frist">02.10.</span>
+      <span class="was"><strong>Eine belastbare Zahl zum Fachkräftemangel im Handwerk suchen</strong>
+      <em>nützlich fürs Gespräch, aber nicht mehr die Grundlage — der Betrieb rechnet selbst (Konzept 3.1)</em></span></li>
+    <li class="wichtig"><span class="kasten"></span><span class="wer w-k">K</span><span class="frist">02.10.</span>
+      <span class="was"><strong>Barrierefreiheit</strong>: Betroffenheit nach dem BFSG klären
+      <em>muss vor dem ersten Angebot feststehen, sonst wird sie zur Nachforderung</em></span></li>
+    <li class="wichtig"><span class="kasten"></span><span class="wer w-b">K+Y</span><span class="frist">02.10.</span>
+      <span class="was"><strong>Google-Unternehmensprofil für Webgewerk anlegen</strong>
+      <em>Prüfpunkt 14 verlangt von Kunden, dass Profil und Website übereinstimmen. Wir haben keins</em></span></li>
+    <li><span class="kasten"></span><span class="wer w-b">K+Y</span><span class="frist">02.10.</span>
+      <span class="was"><strong>Einwandbehandlung ausarbeiten</strong>
+      <em>die drei Einwände stehen als Entwurf im Konzept 4.4 — verfeinern statt neu anfangen</em></span></li>
+    <li class="wichtig"><span class="kasten"></span><span class="wer w-k">K</span><span class="frist">02.10.</span>
+      <span class="was"><strong>Screenshots einmal auf einem Rechner ohne Netzsperre prüfen</strong>
+      <em>im Container entstehen sie nur bei HTTP-Seiten, also bei 2 von 11</em></span></li>
+    <li><span class="kasten"></span><span class="wer w-k">K</span><span class="frist">02.10.</span>
+      <span class="was"><strong>Overpass-Live-Abruf testen</strong>
+      <em>die Container-IP ist gesperrt. Der Weg über overpass-turbo.eu funktioniert und ist geprüft</em></span></li>
+    <li><span class="kasten"></span><span class="wer w-c">C</span><span class="frist">02.10.</span>
+      <span class="was"><strong>Feld „gruende“ in die Pipeline</strong>: ein bis drei individuelle Gründe je Betrieb, jeder mit Beleg
+      <em>erscheint im Dossier und im Anschreiben, nie auf dem gedruckten Check</em></span></li>
+    <li><span class="kasten"></span><span class="wer w-c">C</span><span class="frist">02.10.</span>
+      <span class="was"><strong>Auswahlregel zweistufig umsetzen</strong>
+      <em>erst filtern, was das Paket behebt, dann nach Schweregrad sortieren</em></span></li>
+    <li class="wichtig"><span class="kasten"></span><span class="wer w-c">C</span><span class="frist">02.10.</span>
+      <span class="was"><strong>Platzhalter auf Unterseiten finden</strong>
+      <em>die Handfunde „mehr als ?? Jahren“ (Apeler) und „(Bild in Beratungssituation)“ (Maler Manufaktur) fehlen der Pipeline bisher</em></span></li>
+    <li class="wichtig"><span class="kasten"></span><span class="wer w-c">C</span><span class="frist">02.10.</span>
+      <span class="was"><strong>Kostensatz für Prüfpunkt 7 ein zweites Mal belegen</strong>
+      <em>§ 33 DDG nennt einen Bußgeldrahmen bis 50.000 €. Die Quelle liegt vor — aber die Zahl geht auf ein Blatt, das ein Meister in die Hand bekommt</em></span></li>
+    <li><span class="kasten"></span><span class="wer w-c">C</span><span class="frist">02.10.</span>
+      <span class="was"><strong>Entscheiden: lokale Ladezeitmessung oder Googles PageSpeed-API</strong>
+      <em>der Satz „Google bewertet über 4 Sekunden als schlecht“ trägt nur, wenn die Zahl auch von Google kommt</em></span></li>
+    <li><span class="kasten"></span><span class="wer w-c">C</span><span class="frist">02.10.</span>
+      <span class="was"><strong>Die drei überholten Konzeptfassungen löschen oder als überholt kennzeichnen</strong>
+      <em>vier Dokumente im Umlauf waren der Grund für drei verschiedene Prüfkataloge</em></span></li>
   </ul>
 </section>
 
 <section>
-  <div class="phase"><h2>3 · Tag 1 bis 90</h2><span class="wann">der eigentliche Test</span></div>
-  <p class="hinweis">Gemessen wird eins: Wie viele antworten? Die Antwortquote
-  des Kanals ist bis heute ungetestet — Stichprobe eins.</p>
+  <div class="phase"><h2>Tag 1 bis Tag 90</h2><span class="wann">Mo, 05.10.2026 bis Sa, 02.01.2027</span></div>
+  <p class="hinweis">Gemessen wird eins: Wie viele antworten? Die Antwortquote des Kanals ist bis heute ungetestet — Stichprobe eins.</p>
   <ul class="liste">
-    <li><span class="kasten"></span><span class="wer w-b">K+Y</span>
-      <span class="was"><strong>40 Checks übergeben</strong>, in Touren zu fünf Betrieben
-      <em>Einzeln ausgefahren wäre die persönliche Übergabe mit dem Zeitziel unvereinbar. Gebündelt fällt die Fahrzeit je Check auf zwölf Minuten.</em></span></li>
-    <li><span class="kasten"></span><span class="wer w-b">K+Y</span>
-      <span class="was"><strong>Ist-Zeit je Check</strong> mitschreiben, ab dem ersten
-      <em>Der Weg von zwei Stunden auf 45 Minuten verdoppelt den effektiven Stundensatz. Eine Preiserhöhung um 500 € täte das nicht.</em></span></li>
-    <li><span class="kasten"></span><span class="wer w-b">K+Y</span>
-      <span class="was">Drei <strong>Pilotkunden</strong> gewinnen, versetzt starten mit rund zwei Wochen Abstand</span></li>
-    <li><span class="kasten"></span><span class="wer w-k">K</span>
-      <span class="was"><strong>Ist-Zeit je Projekt</strong> nach Arbeitsschritt erfassen, Projekt 1 auswerten bevor Projekt 2 beginnt</span></li>
-    <li><span class="kasten"></span><span class="wer w-b">K+Y</span>
-      <span class="was"><strong>Wöchentlicher Termin</strong>, 60–90 Minuten, Kennzahlen eintragen
-      <em>Fester Punkt auf der Tagesordnung: Stimmt der Katalog im Code noch mit Anhang A überein?</em></span></li>
-    <li><span class="kasten"></span><span class="wer w-k">K</span>
-      <span class="was">Nach Projekt 3: <strong>Produktionsvorlage</strong> ableiten und entscheiden, ob <strong>Paket S</strong> bleibt
-      <em>Beworben wird „ab 990 €", verkauft werden soll M. Entweder S streichen oder auf einen Umfang zuschneiden, den es zu dem Preis wirklich gibt.</em></span></li>
-    <li><span class="kasten"></span><span class="wer w-c">C</span>
-      <span class="was">Prüfpunkte <strong>1–5 und 11–13 automatisieren</strong></span></li>
+    <li><span class="kasten"></span><span class="wer w-b">K+Y</span><span class="frist">laufend ab 05.10.</span>
+      <span class="was"><strong>Ist-Zeit je Check mitschreiben</strong>, ab dem allerersten
+      <em>der Weg von zwei Stunden auf 45 Minuten verdoppelt den effektiven Stundensatz. Eine Preiserhöhung um 500 € täte das nicht</em></span></li>
+    <li><span class="kasten"></span><span class="wer w-b">K+Y</span><span class="frist">jede Woche ab 05.10.</span>
+      <span class="was"><strong>Fester Termin</strong>, 60–90 Minuten, Kennzahlen eintragen
+      <em>fester Tagesordnungspunkt: Stimmt der Prüfkatalog im Code noch mit Anhang A überein?</em></span></li>
+    <li><span class="kasten"></span><span class="wer w-b">K+Y</span><span class="frist">06.11.</span>
+      <span class="was"><strong>Die ersten 20 Checks übergeben</strong>, in Touren zu fünf Betrieben
+      <em>einzeln ausgefahren wäre die persönliche Übergabe mit dem Zeitziel unvereinbar. Gebündelt fällt die Fahrzeit je Check auf zwölf Minuten</em></span></li>
+    <li><span class="kasten"></span><span class="wer w-c">C</span><span class="frist">06.11.</span>
+      <span class="was"><strong>Prüfpunkte 1–5</strong> und 11–13 automatisieren, Google für Jobs als Prüfpunkt aufnehmen
+      <em>solange das von Hand läuft, ist das 45-Minuten-Ziel je Check nicht erreichbar</em></span></li>
+    <li><span class="kasten"></span><span class="wer w-b">K+Y</span><span class="frist">27.11.</span>
+      <span class="was"><strong>DRV-Statusklärung § 7a SGB IV</strong> und Befreiungsantrag § 6 Abs. 1a SGB VI stellen
+      <em>drei Monate nach Aufnahme der Tätigkeit — danach wirkt der Befreiungsantrag nicht mehr rückwirkend</em></span></li>
+    <li><span class="kasten"></span><span class="wer w-b">K+Y</span><span class="frist">02.01.</span>
+      <span class="was"><strong>40 Checks insgesamt übergeben</strong>
+      <em>die zweite Hälfte erst, wenn die Ist-Zeiten der ersten zwanzig ausgewertet sind</em></span></li>
+    <li><span class="kasten"></span><span class="wer w-b">K+Y</span><span class="frist">02.01.</span>
+      <span class="was"><strong>Drei Pilotkunden gewinnen</strong>, versetzt starten mit rund zwei Wochen Abstand
+      <em>damit die Auswertung von Projekt 1 vor dem Baubeginn von Projekt 2 steht</em></span></li>
+    <li><span class="kasten"></span><span class="wer w-k">K</span><span class="frist">02.01.</span>
+      <span class="was"><strong>Ist-Zeit je Projekt nach Arbeitsschritt erfassen</strong>, Projekt 1 auswerten bevor Projekt 2 beginnt</span></li>
+    <li class="wichtig"><span class="kasten"></span><span class="wer w-k">K</span><span class="frist">02.01.</span>
+      <span class="was"><strong>Nach Projekt 3</strong>: Produktionsvorlage ableiten und entscheiden, ob Paket S bleibt
+      <em>beworben wird „ab 990 €“, verkauft werden soll M. Entweder S streichen oder auf einen Umfang zuschneiden, den es zu dem Preis wirklich gibt</em></span></li>
+    <li><span class="kasten"></span><span class="wer w-b">K+Y</span><span class="frist">02.01.</span>
+      <span class="was"><strong>Zweiter Kanal</strong>: Betriebe ohne Website ansprechen
+      <em>erst ab dem 21. Check, damit sich die Kanäle in der Auswertung nicht vermischen</em></span></li>
   </ul>
 </section>
 
 <section>
-  <div class="phase"><h2>4 · Pipeline</h2><span class="wann">bekannte Lücken</span></div>
+  <div class="phase"><h2>An ein Ereignis gebunden</h2><span class="wann">spätestens Sa, 02.01.2027</span></div>
+  <p class="hinweis">Diese vier haben keinen Kalendertermin, sondern einen Auslöser. Der Auslöser kommt zuerst, das Datum ist die Notbremse.</p>
   <ul class="liste">
-    <li><span class="kasten"></span><span class="wer w-c">C</span>
-      <span class="was"><strong>Platzhalter auf Unterseiten</strong> werden nicht gefunden
-      <em>Die Handfunde „mehr als ?? Jahren" (Apeler) und „(Bild in Beratungssituation)" (Maler Manufaktur) fehlen deshalb.</em></span></li>
-    <li><span class="kasten"></span><span class="wer w-k">K</span>
-      <span class="was"><strong>Screenshots</strong> einmal auf einem Rechner ohne Netzsperre prüfen
-      <em>Im Container entstehen sie nur bei HTTP-Seiten, also 2 von 11.</em></span></li>
-    <li><span class="kasten"></span><span class="wer w-k">K</span>
-      <span class="was"><strong>Overpass-Live-Abruf</strong> testen
-      <em>Die Container-IP ist gesperrt. Der Weg über overpass-turbo.eu funktioniert und ist geprüft.</em></span></li>
-    <li><span class="kasten"></span><span class="wer w-c">C</span>
-      <span class="was"><strong>Google für Jobs</strong> als Prüfpunkt aufnehmen</span></li>
-    <li><span class="kasten"></span><span class="wer w-c">C</span>
-      <span class="was"><strong>Kostensatz für Prüfpunkt 7 belegen</strong>: § 33 DDG nennt einen Bußgeldrahmen bis 50.000 €
-      <em>Quelle liegt vor, aber die Zahl geht auf ein Blatt, das ein Meister in die Hand bekommt — vorher ein zweites Mal unabhängig prüfen.</em></span></li>
-    <li><span class="kasten"></span><span class="wer w-c">C</span>
-      <span class="was"><strong>Auswahlregel zweistufig umsetzen</strong>: erst filtern, was das Paket behebt, dann nach Schweregrad sortieren</span></li>
+    <li><span class="kasten"></span><span class="wer w-k">K</span><span class="frist">vor dem ersten Betreuungsvertrag, spätestens 02.01.</span>
+      <span class="was"><strong>AVV-Vorlage für Betreuungskunden erstellen</strong> (Art. 28 DSGVO)
+      <em>wir bekommen Zugang zu Hosting und Postfach des Kunden. Ohne AVV ist das nicht zulässig</em></span></li>
+    <li><span class="kasten"></span><span class="wer w-y">Y</span><span class="frist">vor der ersten Rechnung, spätestens 02.01.</span>
+      <span class="was"><strong>E-Rechnungs-Empfang</strong> und revisionssichere Ablage einrichten
+      <em>der Empfang von E-Rechnungen ist Pflicht, unabhängig von der eigenen Größe. Ablage nach § 147 AO</em></span></li>
+    <li><span class="kasten"></span><span class="wer w-b">K+Y</span><span class="frist">vor dem ersten Livegang auf Kundendomain</span>
+      <span class="was"><strong>Verfahren für den Domainumzug einmal an einer eigenen Domain durchspielen</strong>
+      <em>das ist der riskanteste Schritt im ganzen Projekt: Wer beim Umstellen die MX-Einträge abräumt, macht einen Betrieb unerreichbar (Konzept 7.1)</em></span></li>
+    <li><span class="kasten"></span><span class="wer w-b">K+Y</span><span class="frist">am Tag der ersten Absage</span>
+      <span class="was"><strong>Sperrliste zum ersten Mal benutzen</strong>
+      <em>wer einmal Nein gesagt hat, wird nie wieder angeschrieben. Die Zeile existiert, damit es beim ersten Mal nicht vergessen wird</em></span></li>
   </ul>
 </section>
 
 <section>
-  <div class="phase"><h2>5 · Später, aber nicht vergessen</h2><span class="wann">nach dem ersten Kunden</span></div>
+  <div class="phase"><h2>Aus der älteren Liste herausgefallen</h2><span class="wann">und warum</span></div>
   <ul class="liste">
-    <li><span class="kasten"></span><span class="wer w-b">K+Y</span>
-      <span class="was"><strong>Google-Unternehmensprofil</strong> für Webgewerk anlegen
-      <em>Prüfpunkt 14 verlangt von Kunden, dass Profil und Website übereinstimmen. Wir haben keins.</em></span></li>
-    <li><span class="kasten"></span><span class="wer w-k">K</span>
-      <span class="was"><strong>Barrierefreiheit</strong>: Betroffenheit nach dem BFSG klären</span></li>
-    <li><span class="kasten"></span><span class="wer w-y">Y</span>
-      <span class="was"><strong>E-Rechnungs-Empfang</strong> und revisionssichere Ablage einrichten</span></li>
-    <li><span class="kasten"></span><span class="wer w-y">Y</span>
-      <span class="was">Separates <strong>Konto für die Steuerrücklage</strong> — 30 % jeder Einnahme</span></li>
-    <li><span class="kasten"></span><span class="wer w-b">K+Y</span>
-      <span class="was"><strong>DRV-Statusklärung</strong> § 7a SGB IV und Befreiungsantrag § 6 Abs. 1a SGB VI</span></li>
-    <li><span class="kasten"></span><span class="wer w-y">Y</span>
-      <span class="was">Steuerberatung: <strong>§ 19 UStG</strong> beibehalten oder verzichten</span></li>
-    <li><span class="kasten"></span><span class="wer w-k">K</span>
-      <span class="was"><strong>AVV-Vorlage</strong> für Betreuungskunden erstellen (Art. 28 DSGVO)</span></li>
-    <li><span class="kasten"></span><span class="wer w-c">C</span>
-      <span class="was">Die drei überholten Konzeptfassungen <strong>löschen oder als überholt kennzeichnen</strong>
-      <em>Vier Dokumente im Umlauf waren der Grund für drei verschiedene Prüfkataloge.</em></span></li>
+    <li><span class="kasten haken">✓</span><span class="wer w-c">—</span><span class="frist">19.08.</span>
+      <span class="was"><strong>Formulardienst mit EU-Serverstandort</strong> und AV-Vertrag auswählen
+      <em>erledigt am 19.08.: Wir nehmen keinen Formulardienst. formular.php liegt beim Kunden, die Anfrage geht direkt in sein Postfach — kein weiterer Anbieter, kein weiterer AV-Vertrag.</em></span></li>
+    <li><span class="kasten haken">✓</span><span class="wer w-c">—</span><span class="frist">19.08.</span>
+      <span class="was"><strong>Entscheiden, was der Kunde selbst bedienen kann</strong> — drei Wege stehen zur Wahl
+      <em>erledigt am 19.08.: entschieden und gebaut. Markierte Stellen im HTML, ein Pflegebereich mit Passwort. Übrig bleibt der Test auf echtem Hosting — der steht jetzt im Block bis 02.10.</em></span></li>
+    <li><span class="kasten haken">✓</span><span class="wer w-c">—</span><span class="frist">umgestellt</span>
+      <span class="was"><strong>Termin mit der Rechtsberatung</strong> (ohne Datum)
+      <em>steht weiter drin, aber jetzt mit Frist: ein Termin ohne Datum ist kein Termin.</em></span></li>
   </ul>
 </section>
 
-<div class="fertig">
-  <div class="bahn" style="padding:0">
-    <p class="marke">Erledigt</p>
-    <ul>
-      <li>17.08. — Konzept überarbeitet: Webgewerk, Preisliste, 19 Prüfpunkte, Hosting beim Kunden</li>
-      <li>17.08. — Abnahme mit Rügefrist und Eskalation geregelt</li>
-      <li>17.08. — Verfahren für den Domainumzug samt MX-Sicherung ausgearbeitet</li>
-      <li>17.08. — Sperrliste, Wiedervorlage, Anlassfilter, Einwandbehandlung aufgenommen</li>
-      <li>17.08. — Kapitalbedarf vollständig beziffert: 995–1.764 €</li>
-      <li>17.08. — Kein zweiter Anruf; Wiedervorlage nur mit neuem Messergebnis</li>
-      <li>17.08. — Betriebe ohne Website: eigener kurzer Einstieg statt Ausschluss</li>
-      <li>17.08. — Fotos und Texte als Zusatzleistung, Fotograf als Empfehlung ohne Provision</li>
-      <li>17.08. — Löschfristen festgelegt, jährliche Durchsicht im Januar</li>
-      <li>17.08. — Gültigkeitsregel im Kopf des Konzepts</li>
-      <li>16.08. — Konzept-Check: 43 Befunde in zwei Durchgängen</li>
-      <li>15.08. — Impressum und Datenschutz als eigene Seiten, Stil geteilt</li>
-      <li>15.08. — Prüfkatalog über die eigene Seite gelaufen</li>
-      <li>14.08. — Fehlendes viewport-Meta gefunden und behoben</li>
-      <li>13.08. — Firmenname entschieden: Webgewerk</li>
-      <li>12.08. — Pipeline reproduziert alle vier von Hand erstellten Befunde</li>
-      <li>12.08. — Elf Pakete erzeugt, je fünf Dateien</li>
-    </ul>
-  </div>
-</div>
+<section class="fertig">
+  <h2>Erledigt</h2>
+  <ul>
+    <li>19.08. — Pflegebereich und Kontaktformular entschieden, gebaut und geprüft (studie/pflege)</li>
+    <li>19.08. — Anschreiben führt mit der belegten offenen Stelle statt mit einem Mangel</li>
+    <li>18.08. — Wettbewerbsanalyse: zehn Anbieter mit dem eigenen Katalog gemessen</li>
+    <li>17.08. — Konzept überarbeitet: Webgewerk, Preisliste, 19 Prüfpunkte, Hosting beim Kunden</li>
+    <li>17.08. — Abnahme mit Rügefrist und Eskalation geregelt</li>
+    <li>17.08. — Verfahren für den Domainumzug samt MX-Sicherung ausgearbeitet</li>
+    <li>17.08. — Sperrliste, Anlassfilter, Löschfristen, Gründe je Betrieb aufgenommen</li>
+    <li>17.08. — Kein zweiter Anruf; Wiedervorlage nur mit neuem Messergebnis</li>
+    <li>17.08. — Betriebe ohne Website: eigener kurzer Einstieg statt Ausschluss</li>
+    <li>17.08. — Fotos und Texte als Zusatzleistung, Fotograf ohne Provision</li>
+    <li>17.08. — Kapitalbedarf vollständig beziffert: 995–1.764 €</li>
+    <li>16.08. — Konzept-Check: 43 Befunde in zwei Durchgängen</li>
+    <li>15.08. — Impressum und Datenschutz als eigene Seiten, Stil geteilt</li>
+    <li>14.08. — Fehlendes viewport-Meta auf der eigenen Seite gefunden und behoben</li>
+    <li>13.08. — Firmenname entschieden: Webgewerk</li>
+    <li>12.08. — Pipeline reproduziert alle vier von Hand erstellten Befunde</li>
+    <li>12.08. — Elf Pakete erzeugt, je fünf Dateien</li>
+  </ul>
+</section>
 
 </main>
 
-<footer>
-  <div class="bahn">
-    Webgewerk · Aufgabenliste · Stand 17.08.2026<br>
-    Quellen: Unternehmenskonzept Fassung 17.08. und Konzept-Check vom 16.08.
-  </div>
-</footer>
+<footer><div class="bahn">
+  Webgewerk · Kira Moewes und Yannik Dettmer · Kerpen<br>
+  Erzeugt aus studie/aufgaben.json — nicht von Hand ändern, sonst läuft die
+  Word-Fassung auseinander.
+</div></footer>
