@@ -45,6 +45,30 @@ Wird das Feld `telefon` oder `mail` geändert, wird der anklickbare Verweis
 und der Anruf ginge an die alte — Prüfpunkt 5 unseres eigenen Katalogs, und
 niemandem würde es auffallen.
 
+## Wie ein Bild austauschbar wird
+
+Dieselbe Idee, eine Markierung direkt vor dem Bild:
+
+```html
+<!--wg:bild:team-->
+<img src="bilder/team.jpg" alt="Unser Team vor dem Firmenwagen">
+```
+
+Der Kunde sieht dann das aktuelle Bild, ein Auswahlfeld und die
+Bildbeschreibung. Was er hochlädt, wird geprüft (nur JPG, PNG, WEBP — und
+zwar am Inhalt, nicht an der Dateiendung), auf 1600 Pixel lange Kante
+verkleinert und unter demselben Dateinamen abgelegt. Das alte Bild wandert
+vorher in die Sicherungen.
+
+**Warum verkleinert wird:** Aus einem Telefon kommen 4000 Pixel und mehrere
+Megabyte. Ungefragt hochgeladen macht das eine schnelle Seite langsam —
+Prüfpunkt 4, mit dem wir selbst argumentieren. Der Kunde soll darüber nicht
+nachdenken müssen.
+
+Hinter dem Dateinamen im HTML steht danach eine Zählnummer
+(`bilder/team.jpg?v=1787259003`). Ohne sie zeigt der Browser des Inhabers
+noch tagelang das alte Bild und er ruft an, weil „nichts passiert ist".
+
 Sinnvolle Feldnamen, für die es schon eine Beschriftung gibt: `telefon`,
 `mail`, `oeffnungszeiten`, `stellenanzeige`, `hinweis`, `einleitung`,
 `leistungen`, `notdienst`, `anschrift`, `ueber_uns`. Andere Namen gehen auch,
@@ -83,6 +107,11 @@ ausdrücklich nicht das Ziel.
 - `tel:`-Verweis wird mitgezogen: `02237 55 66 77` → `tel:+492237556677`,
   `0221 / 98 76 54` → `tel:+49221987654`.
 - Anmeldung mit falschem Passwort scheitert, mit richtigem nicht.
+- Bild austauschen: ein Foto mit 4000 × 3000 Pixeln wird zu 1600 × 1200 und
+  30 KB, das alte Bild liegt in den Sicherungen, die Zählnummer im HTML wird
+  gesetzt.
+- Eine als Bild getarnte PDF-Datei wird abgewiesen („Das ist kein Bild").
+- Bildbeschreibung ändern und wieder auslesen.
 - Formular: gefüllte Spamfalle und Absenden in unter drei Sekunden werden
   stillschweigend verworfen (der Absender bekommt trotzdem die Dankeseite —
   ein Spamprogramm soll nicht lernen, woran es gescheitert ist).

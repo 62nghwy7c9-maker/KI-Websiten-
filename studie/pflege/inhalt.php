@@ -204,3 +204,215 @@ function feld_beschriftung(string $name): string
     ];
     return $bekannt[$name] ?? ucfirst(str_replace('_', ' ', $name));
 }
+
+/* ====================================================================
+ * Bilder
+ * ====================================================================
+ * Text zu ändern reicht nicht. Das Zweithäufigste, was ein Betrieb an
+ * seiner Website ändern will, ist ein Bild — neues Fahrzeug, neues Team,
+ * fertige Baustelle. Deshalb dasselbe Verfahren wie beim Text: eine
+ * Markierung im HTML, direkt vor dem Bild.
+ *
+ *     <!--wg:bild:team-->
+ *     <img src="bilder/team.jpg" alt="Unser Team">
+ *
+ * Der Kunde wählt eine Datei aus, wir prüfen sie, rechnen sie klein und
+ * legen sie unter demselben Namen ab. Am HTML ändert sich nur die
+ * Zählnummer hinter dem Dateinamen — sonst zeigt der Browser tagelang das
+ * alte Bild aus seinem Zwischenspeicher.
+ */
+
+/** Grösster Wert, den ein Bild nach dem Verkleinern haben darf. */
+const BILD_KANTE = 1600;
+const BILD_GUETE = 82;
+const BILD_MAX_BYTES = 8 * 1024 * 1024;
+
+const BILD_TYPEN = [
+    IMAGETYPE_JPEG => 'jpg',
+    IMAGETYPE_PNG => 'png',
+    IMAGETYPE_WEBP => 'webp',
+];
+
+/**
+ * Sucht alle markierten Bilder in einer Datei.
+ *
+ * @return array<string,array{src:string,alt:string}>
+ */
+function bilder_lesen(string $datei): array
+{
+    $pfad = SEITEN . '/' . $datei;
+    if (!is_file($pfad)) {
+        return [];
+    }
+    $html = (string) file_get_contents($pfad);
+    preg_match_all(
+        '/<!--wg:bild:([a-z0-9_]{1,40})-->\s*<img\b([^>]*)>/i',
+        $html,
+        $treffer,
+        PREG_SET_ORDER
+    );
+    $bilder = [];
+    foreach ($treffer as $t) {
+        $bilder[$t[1]] = [
+            'src' => attribut($t[2], 'src'),
+            'alt' => attribut($t[2], 'alt'),
+        ];
+    }
+    return $bilder;
+}
+
+/** Holt den Wert eines Attributs aus einem img-Tag. */
+function attribut(string $tag, string $name): string
+{
+    if (preg_match('/\b' . preg_quote($name, '/') . '="([^"]*)"/i', $tag, $m)) {
+        return html_entity_decode($m[1], ENT_QUOTES, 'UTF-8');
+    }
+    return '';
+}
+
+/**
+ * Nimmt eine hochgeladene Datei entgegen und ersetzt das markierte Bild.
+ *
+ * @param array $datei_feld ein Eintrag aus $_FILES
+ * @return array{0:bool,1:string}
+ */
+function bild_schreiben(string $datei, string $name, array $datei_feld): array
+{
+    if (!in_array($datei, DATEIEN, true) || !preg_match('/^[a-z0-9_]{1,40}$/', $name)) {
+        return [false, 'Unbekanntes Bild.'];
+    }
+    if (($datei_feld['error'] ?? UPLOAD_ERR_NO_FILE) === UPLOAD_ERR_INI_SIZE) {
+        return [false, 'Das Bild ist zu groß für diesen Server. Bitte melden Sie sich bei uns.'];
+    }
+    if (($datei_feld['error'] ?? UPLOAD_ERR_NO_FILE) !== UPLOAD_ERR_OK) {
+        return [false, 'Beim Hochladen ist etwas schiefgegangen.'];
+    }
+    if (($datei_feld['size'] ?? 0) > BILD_MAX_BYTES) {
+        return [false, 'Das Bild ist größer als 8 MB.'];
+    }
+
+    // Nicht auf die Dateiendung verlassen: Was zählt, ist der Inhalt.
+    $info = @getimagesize($datei_feld['tmp_name']);
+    if ($info === false || !isset(BILD_TYPEN[$info[2]])) {
+        return [false, 'Das ist kein Bild. Erlaubt sind JPG, PNG und WEBP.'];
+    }
+
+    $bilder = bilder_lesen($datei);
+    if (!isset($bilder[$name])) {
+        return [false, 'Diese Stelle gibt es auf der Seite nicht.'];
+    }
+    $src = strtok($bilder[$name]['src'], '?');           // Zählnummer abschneiden
+    if ($src === false || str_contains($src, '..') || str_starts_with($src, '/')) {
+        return [false, 'Der Bildpfad ist ungültig.'];
+    }
+    $ziel = SEITEN . '/' . $src;
+    if (!is_dir(dirname($ziel))) {
+        return [false, 'Der Bildordner fehlt auf dem Server.'];
+    }
+
+    // Altes Bild sichern, bevor es überschrieben wird.
+    if (is_file($ziel)) {
+        if (!is_dir(SICHERUNG)) {
+            @mkdir(SICHERUNG, 0775, true);
+        }
+        @copy($ziel, SICHERUNG . '/' . date('Y-m-d_H-i-s') . '_' . basename($ziel));
+    }
+
+    if (!bild_ablegen($datei_feld['tmp_name'], $ziel, $info)) {
+        return [false, 'Das Bild konnte nicht gespeichert werden.'];
+    }
+
+    return zaehlnummer_erhoehen($datei, $name);
+}
+
+/**
+ * Verkleinert das Bild und legt es ab.
+ *
+ * Warum verkleinern: Ein Betrieb fotografiert mit dem Telefon, und aus dem
+ * Telefon kommen 4000 Pixel und sechs Megabyte. Ungefragt hochgeladen macht
+ * das eine schnelle Seite langsam — Prüfpunkt 4, der Punkt, mit dem wir
+ * selbst argumentieren. Der Kunde soll darüber nicht nachdenken müssen.
+ */
+function bild_ablegen(string $quelle, string $ziel, array $info): bool
+{
+    if (!function_exists('imagecreatefromstring')) {
+        return @move_uploaded_file($quelle, $ziel) || @copy($quelle, $ziel);
+    }
+    $roh = @file_get_contents($quelle);
+    $bild = $roh === false ? false : @imagecreatefromstring($roh);
+    if ($bild === false) {
+        return @copy($quelle, $ziel);
+    }
+    [$breite, $hoehe] = [imagesx($bild), imagesy($bild)];
+    $faktor = min(1.0, BILD_KANTE / max($breite, $hoehe));
+    if ($faktor < 1.0) {
+        $klein = imagescale($bild, (int) round($breite * $faktor));
+        if ($klein !== false) {
+            imagedestroy($bild);
+            $bild = $klein;
+        }
+    }
+    $endung = strtolower(pathinfo($ziel, PATHINFO_EXTENSION));
+    $ok = match ($endung) {
+        'png' => imagepng($bild, $ziel, 6),
+        'webp' => imagewebp($bild, $ziel, BILD_GUETE),
+        default => imagejpeg($bild, $ziel, BILD_GUETE),
+    };
+    imagedestroy($bild);
+    return (bool) $ok;
+}
+
+/**
+ * Erhöht die Zählnummer hinter dem Dateinamen im HTML.
+ *
+ * Ohne sie zeigt der Browser des Betriebsinhabers noch tagelang das alte
+ * Bild und er ruft an, weil „nichts passiert ist".
+ */
+function zaehlnummer_erhoehen(string $datei, string $name): array
+{
+    $pfad = SEITEN . '/' . $datei;
+    $html = (string) file_get_contents($pfad);
+    $stempel = (string) filemtime($pfad);
+    $neu = preg_replace_callback(
+        '/(<!--wg:bild:' . preg_quote($name, '/') . '-->\s*<img\b[^>]*\bsrc=")([^"]*)(")/i',
+        static function (array $m) use ($stempel): string {
+            $pfad = strtok($m[2], '?');
+            return $m[1] . $pfad . '?v=' . $stempel . $m[3];
+        },
+        $html,
+        1,
+        $anzahl
+    );
+    if ($neu === null || $anzahl === 0) {
+        return [true, 'Bild gespeichert.'];
+    }
+    @copy($pfad, SICHERUNG . '/' . date('Y-m-d_H-i-s') . '_' . $datei);
+    file_put_contents($pfad, $neu);
+    sicherungen_aufraeumen($datei);
+    return [true, 'Bild gespeichert.'];
+}
+
+/** Schreibt den Alternativtext eines markierten Bildes. */
+function bildtext_schreiben(string $datei, string $name, string $alt): bool
+{
+    if (!in_array($datei, DATEIEN, true) || !preg_match('/^[a-z0-9_]{1,40}$/', $name)) {
+        return false;
+    }
+    $pfad = SEITEN . '/' . $datei;
+    $html = (string) file_get_contents($pfad);
+    $sicher = htmlspecialchars(
+        trim((string) preg_replace('/\s+/u', ' ', $alt)),
+        ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+    $neu = preg_replace(
+        '/(<!--wg:bild:' . preg_quote($name, '/') . '-->\s*<img\b[^>]*\balt=")([^"]*)(")/i',
+        '${1}' . str_replace('$', '\$', $sicher) . '${3}',
+        $html,
+        1,
+        $anzahl
+    );
+    if ($neu !== null && $anzahl > 0) {
+        file_put_contents($pfad, $neu);
+        return true;
+    }
+    return false;
+}

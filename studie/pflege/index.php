@@ -59,10 +59,58 @@ if ($angemeldet && ($_POST['speichern'] ?? '') !== '') {
             $werte[(string) $name] = (string) $wert;
         }
         [$erfolg, $meldung] = felder_schreiben($datei, $werte);
+
+        // Alternativtexte der Bilder — kurze Beschreibung für Menschen, die
+        // das Bild nicht sehen können, und für Google.
+        foreach ($_POST['bildtext'] ?? [] as $name => $wert) {
+            bildtext_schreiben($datei, (string) $name, (string) $wert);
+        }
+
+        // Hochgeladene Bilder. Eines nach dem anderen, damit eine
+        // fehlerhafte Datei die anderen nicht mitreisst.
+        foreach ($_FILES['bild']['name'] ?? [] as $name => $dateiname) {
+            if ($dateiname === '') {
+                continue;
+            }
+            $feld = [
+                'name' => $_FILES['bild']['name'][$name],
+                'type' => $_FILES['bild']['type'][$name],
+                'tmp_name' => $_FILES['bild']['tmp_name'][$name],
+                'error' => $_FILES['bild']['error'][$name],
+                'size' => $_FILES['bild']['size'][$name],
+            ];
+            [$bild_ok, $bild_meldung] = bild_schreiben($datei, (string) $name, $feld);
+            if (!$bild_ok) {
+                $erfolg = false;
+                $meldung = $bild_meldung;
+            }
+        }
     }
 }
 
 $felder = $angemeldet ? felder_lesen($datei) : [];
+$bilder = $angemeldet ? bilder_lesen($datei) : [];
+
+/* Vorschaubild ausliefern.
+ * Nicht direkt verlinken: Wo die Website relativ zum Pflegebereich liegt,
+ * ist von Hosting zu Hosting verschieden. Diese Zeilen reichen die Datei
+ * durch und funktionieren in jeder Aufteilung. */
+if ($angemeldet && isset($_GET['vorschau'])) {
+    $name = (string) $_GET['vorschau'];
+    $b = $bilder[$name] ?? null;
+    $src = $b ? strtok($b['src'], '?') : false;
+    $pfad = $src === false || $src === null ? '' : SEITEN . '/' . $src;
+    $info = $pfad !== '' && !str_contains($src, '..') && is_file($pfad)
+        ? @getimagesize($pfad) : false;
+    if ($info === false) {
+        http_response_code(404);
+        exit;
+    }
+    header('Content-Type: ' . $info['mime']);
+    header('Cache-Control: no-store');
+    readfile($pfad);
+    exit;
+}
 ?>
 <!doctype html>
 <html lang="de">
@@ -101,6 +149,14 @@ input:focus,textarea:focus{outline:2px solid var(--akzent);outline-offset:1px}
 button{font:inherit;font-weight:600;padding:.75rem 1.5rem;border:0;
  border-radius:4px;background:var(--akzent);color:#fff;cursor:pointer}
 button:hover{background:#8C5514}
+h2{font-size:1.15rem;margin:2rem 0 .4rem;color:var(--basis)}
+.bild{display:flex;gap:1rem;align-items:flex-start;padding:1rem 0;
+ border-top:1px solid var(--linie)}
+.bild img{width:120px;height:90px;object-fit:cover;border-radius:4px;
+ background:var(--linie);flex:none}
+.bild-felder{flex:1;min-width:0}
+.bild-felder label{margin-bottom:.6rem}
+@media(max-width:520px){.bild{flex-direction:column}.bild img{width:100%;height:auto}}
 .meldung{padding:.85rem 1rem;border-radius:4px;margin:0 0 1.5rem;
  border-left:4px solid var(--rot);background:#F6E4DF;color:var(--rot)}
 .meldung.gut{border-left-color:var(--gut);background:#E7EBE3;color:var(--gut)}
@@ -145,7 +201,7 @@ footer .bahn{padding:1.25rem}
     <p class="hinweis">Ändern Sie, was Sie brauchen, und klicken Sie unten auf
     Speichern. Die Änderung ist sofort auf der Website sichtbar. Von jedem
     Stand wird automatisch eine Sicherung angelegt.</p>
-    <form method="post">
+    <form method="post" enctype="multipart/form-data">
       <input type="hidden" name="datei" value="<?= htmlspecialchars($datei) ?>">
       <input type="hidden" name="marke" value="<?= htmlspecialchars($_SESSION['marke']) ?>">
       <?php foreach ($felder as $name => $wert): ?>
@@ -159,6 +215,27 @@ footer .bahn{padding:1.25rem}
           <?php endif; ?>
         </label>
       <?php endforeach; ?>
+      <?php if ($bilder): ?>
+        <h2>Bilder</h2>
+        <p class="hinweis">Ein Bild aussuchen und unten speichern. Zu grosse
+        Bilder werden automatisch verkleinert &mdash; Sie muessen nichts
+        vorbereiten. Bleibt das Feld leer, bleibt das bisherige Bild.</p>
+        <?php foreach ($bilder as $name => $b): ?>
+          <div class="bild">
+            <img src="?datei=<?= urlencode($datei) ?>&amp;vorschau=<?= urlencode((string) $name) ?>" alt="">
+            <div class="bild-felder">
+              <label><b><?= htmlspecialchars(feld_beschriftung($name)) ?></b>
+                <input type="file" name="bild[<?= htmlspecialchars($name) ?>]"
+                       accept="image/jpeg,image/png,image/webp">
+              </label>
+              <label><b>Bildbeschreibung</b>
+                <input type="text" name="bildtext[<?= htmlspecialchars($name) ?>]"
+                       value="<?= htmlspecialchars($b['alt']) ?>">
+              </label>
+            </div>
+          </div>
+        <?php endforeach; ?>
+      <?php endif; ?>
       <button type="submit" name="speichern" value="1">Speichern</button>
     </form>
   <?php endif; ?>
