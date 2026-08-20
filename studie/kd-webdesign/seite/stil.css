@@ -1,0 +1,217 @@
+/* K&D Webdesign — Stil.
+ *
+ * Warmes Weiß, tiefes Anthrazit, ein einziger Akzent in Ocker. Kein
+ * Farbverlauf, kein Glasmorphismus, keine abgerundeten Karten mit
+ * Schlagschatten, kein Violett-nach-Blau. Wer Websites gegen genau diese
+ * Moden verkauft, darf sie auf der eigenen Seite nicht vorführen.
+ *
+ * Alle Farben stehen als Variablen auf :root. Die dunkle Fassung
+ * überschreibt nur die Variablen — einmal für die Systemeinstellung,
+ * einmal für eine ausdrückliche Wahl.
+ */
+
+:root{
+  --grund:#FAF8F4;
+  --flaeche:#FFFFFF;
+  --tief:#16181C;
+  --basis:#16181C;
+  --text:#3A3A38;
+  --gedaempft:#6B665C;
+  --akzent:#A8681B;
+  --akzent-hell:#C8873A;
+  --akzent-weich:#F3E7D6;
+  --linie:#E4DED4;
+  --linie-stark:#CFC7B9;
+  --warn:#8A2C1E;
+  --warn-weich:#F6E4DF;
+  --sans:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  --mono:ui-monospace,"SF Mono","JetBrains Mono",Menlo,Consolas,monospace;
+  --bahn:62rem;
+}
+
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --grund:#141619; --flaeche:#1B1E23; --tief:#0D0F12;
+    --basis:#F2EEE6; --text:#C9C4BA; --gedaempft:#918B81;
+    --akzent:#D89440; --akzent-hell:#E8AC62; --akzent-weich:#33261A;
+    --linie:#2A2D34; --linie-stark:#3A3E46;
+    --warn:#E08672; --warn-weich:#33201C;
+  }
+}
+:root[data-theme="dark"]{
+  --grund:#141619; --flaeche:#1B1E23; --tief:#0D0F12;
+  --basis:#F2EEE6; --text:#C9C4BA; --gedaempft:#918B81;
+  --akzent:#D89440; --akzent-hell:#E8AC62; --akzent-weich:#33261A;
+  --linie:#2A2D34; --linie-stark:#3A3E46;
+  --warn:#E08672; --warn-weich:#33201C;
+}
+
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--grund);color:var(--text);
+ font:16px/1.6 var(--sans);-webkit-font-smoothing:antialiased}
+.bahn{max-width:var(--bahn);margin:0 auto;padding:0 clamp(1.15rem,4vw,2.5rem)}
+
+h1,h2,h3{color:var(--basis);font-weight:700;letter-spacing:-.015em;
+ line-height:1.12;margin:0;text-wrap:balance}
+h1{font-size:clamp(2.1rem,5.4vw,3.4rem)}
+h2{font-size:clamp(1.4rem,3.2vw,2rem)}
+h3{font-size:1.05rem}
+p{margin:0 0 .9rem;max-width:64ch}
+a{color:var(--akzent)}
+a:hover{color:var(--akzent-hell)}
+:focus-visible{outline:3px solid var(--akzent);outline-offset:3px}
+code{font-family:var(--mono);font-size:.86em}
+strong{color:var(--basis)}
+img{max-width:100%;height:auto;display:block}
+
+.marke{display:flex;align-items:center;gap:.7rem;margin:0 0 1.1rem;
+ font-family:var(--mono);font-size:11px;letter-spacing:.16em;
+ text-transform:uppercase;color:var(--gedaempft)}
+.marke::before{content:"";width:26px;height:2px;background:var(--akzent);flex:none}
+
+/* ---- Kopf ---------------------------------------------------------- */
+header.kopf{background:var(--flaeche);border-bottom:1px solid var(--linie);
+ position:sticky;top:0;z-index:20}
+.kopf-innen{display:flex;flex-wrap:wrap;gap:.8rem 2rem;align-items:center;
+ justify-content:space-between;padding-block:.9rem}
+.logo{font-weight:700;font-size:1.1rem;color:var(--basis);
+ text-decoration:none;letter-spacing:-.02em;white-space:nowrap}
+.logo span{color:var(--akzent)}
+.kopf nav{display:flex;flex-wrap:wrap;gap:.3rem 1.4rem;font-size:.95rem}
+.kopf nav a{color:var(--text);text-decoration:none}
+.kopf nav a:hover{color:var(--akzent)}
+.kopf .knopf{padding:.5rem 1.1rem;font-size:.92rem}
+
+/* ---- Aufmacher ----------------------------------------------------- */
+.aufmacher{background:var(--tief);color:#D9D4CA;
+ padding:clamp(3.5rem,9vw,6rem) 0 clamp(3rem,7vw,4.5rem)}
+.aufmacher h1{color:#FFFDF8;max-width:19ch}
+.aufmacher h1 em{font-style:normal;color:var(--akzent-hell);display:block}
+.aufmacher .unterzeile{font-size:clamp(1.05rem,2.2vw,1.3rem);
+ color:#A9A296;margin:1.3rem 0 0;max-width:50ch}
+.aufmacher .marke{color:#8C857A}
+.aufmacher .marke::before{background:var(--akzent-hell)}
+
+.knopfreihe{display:flex;flex-wrap:wrap;gap:.75rem;margin-top:2.2rem}
+.knopf{display:inline-block;padding:.85rem 1.6rem;border-radius:3px;
+ font-weight:700;text-decoration:none;border:2px solid transparent;
+ font-size:1rem;cursor:pointer;font-family:inherit}
+.knopf.voll{background:var(--akzent);color:#fff}
+.knopf.voll:hover{background:var(--akzent-hell);color:#fff}
+.knopf.leer{border-color:var(--linie-stark);color:var(--text)}
+.aufmacher .knopf.leer{border-color:#4A453D;color:#D9D4CA}
+.aufmacher .knopf.leer:hover{border-color:#FFFDF8;color:#FFFDF8}
+
+section{padding:clamp(3rem,7vw,5rem) 0;scroll-margin-top:5rem}
+section + section{border-top:1px solid var(--linie)}
+.vorspann{color:var(--gedaempft);max-width:58ch;margin-top:1rem;
+ font-size:1.05rem}
+
+/* ---- Raster -------------------------------------------------------- */
+.raster{display:grid;gap:1.6rem;margin-top:2.2rem;
+ grid-template-columns:repeat(auto-fit,minmax(15rem,1fr))}
+.feld{border-top:2px solid var(--akzent);padding-top:1rem}
+.feld h3{margin-bottom:.4rem}
+.feld p{font-size:.95rem;margin:0}
+
+/* ---- Prüfpunkte ---------------------------------------------------- */
+.punkte{list-style:none;margin:2rem 0 0;padding:0;
+ display:grid;gap:.1rem 2rem;grid-template-columns:repeat(auto-fit,minmax(17rem,1fr))}
+.punkte li{display:flex;gap:.7rem;padding:.5rem 0;
+ border-bottom:1px solid var(--linie);font-size:.95rem;align-items:baseline}
+.punkte .nr{font-family:var(--mono);font-size:11.5px;color:var(--akzent);
+ font-weight:700;flex:none;min-width:1.6rem}
+
+/* ---- Kasten -------------------------------------------------------- */
+.kasten{background:var(--flaeche);border-left:4px solid var(--akzent);
+ padding:1.5rem clamp(1.15rem,3vw,2rem);margin-top:1.8rem;
+ border-top:1px solid var(--linie);border-right:1px solid var(--linie);
+ border-bottom:1px solid var(--linie)}
+.kasten h3{margin-bottom:.5rem}
+.kasten p:last-child{margin-bottom:0}
+.kasten.warnung{border-left-color:var(--warn);background:var(--warn-weich)}
+.kasten.warnung h3{color:var(--warn)}
+
+/* ---- Ablauf -------------------------------------------------------- */
+.ablauf{list-style:none;counter-reset:schritt;margin:2rem 0 0;padding:0}
+.ablauf li{counter-increment:schritt;position:relative;
+ padding:0 0 1.5rem 3.2rem;border-left:2px solid var(--linie);
+ margin-left:1rem}
+.ablauf li::before{content:counter(schritt);position:absolute;left:-1.05rem;
+ top:0;width:2.1rem;height:2.1rem;border-radius:50%;background:var(--akzent);
+ color:#fff;font-weight:700;font-size:.9rem;display:flex;
+ align-items:center;justify-content:center}
+.ablauf li:last-child{border-left-color:transparent;padding-bottom:0}
+.ablauf b{display:block;color:var(--basis);margin-bottom:.15rem}
+.ablauf span{font-size:.95rem;color:var(--gedaempft)}
+
+/* ---- Preise -------------------------------------------------------- */
+.preise{display:grid;gap:1.5rem;margin-top:2.2rem;
+ grid-template-columns:repeat(auto-fit,minmax(14rem,1fr))}
+.paket{background:var(--flaeche);border:1px solid var(--linie);
+ padding:1.5rem 1.35rem;display:flex;flex-direction:column}
+.paket.hervor{border-color:var(--akzent);border-width:2px}
+.paket .stufe{font-family:var(--mono);font-size:11px;letter-spacing:.14em;
+ text-transform:uppercase;color:var(--gedaempft)}
+.paket .preis{font-size:2rem;font-weight:700;color:var(--basis);
+ margin:.5rem 0 .2rem;letter-spacing:-.02em}
+.paket .preis small{font-size:.9rem;font-weight:400;color:var(--gedaempft)}
+.paket ul{list-style:none;margin:1rem 0 0;padding:0;font-size:.93rem;flex:1}
+.paket li{padding:.3rem 0 .3rem 1.15rem;position:relative}
+.paket li::before{content:"";position:absolute;left:0;top:.85em;width:5px;
+ height:5px;background:var(--akzent);border-radius:50%}
+.betreuung{margin-top:1.5rem;font-size:.95rem;color:var(--gedaempft)}
+
+/* ---- Kontakt ------------------------------------------------------- */
+.kontakt{display:grid;gap:2.5rem;grid-template-columns:1fr;margin-top:2rem}
+@media(min-width:52rem){.kontakt{grid-template-columns:.8fr 1.2fr}}
+.karte{font-style:normal;line-height:1.9}
+.karte a{font-weight:700;text-decoration:none}
+.karte .zeile{color:var(--gedaempft);font-size:.8rem;font-family:var(--mono);
+ letter-spacing:.08em;text-transform:uppercase;display:block;margin-top:1rem}
+form.anfrage label{display:block;font-weight:700;color:var(--basis);
+ margin:0 0 .3rem;font-size:.95rem}
+form.anfrage input[type=text],form.anfrage input[type=email],
+form.anfrage input[type=tel],form.anfrage textarea{width:100%;font:inherit;
+ padding:.7rem .85rem;margin-bottom:1rem;border:1px solid var(--linie-stark);
+ border-radius:3px;background:var(--flaeche);color:var(--basis)}
+form.anfrage textarea{min-height:8rem;resize:vertical}
+form.anfrage button{font:inherit;font-weight:700;padding:.85rem 1.9rem;
+ border:0;border-radius:3px;background:var(--akzent);color:#fff;cursor:pointer}
+form.anfrage button:hover{background:var(--akzent-hell)}
+.fehler{background:var(--warn-weich);border-left:4px solid var(--warn);
+ color:var(--warn);padding:.85rem 1rem;margin:0 0 1.25rem;font-size:.95rem}
+.fallgrube{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+.klein{font-size:.85rem;color:var(--gedaempft)}
+
+figure{margin:2rem 0 0}
+figure img{border:1px solid var(--linie)}
+figure figcaption{font-size:.85rem;color:var(--gedaempft);margin-top:.5rem}
+
+/* ---- Fuß ----------------------------------------------------------- */
+footer{background:var(--tief);color:#8C857A;font-size:.9rem;margin-top:0}
+footer .bahn{padding-block:2rem 2.5rem;display:flex;flex-wrap:wrap;
+ gap:.75rem 2rem;justify-content:space-between}
+footer a{color:#C4BDB1}
+
+/* ---- Rechtsseiten -------------------------------------------------- */
+.recht{padding-block:clamp(2.5rem,6vw,4rem)}
+.recht dl{display:grid;grid-template-columns:auto 1fr;gap:.4rem 1.5rem;
+ margin:1.5rem 0}
+.recht dt{font-weight:700;color:var(--basis)}
+.recht dd{margin:0}
+.recht h2{margin-top:2.25rem}
+@media(max-width:34rem){
+  .recht dl{grid-template-columns:1fr;gap:0}
+  .recht dd{margin-bottom:.8rem}
+}
+
+@media print{
+  @page{margin:16mm}
+  body{background:#fff;color:#000;font-size:10pt}
+  header.kopf,footer,.knopfreihe,form.anfrage{display:none}
+  .aufmacher{background:#fff;color:#000;padding:0}
+  .aufmacher h1,.aufmacher h1 em{color:#000}
+  section{break-inside:avoid}
+}

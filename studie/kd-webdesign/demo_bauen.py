@@ -1,4 +1,4 @@
-"""Baut aus der echten Website eine Fassung, die im Browser läuft.
+"""Baut aus der echten K&D-Website eine Fassung, die im Browser läuft.
 
 Die ausgelieferte Website braucht PHP auf dem Hosting des Kunden. Zum
 Ausprobieren steht aber kein Hosting zur Verfügung — deshalb diese Fassung:
@@ -8,7 +8,7 @@ der Pflegebereich in JavaScript nachgebaut ist und im Browser speichert.
 Wichtig: Der Inhalt wird **nicht** abgeschrieben, sondern aus
 seite/index.html gelesen. Was hier zu sehen ist, ist die echte Seite.
 
-    python3 studie/czarnetzki/demo_bauen.py
+    python3 studie/kd-webdesign/demo_bauen.py
 """
 from __future__ import annotations
 
@@ -31,8 +31,9 @@ def hauptteil(html: str) -> str:
 
 
 def bild_als_datenadresse(pfad: Path) -> str:
+    art = "png" if pfad.suffix == ".png" else "jpeg"
     roh = base64.b64encode(pfad.read_bytes()).decode("ascii")
-    return f"data:image/jpeg;base64,{roh}"
+    return f"data:image/{art};base64,{roh}"
 
 
 def bauen() -> str:
@@ -45,9 +46,9 @@ def bauen() -> str:
 
     # Das Platzhalterbild wandert als Datenadresse in die Datei — die Seite
     # muss ohne einen einzigen fremden Abruf funktionieren.
-    bild = bild_als_datenadresse(SEITE / "bilder" / "betrieb.jpg")
+    bild = bild_als_datenadresse(SEITE / "bilder" / "pflegebereich.png")
     for name in seiten:
-        seiten[name] = seiten[name].replace('src="bilder/betrieb.jpg"', f'src="{bild}"')
+        seiten[name] = seiten[name].replace('src="bilder/pflegebereich.png"', f'src="{bild}"')
         # Verweise zwischen den Seiten werden zu Schaltern der Vorschau.
         for datei, ziel in (("index.html", "start"), ("impressum.html", "impressum"),
                             ("datenschutz.html", "datenschutz")):
@@ -61,7 +62,7 @@ def bauen() -> str:
     return "\n\n".join(teile) + "\n"
 
 
-KOPF = """<title>Czarnetzki Elektro</title>
+KOPF = """<title>K&amp;D Webdesign</title>
 
 <style>
 /*STIL*/
@@ -165,14 +166,15 @@ SKRIPT = r"""<script>
   'use strict';
 
   var PASSWORT = 'muster';
-  var SCHLUESSEL = 'wg-czarnetzki-v1';
+  var SCHLUESSEL = 'wg-kd-webdesign-v1';
   var KANTE = 1600;
 
   var BESCHRIFTUNG = {
     telefon: 'Telefonnummer', mail: 'E-Mail-Adresse',
     oeffnungszeiten: 'Öffnungszeiten', stellenanzeige: 'Stellenanzeige',
     hinweis: 'Aktueller Hinweis', einleitung: 'Einleitungstext',
-    bildtitel: 'Bildunterschrift', betrieb: 'Bild aus dem Betrieb',
+    bildtitel: 'Bildunterschrift', betrieb: 'Bild aus dem Betrieb', pflege: 'Bild vom Pflegebereich',
+    betreuung: 'Preis der Betreuung', gebiet: 'Wo wir arbeiten',
     anschrift: 'Anschrift', notdienst: 'Hinweis Notdienst'
   };
   function beschriftung(name) {
@@ -468,7 +470,7 @@ SKRIPT = r"""<script>
         fehler.textContent = 'Bitte Name, Nachricht und einen Rückweg angeben.';
         return;
       }
-      zeigeDanke('An info@pcelektro.de:\n\nName: ' + name +
+      zeigeDanke('An hallo@kd-webdesign.de:\n\nName: ' + name +
         '\nE-Mail: ' + (mail || '—') + '\nTelefon: ' + (tel || '—') +
         '\n\n' + text);
       anfrage.reset();

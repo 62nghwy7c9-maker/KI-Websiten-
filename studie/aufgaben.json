@@ -1,5 +1,5 @@
 {
-  "stand": "19.08.2026",
+  "stand": "20.08.2026",
   "anker": {
     "tag1": "Mo, 05.10.2026",
     "tag90": "Sa, 02.01.2027",
@@ -105,13 +105,6 @@
           "S"
         ],
         [
-          "Y",
-          "28.08.",
-          "Domain webgewerk sichern und geschäftliche E-Mail einrichten",
-          "Stand 13.08.: webgewerk.de ist registriert und geparkt, webgewerk.com frei. Bei denic.de/webwhois nach dem Halter fragen",
-          "S"
-        ],
-        [
           "K+Y",
           "28.08.",
           "Wovon wir im ersten Jahr leben — schriftlich, mit Betrag und Monaten",
@@ -140,6 +133,13 @@
           "Separates Konto für die Steuerrücklage einrichten — 30 % jeder Einnahme",
           "zwanzig Minuten. Später kostet es die Liquidität, die nicht da ist",
           "S"
+        ],
+        [
+          "Y",
+          "28.08.",
+          "Domain kd-webdesign.de prüfen und sichern, dazu hallo@kd-webdesign.de einrichten",
+          "die Adresse steht bereits auf der eigenen Website und in absender.json. Solange sie nicht existiert, geht jede Antwort ins Leere",
+          "BL"
         ]
       ]
     },
@@ -297,7 +297,7 @@
         [
           "K+Y",
           "02.10.",
-          "Google-Unternehmensprofil für Webgewerk anlegen",
+          "Google-Unternehmensprofil für K&D Webdesign anlegen",
           "Prüfpunkt 14 verlangt von Kunden, dass Profil und Website übereinstimmen. Wir haben keins",
           "R"
         ],
@@ -364,6 +364,20 @@
           "Die drei überholten Konzeptfassungen löschen oder als überholt kennzeichnen",
           "vier Dokumente im Umlauf waren der Grund für drei verschiedene Prüfkataloge",
           "S"
+        ],
+        [
+          "C",
+          "02.10.",
+          "Die elf fertigen Pakete nach dem Namenswechsel neu erzeugen",
+          "Check und Anschreiben tragen noch den alten Namen. Passiert ohnehin, sobald die ladungsfähige Anschrift eingetragen ist",
+          "BL"
+        ],
+        [
+          "K+Y",
+          "02.10.",
+          "Leadliste um Gastronomie und Vereine erweitern",
+          "die Zielgruppe ist seit dem 20.08. breiter, die Liste noch nicht. Der Prüfkatalog hat die Zusatzpunkte bereits",
+          "BL"
         ]
       ]
     },
@@ -497,10 +511,12 @@
     ]
   ],
   "erledigt": [
+    "20.08. — Eigene Website als K&D Webdesign gebaut, Zielgruppe auf alle Branchen erweitert",
+    "20.08. — Website für Peter Czarnetzki gebaut, mit Pflegebereich",
     "19.08. — Pflegebereich und Kontaktformular entschieden, gebaut und geprüft (studie/pflege)",
     "19.08. — Anschreiben führt mit der belegten offenen Stelle statt mit einem Mangel",
     "18.08. — Wettbewerbsanalyse: zehn Anbieter mit dem eigenen Katalog gemessen",
-    "17.08. — Konzept überarbeitet: Webgewerk, Preisliste, 19 Prüfpunkte, Hosting beim Kunden",
+    "17.08. — Konzept überarbeitet: K&D Webdesign, Preisliste, 19 Prüfpunkte, Hosting beim Kunden",
     "17.08. — Abnahme mit Rügefrist und Eskalation geregelt",
     "17.08. — Verfahren für den Domainumzug samt MX-Sicherung ausgearbeitet",
     "17.08. — Sperrliste, Anlassfilter, Löschfristen, Gründe je Betrieb aufgenommen",
@@ -511,7 +527,7 @@
     "16.08. — Konzept-Check: 43 Befunde in zwei Durchgängen",
     "15.08. — Impressum und Datenschutz als eigene Seiten, Stil geteilt",
     "14.08. — Fehlendes viewport-Meta auf der eigenen Seite gefunden und behoben",
-    "13.08. — Firmenname entschieden: Webgewerk",
+    "13.08. — Firmenname entschieden: K&D Webdesign",
     "12.08. — Pipeline reproduziert alle vier von Hand erstellten Befunde",
     "12.08. — Elf Pakete erzeugt, je fünf Dateien"
   ],
@@ -549,6 +565,8 @@
     "Tag 1 als festes Datum setzen — Vorschlag: Montag, 05.10.2026": "Tag 1 festlegen: der Tag, an dem der erste Check übergeben wird",
     "Nach Projekt 3: Produktionsvorlage ableiten und entscheiden, ob Paket S bleibt": "Nach Projekt 3: Paket S behalten oder streichen?",
     "Die 15 % Minderung und den Einbehalt der Anzahlung prüfen lassen": "Minderung und Einbehalt der Anzahlung prüfen lassen",
-    "Übergabemappe als Vorlage anlegen — die neun Punkte aus Konzept 7.1": "Übergabemappe als Vorlage anlegen (neun Punkte, Konzept 7.1)"
+    "Übergabemappe als Vorlage anlegen — die neun Punkte aus Konzept 7.1": "Übergabemappe als Vorlage anlegen (neun Punkte, Konzept 7.1)",
+    "Domain kd-webdesign.de prüfen und sichern, dazu hallo@kd-webdesign.de einrichten": "Domain kd-webdesign.de sichern und die E-Mail einrichten",
+    "Die elf fertigen Pakete nach dem Namenswechsel neu erzeugen": "Die elf Pakete nach dem Namenswechsel neu erzeugen"
   }
 }

@@ -1,4 +1,4 @@
-/* Unternehmenskonzept Webgewerk als Word-Datei. */
+/* Unternehmenskonzept K&D Webdesign als Word-Datei. */
 const B = require("./bauen.js");
 const { SCHWARZ: S, ROT: R, BLAU: BL, p, h, titel, liste, tabelle, abstand,
         dokument, legende, Packer, fs, path } = B;
@@ -7,7 +7,7 @@ const inhalt = [];
 const add = (...x) => inhalt.push(...x.flat());
 
 /* ---- Kopf ---------------------------------------------------------- */
-add(titel("Webgewerk — Unternehmenskonzept"));
+add(titel("K&D Webdesign — Unternehmenskonzept"));
 add(p([["Fassung 17.08.2026 · Kira Moewes und Yannik Dettmer · Kerpen, Rhein-Erft-Kreis", S]]));
 add(p([["Diese Fassung ersetzt alle vorherigen — insbesondere die Fassung vom 16.08.2026, die Datei Webgewerb_Konzept.docx und KONZEPT-WEBDESIGN.md. Wer eine ältere Fassung findet, arbeitet mit der falschen.", BL]]));
 add(abstand());
@@ -64,9 +64,9 @@ add(p([["Blau gesetzt ist alles, was in den Gespraechen vom 16. bis 19.08.2026 n
 
 /* ---- 1 Kurzfassung -------------------------------------------------- */
 add(h("1 · Kurzfassung", 1));
-add(p([["Webgewerk", BL], [" baut Handwerksbetrieben im Rhein-Erft-Kreis eine neue Website zum festen Preis und mit festem Termin. Der Einstieg ist ein kostenloser, individuell erstellter Website-Check, der belegbare Mängel der Bestandsseite benennt — bevor überhaupt ein Verkaufsgespräch stattfindet.", S]]));
+add(p([["K&D Webdesign", BL], [" baut kleinen Betrieben im Rhein-Erft-Kreis eine neue Website zum festen Preis und mit festem Termin. Der Einstieg ist ein kostenloser, individuell erstellter Website-Check, der belegbare Mängel der Bestandsseite benennt — bevor überhaupt ein Verkaufsgespräch stattfindet.", S]]));
 add(liste([
-  [["Zielkunde: ", S, true], ["bau- und ausbaunahe Gewerke, 3 bis 50 Mitarbeiter, im Fahrgebiet Kerpen–Grevenbroich, mit bestehender Website und mindestens drei belegten Mängeln.", S]],
+  [["Zielkunde: ", S, true], ["jeder Betrieb im Fahrgebiet Kerpen–Grevenbroich mit bestehender Website und mindestens drei belegten Mängeln — Handwerk, Gastronomie, Vereine, Praxen, Handel. Betriebsgröße im Regelfall 1 bis 50 Mitarbeiter.", BL]],
   [["Angebot: ", S, true], ["Festpreis ab 990 € (Paket S), Standardpaket M 1.490 €, Paket L 2.290 €. 40 % Anzahlung vor Baubeginn. Betreuung 69 €/Monat.", S]],
   [["Aufwand beim Kunden: ", BL, true], ["ein Vorgespräch, einmal Material zusammenstellen, zwei Rückmeldungen.", BL]],
   [["Alleinstellung: ", S, true], ["fester Preis, fester Termin, ein Ansprechpartner — und ein nachgewiesener Mangel, bevor wir etwas verkaufen.", S]],
@@ -76,6 +76,10 @@ add(p([["Offen: Betreuung 69 € oder 59 €? Im Konzept stehen 69 €, im Gespr
 
 /* ---- 2 Markt -------------------------------------------------------- */
 add(h("2 · Markt und Wettbewerb", 1));
+add(p([["Geändert am 20.08.: Der Name ist K&D Webdesign. Alle Unterlagen tragen ihn; der Konzept-Check vom 16.08. behält den alten Namen, weil er ein datiertes Dokument ist.", BL]]));
+add(p([["Die Zielgruppe ist nicht mehr auf das Handwerk beschränkt. Angesprochen wird jeder Betrieb mit einer schlechten Website. Die Begründung ist die Messung selbst: 15 der 19 Prüfpunkte gelten für alle Branchen. Eine Seite, die auf dem Handy nicht lesbar ist, ist es für den Elektriker so wie für den Griechen.", BL]]));
+add(p([["Was das kostet: Die belegte Zahl aus 2.1 — 94 % der Handwerksbetriebe haben eine Website — trägt für die anderen Branchen nicht. Für Gastronomie und Vereine liegt keine Quelle vor; das ist ab jetzt eine Annahme.", R]]));
+add(p([["Was das bringt: Der Prüfkatalog kann es bereits. Er enthält seit dem 17.08. Zusatzpunkte für Gastronomie (Speisekarte als Text, Weg zur Reservierung) und Vereine (Weg zur Mitgliedschaft) — sie waren gebaut, aber nicht verkauft.", BL]]));
 add(h("2.1 Was belegt ist", 2));
 add(liste([
   [["94 % der deutschen Handwerksbetriebe haben eine eigene Website", S, true], [" (Bitkom/ZDH 2025, n = 504, repräsentativ, ±4 %). Wir bedienen einen Ersatzmarkt, keinen Erstausstattungsmarkt. Die Ansprache kann nie „Sie brauchen eine Website“ lauten, sondern nur „Ihre Website hat ein konkretes, messbares Problem“.", S]],
@@ -225,13 +229,13 @@ add(p([["Entwurf — wird noch ausgearbeitet.", R]]));
 /* ---- 5 Positionierung ----------------------------------------------- */
 add(h("5 · Positionierung und Marke", 1));
 add(liste([
-  [["Name: Webgewerk", BL, true], [", Zusatz „Ihr Gewerk im Fokus“. Entschieden.", BL]],
+  [["Name: K&D Webdesign", BL, true], [", Zusatz „Ihr Gewerk im Fokus“. Entschieden.", BL]],
   [["Versprechen in einem Satz: ", S, true], ["„Eine fertige Website für Ihren Betrieb — fester Preis, fester Termin, ein Ansprechpartner.“", S]],
   [["Ton: ", S, true], ["sachlich, konkret, jede Aussage nachprüfbar. Kein Guru-Vokabular, keine Superlative, keine Emojis als Aufzählungszeichen, keine Aussage über Umsatzsteigerung.", S]],
   [["Rolle der KI: ", S, true], ["intern Kostenvorteil in der Produktion. Bei Handwerksbetrieben nach außen kein Verkaufsargument. Auf direkte Nachfrage antworten wir offen.", S]],
   [["Ein Ansprechpartner je Kunde", S, true], [", und zwar der, der das Vorgespräch geführt hat. Da Yannik den Vertrieb führt, trägt der Check ", S], ["Yanniks Namen und Yanniks E-Mail-Adresse", BL, true], [".", S]],
 ]));
-add(p([["Domainrecherche, Stand 13.08.: webgewerk.de ist registriert und geparkt (kein Wettbewerber), webgewerk.com und web-gewerk.com sind frei. Für .de, .koeln und .nrw gibt es keine öffentliche Registerabfrage — fehlender DNS-Eintrag ist kein Nachweis.", BL]]));
+add(p([["Domainrecherche, Stand 13.08.: kd-webdesign.de ist registriert und geparkt (kein Wettbewerber), kd-webdesign.com und web-gewerk.com sind frei. Für .de, .koeln und .nrw gibt es keine öffentliche Registerabfrage — fehlender DNS-Eintrag ist kein Nachweis.", BL]]));
 add(p([["Zu korrigieren: Auf der aktuellen Check-Vorlage steht Yanniks Name mit Kiras Mailadresse. Das ist genau der Widerspruch, den die Regel auflösen soll.", R]]));
 
 /* ---- 6 Preis --------------------------------------------------------- */
@@ -396,7 +400,7 @@ add(h("9.4 Pilotprogramm und Kaltstart", 2));
 add(liste([
   "Drei Pilotprojekte zu 745 € (Paket M). Gegenleistung schriftlich fixiert: Firmenname als Referenz, Vorher-Nachher-Werte, ein Zitat, Zeigeerlaubnis für Website und Check.",
   [["Versetzt starten, mit rund zwei Wochen Abstand", BL, true], [" — nicht alle drei gleichzeitig und nicht streng nacheinander. Projekt 2 beginnt, wenn Projekt 1 in der ersten Warteschleife steht. Grund: Laufen sie gleichzeitig, kann Projekt 2 nichts aus Projekt 1 lernen — der erklärte Zweck des Pilotprogramms fällt weg. Dazu produziert nur eine Person.", BL]],
-  "Vor dem ersten Kundenkontakt steht die eigene Website von Webgewerk, die den Prüfkatalog in den Punkten besteht, die wir steuern.",
+  "Vor dem ersten Kundenkontakt steht die eigene Website von K&D Webdesign, die den Prüfkatalog in den Punkten besteht, die wir steuern.",
 ]));
 add(h("Arbeitsproben statt Referenzen", 3, BL));
 add(p([["„Ohne Referenzen“ stimmt nur für Kundenreferenzen. Vorhanden sind mehrere selbst gebaute, vollständige Websites — darunter eine für einen echten Betrieb im Bauumfeld. Im Vorgespräch ist das etwas völlig anderes als nichts: Man kann eine fertige Seite aufschlagen, statt eine Behauptung aufzustellen.", BL]]));
@@ -658,7 +662,7 @@ const c = [
   ["Steuerberatung: § 19 UStG beibehalten oder verzichten", "Yannik", "Vorlauf"],
   ["Vermögensschaden-/IT-Haftpflicht — drei Angebote, abschließen", "Yannik", "Vorlauf"],
   [[["Wovon wir im ersten Jahr leben — schriftlich", R, true]], "beide", [["Vorlauf", R]]],
-  ["Domain webgewerk sichern, geschäftliche E-Mail einrichten", "Yannik", "Vorlauf"],
+  ["Domain kd-webdesign sichern, geschäftliche E-Mail einrichten", "Yannik", "Vorlauf"],
   ["DPMA-Markenrecherche auf entgegenstehende Marken", "Yannik", "Vorlauf"],
   ["Eigene Website: besteht den Katalog in den Punkten, die wir steuern", "Kira", "Vorlauf"],
   [[["Entscheiden, was der Kunde selbst bedienen kann — zusammen mit dem Formulardienst", R]], "Kira", [["Vorlauf", R]]],
@@ -686,7 +690,7 @@ add(tabelle(["Aufgabe", "Wer", "Bis wann"], c, [5600, 1300, 2100]));
 /* ---- Schreiben ----------------------------------------------------------- */
 const doc = dokument(inhalt);
 Packer.toBuffer(doc).then((buf) => {
-  const ziel = path.join(__dirname, "Webgewerk-Unternehmenskonzept.docx");
+  const ziel = path.join(__dirname, "KD-Webdesign-Unternehmenskonzept.docx");
   fs.writeFileSync(ziel, buf);
   console.log(ziel, Math.round(buf.length / 1024) + " KB,", inhalt.length, "Absätze");
 });

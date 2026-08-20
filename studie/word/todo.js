@@ -64,7 +64,7 @@ const inhalt = [];
 const add = (...x) => inhalt.push(...x.flat());
 
 add(titel("Was ich noch tun muss"));
-add(p([["Webgewerk · Stand " + d.stand + " · in der Reihenfolge, in der es gemacht wird.", S]]));
+add(p([["K&D Webdesign · Stand " + d.stand + " · in der Reihenfolge, in der es gemacht wird.", S]]));
 add(p([["Von oben nach unten. Was weiter unten steht, setzt meistens etwas weiter oben voraus. Warum eine Aufgabe drinsteht, steht im Unternehmenskonzept — zum Abhaken braucht man es nicht.", S]]));
 
 let nr = 0;
@@ -82,7 +82,7 @@ add(p([["Nummer 1 ist die einzige, die wirklich eilt: Ohne die ladungsfähige An
 
 const doc = dokument(inhalt);
 Packer.toBuffer(doc).then((buf) => {
-  const ziel = path.join(__dirname, "Webgewerk-Todo.docx");
+  const ziel = path.join(__dirname, "KD-Webdesign-Todo.docx");
   fs.writeFileSync(ziel, buf);
   console.log(ziel, Math.round(buf.length / 1024) + " KB,", gesamt, "Aufgaben");
 });
