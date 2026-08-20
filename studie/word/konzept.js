@@ -305,6 +305,19 @@ add(liste([
 ], BL));
 add(p([["Was ohne Betreuung nicht passiert: ", BL, true], ["Niemand prüft monatlich, ob die Seite erreichbar ist und das Zertifikat noch gilt. Statisch geht nichts kaputt, aber ein abgelaufenes Zertifikat zeigt jedem Besucher eine Sicherheitswarnung — genau Prüfpunkt 2, mit dem wir verkaufen. Ohne Betreuung merkt es der Betrieb erst, wenn ein Kunde anruft. Und jede Änderung, die über den Pflegebereich hinausgeht, kostet 70 €/h, mindestens eine halbe Stunde. Beides gehört ins Angebot, nicht ins Kleingedruckte.", BL]]));
 
+add(h("Was der Kunde selbst verwaltet — und was er dafür anfassen muss", 3, BL));
+add(p([["Für ihn gibt es drei Stellen, und das ist die ganze Aufteilung. Wer das im Vorgespräch so erklärt, nimmt dem Thema die Größe.", BL]]));
+add(tabelle(["Stelle", "Wofür", "Wie oft"], [
+  [[["Pflegebereich (seinedomain.de/pflege)", BL]], [["Inhalte: Texte, Öffnungszeiten, Stellenanzeige, Bilder", BL]], [["so oft er will, auch vom Handy", BL]]],
+  [[["Konto beim Hoster (IONOS, Strato, All-Inkl)", BL]], [["Vertrag, Rechnungen, E-Mail-Postfächer — und die Domain, wenn sie dort gekauft ist", BL]], [["zweimal im Jahr, wenn überhaupt", BL]]],
+  [[["Die Domain", BL]], [["läuft auf seinen Namen, verlängert sich automatisch", BL]], [["nie, solange die Zahlung durchgeht", BL]]],
+], [2600, 4600, 1800]));
+add(abstand());
+add(p([["Seine gesamte Verwaltungsarbeit sind drei Dinge: Zahlungsdaten beim Hoster aktuell halten, die Jahresrechnung nicht wegwerfen, und nichts kündigen, ohne vorher anzurufen. Mehr nicht.", BL]]));
+add(p([["Der eine Satz, der in jedes Übergabegespräch gehört: ", BL, true], ["An der Domain hängt nicht nur die Website, sondern auch das Geschäfts-E-Mail-Postfach. Geht eine Zahlung nicht durch, ist beides weg — und wir bekommen davon nichts mit, weil die Rechnung an ihn geht, nicht an uns. Das ist kein Kleingedrucktes, das ist der teuerste Fehler, den ein Betrieb hier machen kann.", BL]]));
+add(p([["Unser Zugang ist geliehen, nicht besessen. Mit Betreuungsvertrag haben wir Zugang zu Hosting und Domainverwaltung, nie zu den E-Mail-Postfächern. Er kann uns den Zugang jederzeit entziehen; die Website läuft weiter. Genau das ist im Verkauf das Argument gegen das Baukasten-Abo: Sie sind an keinem Tag von uns abhängig.", BL]]));
+add(p([["Die Vorlage für das Blatt, das er dazu bekommt, liegt im Repository unter studie/pflege/kundenblatt.md — eine Seite, drei Stellen, seine Zugangsdaten, unsere Telefonnummer.", BL]]));
+
 add(h("WordPress und Baukästen: warum wir da nicht hineinliefern", 3, BL));
 add(p([["Unser Produkt sind fertige Seiten. WordPress baut jede Seite bei jedem Aufruf neu aus einer Datenbank zusammen. Beides sind verschiedene Dinge — man kann fertige Seiten nicht in WordPress hochladen. Wer es trotzdem will, verlangt einen Neubau als WordPress-Theme, und damit monatliche Updates, Plugins, Sicherheitslücken und längere Ladezeiten: genau die Prüfpunkte 1, 2 und 4, mit denen wir bei fremden Seiten argumentieren.", BL]]));
 add(liste([
