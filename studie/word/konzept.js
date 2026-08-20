@@ -287,8 +287,28 @@ add(liste([
   [["TTL nach 48 Stunden ohne Auffälligkeiten wieder anheben.", BL]],
 ]));
 add(p([["Rückweg: Solange die alte Seite beim alten Anbieter noch liegt und die notierten DNS-Einträge vorliegen, ist der Stand von vorher in Minuten wiederhergestellt. Den alten Tarif deshalb frühestens einen Monat nach dem Umzug kündigen — das kostet den Kunden einmalig 15 bis 30 € und ist die günstigste Versicherung im ganzen Projekt.", BL]]));
-add(h("Übergabe an den Kunden", 3, BL));
-add(p([["Bei Livegang übergeben wir schriftlich: Zugangsdaten zu Domain und Hosting, Einladung zum Git-Repository, eine Ein-Seiten-Anleitung, was wo liegt, und die Übergabeliste aus Anhang A — also die Punkte, die der Kunde selbst erledigen muss.", BL]]));
+add(h("Übergabe an den Kunden — das Produkt ohne Betreuung", 3, BL));
+add(p([["Die Betreuung ist ein Zusatz, kein Bestandteil. Wer sie nicht will, bekommt trotzdem ein vollständiges, funktionierendes und ihm gehörendes Produkt. Das muss so sein: Ein Produkt, das ohne Abo nicht funktioniert, ist ein Abo.", BL]]));
+add(p([["Die Übergabemappe — immer dieselben neun Punkte, immer schriftlich:", BL]]));
+add(liste([
+  "Die Website live auf seiner Domain, auf seinem Hostingvertrag, auf seinen Namen.",
+  "Alle Dateien als ZIP-Archiv, per Mail oder auf einem USB-Stick. Nicht als Einladung zu einem Git-Repository: Ein Meister kann damit nichts anfangen. Wer es doch will, bekommt den Zugang zusätzlich.",
+  "Der Pflegebereich mit Passwort. Telefonnummer, Öffnungszeiten, Stellenanzeige und Hinweise ändert er selbst, ohne uns und ohne Kosten.",
+  "Das Kontaktformular, das direkt in sein Postfach liefert.",
+  "Alle Zugangsdaten auf einem Blatt: Hosting, Domain, Pflegebereich.",
+  "Eine Anleitung auf einer Seite: was wo liegt, wie man etwas ändert, wen man anruft.",
+  "Impressum und Datenschutzerklärung als Text, damit er sie bei einer Änderung im Betrieb anpassen lassen kann.",
+  "Die Übergabeliste: was er selbst erledigen muss — Google-Unternehmensprofil, alte Einträge, Visitenkarten.",
+  "Schriftlich die Nutzungsrechte (§ 31 UrhG) und die Schlussrechnung. Er ist Eigentümer und kann jederzeit gehen.",
+], BL));
+add(p([["Was ohne Betreuung nicht passiert: ", BL, true], ["Niemand prüft monatlich, ob die Seite erreichbar ist und das Zertifikat noch gilt. Statisch geht nichts kaputt, aber ein abgelaufenes Zertifikat zeigt jedem Besucher eine Sicherheitswarnung — genau Prüfpunkt 2, mit dem wir verkaufen. Ohne Betreuung merkt es der Betrieb erst, wenn ein Kunde anruft. Und jede Änderung, die über den Pflegebereich hinausgeht, kostet 70 €/h, mindestens eine halbe Stunde. Beides gehört ins Angebot, nicht ins Kleingedruckte.", BL]]));
+
+add(h("WordPress und Baukästen: warum wir da nicht hineinliefern", 3, BL));
+add(p([["Unser Produkt sind fertige Seiten. WordPress baut jede Seite bei jedem Aufruf neu aus einer Datenbank zusammen. Beides sind verschiedene Dinge — man kann fertige Seiten nicht in WordPress hochladen. Wer es trotzdem will, verlangt einen Neubau als WordPress-Theme, und damit monatliche Updates, Plugins, Sicherheitslücken und längere Ladezeiten: genau die Prüfpunkte 1, 2 und 4, mit denen wir bei fremden Seiten argumentieren.", BL]]));
+add(liste([
+  "Der Betrieb hat WordPress und hängt nicht daran — der Normalfall. Unsere Seite ersetzt es. Vorher wird die alte Installation vollständig gesichert, dann wird sie abgeräumt.",
+  "Der Betrieb besteht auf WordPress — dann sind wir der falsche Anbieter, und das sagen wir im Vorgespräch. Ein Auftrag, den man nur mit einem anderen Produkt erfüllen kann, ist kein Auftrag.",
+], BL));
 
 add(h("7.2 Produktionsvorlage und Abnahme", 2));
 add(liste([

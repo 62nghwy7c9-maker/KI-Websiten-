@@ -258,6 +258,13 @@
         [
           "K",
           "02.10.",
+          "Übergabemappe als Vorlage anlegen — die neun Punkte aus Konzept 7.1",
+          "ohne sie wird bei jedem Kunden etwas anderes übergeben, und beim dritten fehlt das Blatt mit den Zugangsdaten",
+          "BL"
+        ],
+        [
+          "K",
+          "02.10.",
           "Bauanleitung schreiben, damit die Produktion nicht an einer Person hängt",
           "derzeit kann nur Kira produzieren. Fällt sie aus, steht alles",
           "S",
@@ -541,6 +548,7 @@
     "Termin mit der Rechtsberatung in der Familie vereinbaren — mit festem Datum im Kalender": "Termin mit der Rechtsberatung — mit Datum im Kalender",
     "Tag 1 als festes Datum setzen — Vorschlag: Montag, 05.10.2026": "Tag 1 festlegen: der Tag, an dem der erste Check übergeben wird",
     "Nach Projekt 3: Produktionsvorlage ableiten und entscheiden, ob Paket S bleibt": "Nach Projekt 3: Paket S behalten oder streichen?",
-    "Die 15 % Minderung und den Einbehalt der Anzahlung prüfen lassen": "Minderung und Einbehalt der Anzahlung prüfen lassen"
+    "Die 15 % Minderung und den Einbehalt der Anzahlung prüfen lassen": "Minderung und Einbehalt der Anzahlung prüfen lassen",
+    "Übergabemappe als Vorlage anlegen — die neun Punkte aus Konzept 7.1": "Übergabemappe als Vorlage anlegen (neun Punkte, Konzept 7.1)"
   }
 }
