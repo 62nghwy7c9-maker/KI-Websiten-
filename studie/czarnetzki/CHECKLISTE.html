@@ -63,6 +63,14 @@ ul.haken ol li,ul.haken ul li{padding:.2rem 0;border:0}
 </style></head><body><main>
 <h1>Czarnetzki: die Seite ans Netz bringen</h1>
 <p class="vorspann">Von oben nach unten abarbeiten. Teil 1 komplett, dann erst Teil 2. Was in eckigen Klammern steht, ist zum Abhaken.</p>
+<h2>Was man dafür braucht</h2>
+<ul>
+<li>Die Datei <code>czarnetzki-website.zip</code></li>
+<li>Einen Hosting-Zugang mit PHP, auf den eigenen Namen</li>
+<li>Eine eigene E-Mail-Adresse zum Testen des Formulars</li>
+<li>Das Passwort für den Pflegebereich: <code>Heerstrasse15A</code></li>
+</ul>
+<p>Teil 1 kann eine Person allein machen. Teil 2 nicht: Dort geht es um den Kunden, seine Unterschrift und seine Domain.</p>
 <h2>Teil 1: Bei uns testen</h2>
 <p>Hier passiert nichts, was den Kunden betrifft. Wir stellen nur fest, ob alles funktioniert.</p>
 <ul class="haken">
@@ -81,48 +89,51 @@ ul.haken ol li,ul.haken ul li{padding:.2rem 0;border:0}
 <li><strong>5. Die Datei <code>INSTALLATION.txt</code> löschen.</strong> Die ist nur für uns und hat auf einer Website nichts zu suchen.</li>
 </ul>
 <ul class="haken">
-<li><strong>6. HTTPS einschalten.</strong> Im KAS unter SSL. Meist ein Klick. Danach steht im Browser ein kleines Schloss neben der Adresse.</li>
+<li><strong>6. Den Empfänger des Kontaktformulars umstellen.</strong> Wichtig, sonst geht die Testmail an den echten Kunden. Im WebFTP die Datei <code>pflege/formular.php</code> öffnen. Ganz oben steht eine Zeile mit <code>info@pcelektro.de</code>. Diese Adresse durch die eigene ersetzen, speichern. <strong>Vor der Übergabe an den Kunden wieder zurückstellen.</strong></li>
 </ul>
 <ul class="haken">
-<li><strong>7. Die vorläufige Adresse notieren.</strong> Sie endet auf <code>.kasserver.com</code> und steht im KAS. Auf ihr wird getestet, nicht auf einer echten Domain.</li>
+<li><strong>7. HTTPS einschalten.</strong> Im KAS unter SSL. Meist ein Klick. Danach steht im Browser ein kleines Schloss neben der Adresse.</li>
+</ul>
+<ul class="haken">
+<li><strong>8. Die vorläufige Adresse notieren.</strong> Sie endet auf <code>.kasserver.com</code> und steht im KAS. Auf ihr wird getestet, nicht auf einer echten Domain.</li>
 </ul>
 <h2>Der Test</h2>
 <p>Alles auf der vorläufigen Adresse. Bei jedem Punkt steht, was zu sehen sein muss.</p>
 <ul class="haken">
-<li><strong>8.</strong> Startseite aufrufen. Sie steht da, mit Bild und Farben. Kommt nur nackter Text, fehlt eine Datei beim Hochladen.</li>
-<li><strong>9.</strong> Auf dem Handy aufrufen. Echtes Handy. Nichts läuft seitlich über den Rand.</li>
-<li><strong>10.</strong> Impressum und Datenschutz sind unten auf der Seite erreichbar.</li>
-<li><strong>11.</strong> Die Adresse mit <code>/pflege</code> dahinter aufrufen und anmelden. Es erscheint die Übersicht mit den Reitern.</li>
-<li><strong>12.</strong> Telefonnummer ändern und speichern. Es kommt eine Meldung, dass gespeichert wurde.</li>
-<li><strong>13. Der wichtigste Punkt.</strong> Jetzt das Impressum aufrufen. Steht dort die neue Nummer? Wenn ja, funktioniert der ganze Pflegebereich. Wenn nein, brauchen wir gar nicht weitermachen.</li>
-<li><strong>14.</strong> Telefonnummer leeren und speichern. Es muss eine Meldung kommen, dass nichts gespeichert wurde, und die alte Nummer muss wieder dastehen.</li>
-<li><strong>15.</strong> Ganz unten einen früheren Stand zurückholen. Der alte Text ist wieder da.</li>
-<li><strong>16.</strong> Ein Foto vom Handy hochladen. Es erscheint auf der Website.</li>
-<li><strong>17. Der zweite wichtige Punkt.</strong> Kontaktformular ausfüllen und absenden. Kommt die E-Mail an? Das lässt sich nur hier prüfen, nie vorher.</li>
-<li><strong>18.</strong> Passwort ändern, abmelden, mit dem neuen anmelden. Und einmal mit dem alten versuchen: muss scheitern.</li>
-<li><strong>19. Der dritte wichtige Punkt.</strong> Die Adresse <code>/pflege/inhalt.php</code> direkt eintippen. Es <strong>muss</strong> eine Fehlermeldung kommen. Erscheint dort Text, ist eine Schutzeinstellung nicht aktiv.</li>
-<li><strong>20.</strong> Dasselbe mit <code>/pflege/sicherungen/</code>. Auch hier muss ein Fehler kommen, keine Dateiliste.</li>
+<li><strong>9.</strong> Startseite aufrufen. Sie steht da, mit Bild und Farben. Kommt nur nackter Text, fehlt eine Datei beim Hochladen.</li>
+<li><strong>10.</strong> Auf dem Handy aufrufen. Echtes Handy. Nichts läuft seitlich über den Rand.</li>
+<li><strong>11.</strong> Impressum und Datenschutz sind unten auf der Seite erreichbar.</li>
+<li><strong>12.</strong> Die Adresse mit <code>/pflege</code> dahinter aufrufen und anmelden. Das Auslieferpasswort lautet <code>Heerstrasse15A</code>. Es erscheint die Übersicht mit den Reitern.</li>
+<li><strong>13.</strong> Telefonnummer ändern und speichern. Es kommt eine Meldung, dass gespeichert wurde.</li>
+<li><strong>14. Der wichtigste Punkt.</strong> Jetzt das Impressum aufrufen. Steht dort die neue Nummer? Wenn ja, funktioniert der ganze Pflegebereich. Wenn nein, brauchen wir gar nicht weitermachen.</li>
+<li><strong>15.</strong> Telefonnummer leeren und speichern. Es muss eine Meldung kommen, dass nichts gespeichert wurde, und die alte Nummer muss wieder dastehen.</li>
+<li><strong>16.</strong> Ganz unten einen früheren Stand zurückholen. Der alte Text ist wieder da.</li>
+<li><strong>17.</strong> Ein Foto vom Handy hochladen. Es erscheint auf der Website.</li>
+<li><strong>18. Der zweite wichtige Punkt.</strong> Kontaktformular ausfüllen und absenden. Kommt die E-Mail an? Das lässt sich nur hier prüfen, nie vorher.</li>
+<li><strong>19.</strong> Passwort ändern, abmelden, mit dem neuen anmelden. Und einmal mit dem alten versuchen: muss scheitern.</li>
+<li><strong>20. Der dritte wichtige Punkt.</strong> Die Adresse <code>/pflege/inhalt.php</code> direkt eintippen. Es <strong>muss</strong> eine Fehlermeldung kommen. Erscheint dort Text, ist eine Schutzeinstellung nicht aktiv.</li>
+<li><strong>21.</strong> Dasselbe mit <code>/pflege/sicherungen/</code>. Auch hier muss ein Fehler kommen, keine Dateiliste.</li>
 </ul>
-<p>Erst wenn 8 bis 20 stimmen, geht es weiter.</p>
+<p>Erst wenn 9 bis 21 stimmen, geht es weiter.</p>
 <h2>Teil 2: Beim Kunden</h2>
 <ul class="haken">
-<li><strong>21. Termin mit Herrn Czarnetzki.</strong> Freigabeblatt mitnehmen und unterschreiben lassen. Besonders die Öffnungszeiten bestätigen lassen, die haben wir aus Verzeichnissen und nicht von ihm.</li>
+<li><strong>22. Termin mit Herrn Czarnetzki.</strong> Freigabeblatt mitnehmen und unterschreiben lassen. Besonders die Öffnungszeiten bestätigen lassen, die haben wir aus Verzeichnissen und nicht von ihm.</li>
 </ul>
 <ul class="haken">
-<li><strong>22. Herausfinden, wie er heute hostet.</strong> Eine Frage entscheidet alles: Kann er bei seinem jetzigen Anbieter eigene Dateien hochladen?</li>
+<li><strong>23. Herausfinden, wie er heute hostet.</strong> Eine Frage entscheidet alles: Kann er bei seinem jetzigen Anbieter eigene Dateien hochladen?</li>
 </ul>
 <ul>
 <li><strong>Ja</strong>, und seine E-Mails laufen über dieselbe Firma: der einfache Fall. Wir tauschen nur die Dateien aus. Seine E-Mails können nicht ausfallen.</li>
-<li><strong>Nein</strong>: die Domain zieht um. Der Fall mit Risiko, siehe Schritt 25.</li>
+<li><strong>Nein</strong>: die Domain zieht um. Der Fall mit Risiko, siehe Schritt 26.</li>
 </ul>
 <ul class="haken">
-<li><strong>23. Hosting auf seinen Namen.</strong> Seine Adresse, seine Bankverbindung. Niemals auf unseren Vertrag. Sonst hängt sein Betrieb an uns, auch wenn wir längst raus sind.</li>
+<li><strong>24. Hosting auf seinen Namen.</strong> Seine Adresse, seine Bankverbindung. Niemals auf unseren Vertrag. Sonst hängt sein Betrieb an uns, auch wenn wir längst raus sind.</li>
 </ul>
 <ul class="haken">
-<li><strong>24. Dateien hochladen und die Punkte 8 bis 20 nochmal prüfen.</strong> Diesmal auf seinem Hosting. Alles nochmal, nicht aus dem Gedächtnis.</li>
+<li><strong>25. Dateien hochladen und die Punkte 9 bis 21 nochmal prüfen.</strong> Diesmal auf seinem Hosting. Alles nochmal, nicht aus dem Gedächtnis. Dabei zuerst prüfen, dass in <code>pflege/formular.php</code> wieder <code>info@pcelektro.de</code> steht und nicht die Testadresse aus Schritt 6.</li>
 </ul>
 <ul class="haken">
-<li><strong>25. Nur wenn die Domain umzieht.</strong> In dieser Reihenfolge, ohne Abkürzung:</li>
+<li><strong>26. Nur wenn die Domain umzieht.</strong> In dieser Reihenfolge, ohne Abkürzung:</li>
 </ul>
 <ol>
 <li value="1">Alle bestehenden Einträge beim alten Anbieter abfotografieren, besonders die mit dem Kürzel <strong>MX</strong>. Das sind die für E-Mail. Diese Liste ist der Rückweg.</li>
@@ -132,13 +143,13 @@ ul.haken ol li,ul.haken ul li{padding:.2rem 0;border:0}
 <li value="5">Den alten Tarif frühestens einen Monat später kündigen.</li>
 </ol>
 <ul class="haken">
-<li><strong>26. Die Anleitung ausdrucken</strong> und mit ihm am Rechner durchgehen. Er meldet sich selbst an, ändert selbst etwas, holt selbst einen Stand zurück. Wer es einmal gemacht hat, ruft später nicht an.</li>
+<li><strong>27. Die Anleitung ausdrucken</strong> und mit ihm am Rechner durchgehen. Er meldet sich selbst an, ändert selbst etwas, holt selbst einen Stand zurück. Wer es einmal gemacht hat, ruft später nicht an.</li>
 </ul>
 <ul class="haken">
-<li><strong>27. Ihn selbst das Passwort ändern lassen.</strong> Er tippt es ein, wir sehen es nicht.</li>
+<li><strong>28. Ihn selbst das Passwort ändern lassen.</strong> Er tippt es ein, wir sehen es nicht.</li>
 </ul>
 <ul class="haken">
-<li><strong>28. Zugangsdaten übergeben</strong> und klar sagen, dass unsere Arbeit hier endet. Sonst steht die Erwartung im Raum, dass wir weiter zuständig sind.</li>
+<li><strong>29. Zugangsdaten übergeben</strong> und klar sagen, dass unsere Arbeit hier endet. Sonst steht die Erwartung im Raum, dass wir weiter zuständig sind.</li>
 </ul>
 <h2>Adressen</h2>
 <ul>
@@ -150,4 +161,4 @@ ul.haken ol li,ul.haken ul li{padding:.2rem 0;border:0}
 <p><strong>Die Seite bleibt weiß oder zeigt wirren Text.</strong> Die Dateien liegen eine Ebene zu tief. <code>index.html</code> muss direkt in <code>htdocs</code> liegen, nicht in einem Unterordner.</p>
 <p><strong>Der Pflegebereich sagt &quot;schreibgeschützt&quot;.</strong> Die Dateirechte sind zu eng. Im Dateimanager des Anbieters für die vier HTML-Dateien und den Ordner <code>pflege</code> Schreibrecht setzen.</p>
 <p><strong>Das Kontaktformular schickt nichts.</strong> Manche Anbieter regeln den Mailversand anders. Dort nachfragen. Die Telefonnummer steht sichtbar oben auf der Seite, es geht also nichts verloren.</p>
-<p><strong>Nach der Umstellung kommen keine E-Mails mehr.</strong> Die abfotografierten MX-Einträge sofort zurücksetzen. Deshalb Schritt 25.1.</p></main></body></html>
+<p><strong>Nach der Umstellung kommen keine E-Mails mehr.</strong> Die abfotografierten MX-Einträge sofort zurücksetzen. Deshalb Schritt 26.1.</p></main></body></html>

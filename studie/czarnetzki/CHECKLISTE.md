@@ -3,6 +3,16 @@
 Von oben nach unten abarbeiten. Teil 1 komplett, dann erst Teil 2.
 Was in eckigen Klammern steht, ist zum Abhaken.
 
+## Was man dafür braucht
+
+- Die Datei `czarnetzki-website.zip`
+- Einen Hosting-Zugang mit PHP, auf den eigenen Namen
+- Eine eigene E-Mail-Adresse zum Testen des Formulars
+- Das Passwort für den Pflegebereich: `Heerstrasse15A`
+
+Teil 1 kann eine Person allein machen. Teil 2 nicht: Dort geht es um den
+Kunden, seine Unterschrift und seine Domain.
+
 ## Teil 1: Bei uns testen
 
 Hier passiert nichts, was den Kunden betrifft. Wir stellen nur fest, ob
@@ -30,10 +40,16 @@ alles funktioniert.
 - [ ] **5. Die Datei `INSTALLATION.txt` löschen.** Die ist nur für uns und
   hat auf einer Website nichts zu suchen.
 
-- [ ] **6. HTTPS einschalten.** Im KAS unter SSL. Meist ein Klick. Danach
+- [ ] **6. Den Empfänger des Kontaktformulars umstellen.** Wichtig, sonst
+  geht die Testmail an den echten Kunden. Im WebFTP die Datei
+  `pflege/formular.php` öffnen. Ganz oben steht eine Zeile mit
+  `info@pcelektro.de`. Diese Adresse durch die eigene ersetzen, speichern.
+  **Vor der Übergabe an den Kunden wieder zurückstellen.**
+
+- [ ] **7. HTTPS einschalten.** Im KAS unter SSL. Meist ein Klick. Danach
   steht im Browser ein kleines Schloss neben der Adresse.
 
-- [ ] **7. Die vorläufige Adresse notieren.** Sie endet auf
+- [ ] **8. Die vorläufige Adresse notieren.** Sie endet auf
   `.kasserver.com` und steht im KAS. Auf ihr wird getestet, nicht auf
   einer echten Domain.
 
@@ -42,58 +58,61 @@ alles funktioniert.
 Alles auf der vorläufigen Adresse. Bei jedem Punkt steht, was zu sehen
 sein muss.
 
-- [ ] **8.** Startseite aufrufen. Sie steht da, mit Bild und Farben. Kommt
+- [ ] **9.** Startseite aufrufen. Sie steht da, mit Bild und Farben. Kommt
   nur nackter Text, fehlt eine Datei beim Hochladen.
-- [ ] **9.** Auf dem Handy aufrufen. Echtes Handy. Nichts läuft seitlich
+- [ ] **10.** Auf dem Handy aufrufen. Echtes Handy. Nichts läuft seitlich
   über den Rand.
-- [ ] **10.** Impressum und Datenschutz sind unten auf der Seite
+- [ ] **11.** Impressum und Datenschutz sind unten auf der Seite
   erreichbar.
-- [ ] **11.** Die Adresse mit `/pflege` dahinter aufrufen und anmelden. Es
-  erscheint die Übersicht mit den Reitern.
-- [ ] **12.** Telefonnummer ändern und speichern. Es kommt eine Meldung,
+- [ ] **12.** Die Adresse mit `/pflege` dahinter aufrufen und anmelden.
+  Das Auslieferpasswort lautet `Heerstrasse15A`. Es erscheint die Übersicht
+  mit den Reitern.
+- [ ] **13.** Telefonnummer ändern und speichern. Es kommt eine Meldung,
   dass gespeichert wurde.
-- [ ] **13. Der wichtigste Punkt.** Jetzt das Impressum aufrufen. Steht
+- [ ] **14. Der wichtigste Punkt.** Jetzt das Impressum aufrufen. Steht
   dort die neue Nummer? Wenn ja, funktioniert der ganze Pflegebereich.
   Wenn nein, brauchen wir gar nicht weitermachen.
-- [ ] **14.** Telefonnummer leeren und speichern. Es muss eine Meldung
+- [ ] **15.** Telefonnummer leeren und speichern. Es muss eine Meldung
   kommen, dass nichts gespeichert wurde, und die alte Nummer muss wieder
   dastehen.
-- [ ] **15.** Ganz unten einen früheren Stand zurückholen. Der alte Text
+- [ ] **16.** Ganz unten einen früheren Stand zurückholen. Der alte Text
   ist wieder da.
-- [ ] **16.** Ein Foto vom Handy hochladen. Es erscheint auf der Website.
-- [ ] **17. Der zweite wichtige Punkt.** Kontaktformular ausfüllen und
+- [ ] **17.** Ein Foto vom Handy hochladen. Es erscheint auf der Website.
+- [ ] **18. Der zweite wichtige Punkt.** Kontaktformular ausfüllen und
   absenden. Kommt die E-Mail an? Das lässt sich nur hier prüfen, nie
   vorher.
-- [ ] **18.** Passwort ändern, abmelden, mit dem neuen anmelden. Und
+- [ ] **19.** Passwort ändern, abmelden, mit dem neuen anmelden. Und
   einmal mit dem alten versuchen: muss scheitern.
-- [ ] **19. Der dritte wichtige Punkt.** Die Adresse `/pflege/inhalt.php`
+- [ ] **20. Der dritte wichtige Punkt.** Die Adresse `/pflege/inhalt.php`
   direkt eintippen. Es **muss** eine Fehlermeldung kommen. Erscheint dort
   Text, ist eine Schutzeinstellung nicht aktiv.
-- [ ] **20.** Dasselbe mit `/pflege/sicherungen/`. Auch hier muss ein
+- [ ] **21.** Dasselbe mit `/pflege/sicherungen/`. Auch hier muss ein
   Fehler kommen, keine Dateiliste.
 
-Erst wenn 8 bis 20 stimmen, geht es weiter.
+Erst wenn 9 bis 21 stimmen, geht es weiter.
 
 ## Teil 2: Beim Kunden
 
-- [ ] **21. Termin mit Herrn Czarnetzki.** Freigabeblatt mitnehmen und
+- [ ] **22. Termin mit Herrn Czarnetzki.** Freigabeblatt mitnehmen und
   unterschreiben lassen. Besonders die Öffnungszeiten bestätigen lassen,
   die haben wir aus Verzeichnissen und nicht von ihm.
 
-- [ ] **22. Herausfinden, wie er heute hostet.** Eine Frage entscheidet
+- [ ] **23. Herausfinden, wie er heute hostet.** Eine Frage entscheidet
   alles: Kann er bei seinem jetzigen Anbieter eigene Dateien hochladen?
   - **Ja**, und seine E-Mails laufen über dieselbe Firma: der einfache Fall.
   Wir tauschen nur die Dateien aus. Seine E-Mails können nicht ausfallen.
-  - **Nein**: die Domain zieht um. Der Fall mit Risiko, siehe Schritt 25.
+  - **Nein**: die Domain zieht um. Der Fall mit Risiko, siehe Schritt 26.
 
-- [ ] **23. Hosting auf seinen Namen.** Seine Adresse, seine
+- [ ] **24. Hosting auf seinen Namen.** Seine Adresse, seine
   Bankverbindung. Niemals auf unseren Vertrag. Sonst hängt sein Betrieb
   an uns, auch wenn wir längst raus sind.
 
-- [ ] **24. Dateien hochladen und die Punkte 8 bis 20 nochmal prüfen.**
+- [ ] **25. Dateien hochladen und die Punkte 9 bis 21 nochmal prüfen.**
   Diesmal auf seinem Hosting. Alles nochmal, nicht aus dem Gedächtnis.
+  Dabei zuerst prüfen, dass in `pflege/formular.php` wieder
+  `info@pcelektro.de` steht und nicht die Testadresse aus Schritt 6.
 
-- [ ] **25. Nur wenn die Domain umzieht.** In dieser Reihenfolge, ohne
+- [ ] **26. Nur wenn die Domain umzieht.** In dieser Reihenfolge, ohne
   Abkürzung:
   1. Alle bestehenden Einträge beim alten Anbieter abfotografieren, besonders
   die mit dem Kürzel **MX**. Das sind die für E-Mail. Diese Liste ist der
@@ -106,14 +125,14 @@ Erst wenn 8 bis 20 stimmen, geht es weiter.
   fertig.
   5. Den alten Tarif frühestens einen Monat später kündigen.
 
-- [ ] **26. Die Anleitung ausdrucken** und mit ihm am Rechner durchgehen.
+- [ ] **27. Die Anleitung ausdrucken** und mit ihm am Rechner durchgehen.
   Er meldet sich selbst an, ändert selbst etwas, holt selbst einen Stand
   zurück. Wer es einmal gemacht hat, ruft später nicht an.
 
-- [ ] **27. Ihn selbst das Passwort ändern lassen.** Er tippt es ein, wir
+- [ ] **28. Ihn selbst das Passwort ändern lassen.** Er tippt es ein, wir
   sehen es nicht.
 
-- [ ] **28. Zugangsdaten übergeben** und klar sagen, dass unsere Arbeit
+- [ ] **29. Zugangsdaten übergeben** und klar sagen, dass unsere Arbeit
   hier endet. Sonst steht die Erwartung im Raum, dass wir weiter
   zuständig sind.
 
@@ -138,4 +157,4 @@ Mailversand anders. Dort nachfragen. Die Telefonnummer steht sichtbar
 oben auf der Seite, es geht also nichts verloren.
 
 **Nach der Umstellung kommen keine E-Mails mehr.** Die abfotografierten
-MX-Einträge sofort zurücksetzen. Deshalb Schritt 25.1.
+MX-Einträge sofort zurücksetzen. Deshalb Schritt 26.1.
