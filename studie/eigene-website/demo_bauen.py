@@ -264,6 +264,32 @@ SKRIPT = r"""<script>
   }
   anwenden(gespeichert());
 
+  /* ---- Der Pruefvorgang im Aufmacher ------------------------------
+   * Die Probefassung nimmt die Skripte der echten Seite nicht mit, sonst
+   * liefen zwei Fassungen nebeneinander. Der Scrollweg wird deshalb hier
+   * noch einmal gesetzt, mit derselben Rechnung wie in webroot/index.html.
+   */
+  var kino = document.querySelector('[data-kino]');
+  var gross = window.matchMedia('(min-width: 62rem)');
+  var ruhig = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function fortschritt() {
+    if (!kino) { return; }
+    if (ruhig || !gross.matches) { kino.style.setProperty('--fs', '1'); return; }
+    var weg = kino.offsetHeight - window.innerHeight;
+    var f = weg > 0
+      ? Math.min(Math.max(-kino.getBoundingClientRect().top / weg, 0), 1)
+      : 1;
+    kino.style.setProperty('--fs', f.toFixed(4));
+  }
+  var laeuft = false;
+  function tick() { laeuft = false; fortschritt(); }
+  tick();
+  window.addEventListener('scroll', function () {
+    if (!laeuft) { laeuft = true; requestAnimationFrame(tick); }
+  }, { passive: true });
+  window.addEventListener('resize', tick);
+  if (gross.addEventListener) { gross.addEventListener('change', tick); }
+
   /* ---- Umschalten zwischen Website und Pflegebereich --------------- */
   var leiste = document.querySelector('.wg-leiste');
   leiste.addEventListener('click', function (e) {

@@ -25,15 +25,50 @@
 
 <main>
 
-<section class="aufmacher">
-  <div class="bahn">
-    <p class="schild">Kerpen · Rhein-Erft-Kreis</p>
-    <h1>Ihre Website hat Fehler. <em>Wir sagen Ihnen welche.</em></h1>
-    <p class="unter"><!--wg:einleitung-->Sie bekommen eine Liste mit 19 geprüften Punkten: was ein Besucher auf Ihrer Seite nicht findet, was Sie das kostet und was sich in einer Stunde beheben lässt. Jeden Punkt können Sie selbst nachprüfen.<!--/wg--></p>
-    <div class="reihe">
-      <a class="knopf voll" href="#kontakt">Kostenlosen Check anfordern</a>
-      <a class="pfeil" href="#check">Ansehen, was geprüft wird</a>
+<section class="aufmacher" data-kino>
+  <div class="buehne">
+    <div class="bahn">
+      <div>
+        <p class="schild">Kerpen · Rhein-Erft-Kreis</p>
+        <h1>Ihre Website hat Fehler. <em>Wir sagen Ihnen welche.</em></h1>
+        <p class="unter"><!--wg:einleitung-->Sie bekommen eine Liste mit 19 geprüften Punkten: was ein Besucher auf Ihrer Seite nicht findet, was Sie das kostet und was sich in einer Stunde beheben lässt. Jeden Punkt können Sie selbst nachprüfen.<!--/wg--></p>
+        <div class="reihe">
+          <a class="knopf voll" href="#kontakt">Kostenlosen Check anfordern</a>
+          <a class="pfeil" href="#check">Ansehen, was geprüft wird</a>
+        </div>
+      </div>
+
+      <!-- Der Prüfvorgang. Dekorativ im Sinne der Vorlesbarkeit: Was hier
+           gezeigt wird, steht daneben im Text. -->
+      <div class="pruefung" aria-hidden="true">
+        <div class="blatt">
+          <span class="balken kopfband"></span>
+          <span class="balken bild"></span>
+          <span class="balken z1"></span>
+          <span class="balken z2"></span>
+          <span class="balken z3"></span>
+          <span class="kacheln"><span></span><span></span><span></span></span>
+          <span class="balken z2"></span>
+          <span class="balken fuss"></span>
+        </div>
+        <span class="messlinie"></span>
+        <ul class="befunde">
+          <!-- --y ist die Höhe im Drahtgerüst, --ab die Schwelle, ab der der
+               Befund aufspringt: --y geteilt durch 1,15. Wer --y ändert, muss
+               --ab mitziehen, sonst springt der Befund auf, bevor gemessen
+               wurde. -->
+          <li style="--y:7%;--ab:.06"><i></i><b>Seitentitel ist Vorlagentext</b></li>
+          <li style="--y:19%;--ab:.165"><i></i><b>Nummer nicht antippbar</b></li>
+          <li style="--y:34%;--ab:.296"><i></i><b>Nicht für Handys eingerichtet</b></li>
+          <li style="--y:47%;--ab:.409"><i></i><b>Lange Ladezeit</b></li>
+          <li style="--y:61%;--ab:.530"><i></i><b>Keine Seite für Stellen</b></li>
+          <li style="--y:75%;--ab:.652"><i></i><b>Kein Anfrageformular</b></li>
+          <li style="--y:89%;--ab:.774"><i></i><b>Impressum unvollständig</b></li>
+        </ul>
+        <p class="summe"><em>7</em><span>Punkte gefunden</span></p>
+      </div>
     </div>
+    <div class="lauf" aria-hidden="true"></div>
   </div>
 </section>
 
@@ -48,7 +83,7 @@
   </div>
 </div>
 
-<section id="check">
+<section id="check" data-auf>
   <div class="bahn">
     <p class="schild">Der Website-Check</p>
     <h2>Wir behaupten nichts, was Sie nicht selbst sehen können.</h2>
@@ -88,7 +123,7 @@
   </div>
 </section>
 
-<section id="selbst">
+<section id="selbst" data-auf>
   <div class="bahn">
     <p class="schild">Selbst ändern</p>
     <h2>Öffnungszeiten ändern Sie selbst. In zwei Minuten.</h2>
@@ -138,7 +173,7 @@
   </div>
 </section>
 
-<section id="branchen">
+<section id="branchen" data-auf>
   <div class="bahn">
     <p class="schild">Für wen</p>
     <h2>Für jeden Betrieb, dessen Website älter ist als sein Telefon.</h2>
@@ -177,7 +212,7 @@
   </div>
 </section>
 
-<section id="ablauf">
+<section id="ablauf" data-auf>
   <div class="bahn">
     <p class="schild">Ablauf</p>
     <h2>Sechs Schritte, fester Preis, fester Termin.</h2>
@@ -198,7 +233,7 @@
   </div>
 </section>
 
-<section id="preise">
+<section id="preise" data-auf>
   <div class="bahn">
     <p class="schild">Preise</p>
     <h2>Was im Angebot steht, gilt.</h2>
@@ -252,7 +287,7 @@
   </div>
 </section>
 
-<section id="fragen">
+<section id="fragen" data-auf>
   <div class="bahn">
     <p class="schild">Häufige Fragen</p>
     <h2>Das, was im Vorgespräch immer kommt.</h2>
@@ -398,7 +433,66 @@
 </footer>
 
 <script>
-  /* Zeitstempel für die Spamfalle. Ohne JavaScript bleibt er leer — dann
+(function () {
+  "use strict";
+  var wurzel = document.documentElement;
+  var ruhig = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  /* Erst jetzt darf CSS Inhalte verstecken. Vorher steht alles da: Wer
+     kein JavaScript hat, sieht die vollständige Seite. */
+  wurzel.classList.add("js");
+
+  /* Zweites Netz: Was nach zwei Sekunden im Bild ist und immer noch
+     unsichtbar, wird hart eingeblendet. Egal warum. */
+  setTimeout(function () {
+    document.querySelectorAll("[data-auf]:not(.da)").forEach(function (el) {
+      var r = el.getBoundingClientRect();
+      if (r.top < window.innerHeight && r.bottom > 0) el.classList.add("da");
+    });
+  }, 2000);
+
+  /* Scrollweg des Aufmachers als --fs. Ihn lesen die Messlinie, jeder
+     Befund, die Summe und die Haarlinie. */
+  var kino = document.querySelector("[data-kino]");
+  /* Die Klebebühne gibt es erst ab 62rem. Darunter ist der Aufmacher ein
+     normaler Abschnitt, und der Prüfvorgang steht fertig da. */
+  var gross = window.matchMedia("(min-width: 62rem)");
+  function fortschritt() {
+    if (!kino) return;
+    if (!gross.matches) { kino.style.setProperty("--fs", "1"); return; }
+    var weg = kino.offsetHeight - window.innerHeight;
+    var p = weg > 0
+      ? Math.min(Math.max(-kino.getBoundingClientRect().top / weg, 0), 1)
+      : 1;
+    kino.style.setProperty("--fs", p.toFixed(4));
+  }
+
+  var laeuft = false;
+  function tick() { laeuft = false; if (!ruhig) fortschritt(); }
+  tick();
+  window.addEventListener("scroll", function () {
+    if (!laeuft) { laeuft = true; requestAnimationFrame(tick); }
+  }, { passive: true });
+  window.addEventListener("resize", tick);
+  if (gross.addEventListener) { gross.addEventListener("change", tick); }
+
+  /* Einblenden beim Erreichen. */
+  var ziele = document.querySelectorAll("[data-auf]");
+  if (!("IntersectionObserver" in window) || ruhig) {
+    ziele.forEach(function (el) { el.classList.add("da"); });
+  } else {
+    var beob = new IntersectionObserver(function (e) {
+      e.forEach(function (x) {
+        if (x.isIntersecting) { x.target.classList.add("da"); beob.unobserve(x.target); }
+      });
+    }, { rootMargin: "0px 0px -10% 0px" });
+    ziele.forEach(function (el) { beob.observe(el); });
+  }
+})();
+</script>
+
+<script>
+  /* Zeitstempel für die Spamfalle. Ohne JavaScript bleibt er leer, dann
      lässt formular.php die Anfrage trotzdem durch. */
   document.querySelector('.anfrage [name=zeit]').value =
       Math.floor(Date.now() / 1000);

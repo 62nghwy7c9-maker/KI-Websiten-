@@ -54,7 +54,10 @@ body{margin:0;background:var(--papier);color:var(--text);
  font:17px/1.65 var(--sans);-webkit-font-smoothing:antialiased}
 .bahn{max-width:var(--bahn);margin:0 auto;padding:0 clamp(1.2rem,5vw,3rem)}
 
-h1,h2,h3{color:var(--tinte);font-weight:700;margin:0;text-wrap:balance}
+h1,h2,h3{color:var(--tinte);font-weight:700;margin:0;text-wrap:balance;
+ overflow-wrap:break-word;hyphens:auto}
+/* Lange deutsche Wörter wie „Datenschutzerklärung" passen sonst auf einem
+   320-Pixel-Gerät nicht in die Zeile. */
 h1{font-size:clamp(2.6rem,7.2vw,5rem);line-height:1.02;letter-spacing:-.035em}
 h2{font-size:clamp(1.9rem,4.4vw,3rem);line-height:1.06;letter-spacing:-.028em}
 h3{font-size:clamp(1.1rem,1.8vw,1.3rem);line-height:1.25;letter-spacing:-.015em}
@@ -104,9 +107,126 @@ header.kopf{position:sticky;top:0;z-index:30;background:var(--papier);
 .pfeil::after{content:"→";transition:transform .18s}
 .pfeil:hover::after{transform:translateX(4px)}
 
-/* ---- Aufmacher ---------------------------------------------------- */
+/* ---- Aufmacher -----------------------------------------------------
+ * Rechts läuft der Prüfvorgang: das Drahtgerüst einer beliebigen Website,
+ * eine Messlinie wandert beim Scrollen hindurch, und wo sie auf einen
+ * Mangel trifft, springt ein Befund auf. Am Ende steht die Zahl.
+ *
+ * Zwei Regeln, die von der ersten Fassung bleiben:
+ * - Die Etiketten sind echte Punkte aus dem Prüfkatalog, keine erfundenen.
+ * - Das Drahtgerüst bleibt abstrakt. Eine erkennbare fremde Seite wäre
+ *   Anschwärzen, nicht Werbung.
+ *
+ * Der Scrollweg 0 bis 1 liegt als --fs am Abschnitt an; ihn lesen die
+ * Messlinie, jeder Befund, die Summe und die Haarlinie unten. Kein
+ * Scroll-Hijacking: Man scrollt ganz normal, die Seite läuft mit.
+ */
+/* Kein overflow:hidden hier: Das würde position:sticky der Bühne
+   ausschalten. Das Punktraster ist ohnehin auf inset:0 begrenzt. */
 .aufmacher{padding:clamp(4rem,11vw,8rem) 0 clamp(3rem,7vw,5rem);
- position:relative;overflow:hidden}
+ position:relative}
+
+/* Auf grossen Bildschirmen bekommt der Aufmacher einen Scrollweg, auf dem
+   die Buehne stehen bleibt. Darunter ist er ein normaler Abschnitt und der
+   Pruefvorgang steht fertig da. */
+@media(min-width:62rem){
+  .aufmacher{padding:0;height:190vh;height:190svh}
+  .buehne{position:sticky;top:0;height:100vh;height:100svh;display:flex;
+   align-items:center;padding-block:5rem 3rem}
+  .buehne .bahn{display:grid;grid-template-columns:1.1fr .9fr;
+   gap:clamp(2rem,4vw,3.5rem);align-items:center;width:100%}
+  /* Die Höhe führt, nicht die Breite: So passt der Prüfvorgang auch auf
+     ein flaches Notebook-Fenster, ohne dass die Bühne überläuft. */
+  .buehne .pruefung{height:min(56svh,24rem);width:auto;aspect-ratio:4/4.6;
+   justify-self:center}
+  .buehne h1{font-size:clamp(2.4rem,4.6vw,4rem)}
+}
+
+.pruefung{position:relative;width:100%;max-width:24rem;
+ margin:3rem auto 4.5rem;aspect-ratio:4/4.6}
+@media(min-width:62rem){.pruefung{margin:0;max-width:none}}
+/* Unter 62rem läuft nichts: Der Prüfvorgang steht fertig da, die Messlinie
+   hätte nichts mehr zu messen. */
+@media(max-width:61.99rem){.messlinie{display:none}}
+
+.blatt{position:absolute;inset:0;border:1px solid var(--linie);
+ border-radius:12px;background:var(--flaeche);
+ display:flex;flex-direction:column;gap:2.4%;padding:5%}
+.balken{background:var(--linie);border-radius:3px;flex:none}
+.balken.kopfband{height:7%}
+.balken.bild{height:30%;background:transparent;
+ border:1px dashed var(--linie-stark)}
+.balken.z1{height:2.6%;width:88%}
+.balken.z2{height:2.6%;width:72%}
+.balken.z3{height:2.6%;width:80%}
+.kacheln{display:flex;gap:3%;height:16%;flex:none}
+.kacheln span{flex:1;background:var(--linie);border-radius:3px}
+.balken.fuss{height:5%;margin-top:auto}
+
+/* Die Messlinie ist um den Faktor 1,15 schneller als der Scrollweg, damit
+   sie unten ankommt, bevor der Aufmacher endet. Sonst steht die Summe erst
+   da, wenn niemand mehr hinsieht. */
+.messlinie{position:absolute;left:-4%;right:-4%;z-index:4;height:2px;
+ top:calc(min(var(--fs,1) * 1.15,1) * 100%);
+ background:linear-gradient(90deg,transparent,var(--akzent) 12%,
+  var(--akzent) 88%,transparent)}
+.messlinie::before{content:"";position:absolute;left:0;top:-3px;
+ width:8px;height:8px;background:var(--akzent);transform:rotate(45deg)}
+
+/* Ein Befund springt auf, sobald die Messlinie seine Hoehe erreicht hat.
+   Das steckt in --ab und braucht kein Skript: Die Rechnung wird negativ,
+   solange die Linie darueber steht, und clamp kappt sie auf null. */
+.befunde{position:absolute;inset:0;z-index:3;list-style:none;margin:0;padding:0}
+.befunde li{position:absolute;left:-3%;right:2%;top:var(--y);
+ display:flex;align-items:center;gap:7px;
+ --an:clamp(0,(var(--fs,1) - var(--ab)) * 16,1);
+ opacity:var(--an);
+ transform:translateX(calc((1 - var(--an)) * 14px))}
+.befunde li::before{content:"";width:7px;height:7px;flex:none;
+ border-radius:50%;background:var(--akzent);
+ box-shadow:0 0 0 3px var(--akzent-weich)}
+.befunde li i{flex:1 1 auto;height:1px;
+ background:repeating-linear-gradient(90deg,
+  var(--linie-stark) 0 4px,transparent 4px 8px)}
+.befunde li b{flex:none;font-family:var(--mono);font-weight:500;
+ font-size:10.5px;letter-spacing:.02em;color:var(--tinte);
+ background:var(--papier);border:1px solid var(--linie-stark);
+ border-radius:4px;padding:.32rem .5rem;white-space:nowrap}
+
+.summe{position:absolute;right:2%;bottom:-12%;z-index:3;margin:0;
+ text-align:right;line-height:1;
+ --an:clamp(0,(var(--fs,1) - .82) * 14,1);opacity:var(--an)}
+.summe em{display:block;font-style:normal;font-size:2.4rem;font-weight:700;
+ color:var(--akzent);font-variant-numeric:tabular-nums;letter-spacing:-.03em}
+.summe span{font-family:var(--mono);font-size:11px;letter-spacing:.12em;
+ text-transform:uppercase;color:var(--gedaempft)}
+
+/* Fortschritt als Haarlinie am unteren Rand. Sie beantwortet die Frage,
+   wie lange das noch geht, ohne sie zu stellen. */
+.lauf{display:none}
+@media(min-width:62rem){
+  .lauf{display:block;position:absolute;left:0;bottom:0;width:100%;height:2px;
+   z-index:4;background:var(--linie)}
+  .lauf::after{content:"";display:block;height:100%;
+   width:calc(var(--fs,0) * 100%);background:var(--akzent)}
+}
+
+/* Wer weniger Bewegung eingestellt hat, bekommt den fertigen Stand. */
+@media(prefers-reduced-motion:reduce){
+  .aufmacher{height:auto;padding:clamp(4rem,11vw,8rem) 0 clamp(3rem,7vw,5rem)}
+  .buehne{position:static;min-height:0;padding:0}
+  .messlinie,.lauf{display:none}
+  .befunde li,.summe{--an:1}
+}
+
+/* Einblenden beim Scrollen. Ohne Skript steht --fs nie an, dann ist alles
+   einfach da. Das Verstecken passiert erst, wenn .js gesetzt ist. */
+.js [data-auf]{opacity:0;transform:translateY(14px)}
+.js [data-auf].da{opacity:1;transform:none;
+ transition:opacity .6s ease,transform .6s ease}
+@media(prefers-reduced-motion:reduce){
+  .js [data-auf]{opacity:1;transform:none;transition:none}
+}
 .aufmacher::before{content:"";position:absolute;inset:0 0 auto 0;height:100%;
  background-image:radial-gradient(var(--punkt) 1.5px,transparent 1.6px);
  background-size:18px 18px;
@@ -249,7 +369,7 @@ footer a:hover{color:var(--akzent)}
 
 /* ---- Rechtsseiten ------------------------------------------------- */
 .recht{padding-block:clamp(3rem,7vw,5rem)}
-.recht h1{font-size:clamp(2.2rem,5vw,3.2rem)}
+.recht h1{font-size:clamp(1.8rem,5vw,3.2rem)}
 .recht dl{display:grid;grid-template-columns:auto 1fr;gap:.45rem 1.8rem;
  margin:2rem 0}
 .recht dt{font-weight:600;color:var(--tinte)}
@@ -377,15 +497,50 @@ body.wg-modus-pflege .wg-seite{display:none}
 
 <main>
 
-<section class="aufmacher">
-  <div class="bahn">
-    <p class="schild">Kerpen · Rhein-Erft-Kreis</p>
-    <h1>Ihre Website hat Fehler. <em>Wir sagen Ihnen welche.</em></h1>
-    <p class="unter"><!--wg:einleitung-->Sie bekommen eine Liste mit 19 geprüften Punkten: was ein Besucher auf Ihrer Seite nicht findet, was Sie das kostet und was sich in einer Stunde beheben lässt. Jeden Punkt können Sie selbst nachprüfen.<!--/wg--></p>
-    <div class="reihe">
-      <a class="knopf voll" href="#kontakt">Kostenlosen Check anfordern</a>
-      <a class="pfeil" href="#check">Ansehen, was geprüft wird</a>
+<section class="aufmacher" data-kino>
+  <div class="buehne">
+    <div class="bahn">
+      <div>
+        <p class="schild">Kerpen · Rhein-Erft-Kreis</p>
+        <h1>Ihre Website hat Fehler. <em>Wir sagen Ihnen welche.</em></h1>
+        <p class="unter"><!--wg:einleitung-->Sie bekommen eine Liste mit 19 geprüften Punkten: was ein Besucher auf Ihrer Seite nicht findet, was Sie das kostet und was sich in einer Stunde beheben lässt. Jeden Punkt können Sie selbst nachprüfen.<!--/wg--></p>
+        <div class="reihe">
+          <a class="knopf voll" href="#kontakt">Kostenlosen Check anfordern</a>
+          <a class="pfeil" href="#check">Ansehen, was geprüft wird</a>
+        </div>
+      </div>
+
+      <!-- Der Prüfvorgang. Dekorativ im Sinne der Vorlesbarkeit: Was hier
+           gezeigt wird, steht daneben im Text. -->
+      <div class="pruefung" aria-hidden="true">
+        <div class="blatt">
+          <span class="balken kopfband"></span>
+          <span class="balken bild"></span>
+          <span class="balken z1"></span>
+          <span class="balken z2"></span>
+          <span class="balken z3"></span>
+          <span class="kacheln"><span></span><span></span><span></span></span>
+          <span class="balken z2"></span>
+          <span class="balken fuss"></span>
+        </div>
+        <span class="messlinie"></span>
+        <ul class="befunde">
+          <!-- --y ist die Höhe im Drahtgerüst, --ab die Schwelle, ab der der
+               Befund aufspringt: --y geteilt durch 1,15. Wer --y ändert, muss
+               --ab mitziehen, sonst springt der Befund auf, bevor gemessen
+               wurde. -->
+          <li style="--y:7%;--ab:.06"><i></i><b>Seitentitel ist Vorlagentext</b></li>
+          <li style="--y:19%;--ab:.165"><i></i><b>Nummer nicht antippbar</b></li>
+          <li style="--y:34%;--ab:.296"><i></i><b>Nicht für Handys eingerichtet</b></li>
+          <li style="--y:47%;--ab:.409"><i></i><b>Lange Ladezeit</b></li>
+          <li style="--y:61%;--ab:.530"><i></i><b>Keine Seite für Stellen</b></li>
+          <li style="--y:75%;--ab:.652"><i></i><b>Kein Anfrageformular</b></li>
+          <li style="--y:89%;--ab:.774"><i></i><b>Impressum unvollständig</b></li>
+        </ul>
+        <p class="summe"><em>7</em><span>Punkte gefunden</span></p>
+      </div>
     </div>
+    <div class="lauf" aria-hidden="true"></div>
   </div>
 </section>
 
@@ -400,7 +555,7 @@ body.wg-modus-pflege .wg-seite{display:none}
   </div>
 </div>
 
-<section id="check">
+<section id="check" data-auf>
   <div class="bahn">
     <p class="schild">Der Website-Check</p>
     <h2>Wir behaupten nichts, was Sie nicht selbst sehen können.</h2>
@@ -440,7 +595,7 @@ body.wg-modus-pflege .wg-seite{display:none}
   </div>
 </section>
 
-<section id="selbst">
+<section id="selbst" data-auf>
   <div class="bahn">
     <p class="schild">Selbst ändern</p>
     <h2>Öffnungszeiten ändern Sie selbst. In zwei Minuten.</h2>
@@ -490,7 +645,7 @@ body.wg-modus-pflege .wg-seite{display:none}
   </div>
 </section>
 
-<section id="branchen">
+<section id="branchen" data-auf>
   <div class="bahn">
     <p class="schild">Für wen</p>
     <h2>Für jeden Betrieb, dessen Website älter ist als sein Telefon.</h2>
@@ -529,7 +684,7 @@ body.wg-modus-pflege .wg-seite{display:none}
   </div>
 </section>
 
-<section id="ablauf">
+<section id="ablauf" data-auf>
   <div class="bahn">
     <p class="schild">Ablauf</p>
     <h2>Sechs Schritte, fester Preis, fester Termin.</h2>
@@ -550,7 +705,7 @@ body.wg-modus-pflege .wg-seite{display:none}
   </div>
 </section>
 
-<section id="preise">
+<section id="preise" data-auf>
   <div class="bahn">
     <p class="schild">Preise</p>
     <h2>Was im Angebot steht, gilt.</h2>
@@ -604,7 +759,7 @@ body.wg-modus-pflege .wg-seite{display:none}
   </div>
 </section>
 
-<section id="fragen">
+<section id="fragen" data-auf>
   <div class="bahn">
     <p class="schild">Häufige Fragen</p>
     <h2>Das, was im Vorgespräch immer kommt.</h2>
@@ -1011,6 +1166,32 @@ body.wg-modus-pflege .wg-seite{display:none}
     });
   }
   anwenden(gespeichert());
+
+  /* ---- Der Pruefvorgang im Aufmacher ------------------------------
+   * Die Probefassung nimmt die Skripte der echten Seite nicht mit, sonst
+   * liefen zwei Fassungen nebeneinander. Der Scrollweg wird deshalb hier
+   * noch einmal gesetzt, mit derselben Rechnung wie in webroot/index.html.
+   */
+  var kino = document.querySelector('[data-kino]');
+  var gross = window.matchMedia('(min-width: 62rem)');
+  var ruhig = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function fortschritt() {
+    if (!kino) { return; }
+    if (ruhig || !gross.matches) { kino.style.setProperty('--fs', '1'); return; }
+    var weg = kino.offsetHeight - window.innerHeight;
+    var f = weg > 0
+      ? Math.min(Math.max(-kino.getBoundingClientRect().top / weg, 0), 1)
+      : 1;
+    kino.style.setProperty('--fs', f.toFixed(4));
+  }
+  var laeuft = false;
+  function tick() { laeuft = false; fortschritt(); }
+  tick();
+  window.addEventListener('scroll', function () {
+    if (!laeuft) { laeuft = true; requestAnimationFrame(tick); }
+  }, { passive: true });
+  window.addEventListener('resize', tick);
+  if (gross.addEventListener) { gross.addEventListener('change', tick); }
 
   /* ---- Umschalten zwischen Website und Pflegebereich --------------- */
   var leiste = document.querySelector('.wg-leiste');
