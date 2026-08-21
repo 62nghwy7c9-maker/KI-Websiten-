@@ -101,6 +101,14 @@ body.wg-modus-pflege .wg-seite{display:none}
  border-left:4px solid var(--blau);background:var(--flaeche);color:var(--basis)}
 .wg-pflege .meldung.gut{border-left-color:#2E7D4F}
 .wg-pflege .meldung.schlecht{border-left-color:var(--signal)}
+.wg-staende{list-style:none;margin:0 0 1rem;padding:0}
+.wg-staende li{display:flex;align-items:center;justify-content:space-between;
+ gap:1rem;padding:.55rem 0;border-bottom:1px solid var(--linie);font-size:15px}
+.wg-staende button{font:inherit;font-size:14px;font-weight:600;
+ background:transparent;color:var(--akzent);border:1px solid var(--linie-stark);
+ border-radius:4px;padding:.3rem .7rem;cursor:pointer}
+.wg-staende button:hover{background:var(--akzent);color:#fff}
+.wg-staende .leer{color:var(--gedaempft);font-size:14px;border:0;padding:0}
 .wg-bild{display:flex;gap:1rem;align-items:flex-start;
  border-top:1px solid var(--linie);padding-top:1rem;margin-top:1rem}
 .wg-bild img{width:130px;height:98px;object-fit:cover;flex:none;
@@ -144,6 +152,23 @@ body.wg-modus-pflege .wg-seite{display:none}
         <div id="wg-meldung2"></div>
         <div id="wg-felder"></div>
         <button type="button" class="speichern" id="wg-speichern">Speichern</button>
+
+        <h2 style="margin-top:2.5rem">Frühere Stände</h2>
+        <p class="klein">Etwas versehentlich gelöscht? Hier holen Sie den
+        Stand von vorher zurück. Der jetzige wird dabei gesichert.</p>
+        <ul class="wg-staende" id="wg-staende"></ul>
+
+        <h2 style="margin-top:2.5rem">Passwort ändern</h2>
+        <p class="klein">Mindestens acht Zeichen. Gespeichert wird nur ein
+        unumkehrbarer Zahlenwert, nie das Passwort selbst.</p>
+        <div id="wg-pwmeldung"></div>
+        <label><b>Bisheriges Passwort</b>
+          <input type="password" id="wg-pw-alt" autocomplete="off"></label>
+        <label><b>Neues Passwort</b>
+          <input type="password" id="wg-pw-neu" autocomplete="off"></label>
+        <label><b>Neues Passwort wiederholen</b>
+          <input type="password" id="wg-pw-neu2" autocomplete="off"></label>
+        <button type="button" class="speichern" id="wg-pw-knopf">Passwort ändern</button>
       </div>
     </div>
   </div>
@@ -164,8 +189,11 @@ SKRIPT = r"""<script>
 (function () {
   'use strict';
 
-  var PASSWORT = 'muster';
+  var PASSWORT = 'muster';                 // Auslieferstand der Probefassung
   var SCHLUESSEL = 'wg-czarnetzki-v1';
+  var PWSCHLUESSEL = 'wg-czarnetzki-pw';
+  var STANDSCHLUESSEL = 'wg-czarnetzki-staende';
+  var PFLICHT = ['telefon'];               // darf nicht leer bleiben
   var KANTE = 1600;
 
   var BESCHRIFTUNG = {
@@ -262,13 +290,63 @@ SKRIPT = r"""<script>
   }
   anwenden(gespeichert());
 
+  /* ---- Passwort ----------------------------------------------------
+   * Auf dem Hosting macht das password_hash() in PHP. Hier rechnet der
+   * Browser denselben Gedanken nach: gespeichert wird ein Zahlenwert, aus
+   * dem sich das Passwort nicht zurueckrechnen laesst.
+   */
+  function hashen(text) {
+    if (!window.crypto || !crypto.subtle) { return Promise.resolve('klar:' + text); }
+    return crypto.subtle.digest('SHA-256', new TextEncoder().encode(text))
+      .then(function (puffer) {
+        return Array.prototype.map.call(new Uint8Array(puffer), function (b) {
+          return ('0' + b.toString(16)).slice(-2);
+        }).join('');
+      });
+  }
+  function pwGespeichert() {
+    try { return localStorage.getItem(PWSCHLUESSEL); } catch (e) { return null; }
+  }
+  function pwPruefen(eingabe) {
+    var eigen = pwGespeichert();
+    if (!eigen) { return Promise.resolve(eingabe === PASSWORT); }
+    return hashen(eingabe).then(function (h) { return h === eigen; });
+  }
+
+  /* ---- Frühere Stände ----------------------------------------------
+   * Auf dem Hosting liegen sie als Dateikopien im Ordner sicherungen.
+   * Hier als Liste im Browser, mit derselben Zahl: zwanzig Staende.
+   */
+  function staendeLesen() {
+    try { return JSON.parse(localStorage.getItem(STANDSCHLUESSEL) || '[]'); }
+    catch (e) { return []; }
+  }
+  function standSichern(daten) {
+    var liste = staendeLesen();
+    liste.unshift({ zeit: new Date().toISOString(), daten: daten });
+    liste = liste.slice(0, 20);
+    try { localStorage.setItem(STANDSCHLUESSEL, JSON.stringify(liste)); }
+    catch (e) {}
+  }
+  function zeitLesbar(iso) {
+    var d = new Date(iso);
+    function zwei(n) { return ('0' + n).slice(-2); }
+    return zwei(d.getDate()) + '.' + zwei(d.getMonth() + 1) + '.' +
+      d.getFullYear() + ', ' + zwei(d.getHours()) + ':' + zwei(d.getMinutes()) +
+      ' Uhr';
+  }
+
   /* ---- Umschalten zwischen Website und Pflegebereich --------------- */
   var leiste = document.querySelector('.wg-leiste');
   leiste.addEventListener('click', function (e) {
     var b = e.target.closest('button');
     if (!b) { return; }
     if (b.classList.contains('wg-zurueck')) {
-      try { localStorage.removeItem(SCHLUESSEL); } catch (err) {}
+      try {
+        localStorage.removeItem(SCHLUESSEL);
+        localStorage.removeItem(PWSCHLUESSEL);
+        localStorage.removeItem(STANDSCHLUESSEL);
+      } catch (err) {}
       location.reload();
       return;
     }
@@ -303,15 +381,18 @@ SKRIPT = r"""<script>
   var meldung = document.getElementById('wg-meldung');
   document.getElementById('wg-anmelden').addEventListener('click', function () {
     var eingabe = document.getElementById('wg-passwort');
-    if (eingabe.value === PASSWORT) {
-      document.getElementById('wg-anmeldung').hidden = true;
-      document.getElementById('wg-formular').hidden = false;
-      felderZeichnen();
-    } else {
-      meldung.innerHTML = '<p class="meldung schlecht">Passwort stimmt nicht.</p>';
-      eingabe.value = '';
-      eingabe.focus();
-    }
+    pwPruefen(eingabe.value).then(function (gut) {
+      if (gut) {
+        document.getElementById('wg-anmeldung').hidden = true;
+        document.getElementById('wg-formular').hidden = false;
+        felderZeichnen();
+        staendeZeichnen();
+      } else {
+        meldung.innerHTML = '<p class="meldung schlecht">Passwort stimmt nicht.</p>';
+        eingabe.value = '';
+        eingabe.focus();
+      }
+    });
   });
   document.getElementById('wg-passwort').addEventListener('keydown', function (e) {
     if (e.key === 'Enter') { document.getElementById('wg-anmelden').click(); }
@@ -390,6 +471,22 @@ SKRIPT = r"""<script>
     var ziel = document.getElementById('wg-felder');
     var zahl = 0;
 
+    /* Pflichtfelder. Auf einer Handwerkerseite ist eine verschwundene
+       Telefonnummer der teuerste Tippfehler. */
+    for (var i = 0; i < PFLICHT.length; i++) {
+      var feld = ziel.querySelector('[data-feld="' + PFLICHT[i] + '"]');
+      if (feld && feld.value.trim() === '') {
+        meldung2.innerHTML = '<p class="meldung schlecht">Die ' +
+          beschriftung(PFLICHT[i]) + ' darf nicht leer bleiben. ' +
+          'Es wurde nichts gespeichert.</p>';
+        felderZeichnen();     // die alte Nummer wieder ins Feld holen
+        return;
+      }
+    }
+
+    /* Vor jeder Aenderung den jetzigen Stand wegschreiben. */
+    standSichern(JSON.parse(JSON.stringify(daten)));
+
     Object.keys(stellen.texte).forEach(function (name) {
       var wert = ziel.querySelector('[data-feld="' + name + '"]').value
         .replace(/\s+/g, ' ').trim();
@@ -443,7 +540,66 @@ SKRIPT = r"""<script>
           : 'Der Browser konnte nicht speichern (Bild zu groß?). ' +
             'Auf der Seite ist die Änderung trotzdem zu sehen.') + '</p>';
     felderZeichnen();
+    staendeZeichnen();
   }
+
+  /* ---- Die Liste der früheren Stände ------------------------------- */
+  function staendeZeichnen() {
+    var ziel = document.getElementById('wg-staende');
+    var liste = staendeLesen();
+    if (!liste.length) {
+      ziel.innerHTML = '<li class="leer">Noch kein früherer Stand. ' +
+        'Sobald Sie einmal gespeichert haben, steht er hier.</li>';
+      return;
+    }
+    ziel.innerHTML = liste.slice(0, 8).map(function (st, i) {
+      return '<li><span>' + zeitLesbar(st.zeit) + '</span>' +
+        '<button type="button" data-stand="' + i + '">zurückholen</button></li>';
+    }).join('');
+  }
+
+  document.getElementById('wg-staende').addEventListener('click', function (e) {
+    var b = e.target.closest('button[data-stand]');
+    if (!b) { return; }
+    var liste = staendeLesen();
+    var st = liste[parseInt(b.dataset.stand, 10)];
+    if (!st) { return; }
+    standSichern(gespeichert());          // auch das ist rückgängig zu machen
+    sichern(st.daten);
+    anwenden(st.daten);
+    felderZeichnen();
+    staendeZeichnen();
+    meldung2.innerHTML = '<p class="meldung gut">Der Stand von vorher ist ' +
+      'wieder da.</p>';
+  });
+
+  /* ---- Passwort ändern --------------------------------------------- */
+  document.getElementById('wg-pw-knopf').addEventListener('click', function () {
+    var m = document.getElementById('wg-pwmeldung');
+    var alt = document.getElementById('wg-pw-alt').value;
+    var neu = document.getElementById('wg-pw-neu').value;
+    var neu2 = document.getElementById('wg-pw-neu2').value;
+    function sag(text, gut) {
+      m.innerHTML = '<p class="meldung ' + (gut ? 'gut' : 'schlecht') + '">' +
+        text + '</p>';
+    }
+    pwPruefen(alt).then(function (stimmt) {
+      if (!stimmt) { sag('Das bisherige Passwort stimmt nicht.', false); return; }
+      if (neu.length < 8) {
+        sag('Das neue Passwort braucht mindestens acht Zeichen.', false); return;
+      }
+      if (neu !== neu2) {
+        sag('Die beiden neuen Passwörter sind nicht gleich.', false); return;
+      }
+      return hashen(neu).then(function (h) {
+        try { localStorage.setItem(PWSCHLUESSEL, h); } catch (e) {}
+        document.getElementById('wg-pw-alt').value = '';
+        document.getElementById('wg-pw-neu').value = '';
+        document.getElementById('wg-pw-neu2').value = '';
+        sag('Passwort geändert. Beim nächsten Anmelden gilt das neue.', true);
+      });
+    });
+  });
 
   /* ---- Das Kontaktformular ----------------------------------------- */
   var geladen = Math.floor(Date.now() / 1000);
