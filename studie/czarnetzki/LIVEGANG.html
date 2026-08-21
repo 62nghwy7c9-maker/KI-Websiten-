@@ -23,6 +23,9 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
 pre{background:#f7f7f5;border:1px solid var(--linie);border-radius:6px;
   padding:.9rem 1rem;overflow-x:auto;font-size:.9rem;line-height:1.5}
 pre code{background:0;padding:0}
+a{color:var(--akzent);text-decoration:none;font-weight:600;
+  overflow-wrap:anywhere}
+a:hover{text-decoration:underline}
 strong{font-weight:650}
 hr{border:0;border-top:1px solid var(--linie);margin:2.2rem 0}
 .vorspann{color:var(--matt);font-size:1.02rem;margin:0 0 2rem}
@@ -33,6 +36,14 @@ th{font-weight:650;border-bottom:2px solid var(--text)}
 .fuss{margin-top:3rem;padding-top:1.2rem;border-top:2px solid var(--text);
   font-size:.95rem}
 .fuss strong{color:var(--akzent)}
+ul.haken{list-style:none;padding-left:0}
+ul.haken>li{position:relative;padding:.55rem 0 .55rem 2rem;
+  border-bottom:1px solid var(--linie)}
+ul.haken>li:last-child{border-bottom:0}
+ul.haken>li::before{content:"";position:absolute;left:0;top:.82em;
+  width:1.05rem;height:1.05rem;border:2px solid var(--matt);border-radius:3px}
+ul.haken ol{margin:.5rem 0 0;padding-left:1.2rem}
+ul.haken ol li,ul.haken ul li{padding:.2rem 0;border:0}
 @media (max-width:34rem){body{padding:1.6rem 1.1rem 3rem}
   table,thead,tbody,th,td,tr{display:block}
   thead{display:none}

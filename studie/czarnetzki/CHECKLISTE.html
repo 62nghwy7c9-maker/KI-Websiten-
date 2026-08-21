@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="de"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Czarnetzki: Schritt für Schritt</title>
+<style>
+:root{--text:#1a1a1a;--matt:#5a5a5a;--linie:#dcdcdc;--akzent:#B23A0E}
+*{box-sizing:border-box}
+body{margin:0;padding:2.5rem 1.5rem 4rem;font:16px/1.65 -apple-system,
+  BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  color:var(--text);background:#fff}
+main{max-width:44rem;margin:0 auto}
+h1{font-size:clamp(1.6rem,5vw,2.2rem);line-height:1.15;margin:0 0 .3rem;
+  letter-spacing:-.02em;hyphens:auto}
+h2{font-size:1.25rem;margin:2.6rem 0 .6rem;padding-top:1.4rem;
+  border-top:1px solid var(--linie);letter-spacing:-.01em}
+h2:first-of-type{border-top:0;padding-top:0}
+h3{font-size:1.05rem;margin:1.6rem 0 .4rem}
+p,li{margin:.6rem 0}
+ul,ol{padding-left:1.3rem}
+li{margin:.35rem 0}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  font-size:.92em;background:#f3f3f1;padding:.1em .35em;border-radius:3px}
+pre{background:#f7f7f5;border:1px solid var(--linie);border-radius:6px;
+  padding:.9rem 1rem;overflow-x:auto;font-size:.9rem;line-height:1.5}
+pre code{background:0;padding:0}
+a{color:var(--akzent);text-decoration:none;font-weight:600;
+  overflow-wrap:anywhere}
+a:hover{text-decoration:underline}
+strong{font-weight:650}
+hr{border:0;border-top:1px solid var(--linie);margin:2.2rem 0}
+.vorspann{color:var(--matt);font-size:1.02rem;margin:0 0 2rem}
+table{border-collapse:collapse;width:100%;margin:1.1rem 0;font-size:.95rem}
+th,td{text-align:left;padding:.55rem .7rem;border-bottom:1px solid var(--linie);
+  vertical-align:top}
+th{font-weight:650;border-bottom:2px solid var(--text)}
+.fuss{margin-top:3rem;padding-top:1.2rem;border-top:2px solid var(--text);
+  font-size:.95rem}
+.fuss strong{color:var(--akzent)}
+ul.haken{list-style:none;padding-left:0}
+ul.haken>li{position:relative;padding:.55rem 0 .55rem 2rem;
+  border-bottom:1px solid var(--linie)}
+ul.haken>li:last-child{border-bottom:0}
+ul.haken>li::before{content:"";position:absolute;left:0;top:.82em;
+  width:1.05rem;height:1.05rem;border:2px solid var(--matt);border-radius:3px}
+ul.haken ol{margin:.5rem 0 0;padding-left:1.2rem}
+ul.haken ol li,ul.haken ul li{padding:.2rem 0;border:0}
+@media (max-width:34rem){body{padding:1.6rem 1.1rem 3rem}
+  table,thead,tbody,th,td,tr{display:block}
+  thead{display:none}
+  td{border:0;padding:.15rem 0}
+  tr{border-bottom:1px solid var(--linie);padding:.6rem 0}
+  td:first-child{font-weight:650}}
+@media print{
+  body{padding:0;font-size:11pt;line-height:1.5}
+  main{max-width:none}
+  h1{font-size:20pt} h2{font-size:13pt} h3{font-size:11.5pt}
+  h2,h3{break-after:avoid;page-break-after:avoid}
+  table,pre,ul,ol{break-inside:avoid;page-break-inside:avoid}
+  tr{break-inside:avoid;page-break-inside:avoid}
+  a{color:inherit;text-decoration:none}
+  @page{margin:18mm 16mm}
+}
+</style></head><body><main>
+<h1>Czarnetzki: die Seite ans Netz bringen</h1>
+<p class="vorspann">Von oben nach unten abarbeiten. Teil 1 komplett, dann erst Teil 2. Was in eckigen Klammern steht, ist zum Abhaken.</p>
+<h2>Teil 1: Bei uns testen</h2>
+<p>Hier passiert nichts, was den Kunden betrifft. Wir stellen nur fest, ob alles funktioniert.</p>
+<ul class="haken">
+<li><strong>1. Ausweisprüfung abschließen.</strong> Der Anbieter will wissen, wer den Vertrag abschließt. Das macht Yannik, der Link kam per E-Mail. Ein Personalausweis reicht.</li>
+</ul>
+<ul class="haken">
+<li><strong>2. Die Zugangsdaten-Mail suchen.</strong> Im Postfach nach &quot;all-inkl&quot; suchen, auch im Spam-Ordner. In der Mail stehen mehrere Blöcke. Wir brauchen den Block <strong>KAS</strong>. Darunter stehen ein Login, der aussieht wie <code>w01abc23</code>, und ein Passwort.</li>
+</ul>
+<ul class="haken">
+<li><strong>3. Anmelden auf kas.all-inkl.com.</strong> Ins erste Feld kommt der Login aus Schritt 2, <strong>nicht</strong> die E-Mail-Adresse. Das ist der häufigste Fehler.</li>
+</ul>
+<ul class="haken">
+<li><strong>4. Die Dateien hochladen.</strong> Im KAS &quot;WebFTP&quot; öffnen. Auf dem eigenen Rechner die Datei <code>czarnetzki-website.zip</code> entpacken. Darin liegt ein Ordner <code>webroot</code>. <strong>Den Inhalt</strong> dieses Ordners in den Ordner <code>htdocs</code> ziehen, nicht den Ordner selbst. <code>htdocs</code> ist der Ort, an dem die Website liegt.</li>
+</ul>
+<ul class="haken">
+<li><strong>5. Die Datei <code>INSTALLATION.txt</code> löschen.</strong> Die ist nur für uns und hat auf einer Website nichts zu suchen.</li>
+</ul>
+<ul class="haken">
+<li><strong>6. HTTPS einschalten.</strong> Im KAS unter SSL. Meist ein Klick. Danach steht im Browser ein kleines Schloss neben der Adresse.</li>
+</ul>
+<ul class="haken">
+<li><strong>7. Die vorläufige Adresse notieren.</strong> Sie endet auf <code>.kasserver.com</code> und steht im KAS. Auf ihr wird getestet, nicht auf einer echten Domain.</li>
+</ul>
+<h2>Der Test</h2>
+<p>Alles auf der vorläufigen Adresse. Bei jedem Punkt steht, was zu sehen sein muss.</p>
+<ul class="haken">
+<li><strong>8.</strong> Startseite aufrufen. Sie steht da, mit Bild und Farben. Kommt nur nackter Text, fehlt eine Datei beim Hochladen.</li>
+<li><strong>9.</strong> Auf dem Handy aufrufen. Echtes Handy. Nichts läuft seitlich über den Rand.</li>
+<li><strong>10.</strong> Impressum und Datenschutz sind unten auf der Seite erreichbar.</li>
+<li><strong>11.</strong> Die Adresse mit <code>/pflege</code> dahinter aufrufen und anmelden. Es erscheint die Übersicht mit den Reitern.</li>
+<li><strong>12.</strong> Telefonnummer ändern und speichern. Es kommt eine Meldung, dass gespeichert wurde.</li>
+<li><strong>13. Der wichtigste Punkt.</strong> Jetzt das Impressum aufrufen. Steht dort die neue Nummer? Wenn ja, funktioniert der ganze Pflegebereich. Wenn nein, brauchen wir gar nicht weitermachen.</li>
+<li><strong>14.</strong> Telefonnummer leeren und speichern. Es muss eine Meldung kommen, dass nichts gespeichert wurde, und die alte Nummer muss wieder dastehen.</li>
+<li><strong>15.</strong> Ganz unten einen früheren Stand zurückholen. Der alte Text ist wieder da.</li>
+<li><strong>16.</strong> Ein Foto vom Handy hochladen. Es erscheint auf der Website.</li>
+<li><strong>17. Der zweite wichtige Punkt.</strong> Kontaktformular ausfüllen und absenden. Kommt die E-Mail an? Das lässt sich nur hier prüfen, nie vorher.</li>
+<li><strong>18.</strong> Passwort ändern, abmelden, mit dem neuen anmelden. Und einmal mit dem alten versuchen: muss scheitern.</li>
+<li><strong>19. Der dritte wichtige Punkt.</strong> Die Adresse <code>/pflege/inhalt.php</code> direkt eintippen. Es <strong>muss</strong> eine Fehlermeldung kommen. Erscheint dort Text, ist eine Schutzeinstellung nicht aktiv.</li>
+<li><strong>20.</strong> Dasselbe mit <code>/pflege/sicherungen/</code>. Auch hier muss ein Fehler kommen, keine Dateiliste.</li>
+</ul>
+<p>Erst wenn 8 bis 20 stimmen, geht es weiter.</p>
+<h2>Teil 2: Beim Kunden</h2>
+<ul class="haken">
+<li><strong>21. Termin mit Herrn Czarnetzki.</strong> Freigabeblatt mitnehmen und unterschreiben lassen. Besonders die Öffnungszeiten bestätigen lassen, die haben wir aus Verzeichnissen und nicht von ihm.</li>
+</ul>
+<ul class="haken">
+<li><strong>22. Herausfinden, wie er heute hostet.</strong> Eine Frage entscheidet alles: Kann er bei seinem jetzigen Anbieter eigene Dateien hochladen?</li>
+</ul>
+<ul>
+<li><strong>Ja</strong>, und seine E-Mails laufen über dieselbe Firma: der einfache Fall. Wir tauschen nur die Dateien aus. Seine E-Mails können nicht ausfallen.</li>
+<li><strong>Nein</strong>: die Domain zieht um. Der Fall mit Risiko, siehe Schritt 25.</li>
+</ul>
+<ul class="haken">
+<li><strong>23. Hosting auf seinen Namen.</strong> Seine Adresse, seine Bankverbindung. Niemals auf unseren Vertrag. Sonst hängt sein Betrieb an uns, auch wenn wir längst raus sind.</li>
+</ul>
+<ul class="haken">
+<li><strong>24. Dateien hochladen und die Punkte 8 bis 20 nochmal prüfen.</strong> Diesmal auf seinem Hosting. Alles nochmal, nicht aus dem Gedächtnis.</li>
+</ul>
+<ul class="haken">
+<li><strong>25. Nur wenn die Domain umzieht.</strong> In dieser Reihenfolge, ohne Abkürzung:</li>
+</ul>
+<ol>
+<li value="1">Alle bestehenden Einträge beim alten Anbieter abfotografieren, besonders die mit dem Kürzel <strong>MX</strong>. Das sind die für E-Mail. Diese Liste ist der Rückweg.</li>
+<li value="2">24 Stunden vorher die Gültigkeitsdauer der Einträge auf 5 Minuten stellen.</li>
+<li value="3">Umstellen <strong>Dienstag bis Donnerstag vormittags</strong>. Nie freitags. Nur die Einträge für die Website ändern, die MX-Einträge genau übernehmen.</li>
+<li value="4">Sofort testen: Seite aufrufen, eine Testmail an ihn schicken, eine von seinem Postfach heraus schicken. Erst wenn beides ankommt, ist der Umzug fertig.</li>
+<li value="5">Den alten Tarif frühestens einen Monat später kündigen.</li>
+</ol>
+<ul class="haken">
+<li><strong>26. Die Anleitung ausdrucken</strong> und mit ihm am Rechner durchgehen. Er meldet sich selbst an, ändert selbst etwas, holt selbst einen Stand zurück. Wer es einmal gemacht hat, ruft später nicht an.</li>
+</ul>
+<ul class="haken">
+<li><strong>27. Ihn selbst das Passwort ändern lassen.</strong> Er tippt es ein, wir sehen es nicht.</li>
+</ul>
+<ul class="haken">
+<li><strong>28. Zugangsdaten übergeben</strong> und klar sagen, dass unsere Arbeit hier endet. Sonst steht die Erwartung im Raum, dass wir weiter zuständig sind.</li>
+</ul>
+<h2>Adressen</h2>
+<ul>
+<li>Technische Verwaltung: <a href="https://kas.all-inkl.com">kas.all-inkl.com</a></li>
+<li>Dateien hochladen: <a href="https://webftp.all-inkl.com">webftp.all-inkl.com</a></li>
+<li>Vertrag und Kündigung: <a href="https://all-inkl.com/login/">all-inkl.com/login</a></li>
+</ul>
+<h2>Wenn etwas klemmt</h2>
+<p><strong>Die Seite bleibt weiß oder zeigt wirren Text.</strong> Die Dateien liegen eine Ebene zu tief. <code>index.html</code> muss direkt in <code>htdocs</code> liegen, nicht in einem Unterordner.</p>
+<p><strong>Der Pflegebereich sagt &quot;schreibgeschützt&quot;.</strong> Die Dateirechte sind zu eng. Im Dateimanager des Anbieters für die vier HTML-Dateien und den Ordner <code>pflege</code> Schreibrecht setzen.</p>
+<p><strong>Das Kontaktformular schickt nichts.</strong> Manche Anbieter regeln den Mailversand anders. Dort nachfragen. Die Telefonnummer steht sichtbar oben auf der Seite, es geht also nichts verloren.</p>
+<p><strong>Nach der Umstellung kommen keine E-Mails mehr.</strong> Die abfotografierten MX-Einträge sofort zurücksetzen. Deshalb Schritt 25.1.</p></main></body></html>

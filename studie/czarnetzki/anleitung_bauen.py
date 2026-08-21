@@ -35,6 +35,9 @@ code{{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
 pre{{background:#f7f7f5;border:1px solid var(--linie);border-radius:6px;
   padding:.9rem 1rem;overflow-x:auto;font-size:.9rem;line-height:1.5}}
 pre code{{background:0;padding:0}}
+a{{color:var(--akzent);text-decoration:none;font-weight:600;
+  overflow-wrap:anywhere}}
+a:hover{{text-decoration:underline}}
 strong{{font-weight:650}}
 hr{{border:0;border-top:1px solid var(--linie);margin:2.2rem 0}}
 .vorspann{{color:var(--matt);font-size:1.02rem;margin:0 0 2rem}}
@@ -45,6 +48,14 @@ th{{font-weight:650;border-bottom:2px solid var(--text)}}
 .fuss{{margin-top:3rem;padding-top:1.2rem;border-top:2px solid var(--text);
   font-size:.95rem}}
 .fuss strong{{color:var(--akzent)}}
+ul.haken{{list-style:none;padding-left:0}}
+ul.haken>li{{position:relative;padding:.55rem 0 .55rem 2rem;
+  border-bottom:1px solid var(--linie)}}
+ul.haken>li:last-child{{border-bottom:0}}
+ul.haken>li::before{{content:"";position:absolute;left:0;top:.82em;
+  width:1.05rem;height:1.05rem;border:2px solid var(--matt);border-radius:3px}}
+ul.haken ol{{margin:.5rem 0 0;padding-left:1.2rem}}
+ul.haken ol li,ul.haken ul li{{padding:.2rem 0;border:0}}
 @media (max-width:34rem){{body{{padding:1.6rem 1.1rem 3rem}}
   table,thead,tbody,th,td,tr{{display:block}}
   thead{{display:none}}
@@ -73,6 +84,10 @@ def zeile(t: str) -> str:
     t = html.escape(t)
     t = re.sub(r'`([^`]+)`', r'<code>\1</code>', t)
     t = re.sub(r'\*\*([^*]+)\*\*', r'<strong>\1</strong>', t)
+    # Verweise der Form [Text](Adresse). Ohne das stuende die Adresse
+    # als roher Text auf der Seite und waere nicht anklickbar.
+    t = re.sub(r'\[([^\]]+)\]\((https?://[^)\s]+)\)',
+               r'<a href="\2">\1</a>', t)
     return t
 
 
@@ -85,7 +100,7 @@ def bauen(md: str) -> str:
     def liste_schliessen():
         nonlocal liste
         if liste:
-            aus.append(f'</{liste}>')
+            aus.append('</ul>' if liste.startswith('ul') else f'</{liste}>')
             liste = None
 
     while i < len(zeilen):
@@ -156,6 +171,13 @@ def bauen(md: str) -> str:
             text = re.sub(r'^\d+\. ', '', s)
             aus.append('<li value="' + str(nummer) + '">' + zeile(text)
                        + '</li>')
+        elif s.startswith('- [ ] ') or s.startswith('- [x] '):
+            # Zum Abhaken, auf Papier wie am Bildschirm.
+            if liste != 'ul-haken':
+                liste_schliessen()
+                aus.append('<ul class="haken">')
+                liste = 'ul-haken'
+            aus.append('<li>' + zeile(s[6:]) + '</li>')
         elif s.startswith('- '):
             if liste != 'ul':
                 liste_schliessen()
@@ -188,7 +210,8 @@ def bauen(md: str) -> str:
 
 
 for quelle, titel in (('ANLEITUNG.md', 'Ihre Website pflegen'),
-                      ('LIVEGANG.md', 'Livegang')):
+                      ('LIVEGANG.md', 'Livegang'),
+                      ('CHECKLISTE.md', 'Czarnetzki: Schritt für Schritt')):
     md = (HIER / quelle).read_text(encoding='utf-8')
     ziel = HIER / (Path(quelle).stem + '.html')
     ziel.write_text(KOPF.format(titel=html.escape(titel)) + bauen(md) + FUSS,
