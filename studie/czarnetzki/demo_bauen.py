@@ -17,7 +17,7 @@ import re
 from pathlib import Path
 
 HIER = Path(__file__).resolve().parent
-SEITE = HIER / "seite"
+SEITE = HIER / "webroot"
 ZIEL = HIER / "demo.html"
 
 

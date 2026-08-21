@@ -1,0 +1,78 @@
+PETER CZARNETZKI ELEKTROINSTALLATIONEN — WEBSITE
+================================================
+Alles, was in diesem Ordner liegt, kommt so wie es ist in den Webspace.
+Keine Installation, keine Datenbank, kein Baukasten.
+
+
+1. HOCHLADEN
+   Den gesamten Inhalt dieses Ordners in das Webverzeichnis des Hostings
+   legen (heisst je nach Anbieter htdocs, httpdocs, public_html oder www).
+   Danach sieht es dort so aus:
+
+       index.html
+       impressum.html
+       datenschutz.html
+       danke.html
+       stil.css
+       bilder/
+       pflege/
+
+   Die Datei INSTALLATION.txt danach loeschen.
+
+
+2. PASSWORT AENDERN
+   Der Pflegebereich ist unter  ihre-adresse.de/pflege  erreichbar.
+   Das mitgelieferte Passwort steht in pflege/index.php als Kommentar und
+   muss vor dem Livegang ersetzt werden:
+
+       php -r "echo password_hash('IhrNeuesPasswort', PASSWORD_DEFAULT);"
+
+   Die ausgegebene Zeichenkette in pflege/index.php eintragen, dort wo
+   jetzt $PASSWORT_HASH steht. Das Passwort selbst steht nirgends auf dem
+   Server.
+
+
+3. EMPFAENGER DES KONTAKTFORMULARS PRUEFEN
+   In pflege/formular.php steht oben:
+
+       const EMPFAENGER = 'info@pcelektro.de';
+
+   Stimmt die Adresse, ist nichts zu tun.
+
+
+4. ERSTEN TEST MACHEN
+   - Seite aufrufen: ist sie da?
+   - Auf dem Handy aufrufen: ist sie lesbar?
+   - Kontaktformular ausfuellen und absenden: kommt die Mail an?
+     DAS IST DER WICHTIGSTE TEST. Er laesst sich nur auf dem echten
+     Hosting machen.
+   - Im Pflegebereich anmelden, Oeffnungszeiten aendern, speichern,
+     Seite neu laden: steht es da?
+
+
+5. VORAUSSETZUNGEN AN DEN TARIF
+   - PHP (koennen alle ueblichen Tarife)
+   - eigene Dateien hochladen duerfen (koennen Baukasten-Tarife nicht)
+   - HTTPS-Zertifikat, bei den meisten Anbietern ein Klick
+
+
+WAS DER BETRIEB SELBST AENDERN KANN
+-----------------------------------
+Unter ihre-adresse.de/pflege nach dem Anmelden:
+  Telefonnummer      (steht 8x auf der Seite, wird ueberall geaendert,
+                      auch in den antippbaren Verweisen)
+  Einleitungstext
+  Oeffnungszeiten    (steht 2x auf der Seite)
+  Stellenanzeige
+  Aktueller Hinweis  (Betriebsurlaub, Notdienst)
+  Bildunterschrift
+  Das Bild           (zu grosse Fotos werden automatisch verkleinert)
+
+Vor jeder Aenderung wird eine Sicherung angelegt; die letzten 20 Staende
+bleiben in pflege/sicherungen/ liegen.
+
+
+WENN ETWAS NICHT STIMMT
+-----------------------
+K&D Webdesign · 0162 3242260
+Wir koennen jeden Stand der letzten Wochen zurueckholen.

@@ -8,16 +8,16 @@ Kunde sieht, ein Widerspruch.
 ## Was hier liegt
 
 ```
-seite/            die Website
+webroot/          das, was in den Webspace kommt
   index.html      Onepager: Check, was wir bauen, Pflegebereich, Ablauf, Preise, Kontakt
   impressum.html  mit sichtbarem Sperrvermerk, solange die Anschrift fehlt
   datenschutz.html inklusive Art.-14-Absatz zum Website-Check
   danke.html      nach dem Absenden
   stil.css        warmes Weiß, Anthrazit, ein Akzent in Ocker
   bilder/pflegebereich.png  echter Bildschirmausschnitt, Beispieldaten
-pflege/           Pflegebereich und Formular
+  pflege/         Pflegebereich und Formular
 demo.html         Probefassung fürs Browserfenster
-demo_bauen.py     erzeugt demo.html aus seite/
+demo_bauen.py     erzeugt demo.html aus webroot/
 ```
 
 ## Was sich gegenüber der Vorfassung geändert hat
@@ -49,10 +49,9 @@ demo_bauen.py     erzeugt demo.html aus seite/
 
 ## Einrichten
 
-Wie bei jedem Kundenprojekt: Inhalt von `seite/` in den Webspace, `pflege/`
-daneben, `WG_PFLEGE_SEITEN` auf den Ordner mit den HTML-Dateien setzen,
-`WG_PFLEGE_HASH` mit einem eigenen Passwort belegen. Ohne den letzten Schritt
-gilt das Musterpasswort.
+Wie bei jedem Kundenprojekt: Inhalt von `webroot/` in den Webspace legen,
+fertig. Danach nur noch das Passwort setzen — `WG_PFLEGE_HASH` oder den Hash
+in `pflege/index.php` ersetzen. Ohne diesen Schritt gilt das Musterpasswort.
 
 ## Geprüft
 

@@ -19,7 +19,11 @@ require __DIR__ . '/inhalt.php';
  * Im Klartext steht das Passwort nirgends — auch nicht bei uns.
  */
 $PASSWORT_HASH = getenv('WG_PFLEGE_HASH')
-    ?: '$2y$12$h4R2JvM2UlDA4HtrSNSG3.M2vh4gg4f2g8mMbZXUjOG30sjbbwkG2'; // "muster"
+    ?: '$2y$12$jSzrHlMGpUY5sHgRN6X0NOqwlaxym1NWBW/bze9qqproONvMEZHvq';
+/* Passwort fuer diesen Betrieb: Heerstrasse15A
+ * Aendern: php -r "echo password_hash('NeuesPasswort', PASSWORD_DEFAULT);"
+ * und den Hash oben ersetzen -- oder als WG_PFLEGE_HASH hinterlegen.
+ * Im Klartext steht das Passwort nirgends auf dem Server. */
 
 session_start();
 $meldung = '';

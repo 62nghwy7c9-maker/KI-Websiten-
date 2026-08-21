@@ -24,8 +24,8 @@ const EMPFAENGER = 'info@pcelektro.de';
 const BETRIEB = 'Peter Czarnetzki Elektroinstallationen';
 
 /** Wohin nach dem Absenden zurückgesprungen wird. */
-const ZURUECK = '../seite/danke.html';
-const ZURUECK_FEHLER = '../seite/index.html?fehler=1#kontakt';
+const ZURUECK = '../danke.html';
+const ZURUECK_FEHLER = '../index.html?fehler=1#kontakt';
 
 /** Höchstens so viele Anfragen je Stunde von derselben Adresse. */
 const HOECHSTENS = 5;

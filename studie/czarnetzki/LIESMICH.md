@@ -9,17 +9,25 @@ Angaben im Impressum stammen wörtlich oder sinngemäß von dort.
 ## Was hier liegt
 
 ```
-seite/            die ausgelieferte Website
-  index.html      Onepager
-  impressum.html  neu — auf der alten Seite stand § 6 TDG, den es seit 2007 nicht mehr gibt
-  datenschutz.html neu — es gab nur eine PDF-Datei
-  danke.html      nach dem Absenden des Formulars
-  stil.css        21 KB, keine fremden Schriften, keine fremden Abrufe
-  bilder/betrieb.jpg  Platzhalter, im Pflegebereich austauschbar
-pflege/           der Pflegebereich (PHP, nur auf dem Hosting)
-demo.html         dieselbe Seite als Probefassung fürs Browserfenster
-demo_bauen.py     erzeugt demo.html aus seite/ — nicht von Hand ändern
+webroot/                  ← genau das kommt in den Webspace
+  index.html              Onepager
+  impressum.html          neu — die alte Seite zitierte § 6 TDG, aufgehoben 2007
+  datenschutz.html        neu — es gab nur eine PDF-Datei
+  danke.html              nach dem Absenden des Formulars
+  stil.css                keine fremden Schriften, keine fremden Abrufe
+  bilder/betrieb.jpg      Platzhalter, im Pflegebereich austauschbar
+  INSTALLATION.txt        Anleitung zum Hochladen, danach löschen
+  pflege/                 Pflegebereich und Formular
+    .htaccess             sperrt die Sicherungen und die Hilfsdatei
+czarnetzki-website.zip    dasselbe als fertiges Paket
+demo.html                 Probefassung fürs Browserfenster
+demo_bauen.py             erzeugt demo.html aus webroot/
 ```
+
+**Der Ordner `webroot/` ist das Produkt.** Sein Inhalt wird unverändert in
+das Webverzeichnis gelegt — htdocs, httpdocs, public_html, je nach Anbieter.
+Danach läuft alles, ohne dass etwas eingestellt werden muss: Der
+Pflegebereich findet die Seiten von selbst, weil er eine Ebene tiefer liegt.
 
 ## Was der Check bemängelt hat und was jetzt gilt
 
@@ -40,21 +48,20 @@ Offen bleibt Prüfpunkt 14 (Google-Unternehmensprofil) — das gehört auf die
 
 ## Einrichten auf dem Hosting
 
-1. **Inhalt von `seite/`** in den Webspace legen (dort, wo `index.html` die
-   Startseite ist).
-2. **`pflege/`** als Unterordner daneben.
-3. Umgebungsvariable `WG_PFLEGE_SEITEN` auf den Ordner mit den HTML-Dateien
-   setzen. Fehlt sie, sucht der Pflegebereich sie im Ordner `../seite`.
-4. Passwort setzen: `php -r "echo password_hash('DasPasswort', PASSWORD_DEFAULT);"`
-   und als `WG_PFLEGE_HASH` hinterlegen. **Ohne diesen Schritt gilt das
-   Musterpasswort — das darf nicht live gehen.**
-5. In `pflege/formular.php` stehen `EMPFAENGER` und `BETRIEB` bereits richtig.
-6. Voraussetzung an den Tarif: PHP und eigene Dateien hochladen. Beides kann
-   jeder übliche Tarif.
+1. **Inhalt von `webroot/` hochladen.** Fertig — es ist nichts einzustellen.
+2. **`INSTALLATION.txt` löschen.**
+3. **Passwort ändern.** Ausgeliefert wird `Heerstrasse15A`; der Hash steht in
+   `pflege/index.php`, das Passwort selbst nirgends auf dem Server. Ersetzen:
+   `php -r "echo password_hash('NeuesPasswort', PASSWORD_DEFAULT);"`
+4. `EMPFAENGER` in `pflege/formular.php` steht bereits auf
+   `info@pcelektro.de`.
+5. Voraussetzung an den Tarif: PHP und eigene Dateien hochladen dürfen.
+   Beides kann jeder übliche Tarif; ein reiner Baukasten-Tarif nicht.
 
 ## Was geprüft ist
 
-Lokal mit PHP 8.4.19 und Chromium:
+Das Paket wurde **frisch entpackt und ohne jede Einstellung gestartet** —
+genau so, wie es beim Kunden ankommt. PHP 8.4.19 und Chromium:
 
 - Alle vier Seiten laden (HTTP 200), das Bild auch.
 - Pflegebereich: falsches Passwort scheitert, richtiges nicht.
@@ -65,6 +72,9 @@ Lokal mit PHP 8.4.19 und Chromium:
 - Bild austauschen: 3600 × 2400 wird zu 1600 × 1067; eine als Bild getarnte
   PDF-Datei wird abgewiesen.
 - Vor jedem Speichern wird gesichert.
+- `pflege/inhalt.php` direkt aufgerufen antwortet mit 404.
+- Nach dem Speichern zeigt die aufgerufene Website die neuen Werte, das
+  hochgeladene Bild erscheint verkleinert mit neuer Zählnummer.
 - Formular: gefüllte Spamfalle und Absenden in unter drei Sekunden werden
   still verworfen; fehlt der Rückweg, kommt die Fehlerseite.
 
@@ -79,7 +89,7 @@ Beschriftungen, Verkleinerung der Bilder und das Verhalten des Formulars sind
 identisch. Passwort: `muster`. „Alles zurücksetzen" stellt den Auslieferstand
 wieder her.
 
-Sie entsteht aus `seite/` — wer die Website ändert, führt danach
+Sie entsteht aus `webroot/` — wer die Website ändert, führt danach
 `python3 studie/czarnetzki/demo_bauen.py` aus.
 
 ## Was noch fehlt

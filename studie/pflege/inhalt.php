@@ -18,11 +18,18 @@
 
 declare(strict_types=1);
 
+/* Diese Datei wird eingebunden, nie direkt aufgerufen. Falls doch: nichts
+ * tun. Der Hoster liefert sonst je nach Einstellung den Quelltext aus. */
+if (realpath(__FILE__) === realpath($_SERVER['SCRIPT_FILENAME'] ?? '')) {
+    http_response_code(404);
+    exit;
+}
+
 /* Verzeichnis mit den HTML-Dateien der Website.
- * Auf dem Hosting des Kunden liegt der Pflegebereich in einem Unterordner
- * neben der Seite; wo genau, sagt WG_PFLEGE_SEITEN. Ohne Angabe wird der
- * Ordner daneben genommen. */
-define('SEITEN', getenv('WG_PFLEGE_SEITEN') ?: __DIR__ . '/../seite');
+ * Der Pflegebereich liegt als Unterordner im Webverzeichnis: Die Seiten
+ * liegen also eine Ebene darueber. Das ist der Normalfall auf jedem
+ * Hosting. Liegt es anders, sagt WG_PFLEGE_SEITEN, wo. */
+define('SEITEN', getenv('WG_PFLEGE_SEITEN') ?: dirname(__DIR__));
 
 /** Wohin Sicherungen geschrieben werden. */
 const SICHERUNG = __DIR__ . '/sicherungen';
