@@ -21,8 +21,9 @@ Wir haben sie von Ihrer bisherigen Seite übernommen.
 
 ## 2 · Öffnungszeiten
 
-Auf dem Entwurf steht **Montag bis Freitag, 7:00 bis 16:30 Uhr**.
-Das haben wir angenommen, nicht von Ihrer Seite gelesen.
+Auf dem Entwurf steht **Mo bis Do 7:00 bis 17:30 Uhr, Fr 7:00 bis 15:30 Uhr**.
+Das stand nicht auf Ihrer Seite. Wir haben es aus drei Verzeichnissen
+(11880, golocal, Öffnungszeitenbuch), die alle dasselbe angeben.
 
 ☐ stimmt   ☐ richtig ist: ______________________________
 

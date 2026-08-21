@@ -3,7 +3,7 @@
  * Gemeinsame Hilfsmittel für Pflegebereich und Formular.
  *
  * Kein Framework, keine Bibliothek, keine Datenbank. Eine Datei, die auf
- * jedem deutschen Hosting-Tarif läuft, der PHP kann, und das können alle.
+ * jedem deutschen Hosting-Tarif läuft, der PHP kann — und das können alle.
  *
  * Der Grundgedanke: Die Website bleibt reines HTML. Bearbeitbare Stellen
  * werden im HTML markiert:
@@ -12,7 +12,7 @@
  *
  * Der Pflegebereich liest diese Markierungen, zeigt sie als Formularfelder
  * und schreibt die neuen Werte an genau dieselbe Stelle zurück. Zwischen den
- * Markierungen steht Text, sonst nichts, der Kunde kann das Layout nicht
+ * Markierungen steht Text, sonst nichts — der Kunde kann das Layout nicht
  * zerlegen, weil er es nie zu sehen bekommt.
  */
 
@@ -34,7 +34,13 @@ define('SEITEN', getenv('WG_PFLEGE_SEITEN') ?: dirname(__DIR__));
 /** Wohin Sicherungen geschrieben werden. */
 const SICHERUNG = __DIR__ . '/sicherungen';
 
-/* Erlaubte Dateien. Alles andere wird nicht angefasst, der Kunde kann
+/** Hier liegt das Passwort, wenn der Betrieb es selbst geaendert hat. */
+const PASSWORTDATEI = __DIR__ . '/passwort.txt';
+
+/** Felder, die nicht leer bleiben duerfen. */
+const PFLICHT = ['telefon', 'mail'];
+
+/* Erlaubte Dateien. Alles andere wird nicht angefasst — der Kunde kann
  * ueber diesen Weg an keine andere Datei auf dem Server heran. Aufgefuehrt
  * wird nur, was auch tatsaechlich vorhanden ist. */
 define('DATEIEN', array_values(array_filter(
@@ -76,7 +82,7 @@ function felder_lesen(string $datei): array
  * Schreibt neue Werte in eine Datei zurück.
  *
  * Vorher wird eine Sicherung angelegt. Nicht aus Vorsicht, sondern weil ein
- * Kunde, der aus Versehen den halben Text löscht, sonst uns anruft, und wir
+ * Kunde, der aus Versehen den halben Text löscht, sonst uns anruft — und wir
  * dann in einem Git-Verlauf suchen, den er nicht bedienen kann.
  *
  * @param array<string,string> $neu
@@ -100,13 +106,23 @@ function felder_schreiben(string $datei, array $neu): array
     @file_put_contents(SICHERUNG . "/{$stempel}_{$datei}", $html);
     sicherungen_aufraeumen($datei);
 
+    // Ein leeres Feld ist bei den meisten Angaben in Ordnung: Kein
+    // aktueller Hinweis ist ein gueltiger Zustand. Bei Telefonnummer und
+    // E-Mail ist es keiner, sondern ein Versehen mit Folgen.
+    foreach (PFLICHT as $pflicht) {
+        if (array_key_exists($pflicht, $neu) && trim($neu[$pflicht]) === '') {
+            return [false, 'Die ' . feld_beschriftung($pflicht)
+                . ' darf nicht leer bleiben. Es wurde nichts gespeichert.'];
+        }
+    }
+
     $geaendert = 0;
     foreach ($neu as $name => $wert) {
         if (!preg_match('/^[a-z0-9_]{1,40}$/', $name)) {
             continue;
         }
         $wert = trim(preg_replace('/\R/u', ' ', $wert) ?? '');
-        // Der Kunde schreibt Text, kein HTML. Alles wird maskiert, damit
+        // Der Kunde schreibt Text, kein HTML. Alles wird maskiert — damit
         // kann er weder das Layout zerschießen noch versehentlich ein
         // offenes <div> hinterlassen.
         $sicher = htmlspecialchars($wert, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
@@ -138,7 +154,7 @@ function felder_schreiben(string $datei, array $neu): array
  *
  * Ohne diesen Schritt entsteht der schlimmste denkbare Fehler: Auf der Seite
  * steht die neue Nummer, der Tippen-Verweis wählt aber weiter die alte. Das
- * ist genau Prüfpunkt 5 unseres eigenen Katalogs, und es fiele niemandem
+ * ist genau Prüfpunkt 5 unseres eigenen Katalogs — und es fiele niemandem
  * auf, weil die Seite richtig aussieht.
  */
 function verweis_nachziehen(string $html, string $name, string $wert): string
@@ -161,7 +177,7 @@ function verweis_nachziehen(string $html, string $name, string $wert): string
 
     return (string) preg_replace(
         // Zwischen dem oeffnenden a-Tag und der Markierung darf Text stehen
-        // („Anrufen: 02271 45550"), aber kein weiteres Element, sonst
+        // („Anrufen: 02271 45550"), aber kein weiteres Element — sonst
         // erwischt die Regel den falschen Verweis.
         '/(<a[^>]*href=")' . preg_quote($schema, '/') . '[^"]*("[^>]*>[^<]{0,40}<!--wg:'
             . preg_quote($name, '/') . '-->)/',
@@ -186,6 +202,119 @@ function telefon_ziel(string $wert): string
 function rawurlencode_erhalten(string $wert): string
 {
     return htmlspecialchars($wert, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+}
+
+/* ====================================================================
+ * Passwort
+ * ====================================================================
+ * Der Betrieb muss sein Passwort selbst aendern koennen. Sonst haengt er
+ * an uns, sobald jemand geht, der es kannte, und genau das soll das
+ * Produkt nicht.
+ *
+ * Geaendert wird es in eine Datei neben dem Pflegebereich. Steht dort
+ * etwas, gilt das; sonst der eingebaute Wert. Gespeichert wird nur der
+ * Hash, das Passwort selbst steht nirgends auf dem Server.
+ */
+
+/** Liefert den geltenden Hash: eigene Datei vor eingebautem Wert. */
+function passwort_hash(string $eingebaut): string
+{
+    if (is_file(PASSWORTDATEI)) {
+        $eigen = trim((string) file_get_contents(PASSWORTDATEI));
+        if ($eigen !== '') {
+            return $eigen;
+        }
+    }
+    return $eingebaut;
+}
+
+/**
+ * Setzt ein neues Passwort.
+ *
+ * @return array{0:bool,1:string}
+ */
+function passwort_setzen(string $alt, string $neu, string $wiederholung,
+                         string $eingebaut): array
+{
+    if (!password_verify($alt, passwort_hash($eingebaut))) {
+        return [false, 'Das bisherige Passwort stimmt nicht.'];
+    }
+    if (mb_strlen($neu) < 8) {
+        return [false, 'Das neue Passwort braucht mindestens acht Zeichen.'];
+    }
+    if ($neu !== $wiederholung) {
+        return [false, 'Die beiden neuen Passwörter sind nicht gleich.'];
+    }
+    $hash = password_hash($neu, PASSWORD_DEFAULT);
+    if (@file_put_contents(PASSWORTDATEI, $hash . "\n") === false) {
+        return [false, 'Das Passwort konnte nicht gespeichert werden. '
+            . 'Bitte melden Sie sich bei uns.'];
+    }
+    @chmod(PASSWORTDATEI, 0640);
+    return [true, 'Passwort geändert. Beim nächsten Anmelden gilt das neue.'];
+}
+
+/* ====================================================================
+ * Sicherungen zurueckholen
+ * ====================================================================
+ * Es reicht nicht, dass wir jeden Stand zurueckholen koennen. Wenn wir aus
+ * dem Projekt raus sind, muss er es selbst koennen.
+ */
+
+/**
+ * Die vorhandenen Staende einer Datei, neueste zuerst.
+ *
+ * @return array<int,array{datei:string,zeit:string}>
+ */
+function sicherungen_liste(string $datei): array
+{
+    if (!in_array($datei, DATEIEN, true)) {
+        return [];
+    }
+    $liste = glob(SICHERUNG . "/*_{$datei}") ?: [];
+    rsort($liste);
+    $aus = [];
+    foreach ($liste as $pfad) {
+        $name = basename($pfad);
+        $stempel = substr($name, 0, 19);
+        $zeit = DateTime::createFromFormat('Y-m-d_H-i-s', $stempel);
+        $aus[] = [
+            'datei' => $name,
+            'zeit' => $zeit ? $zeit->format('d.m.Y, H:i') . ' Uhr' : $stempel,
+        ];
+    }
+    return $aus;
+}
+
+/**
+ * Holt einen Stand zurueck. Der aktuelle Stand wird vorher gesichert, damit
+ * auch ein versehentliches Zurueckholen rueckgaengig zu machen ist.
+ *
+ * @return array{0:bool,1:string}
+ */
+function sicherung_zurueckholen(string $datei, string $stand): array
+{
+    if (!in_array($datei, DATEIEN, true)) {
+        return [false, 'Unbekannte Datei.'];
+    }
+    if (!preg_match('/^[0-9]{4}-[0-9]{2}-[0-9]{2}_[0-9]{2}-[0-9]{2}-[0-9]{2}_'
+        . preg_quote($datei, '/') . '$/', $stand)) {
+        return [false, 'Unbekannter Stand.'];
+    }
+    $quelle = SICHERUNG . '/' . $stand;
+    $ziel = SEITEN . '/' . $datei;
+    if (!is_file($quelle)) {
+        return [false, 'Diesen Stand gibt es nicht mehr.'];
+    }
+    $jetzt = @file_get_contents($ziel);
+    if ($jetzt !== false) {
+        @file_put_contents(SICHERUNG . '/' . date('Y-m-d_H-i-s') . '_' . $datei, $jetzt);
+    }
+    if (!@copy($quelle, $ziel)) {
+        return [false, 'Der Stand konnte nicht zurückgeholt werden.'];
+    }
+    sicherungen_aufraeumen($datei);
+    return [true, 'Der Stand von vorher ist wieder da.'];
 }
 
 /** Behält die letzten 20 Sicherungen je Datei. */
@@ -278,7 +407,7 @@ function felder_schreiben_ueberall(string $datei, array $neu): array
  * Bilder
  * ====================================================================
  * Text zu ändern reicht nicht. Das Zweithäufigste, was ein Betrieb an
- * seiner Website ändern will, ist ein Bild, neues Fahrzeug, neues Team,
+ * seiner Website ändern will, ist ein Bild — neues Fahrzeug, neues Team,
  * fertige Baustelle. Deshalb dasselbe Verfahren wie beim Text: eine
  * Markierung im HTML, direkt vor dem Bild.
  *
@@ -287,7 +416,7 @@ function felder_schreiben_ueberall(string $datei, array $neu): array
  *
  * Der Kunde wählt eine Datei aus, wir prüfen sie, rechnen sie klein und
  * legen sie unter demselben Namen ab. Am HTML ändert sich nur die
- * Zählnummer hinter dem Dateinamen, sonst zeigt der Browser tagelang das
+ * Zählnummer hinter dem Dateinamen — sonst zeigt der Browser tagelang das
  * alte Bild aus seinem Zwischenspeicher.
  */
 
@@ -399,7 +528,7 @@ function bild_schreiben(string $datei, string $name, array $datei_feld): array
  *
  * Warum verkleinern: Ein Betrieb fotografiert mit dem Telefon, und aus dem
  * Telefon kommen 4000 Pixel und sechs Megabyte. Ungefragt hochgeladen macht
- * das eine schnelle Seite langsam, Prüfpunkt 4, der Punkt, mit dem wir
+ * das eine schnelle Seite langsam — Prüfpunkt 4, der Punkt, mit dem wir
  * selbst argumentieren. Der Kunde soll darüber nicht nachdenken müssen.
  */
 function bild_ablegen(string $quelle, string $ziel, array $info): bool

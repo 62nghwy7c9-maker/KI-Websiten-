@@ -22,14 +22,14 @@ Keine Installation, keine Datenbank, kein Baukasten.
 
 2. PASSWORT AENDERN
    Der Pflegebereich ist unter  ihre-adresse.de/pflege  erreichbar.
-   Das mitgelieferte Passwort steht in pflege/index.php als Kommentar und
-   muss vor dem Livegang ersetzt werden:
+   Das mitgelieferte Passwort teilen wir Ihnen persoenlich mit.
 
-       php -r "echo password_hash('IhrNeuesPasswort', PASSWORD_DEFAULT);"
+   Aendern koennen Sie es selbst: im Pflegebereich ganz unten unter
+   "Passwort aendern". Mindestens acht Zeichen. Das Passwort steht danach
+   nirgends im Klartext auf dem Server, nur als unumkehrbarer Zahlenwert
+   in pflege/passwort.txt.
 
-   Die ausgegebene Zeichenkette in pflege/index.php eintragen, dort wo
-   jetzt $PASSWORT_HASH steht. Das Passwort selbst steht nirgends auf dem
-   Server.
+   Aendern Sie es, sobald jemand geht, der es kannte.
 
 
 3. EMPFAENGER DES KONTAKTFORMULARS PRUEFEN
@@ -69,7 +69,12 @@ Unter ihre-adresse.de/pflege nach dem Anmelden:
   Das Bild           (zu grosse Fotos werden automatisch verkleinert)
 
 Vor jeder Aenderung wird eine Sicherung angelegt; die letzten 20 Staende
-bleiben in pflege/sicherungen/ liegen.
+bleiben in pflege/sicherungen/ liegen. Im Pflegebereich unter "Fruehere
+Staende" holen Sie jeden davon selbst zurueck. Der aktuelle Stand wird
+dabei gesichert, Sie koennen es also auch wieder rueckgaengig machen.
+
+Telefonnummer und E-Mail lassen sich nicht leer speichern. Das ist Absicht:
+Eine Seite ohne Nummer waere der teuerste Tippfehler.
 
 
 WENN ETWAS NICHT STIMMT

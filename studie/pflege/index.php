@@ -18,9 +18,18 @@ require __DIR__ . '/inhalt.php';
  * einmalig mit:  php -r "echo password_hash('IhrPasswort', PASSWORD_DEFAULT);"
  * Im Klartext steht das Passwort nirgends — auch nicht bei uns.
  */
+/* Reihenfolge: passwort.txt im Ordner (das aendert der Betrieb selbst),
+ * dann WG_PFLEGE_HASH, dann dieser eingebaute Wert. In dieser Datei steht
+ * nie etwas Kundenspezifisches -- sonst geht es beim naechsten Kopieren
+ * der Vorlage verloren. Genau das ist am 21.08. passiert. */
 $PASSWORT_HASH = getenv('WG_PFLEGE_HASH')
     ?: '$2y$12$h4R2JvM2UlDA4HtrSNSG3.M2vh4gg4f2g8mMbZXUjOG30sjbbwkG2'; // "muster"
 
+/* Acht Stunden statt der ueblichen 24 Minuten. Wer einen Text tippt,
+ * telefoniert zwischendurch und kommt zurueck: Seine Eingabe soll nicht
+ * beim Speichern verschwinden. */
+ini_set('session.gc_maxlifetime', '28800');
+session_set_cookie_params(28800);
 session_start();
 $meldung = '';
 $erfolg = false;
@@ -35,7 +44,7 @@ if (!empty($_POST['passwort'])) {
     // Kurze Bremse gegen Durchprobieren. Eine Sekunde fällt einem Menschen
     // nicht auf und macht Rateversuche unbrauchbar.
     usleep(700000);
-    if (password_verify((string) $_POST['passwort'], $PASSWORT_HASH)) {
+    if (password_verify((string) $_POST['passwort'], passwort_hash($PASSWORT_HASH))) {
         session_regenerate_id(true);
         $_SESSION['angemeldet'] = true;
         $_SESSION['marke'] = bin2hex(random_bytes(16));
@@ -88,7 +97,31 @@ if ($angemeldet && ($_POST['speichern'] ?? '') !== '') {
     }
 }
 
+/* ---- Passwort aendern ---------------------------------------------- */
+if ($angemeldet && ($_POST['passwort_aendern'] ?? '') !== '') {
+    if (!hash_equals($_SESSION['marke'] ?? '', (string) ($_POST['marke'] ?? ''))) {
+        $meldung = 'Die Sitzung ist abgelaufen. Bitte noch einmal versuchen.';
+    } else {
+        [$erfolg, $meldung] = passwort_setzen(
+            (string) ($_POST['alt'] ?? ''),
+            (string) ($_POST['neu'] ?? ''),
+            (string) ($_POST['neu2'] ?? ''),
+            $PASSWORT_HASH);
+    }
+}
+
+/* ---- Stand zurueckholen -------------------------------------------- */
+if ($angemeldet && ($_POST['zurueckholen'] ?? '') !== '') {
+    if (!hash_equals($_SESSION['marke'] ?? '', (string) ($_POST['marke'] ?? ''))) {
+        $meldung = 'Die Sitzung ist abgelaufen. Bitte noch einmal versuchen.';
+    } else {
+        [$erfolg, $meldung] = sicherung_zurueckholen(
+            $datei, (string) $_POST['zurueckholen']);
+    }
+}
+
 $felder = $angemeldet ? felder_lesen($datei) : [];
+$staende = $angemeldet ? sicherungen_liste($datei) : [];
 $bilder = $angemeldet ? bilder_lesen($datei) : [];
 
 /* Vorschaubild ausliefern.
@@ -161,6 +194,13 @@ h2{font-size:1.15rem;margin:2rem 0 .4rem;color:var(--basis)}
  border-left:4px solid var(--rot);background:#F6E4DF;color:var(--rot)}
 .meldung.gut{border-left-color:var(--gut);background:#E7EBE3;color:var(--gut)}
 .hinweis{color:var(--gedaempft);font-size:15px;margin:0 0 1.75rem}
+.staende ul{list-style:none;margin:0 0 2rem;padding:0}
+.staende li{display:flex;align-items:center;justify-content:space-between;
+ gap:1rem;padding:.6rem 0;border-bottom:1px solid var(--linie);font-size:15px}
+button.leise{background:transparent;color:var(--akzent);font-weight:600;
+ padding:.35rem .7rem;border:1px solid var(--linie-stark);border-radius:4px}
+button.leise:hover{background:var(--akzent);color:#fff}
+.passwort{max-width:24rem;margin-bottom:2rem}
 .anmelden{max-width:22rem}
 footer{border-top:1px solid var(--linie);color:var(--gedaempft);font-size:14px}
 footer .bahn{padding:1.25rem}
@@ -236,6 +276,40 @@ footer .bahn{padding:1.25rem}
         <?php endforeach; ?>
       <?php endif; ?>
       <button type="submit" name="speichern" value="1">Speichern</button>
+    </form>
+
+    <?php if ($staende): ?>
+      <h2>Frühere Stände</h2>
+      <p class="hinweis">Etwas versehentlich gelöscht oder überschrieben?
+      Hier holen Sie den Stand von vorher zurück. Der jetzige wird dabei
+      gesichert, Sie können es also auch wieder rückgängig machen.</p>
+      <form method="post" class="staende">
+        <input type="hidden" name="datei" value="<?= htmlspecialchars($datei) ?>">
+        <input type="hidden" name="marke" value="<?= htmlspecialchars($_SESSION['marke']) ?>">
+        <ul>
+          <?php foreach (array_slice($staende, 0, 8) as $st): ?>
+            <li><span><?= htmlspecialchars($st['zeit']) ?></span>
+              <button type="submit" name="zurueckholen"
+                      value="<?= htmlspecialchars($st['datei']) ?>"
+                      class="leise">zurückholen</button></li>
+          <?php endforeach; ?>
+        </ul>
+      </form>
+    <?php endif; ?>
+
+    <h2>Passwort ändern</h2>
+    <p class="hinweis">Mindestens acht Zeichen. Das Passwort steht nirgends
+    auf dem Server, auch wir können es nicht nachsehen.</p>
+    <form method="post" class="passwort">
+      <input type="hidden" name="datei" value="<?= htmlspecialchars($datei) ?>">
+      <input type="hidden" name="marke" value="<?= htmlspecialchars($_SESSION['marke']) ?>">
+      <label><b>Bisheriges Passwort</b>
+        <input type="password" name="alt" autocomplete="current-password"></label>
+      <label><b>Neues Passwort</b>
+        <input type="password" name="neu" autocomplete="new-password"></label>
+      <label><b>Neues Passwort wiederholen</b>
+        <input type="password" name="neu2" autocomplete="new-password"></label>
+      <button type="submit" name="passwort_aendern" value="1">Passwort ändern</button>
     </form>
   <?php endif; ?>
 <?php endif; ?>

@@ -3,8 +3,9 @@
 # was nicht erreichbar sein muss, sollte auch nicht erreichbar sein.
 RedirectMatch 404 /pflege/sicherungen/
 
-# inhalt.php ist eine Hilfsdatei und wird nie direkt aufgerufen.
-<FilesMatch "^inhalt\.php$">
+# inhalt.php ist eine Hilfsdatei, passwort.txt enthaelt den Hash des
+# Passworts. Beides darf von aussen nicht abrufbar sein.
+<FilesMatch "^(inhalt\.php|passwort\.txt)$">
   Require all denied
 </FilesMatch>
 

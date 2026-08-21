@@ -34,6 +34,12 @@ define('SEITEN', getenv('WG_PFLEGE_SEITEN') ?: dirname(__DIR__));
 /** Wohin Sicherungen geschrieben werden. */
 const SICHERUNG = __DIR__ . '/sicherungen';
 
+/** Hier liegt das Passwort, wenn der Betrieb es selbst geaendert hat. */
+const PASSWORTDATEI = __DIR__ . '/passwort.txt';
+
+/** Felder, die nicht leer bleiben duerfen. */
+const PFLICHT = ['telefon', 'mail'];
+
 /* Erlaubte Dateien. Alles andere wird nicht angefasst — der Kunde kann
  * ueber diesen Weg an keine andere Datei auf dem Server heran. Aufgefuehrt
  * wird nur, was auch tatsaechlich vorhanden ist. */
@@ -99,6 +105,16 @@ function felder_schreiben(string $datei, array $neu): array
     $stempel = date('Y-m-d_H-i-s');
     @file_put_contents(SICHERUNG . "/{$stempel}_{$datei}", $html);
     sicherungen_aufraeumen($datei);
+
+    // Ein leeres Feld ist bei den meisten Angaben in Ordnung: Kein
+    // aktueller Hinweis ist ein gueltiger Zustand. Bei Telefonnummer und
+    // E-Mail ist es keiner, sondern ein Versehen mit Folgen.
+    foreach (PFLICHT as $pflicht) {
+        if (array_key_exists($pflicht, $neu) && trim($neu[$pflicht]) === '') {
+            return [false, 'Die ' . feld_beschriftung($pflicht)
+                . ' darf nicht leer bleiben. Es wurde nichts gespeichert.'];
+        }
+    }
 
     $geaendert = 0;
     foreach ($neu as $name => $wert) {
@@ -186,6 +202,119 @@ function telefon_ziel(string $wert): string
 function rawurlencode_erhalten(string $wert): string
 {
     return htmlspecialchars($wert, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+}
+
+/* ====================================================================
+ * Passwort
+ * ====================================================================
+ * Der Betrieb muss sein Passwort selbst aendern koennen. Sonst haengt er
+ * an uns, sobald jemand geht, der es kannte, und genau das soll das
+ * Produkt nicht.
+ *
+ * Geaendert wird es in eine Datei neben dem Pflegebereich. Steht dort
+ * etwas, gilt das; sonst der eingebaute Wert. Gespeichert wird nur der
+ * Hash, das Passwort selbst steht nirgends auf dem Server.
+ */
+
+/** Liefert den geltenden Hash: eigene Datei vor eingebautem Wert. */
+function passwort_hash(string $eingebaut): string
+{
+    if (is_file(PASSWORTDATEI)) {
+        $eigen = trim((string) file_get_contents(PASSWORTDATEI));
+        if ($eigen !== '') {
+            return $eigen;
+        }
+    }
+    return $eingebaut;
+}
+
+/**
+ * Setzt ein neues Passwort.
+ *
+ * @return array{0:bool,1:string}
+ */
+function passwort_setzen(string $alt, string $neu, string $wiederholung,
+                         string $eingebaut): array
+{
+    if (!password_verify($alt, passwort_hash($eingebaut))) {
+        return [false, 'Das bisherige Passwort stimmt nicht.'];
+    }
+    if (mb_strlen($neu) < 8) {
+        return [false, 'Das neue Passwort braucht mindestens acht Zeichen.'];
+    }
+    if ($neu !== $wiederholung) {
+        return [false, 'Die beiden neuen Passwörter sind nicht gleich.'];
+    }
+    $hash = password_hash($neu, PASSWORD_DEFAULT);
+    if (@file_put_contents(PASSWORTDATEI, $hash . "\n") === false) {
+        return [false, 'Das Passwort konnte nicht gespeichert werden. '
+            . 'Bitte melden Sie sich bei uns.'];
+    }
+    @chmod(PASSWORTDATEI, 0640);
+    return [true, 'Passwort geändert. Beim nächsten Anmelden gilt das neue.'];
+}
+
+/* ====================================================================
+ * Sicherungen zurueckholen
+ * ====================================================================
+ * Es reicht nicht, dass wir jeden Stand zurueckholen koennen. Wenn wir aus
+ * dem Projekt raus sind, muss er es selbst koennen.
+ */
+
+/**
+ * Die vorhandenen Staende einer Datei, neueste zuerst.
+ *
+ * @return array<int,array{datei:string,zeit:string}>
+ */
+function sicherungen_liste(string $datei): array
+{
+    if (!in_array($datei, DATEIEN, true)) {
+        return [];
+    }
+    $liste = glob(SICHERUNG . "/*_{$datei}") ?: [];
+    rsort($liste);
+    $aus = [];
+    foreach ($liste as $pfad) {
+        $name = basename($pfad);
+        $stempel = substr($name, 0, 19);
+        $zeit = DateTime::createFromFormat('Y-m-d_H-i-s', $stempel);
+        $aus[] = [
+            'datei' => $name,
+            'zeit' => $zeit ? $zeit->format('d.m.Y, H:i') . ' Uhr' : $stempel,
+        ];
+    }
+    return $aus;
+}
+
+/**
+ * Holt einen Stand zurueck. Der aktuelle Stand wird vorher gesichert, damit
+ * auch ein versehentliches Zurueckholen rueckgaengig zu machen ist.
+ *
+ * @return array{0:bool,1:string}
+ */
+function sicherung_zurueckholen(string $datei, string $stand): array
+{
+    if (!in_array($datei, DATEIEN, true)) {
+        return [false, 'Unbekannte Datei.'];
+    }
+    if (!preg_match('/^[0-9]{4}-[0-9]{2}-[0-9]{2}_[0-9]{2}-[0-9]{2}-[0-9]{2}_'
+        . preg_quote($datei, '/') . '$/', $stand)) {
+        return [false, 'Unbekannter Stand.'];
+    }
+    $quelle = SICHERUNG . '/' . $stand;
+    $ziel = SEITEN . '/' . $datei;
+    if (!is_file($quelle)) {
+        return [false, 'Diesen Stand gibt es nicht mehr.'];
+    }
+    $jetzt = @file_get_contents($ziel);
+    if ($jetzt !== false) {
+        @file_put_contents(SICHERUNG . '/' . date('Y-m-d_H-i-s') . '_' . $datei, $jetzt);
+    }
+    if (!@copy($quelle, $ziel)) {
+        return [false, 'Der Stand konnte nicht zurückgeholt werden.'];
+    }
+    sicherungen_aufraeumen($datei);
+    return [true, 'Der Stand von vorher ist wieder da.'];
 }
 
 /** Behält die letzten 20 Sicherungen je Datei. */
