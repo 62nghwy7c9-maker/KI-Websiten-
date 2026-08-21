@@ -1,7 +1,12 @@
 # Die eigene Website
 
-Ersetzt `studie/kd-webdesign/`. Gleiche Bauweise wie bei jedem Kundenprojekt:
-`webroot/` wird hochgeladen, fertig.
+Gleiche Bauweise wie bei jedem Kundenprojekt: `webroot/` wird hochgeladen,
+fertig.
+
+**Kein Pflegebereich.** Diese Seite pflegen wir selbst, direkt in den
+Dateien. Ein Login auf der eigenen Seite wäre eine Angriffsfläche ohne
+Gegenwert. Der Bereich ist etwas, das wir verkaufen, nicht etwas, das wir
+brauchen. Vom Formular bleibt `formular.php`, es hängt an nichts anderem.
 
 ## Gestaltung
 
@@ -45,10 +50,35 @@ Zur Entscheidung, Stand 21.08.2026:
 3. **Telefonnummer und Betreuungspreis bestätigen** (0162 3242260, 69 €).
 4. **Rechtstexte prüfen lassen.**
 
+## Bewegung
+
+Vier Regeln, damit es nicht nach Effekt aussieht:
+
+1. Nichts bewegt sich von selbst. Alles hängt an einer Handlung des
+   Besuchers: scrollen, zeigen, aufklappen.
+2. Nichts wiederholt sich. Was eingeblendet ist, bleibt.
+3. Kurz, zwischen 200 und 600 Millisekunden.
+4. Wer im Betriebssystem weniger Bewegung eingestellt hat, bekommt keine.
+
+Im Einzelnen: der Prüfvorgang im Aufmacher, das Punktraster zieht beim
+Scrollen leicht mit, Abschnitte blenden beim Erreichen ein, Listen und
+Karten gestaffelt mit 34 Millisekunden Abstand, die beiden Zahlen im
+Streifen zählen einmal hoch, die Kopfleiste setzt sich beim Scrollen ab,
+Karten heben sich unter dem Zeiger, Antworten im Fragenblock klappen auf.
+
+Rund 60 Zeilen JavaScript. Keine Bibliothek, kein Bild, keine Schrift von
+fremden Servern.
+
 ## Geprüft
 
-PHP 8.4.19 und Chromium, in der Aufteilung, in der es hochgeladen wird:
-alle vier Seiten und das Bild laden, Pflegebereich liest acht Felder und ein
-Bild, Speichern ändert 12 Stellen und zieht 8 weitere auf den anderen Seiten
-mit, ein Foto mit 3600 × 2400 wird zu 1600 × 1066, heller und dunkler Modus,
-Handy ab 390 px, kein Konsolenfehler.
+PHP 8.4.19 und Chromium, in der Aufteilung, in der hochgeladen wird:
+
+- Alle vier Seiten und das Bild laden.
+- Prüfvorgang bei 0, 50 und 100 Prozent Scrollweg: 0, 3 und 7 Befunde.
+- Zahlen zählen auf 19 und 990.
+- Staffelung mit 0 / 34 / 68 / 102 Millisekunden.
+- Kopfleiste schaltet ab 8 Pixel Scrollweg.
+- `prefers-reduced-motion` zeigt alles fertig und ohne Bewegung.
+- Ohne JavaScript ist die Seite vollständig da.
+- Zehn Breiten von 320 bis 2560 ohne Querscrollen, heller und dunkler
+  Modus, kein Konsolenfehler.
