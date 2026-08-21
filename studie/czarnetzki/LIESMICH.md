@@ -92,6 +92,31 @@ wieder her.
 Sie entsteht aus `webroot/` — wer die Website ändert, führt danach
 `python3 studie/czarnetzki/demo_bauen.py` aus.
 
+## Was von der alten Seite übernommen wurde und was nicht
+
+Seine bisherige Navigation hatte neun Punkte. Übernommen sind Leistungen,
+Aktuelle Bauvorhaben, Archiv und E-Check, dazu Impressum und Datenschutz
+(beide neu geschrieben). Bewusst **nicht** übernommen:
+
+- **Hersteller-Links.** Eine Linkliste auf fremde Seiten veraltet und führt
+  irgendwann ins Leere. Für einen Betrieb bringt sie nichts.
+- **Download.** Dort liegt eine Broschüre eines Herstellers.
+
+Das ist eine Entscheidung, die ihm gehört, keine, die wir still treffen.
+Sie steht deshalb als Frage 4 auf dem Freigabeblatt.
+
+Aus dem Archiv sind die beiden nennbaren Arbeiten in den Referenzteil
+gewandert: der 15 Meter hohe Weihnachtsbaum aus Lichtschlauch am Rathaus
+der Stadt Bergheim und die Installation bei Kieser Training. Beides steht
+wörtlich so auf seiner Seite. Der Rathaus-Auftrag ist die beste Referenz,
+die er hat, und stand bisher auf einer Unterseite, die niemand findet.
+
+## FREIGABEBLATT.md
+
+Das Blatt, das mit dem Entwurf übergeben wird: sechs Fragen, die er
+beantworten muss, bevor die Seite live gehen kann, und was danach passiert.
+Eine Seite, zum Ausdrucken und Unterschreiben.
+
 ## Was noch fehlt
 
 - **Fotos.** Ohne Bildmaterial vom Betrieb bleibt der Platzhalter stehen.
