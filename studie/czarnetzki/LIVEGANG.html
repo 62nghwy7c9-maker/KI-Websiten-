@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="de"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Livegang</title>
+<style>
+:root{--text:#1a1a1a;--matt:#5a5a5a;--linie:#dcdcdc;--akzent:#B23A0E}
+*{box-sizing:border-box}
+body{margin:0;padding:2.5rem 1.5rem 4rem;font:16px/1.65 -apple-system,
+  BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  color:var(--text);background:#fff}
+main{max-width:44rem;margin:0 auto}
+h1{font-size:clamp(1.6rem,5vw,2.2rem);line-height:1.15;margin:0 0 .3rem;
+  letter-spacing:-.02em;hyphens:auto}
+h2{font-size:1.25rem;margin:2.6rem 0 .6rem;padding-top:1.4rem;
+  border-top:1px solid var(--linie);letter-spacing:-.01em}
+h2:first-of-type{border-top:0;padding-top:0}
+h3{font-size:1.05rem;margin:1.6rem 0 .4rem}
+p,li{margin:.6rem 0}
+ul,ol{padding-left:1.3rem}
+li{margin:.35rem 0}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  font-size:.92em;background:#f3f3f1;padding:.1em .35em;border-radius:3px}
+pre{background:#f7f7f5;border:1px solid var(--linie);border-radius:6px;
+  padding:.9rem 1rem;overflow-x:auto;font-size:.9rem;line-height:1.5}
+pre code{background:0;padding:0}
+strong{font-weight:650}
+hr{border:0;border-top:1px solid var(--linie);margin:2.2rem 0}
+.vorspann{color:var(--matt);font-size:1.02rem;margin:0 0 2rem}
+table{border-collapse:collapse;width:100%;margin:1.1rem 0;font-size:.95rem}
+th,td{text-align:left;padding:.55rem .7rem;border-bottom:1px solid var(--linie);
+  vertical-align:top}
+th{font-weight:650;border-bottom:2px solid var(--text)}
+.fuss{margin-top:3rem;padding-top:1.2rem;border-top:2px solid var(--text);
+  font-size:.95rem}
+.fuss strong{color:var(--akzent)}
+@media (max-width:34rem){body{padding:1.6rem 1.1rem 3rem}
+  table,thead,tbody,th,td,tr{display:block}
+  thead{display:none}
+  td{border:0;padding:.15rem 0}
+  tr{border-bottom:1px solid var(--linie);padding:.6rem 0}
+  td:first-child{font-weight:650}}
+@media print{
+  body{padding:0;font-size:11pt;line-height:1.5}
+  main{max-width:none}
+  h1{font-size:20pt} h2{font-size:13pt} h3{font-size:11.5pt}
+  h2,h3{break-after:avoid;page-break-after:avoid}
+  table,pre,ul,ol{break-inside:avoid;page-break-inside:avoid}
+  tr{break-inside:avoid;page-break-inside:avoid}
+  a{color:inherit;text-decoration:none}
+  @page{margin:18mm 16mm}
+}
+</style></head><body><main>
+<h1>Livegang: die Website auf seine Domain bringen</h1>
+<p class="vorspann">Für Kira. Reihenfolge einhalten, nichts überspringen. Sein bisheriger Auftritt liegt unter <code>pcelektro.de</code>.</p>
+<h2>0. Vor allem anderen: die Freigabe</h2>
+<p>Ohne unterschriebenes FREIGABEBLATT.md wird nichts umgestellt. Darauf stehen die sechs Fragen, unter anderem die Öffnungszeiten, die wir aus Verzeichnissen haben und nicht von ihm.</p>
+<p>Solange die Freigabe fehlt, ist alles hier verfrüht.</p>
+<h2>1. Herausfinden, welcher Fall vorliegt</h2>
+<p>Das entscheidet über den ganzen Rest. Fragen Sie ihn, oder lassen Sie es sich am Rechner zeigen:</p>
+<p><strong>Fall A: Er kann bei seinem jetzigen Anbieter eigene Dateien hochladen, und seine Mails laufen über dieselbe Firma.</strong> Der einfache Fall. Wir tauschen nur die Dateien im Webspace aus. An DNS und MX wird nichts angefasst, seine Mails können gar nicht ausfallen.</p>
+<p><strong>Fall B: Sein Tarif erlaubt kein Hochladen eigener Dateien.</strong> Typisch bei Baukästen. Dann muss ein neuer Tarif her, und die Domain zieht um. Der riskante Fall, weil dabei die Mail-Einträge angefasst werden.</p>
+<p>Drei Fragen, die den Fall klären:</p>
+<ol>
+<li value="1">Gibt es einen Zugang mit Benutzername und Passwort für einen Dateimanager oder für FTP?</li>
+<li value="2">Steht im Tarif etwas von PHP?</li>
+<li value="3">Über welche Firma kommen seine Mails, und ist es dieselbe?</li>
+</ol>
+<h2>2. Prüfen, ob der Tarif reicht</h2>
+<p>Gebraucht werden nur zwei Dinge:</p>
+<ul>
+<li><strong>PHP.</strong> Kann jeder übliche Tarif. Wenn Sie unsicher sind: eine Datei <code>test.php</code> mit dem Inhalt <code>&lt;?php echo &quot;geht&quot;;</code> hochladen, im Browser aufrufen. Steht dort <code>geht</code>, ist alles in Ordnung. Steht dort der Programmtext selbst, kann der Tarif kein PHP. Datei danach löschen.</li>
+<li><strong>Eigene Dateien hochladen dürfen.</strong></li>
+</ul>
+<p>Nicht gebraucht: Datenbank, WordPress, ein Baukasten, irgendein Zusatz.</p>
+<h2>3. Hochladen</h2>
+<p>Den <strong>Inhalt</strong> von <code>webroot/</code> in das Webverzeichnis legen. Nicht den Ordner selbst, nur was darin liegt. Das Verzeichnis heißt je nach Anbieter <code>htdocs</code>, <code>httpdocs</code>, <code>public_html</code> oder <code>www</code>.</p>
+<p>Danach muss es dort so aussehen:</p>
+<pre><code>index.html
+impressum.html
+datenschutz.html
+danke.html
+stil.css
+bilder/
+pflege/</code></pre>
+<p><code>INSTALLATION.txt</code> danach löschen.</p>
+<p>Es ist nichts einzustellen. Der Pflegebereich findet die Seiten von selbst, weil er eine Ebene tiefer liegt.</p>
+<h2>4. Auf der Vorschau-Adresse testen, bevor die Domain umgestellt wird</h2>
+<p>Fast jeder Anbieter gibt eine vorläufige Adresse, etwas wie <code>kunde1234.hoster.de</code>. Dort läuft die Seite schon, bevor <code>pcelektro.de</code> darauf zeigt. Diese Prüfung findet dort statt, nicht auf der echten Domain.</p>
+<p>Prüfen Sie in dieser Reihenfolge:</p>
+<ol>
+<li value="1">Startseite lädt.</li>
+<li value="2">Auf dem Handy aufrufen, nicht nur das Fenster schmal ziehen.</li>
+<li value="3">Impressum und Datenschutz sind erreichbar.</li>
+<li value="4"><strong>Kontaktformular ausfüllen und absenden. Kommt die Mail an?</strong> Das ist der wichtigste Test, und er lässt sich nur hier machen, nie vorher. Empfänger steht in <code>pflege/formular.php</code>: <code>info@pcelektro.de</code>. Kommt nichts an, weiter bei Punkt 8.</li>
+<li value="5">Pflegebereich unter <code>.../pflege</code> aufrufen, anmelden, Öffnungszeiten ändern, speichern, Startseite neu laden. Steht es da?</li>
+<li value="6">Einen früheren Stand zurückholen. Kommt der alte Text wieder?</li>
+<li value="7">HTTPS: Zertifikat im Kundenmenü einschalten, meist ein Klick, und die Weiterleitung von <code>http</code> auf <code>https</code> gleich mit. Danach muss im Browser das Schloss stehen.</li>
+</ol>
+<p>Erst wenn alle sieben Punkte stimmen, geht es weiter.</p>
+<h2>5. Die Domain umstellen</h2>
+<p><strong>Bei Fall A entfällt dieser Abschnitt vollständig.</strong> Die Domain zeigt schon auf diesen Webspace, die Dateien sind ausgetauscht, Sie sind fertig. Springen Sie zu Abschnitt 6.</p>
+<p><strong>Bei Fall B, in dieser Reihenfolge:</strong></p>
+<ol>
+<li value="1"><strong>Alles aufschreiben, was jetzt gilt.</strong> Alle DNS-Einträge beim alten Anbieter exportieren oder abfotografieren: A, CNAME, vor allem <strong>MX</strong>, dazu TXT, SPF und DKIM. Diese Liste ist der Rückweg. Ohne sie kein Umzug.</li>
+<li value="2"><strong>Er bestätigt die Vorschau-Adresse.</strong> Schriftlich, und sei es per WhatsApp. Vorher wird nichts umgestellt.</li>
+<li value="3"><strong>TTL senken.</strong> 24 Stunden vorher die Gültigkeit der DNS-Einträge auf 5 Minuten setzen. Das ist der Unterschied zwischen &quot;in fünf Minuten zurück&quot; und &quot;in zwei Tagen zurück&quot;, wenn etwas schiefgeht.</li>
+<li value="4"><strong>Umstellen: Dienstag bis Donnerstag vormittags.</strong> Nie freitags, nie vor einem Feiertag. Sie wollen den ganzen Tag und den nächsten zum Nachbessern haben. Dabei <strong>nur die Einträge für die Website ändern. MX exakt übernehmen.</strong> Ein falscher MX-Eintrag heißt: seine Mails kommen nicht mehr an, und er merkt es erst, wenn ein Kunde sich beschwert.</li>
+<li value="5"><strong>Sofort prüfen</strong>, nicht später:</li>
+</ol>
+<ul>
+<li>Seite unter <code>pcelektro.de</code> aufrufen.</li>
+<li>Eine Testmail <strong>an</strong> <code>info@pcelektro.de</code> schicken. Kommt sie an?</li>
+<li>Eine Testmail <strong>von</strong> dort <strong>heraus</strong> schicken. Kommt sie an? Erst wenn beide Richtungen laufen, ist der Umzug fertig.</li>
+</ul>
+<ol>
+<li value="6"><strong>Er bestätigt schriftlich, dass seine Mails ankommen.</strong> Ohne diese Bestätigung keine Schlussrechnung.</li>
+<li value="7"><strong>TTL nach 48 Stunden ohne Auffälligkeiten</strong> wieder anheben.</li>
+<li value="8"><strong>Den alten Tarif frühestens einen Monat später kündigen.</strong> Solange die alte Seite dort noch liegt und die notierten DNS-Einträge vorliegen, ist der Stand von vorher in Minuten wiederhergestellt. Das kostet ihn einmalig 15 bis 30 Euro und ist die günstigste Versicherung im ganzen Projekt.</li>
+</ol>
+<h2>6. Übergabe</h2>
+<p>Erst wenn Abschnitt 4 und 5 abgehakt sind:</p>
+<ol>
+<li value="1"><strong>Die Anleitung ausdrucken</strong> (<code>ANLEITUNG.html</code>, im Browser öffnen und drucken) und mit ihm einmal durchgehen, am Rechner, nicht am Telefon. Er meldet sich selbst an, ändert selbst etwas, holt selbst einen Stand zurück. Wer es einmal gemacht hat, ruft später nicht an.</li>
+<li value="2"><strong>Passwort ändern lassen.</strong> Er tippt es selbst ein, wir sehen es nicht. Das ausgelieferte <code>Heerstrasse15A</code> gilt danach nicht mehr.</li>
+<li value="3"><strong>Zugangsdaten übergeben:</strong> Hosting-Zugang, Domain-Zugang, die Adresse <code>pcelektro.de/pflege</code>. Alles gehört ihm, nicht uns.</li>
+<li value="4"><strong>Google-Unternehmensprofil</strong> ansprechen. Das ist Prüfpunkt 14 aus dem Check und Sache des Betriebs, aber sagen Sie es ihm, statt es wegzulassen.</li>
+<li value="5"><strong>Sagen, dass wir raus sind.</strong> Ohne Betreuungsvertrag endet unsere Arbeit hier. Er kann anrufen, aber er zahlt dann nach Aufwand. Das muss klar gesagt sein, sonst steht die Erwartung im Raum.</li>
+</ol>
+<h2>7. Wenn etwas nicht funktioniert</h2>
+<p><strong>Die Seite ist weiß oder zeigt Programmtext.</strong> Der Tarif kann kein PHP, oder die Dateien liegen eine Ebene zu tief. Prüfen Sie, ob <code>index.html</code> direkt im Webverzeichnis liegt und nicht in einem Unterordner <code>webroot</code>.</p>
+<p><strong>Der Pflegebereich meldet &quot;schreibgeschützt&quot;.</strong> Die Dateirechte im Webspace stehen zu eng. Im Dateimanager des Anbieters für die vier HTML-Dateien und den Ordner <code>pflege</code> Schreibrecht setzen.</p>
+<p><strong>Das Kontaktformular schickt nichts.</strong> Manche Anbieter versenden nur an eine Adresse derselben Domain, manche verlangen einen SMTP-Zugang. Beim Anbieter nachfragen, wie Mailversand aus PHP dort geregelt ist. Solange das offen ist, steht die Telefonnummer sichtbar oben auf der Seite, es geht also nichts verloren.</p>
+<p><strong>Nach der Umstellung kommen keine Mails mehr.</strong> Die notierten MX-Einträge zurücksetzen, sofort. Deshalb Abschnitt 5 Punkt 1. Deshalb TTL 5 Minuten. Deshalb Dienstagvormittag.</p>
+<p><strong>Der Pflegebereich ist von außen erreichbar, aber <code>sicherungen</code> auch.</strong> Dann wertet der Server die <code>.htaccess</code> nicht aus. Das ist bei Apache der Normalfall und bei nginx nicht. Beim Anbieter nachfragen. Es ist kein akutes Loch, dort liegen nur frühere Fassungen öffentlicher Seiten, aber es gehört geschlossen.</p></main></body></html>

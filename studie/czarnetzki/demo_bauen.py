@@ -333,7 +333,7 @@ SKRIPT = r"""<script>
     function zwei(n) { return ('0' + n).slice(-2); }
     return zwei(d.getDate()) + '.' + zwei(d.getMonth() + 1) + '.' +
       d.getFullYear() + ', ' + zwei(d.getHours()) + ':' + zwei(d.getMinutes()) +
-      ' Uhr';
+      ':' + zwei(d.getSeconds()) + ' Uhr';
   }
 
   /* ---- Umschalten zwischen Website und Pflegebereich --------------- */

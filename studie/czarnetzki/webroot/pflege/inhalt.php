@@ -99,22 +99,24 @@ function felder_schreiben(string $datei, array $neu): array
     }
     $html = (string) file_get_contents($pfad);
 
-    if (!is_dir(SICHERUNG)) {
-        @mkdir(SICHERUNG, 0775, true);
-    }
-    $stempel = date('Y-m-d_H-i-s');
-    @file_put_contents(SICHERUNG . "/{$stempel}_{$datei}", $html);
-    sicherungen_aufraeumen($datei);
-
     // Ein leeres Feld ist bei den meisten Angaben in Ordnung: Kein
     // aktueller Hinweis ist ein gueltiger Zustand. Bei Telefonnummer und
     // E-Mail ist es keiner, sondern ein Versehen mit Folgen.
+    // Die Pruefung steht vor der Sicherung: Eine abgelehnte Speicherung
+    // aendert nichts und darf deshalb auch keinen Platz in der Liste der
+    // frueheren Staende verbrauchen.
     foreach (PFLICHT as $pflicht) {
         if (array_key_exists($pflicht, $neu) && trim($neu[$pflicht]) === '') {
             return [false, 'Die ' . feld_beschriftung($pflicht)
                 . ' darf nicht leer bleiben. Es wurde nichts gespeichert.'];
         }
     }
+
+    if (!is_dir(SICHERUNG)) {
+        @mkdir(SICHERUNG, 0775, true);
+    }
+    @file_put_contents(sicherung_name($datei), $html);
+    sicherungen_aufraeumen($datei);
 
     $geaendert = 0;
     foreach ($neu as $name => $wert) {
@@ -272,15 +274,23 @@ function sicherungen_liste(string $datei): array
         return [];
     }
     $liste = glob(SICHERUNG . "/*_{$datei}") ?: [];
-    rsort($liste);
+    // Neueste zuerst. Sortiert wird nach Zeit und Zaehlnummer, nicht nach
+    // dem Namen: Alphabetisch stuende "..._14-43-35-1_seite" vor
+    // "..._14-43-35_seite", waere aber der neuere Stand.
+    usort($liste, static fn($a, $b) => sicherung_schluessel($b) <=> sicherung_schluessel($a));
     $aus = [];
     foreach ($liste as $pfad) {
         $name = basename($pfad);
         $stempel = substr($name, 0, 19);
         $zeit = DateTime::createFromFormat('Y-m-d_H-i-s', $stempel);
+        // Bei mehreren Sicherungen in derselben Sekunde haengt eine
+        // Zaehlnummer am Stempel; fuer die Anzeige spielt sie keine Rolle.
+        if (!$zeit && preg_match('/^(\d{4}-\d{2}-\d{2}_\d{2}-\d{2}-\d{2})/', $name, $t)) {
+            $zeit = DateTime::createFromFormat('Y-m-d_H-i-s', $t[1]);
+        }
         $aus[] = [
             'datei' => $name,
-            'zeit' => $zeit ? $zeit->format('d.m.Y, H:i') . ' Uhr' : $stempel,
+            'zeit' => $zeit ? $zeit->format('d.m.Y, H:i:s') . ' Uhr' : $stempel,
         ];
     }
     return $aus;
@@ -297,7 +307,9 @@ function sicherung_zurueckholen(string $datei, string $stand): array
     if (!in_array($datei, DATEIEN, true)) {
         return [false, 'Unbekannte Datei.'];
     }
-    if (!preg_match('/^[0-9]{4}-[0-9]{2}-[0-9]{2}_[0-9]{2}-[0-9]{2}-[0-9]{2}_'
+    // Der Zaehler (-1, -2 ...) haengt an Staenden aus derselben Sekunde.
+    // Ohne ihn im Muster waeren genau die nicht zurueckzuholen.
+    if (!preg_match('/^[0-9]{4}-[0-9]{2}-[0-9]{2}_[0-9]{2}-[0-9]{2}-[0-9]{2}(-[0-9]{1,3})?_'
         . preg_quote($datei, '/') . '$/', $stand)) {
         return [false, 'Unbekannter Stand.'];
     }
@@ -306,22 +318,72 @@ function sicherung_zurueckholen(string $datei, string $stand): array
     if (!is_file($quelle)) {
         return [false, 'Diesen Stand gibt es nicht mehr.'];
     }
+    // Erst den zurueckzuholenden Inhalt lesen, dann sichern, dann schreiben.
+    // In dieser Reihenfolge kann die Sicherheitskopie ihn nicht mehr
+    // zerstoeren, selbst wenn beim Ablegen etwas schiefgeht.
+    $alter = @file_get_contents($quelle);
+    if ($alter === false) {
+        return [false, 'Diesen Stand konnte ich nicht lesen.'];
+    }
     $jetzt = @file_get_contents($ziel);
     if ($jetzt !== false) {
-        @file_put_contents(SICHERUNG . '/' . date('Y-m-d_H-i-s') . '_' . $datei, $jetzt);
+        @file_put_contents(sicherung_name($datei), $jetzt);
     }
-    if (!@copy($quelle, $ziel)) {
+    if (@file_put_contents($ziel, $alter) === false) {
         return [false, 'Der Stand konnte nicht zurückgeholt werden.'];
     }
     sicherungen_aufraeumen($datei);
     return [true, 'Der Stand von vorher ist wieder da.'];
 }
 
+/**
+ * Sortierschlüssel eines Sicherungsnamens: Zeitpunkt und Zählnummer.
+ *
+ * Zwei Sicherungen aus derselben Sekunde unterscheiden sich nur durch die
+ * angehängte Zählnummer. Sie muss als Zahl verglichen werden, damit die
+ * spätere auch als spätere gilt.
+ *
+ * @return array{0:int,1:int}
+ */
+function sicherung_schluessel(string $pfad): array
+{
+    $name = basename($pfad);
+    $zeit = @filemtime($pfad) ?: 0;
+    $nr = 0;
+    if (preg_match('/^\d{4}-\d{2}-\d{2}_\d{2}-\d{2}-\d{2}-(\d{1,3})_/', $name, $t)) {
+        $nr = (int) $t[1];
+    }
+    return [$zeit, $nr];
+}
+
+/**
+ * Ein freier Dateiname für eine Sicherung.
+ *
+ * Der Zeitstempel hat Sekunden. Zwei Sicherungen in derselben Sekunde
+ * bekamen denselben Namen, und die zweite überschrieb die erste. Beim
+ * Zurückholen war das gefährlich: Die Sicherheitskopie des aktuellen
+ * Standes überschrieb genau den Stand, der zurückgeholt werden sollte.
+ * Deshalb wird angehängt, bis der Name frei ist.
+ */
+function sicherung_name(string $datei): string
+{
+    $stempel = date('Y-m-d_H-i-s');
+    $pfad = SICHERUNG . "/{$stempel}_{$datei}";
+    $nr = 1;
+    while (file_exists($pfad)) {
+        $pfad = SICHERUNG . "/{$stempel}-{$nr}_{$datei}";
+        $nr++;
+    }
+    return $pfad;
+}
+
 /** Behält die letzten 20 Sicherungen je Datei. */
 function sicherungen_aufraeumen(string $datei, int $behalten = 20): void
 {
     $liste = glob(SICHERUNG . "/*_{$datei}") ?: [];
-    sort($liste);
+    // Aelteste zuerst, nach derselben Ordnung wie in der Anzeige. Sonst
+    // wuerde beim Aufraeumen der falsche Stand weggeworfen.
+    usort($liste, static fn($a, $b) => sicherung_schluessel($a) <=> sicherung_schluessel($b));
     foreach (array_slice($liste, 0, max(0, count($liste) - $behalten)) as $alt) {
         @unlink($alt);
     }

@@ -20,6 +20,9 @@ webroot/                  ← genau das kommt in den Webspace
   pflege/                 Pflegebereich und Formular
     .htaccess             sperrt die Sicherungen und die Hilfsdatei
 czarnetzki-website.zip    dasselbe als fertiges Paket
+ANLEITUNG.md/.html        für ihn: wie er die Seite pflegt, eine Seite, zum Drucken
+LIVEGANG.md/.html         für uns: Reihenfolge beim Umstellen der Domain
+anleitung_bauen.py        erzeugt die beiden .html aus den .md
 demo.html                 Probefassung fürs Browserfenster
 demo_bauen.py             erzeugt demo.html aus webroot/
 ```
@@ -50,9 +53,12 @@ Offen bleibt Prüfpunkt 14 (Google-Unternehmensprofil) — das gehört auf die
 
 1. **Inhalt von `webroot/` hochladen.** Fertig — es ist nichts einzustellen.
 2. **`INSTALLATION.txt` löschen.**
-3. **Passwort ändern.** Ausgeliefert wird `Heerstrasse15A`; der Hash steht in
-   `pflege/index.php`, das Passwort selbst nirgends auf dem Server. Ersetzen:
-   `php -r "echo password_hash('NeuesPasswort', PASSWORD_DEFAULT);"`
+3. **Passwort ändern.** Ausgeliefert wird `Heerstrasse15A`. Gespeichert ist
+   davon nur ein unumkehrbarer Zahlenwert in `pflege/passwort.txt`, den die
+   `.htaccess` von außen sperrt. Geändert wird es im Pflegebereich selbst,
+   ganz unten unter „Passwort ändern" (mindestens acht Zeichen). Es ist
+   nichts an Dateien zu bearbeiten, und nichts Kundenspezifisches steht in
+   den Programmdateien.
 4. `EMPFAENGER` in `pflege/formular.php` steht bereits auf
    `info@pcelektro.de`.
 5. Voraussetzung an den Tarif: PHP und eigene Dateien hochladen dürfen.
@@ -77,6 +83,14 @@ genau so, wie es beim Kunden ankommt. PHP 8.4.19 und Chromium:
   hochgeladene Bild erscheint verkleinert mit neuer Zählnummer.
 - Formular: gefüllte Spamfalle und Absenden in unter drei Sekunden werden
   still verworfen; fehlt der Rückweg, kommt die Fehlerseite.
+
+- Frühere Stände: Ein zurückgeholter Stand kommt richtig zurück, auch wenn
+  mehrere Sicherungen in dieselbe Sekunde fallen, und das Zurückholen selbst
+  ist wieder rückgängig zu machen. Von jeder Seite bleiben die letzten 20
+  Stände liegen, die letzten 8 stehen zur Auswahl.
+- Passwort ändern: falsches altes, zu kurzes neues und zwei ungleiche
+  Eingaben werden abgewiesen; danach greift nur noch das neue.
+- Eine abgewiesene Speicherung verbraucht keinen Stand und ändert nichts.
 
 **Nicht geprüft:** der tatsächliche Mailversand — `mail()` gibt es im
 Container nicht. Das ist der erste Test auf dem echten Hosting.
@@ -124,7 +138,10 @@ Eine Seite, zum Ausdrucken und Unterschreiben.
   Fotograf.
 - **Gründungsjahr.** Auf der alten Seite steht keins. Solange es nicht belegt
   ist, steht kein „seit 19xx" auf der Seite.
-- **Öffnungszeiten** sind angenommen (Mo–Fr 7:00–16:30) und im Vorgespräch zu
-  bestätigen.
+- **Öffnungszeiten** stehen jetzt als Mo-Do 7:00-17:30, Fr 7:00-15:30 auf der
+  Seite. Die Angabe stammt aus drei übereinstimmenden Verzeichniseinträgen
+  (11880, golocal, Öffnungszeitenbuch), nicht von ihm selbst. Sie steht
+  deshalb weiter auf dem Freigabeblatt und ist im Vorgespräch zu bestätigen.
+  Ändern kann er sie danach selbst.
 - **Die Stellenanzeige** ist bewusst ein sichtbarer Platzhalter — er zeigt
   dem Betrieb, wo er selbst schreibt.
