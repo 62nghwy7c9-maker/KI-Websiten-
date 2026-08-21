@@ -86,17 +86,43 @@ pflege/</code></pre>
 <p>Es ist nichts einzustellen. Der Pflegebereich findet die Seiten von selbst, weil er eine Ebene tiefer liegt.</p>
 <h2>4. Auf der Vorschau-Adresse testen, bevor die Domain umgestellt wird</h2>
 <p>Fast jeder Anbieter gibt eine vorläufige Adresse, etwas wie <code>kunde1234.hoster.de</code>. Dort läuft die Seite schon, bevor <code>pcelektro.de</code> darauf zeigt. Diese Prüfung findet dort statt, nicht auf der echten Domain.</p>
-<p>Prüfen Sie in dieser Reihenfolge:</p>
+<p>Der Reihe nach. Bei jedem Punkt steht, was zu sehen sein muss.</p>
 <ol>
-<li value="1">Startseite lädt.</li>
-<li value="2">Auf dem Handy aufrufen, nicht nur das Fenster schmal ziehen.</li>
-<li value="3">Impressum und Datenschutz sind erreichbar.</li>
-<li value="4"><strong>Kontaktformular ausfüllen und absenden. Kommt die Mail an?</strong> Das ist der wichtigste Test, und er lässt sich nur hier machen, nie vorher. Empfänger steht in <code>pflege/formular.php</code>: <code>info@pcelektro.de</code>. Kommt nichts an, weiter bei Punkt 8.</li>
-<li value="5">Pflegebereich unter <code>.../pflege</code> aufrufen, anmelden, Öffnungszeiten ändern, speichern, Startseite neu laden. Steht es da?</li>
-<li value="6">Einen früheren Stand zurückholen. Kommt der alte Text wieder?</li>
-<li value="7">HTTPS: Zertifikat im Kundenmenü einschalten, meist ein Klick, und die Weiterleitung von <code>http</code> auf <code>https</code> gleich mit. Danach muss im Browser das Schloss stehen.</li>
+<li value="1"><strong>Startseite aufrufen.</strong> Die Seite steht da, mit Bild und Farben. Kommt nur Text ohne Gestaltung, wurde <code>stil.css</code> nicht mit hochgeladen.</li>
+<li value="2"><strong>Auf dem Handy aufrufen.</strong> Echtes Handy, nicht das Fenster schmal ziehen. Nichts läuft seitlich über.</li>
+<li value="3"><strong>Impressum und Datenschutz</strong> sind über den Fuß erreichbar.</li>
+<li value="4"><strong><code>.../pflege</code> aufrufen und anmelden.</strong> Sie landen in der Übersicht mit den Reitern der vier Seiten.</li>
+<li value="5"><strong>Telefonnummer ändern und speichern.</strong> Es kommt die Meldung &quot;Stelle(n) gespeichert&quot;.</li>
+<li value="6"><strong>Impressum aufrufen. Steht dort die neue Nummer?</strong> Das ist der entscheidende Punkt. Wenn ja, funktioniert alles auf einmal: Schreiben in die Datei, Erkennen der Stellen und Weiterziehen über alle Seiten. Wenn nein, ist der Rest egal.</li>
+<li value="7"><strong>Nummer leeren und speichern.</strong> Es muss die Meldung kommen, dass nichts gespeichert wurde, und die alte Nummer muss wieder im Feld stehen.</li>
+<li value="8"><strong>Unten unter &quot;Frühere Stände&quot; einen Stand zurückholen.</strong> Der alte Text ist wieder da.</li>
+<li value="9"><strong>Bild austauschen</strong>, mit einem großen Foto direkt vom Handy. Es erscheint auf der Website, verkleinert.</li>
+<li value="10"><strong>Kontaktformular ausfüllen und absenden. Kommt die Mail an?</strong></li>
 </ol>
-<p>Erst wenn alle sieben Punkte stimmen, geht es weiter.</p>
+<pre><code>Empfänger steht in `pflege/formular.php`: `info@pcelektro.de`. Dieser
+Test lässt sich nur hier machen, nie vorher, weil dafür ein echter
+Mailserver nötig ist. Wenn irgendetwas schiefgeht, dann hier. Kommt
+nichts an, weiter bei Abschnitt 7.</code></pre>
+<ol>
+<li value="11"><strong>Passwort ändern, abmelden, mit dem neuen anmelden.</strong> Und einmal mit</li>
+</ol>
+<pre><code>dem alten versuchen: muss scheitern.</code></pre>
+<ol>
+<li value="12"><strong><code>.../pflege/inhalt.php</code> direkt in die Adresszeile.</strong> Es muss ein</li>
+</ol>
+<pre><code>Fehler kommen, keine Seite. Erscheint Programmtext oder eine leere
+Seite, wertet der Server die `.htaccess` nicht aus, siehe Abschnitt 7.</code></pre>
+<ol>
+<li value="13"><strong><code>.../pflege/sicherungen/</code> direkt aufrufen.</strong> Muss ebenfalls ein</li>
+</ol>
+<pre><code>Fehler sein, keine Dateiliste.</code></pre>
+<ol>
+<li value="14"><strong>HTTPS:</strong> Zertifikat im Kundenmenü einschalten, meist ein Klick, und</li>
+</ol>
+<pre><code>die Weiterleitung von `http` auf `https` gleich mit. Danach muss im
+Browser das Schloss neben der Adresse stehen.</code></pre>
+<p>Punkt 6, 10 und 12 sind die drei, die zählen. Der Rest ist Bestätigung.</p>
+<p>Erst wenn alle vierzehn Punkte stimmen, geht es weiter.</p>
 <h2>5. Die Domain umstellen</h2>
 <p><strong>Bei Fall A entfällt dieser Abschnitt vollständig.</strong> Die Domain zeigt schon auf diesen Webspace, die Dateien sind ausgetauscht, Sie sind fertig. Springen Sie zu Abschnitt 6.</p>
 <p><strong>Bei Fall B, in dieser Reihenfolge:</strong></p>

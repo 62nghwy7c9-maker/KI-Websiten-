@@ -81,23 +81,47 @@ Fast jeder Anbieter gibt eine vorläufige Adresse, etwas wie
 `kunde1234.hoster.de`. Dort läuft die Seite schon, bevor `pcelektro.de`
 darauf zeigt. Diese Prüfung findet dort statt, nicht auf der echten Domain.
 
-Prüfen Sie in dieser Reihenfolge:
+Der Reihe nach. Bei jedem Punkt steht, was zu sehen sein muss.
 
-1. Startseite lädt.
-2. Auf dem Handy aufrufen, nicht nur das Fenster schmal ziehen.
-3. Impressum und Datenschutz sind erreichbar.
-4. **Kontaktformular ausfüllen und absenden. Kommt die Mail an?**
-   Das ist der wichtigste Test, und er lässt sich nur hier machen, nie
-   vorher. Empfänger steht in `pflege/formular.php`: `info@pcelektro.de`.
-   Kommt nichts an, weiter bei Punkt 8.
-5. Pflegebereich unter `.../pflege` aufrufen, anmelden, Öffnungszeiten
-   ändern, speichern, Startseite neu laden. Steht es da?
-6. Einen früheren Stand zurückholen. Kommt der alte Text wieder?
-7. HTTPS: Zertifikat im Kundenmenü einschalten, meist ein Klick, und die
-   Weiterleitung von `http` auf `https` gleich mit. Danach muss im Browser
-   das Schloss stehen.
+1. **Startseite aufrufen.** Die Seite steht da, mit Bild und Farben. Kommt
+   nur Text ohne Gestaltung, wurde `stil.css` nicht mit hochgeladen.
+2. **Auf dem Handy aufrufen.** Echtes Handy, nicht das Fenster schmal
+   ziehen. Nichts läuft seitlich über.
+3. **Impressum und Datenschutz** sind über den Fuß erreichbar.
+4. **`.../pflege` aufrufen und anmelden.** Sie landen in der Übersicht mit
+   den Reitern der vier Seiten.
+5. **Telefonnummer ändern und speichern.** Es kommt die Meldung
+   "Stelle(n) gespeichert".
+6. **Impressum aufrufen. Steht dort die neue Nummer?**
+   Das ist der entscheidende Punkt. Wenn ja, funktioniert alles auf
+   einmal: Schreiben in die Datei, Erkennen der Stellen und Weiterziehen
+   über alle Seiten. Wenn nein, ist der Rest egal.
+7. **Nummer leeren und speichern.** Es muss die Meldung kommen, dass
+   nichts gespeichert wurde, und die alte Nummer muss wieder im Feld
+   stehen.
+8. **Unten unter "Frühere Stände" einen Stand zurückholen.** Der alte Text
+   ist wieder da.
+9. **Bild austauschen**, mit einem großen Foto direkt vom Handy. Es
+   erscheint auf der Website, verkleinert.
+10. **Kontaktformular ausfüllen und absenden. Kommt die Mail an?**
+    Empfänger steht in `pflege/formular.php`: `info@pcelektro.de`. Dieser
+    Test lässt sich nur hier machen, nie vorher, weil dafür ein echter
+    Mailserver nötig ist. Wenn irgendetwas schiefgeht, dann hier. Kommt
+    nichts an, weiter bei Abschnitt 7.
+11. **Passwort ändern, abmelden, mit dem neuen anmelden.** Und einmal mit
+    dem alten versuchen: muss scheitern.
+12. **`.../pflege/inhalt.php` direkt in die Adresszeile.** Es muss ein
+    Fehler kommen, keine Seite. Erscheint Programmtext oder eine leere
+    Seite, wertet der Server die `.htaccess` nicht aus, siehe Abschnitt 7.
+13. **`.../pflege/sicherungen/` direkt aufrufen.** Muss ebenfalls ein
+    Fehler sein, keine Dateiliste.
+14. **HTTPS:** Zertifikat im Kundenmenü einschalten, meist ein Klick, und
+    die Weiterleitung von `http` auf `https` gleich mit. Danach muss im
+    Browser das Schloss neben der Adresse stehen.
 
-Erst wenn alle sieben Punkte stimmen, geht es weiter.
+Punkt 6, 10 und 12 sind die drei, die zählen. Der Rest ist Bestätigung.
+
+Erst wenn alle vierzehn Punkte stimmen, geht es weiter.
 
 ---
 
