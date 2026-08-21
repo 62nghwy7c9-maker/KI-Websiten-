@@ -3,7 +3,7 @@
  * Gemeinsame Hilfsmittel für Pflegebereich und Formular.
  *
  * Kein Framework, keine Bibliothek, keine Datenbank. Eine Datei, die auf
- * jedem deutschen Hosting-Tarif läuft, der PHP kann — und das können alle.
+ * jedem deutschen Hosting-Tarif läuft, der PHP kann, und das können alle.
  *
  * Der Grundgedanke: Die Website bleibt reines HTML. Bearbeitbare Stellen
  * werden im HTML markiert:
@@ -12,7 +12,7 @@
  *
  * Der Pflegebereich liest diese Markierungen, zeigt sie als Formularfelder
  * und schreibt die neuen Werte an genau dieselbe Stelle zurück. Zwischen den
- * Markierungen steht Text, sonst nichts — der Kunde kann das Layout nicht
+ * Markierungen steht Text, sonst nichts, der Kunde kann das Layout nicht
  * zerlegen, weil er es nie zu sehen bekommt.
  */
 
@@ -34,7 +34,7 @@ define('SEITEN', getenv('WG_PFLEGE_SEITEN') ?: dirname(__DIR__));
 /** Wohin Sicherungen geschrieben werden. */
 const SICHERUNG = __DIR__ . '/sicherungen';
 
-/* Erlaubte Dateien. Alles andere wird nicht angefasst — der Kunde kann
+/* Erlaubte Dateien. Alles andere wird nicht angefasst, der Kunde kann
  * ueber diesen Weg an keine andere Datei auf dem Server heran. Aufgefuehrt
  * wird nur, was auch tatsaechlich vorhanden ist. */
 define('DATEIEN', array_values(array_filter(
@@ -76,7 +76,7 @@ function felder_lesen(string $datei): array
  * Schreibt neue Werte in eine Datei zurück.
  *
  * Vorher wird eine Sicherung angelegt. Nicht aus Vorsicht, sondern weil ein
- * Kunde, der aus Versehen den halben Text löscht, sonst uns anruft — und wir
+ * Kunde, der aus Versehen den halben Text löscht, sonst uns anruft, und wir
  * dann in einem Git-Verlauf suchen, den er nicht bedienen kann.
  *
  * @param array<string,string> $neu
@@ -106,7 +106,7 @@ function felder_schreiben(string $datei, array $neu): array
             continue;
         }
         $wert = trim(preg_replace('/\R/u', ' ', $wert) ?? '');
-        // Der Kunde schreibt Text, kein HTML. Alles wird maskiert — damit
+        // Der Kunde schreibt Text, kein HTML. Alles wird maskiert, damit
         // kann er weder das Layout zerschießen noch versehentlich ein
         // offenes <div> hinterlassen.
         $sicher = htmlspecialchars($wert, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
@@ -138,7 +138,7 @@ function felder_schreiben(string $datei, array $neu): array
  *
  * Ohne diesen Schritt entsteht der schlimmste denkbare Fehler: Auf der Seite
  * steht die neue Nummer, der Tippen-Verweis wählt aber weiter die alte. Das
- * ist genau Prüfpunkt 5 unseres eigenen Katalogs — und es fiele niemandem
+ * ist genau Prüfpunkt 5 unseres eigenen Katalogs, und es fiele niemandem
  * auf, weil die Seite richtig aussieht.
  */
 function verweis_nachziehen(string $html, string $name, string $wert): string
@@ -161,7 +161,7 @@ function verweis_nachziehen(string $html, string $name, string $wert): string
 
     return (string) preg_replace(
         // Zwischen dem oeffnenden a-Tag und der Markierung darf Text stehen
-        // („Anrufen: 02271 45550"), aber kein weiteres Element — sonst
+        // („Anrufen: 02271 45550"), aber kein weiteres Element, sonst
         // erwischt die Regel den falschen Verweis.
         '/(<a[^>]*href=")' . preg_quote($schema, '/') . '[^"]*("[^>]*>[^<]{0,40}<!--wg:'
             . preg_quote($name, '/') . '-->)/',
@@ -278,7 +278,7 @@ function felder_schreiben_ueberall(string $datei, array $neu): array
  * Bilder
  * ====================================================================
  * Text zu ändern reicht nicht. Das Zweithäufigste, was ein Betrieb an
- * seiner Website ändern will, ist ein Bild — neues Fahrzeug, neues Team,
+ * seiner Website ändern will, ist ein Bild, neues Fahrzeug, neues Team,
  * fertige Baustelle. Deshalb dasselbe Verfahren wie beim Text: eine
  * Markierung im HTML, direkt vor dem Bild.
  *
@@ -287,7 +287,7 @@ function felder_schreiben_ueberall(string $datei, array $neu): array
  *
  * Der Kunde wählt eine Datei aus, wir prüfen sie, rechnen sie klein und
  * legen sie unter demselben Namen ab. Am HTML ändert sich nur die
- * Zählnummer hinter dem Dateinamen — sonst zeigt der Browser tagelang das
+ * Zählnummer hinter dem Dateinamen, sonst zeigt der Browser tagelang das
  * alte Bild aus seinem Zwischenspeicher.
  */
 
@@ -399,7 +399,7 @@ function bild_schreiben(string $datei, string $name, array $datei_feld): array
  *
  * Warum verkleinern: Ein Betrieb fotografiert mit dem Telefon, und aus dem
  * Telefon kommen 4000 Pixel und sechs Megabyte. Ungefragt hochgeladen macht
- * das eine schnelle Seite langsam — Prüfpunkt 4, der Punkt, mit dem wir
+ * das eine schnelle Seite langsam, Prüfpunkt 4, der Punkt, mit dem wir
  * selbst argumentieren. Der Kunde soll darüber nicht nachdenken müssen.
  */
 function bild_ablegen(string $quelle, string $ziel, array $info): bool

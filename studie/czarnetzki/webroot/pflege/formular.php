@@ -5,7 +5,7 @@
  *
  * Warum überhaupt eine Datei dafür: Eine statische Website ist nur Text auf
  * einer Festplatte. Sie kann nichts entgegennehmen. Damit ein Formular
- * funktioniert, braucht es ein Programm, das den Knopfdruck verarbeitet —
+ * funktioniert, braucht es ein Programm, das den Knopfdruck verarbeitet
  * das ist diese Datei.
  *
  * Warum kein fertiger Dienst: Jeder Formulardienst bekäme die Anfragen der
@@ -36,7 +36,7 @@ function zurueck(string $ziel): never
     exit;
 }
 
-/** Entfernt Zeilenumbrüche — sonst ließen sich Mail-Kopfzeilen einschleusen. */
+/** Entfernt Zeilenumbrüche, sonst ließen sich Mail-Kopfzeilen einschleusen. */
 function eine_zeile(string $s): string
 {
     return trim((string) preg_replace('/[\r\n]+/', ' ', $s));
@@ -51,12 +51,12 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') !== 'POST') {
  *
  * 1. Ein Feld namens "website", das im Formular versteckt ist. Menschen
  *    sehen es nicht und füllen es nicht aus. Automatische Programme füllen
- *    stumpf alles aus — wer hier etwas einträgt, ist keiner.
+ *    stumpf alles aus, wer hier etwas einträgt, ist keiner.
  * 2. Die Zeit. Ein Mensch braucht mindestens ein paar Sekunden zum Tippen.
  *    Wer in unter drei Sekunden absendet, hat nicht getippt.
  *
  * Das ersetzt ein Captcha und verlangt dem Kunden nichts ab. Ein Meister,
- * der Verkehrsschilder anklicken muss, ruft nicht an — er geht weg.
+ * der Verkehrsschilder anklicken muss, ruft nicht an, er geht weg.
  */
 if (!empty($_POST['website'])) {
     zurueck(ZURUECK);            // still schlucken, kein Hinweis für den Absender
@@ -96,8 +96,8 @@ if ($mail === '' && $tel === '') {
 $betreff = 'Anfrage über die Website';
 $inhalt = "Neue Anfrage über die Website von " . BETRIEB . "\n\n"
     . "Name:      {$name}\n"
-    . "E-Mail:    " . ($mail !== '' ? $mail : '—') . "\n"
-    . "Telefon:   " . ($tel !== '' ? $tel : '—') . "\n"
+    . "E-Mail:    " . ($mail !== '' ? $mail : '-') . "\n"
+    . "Telefon:   " . ($tel !== '' ? $tel : '-') . "\n"
     . "Eingang:   " . date('d.m.Y, H:i') . " Uhr\n\n"
     . "Nachricht:\n{$text}\n";
 
@@ -106,7 +106,7 @@ $kopf = [
     'Content-Type: text/plain; charset=UTF-8',
     'X-Mailer: PHP',
 ];
-// Antworten geht direkt an den Absender — der Betrieb drückt einfach
+// Antworten geht direkt an den Absender, der Betrieb drückt einfach
 // „Antworten" und muss die Adresse nicht heraussuchen.
 if ($mail !== '') {
     $kopf[] = 'Reply-To: ' . $mail;

@@ -16,7 +16,7 @@ require __DIR__ . '/inhalt.php';
 /* ---- Zugang ---------------------------------------------------------
  * Ein Passwort für den Betrieb, als Hash hinterlegt. Erzeugt wird der Hash
  * einmalig mit:  php -r "echo password_hash('IhrPasswort', PASSWORD_DEFAULT);"
- * Im Klartext steht das Passwort nirgends — auch nicht bei uns.
+ * Im Klartext steht das Passwort nirgends, auch nicht bei uns.
  */
 $PASSWORT_HASH = getenv('WG_PFLEGE_HASH')
     ?: '$2y$12$jSzrHlMGpUY5sHgRN6X0NOqwlaxym1NWBW/bze9qqproONvMEZHvq';
@@ -64,7 +64,7 @@ if ($angemeldet && ($_POST['speichern'] ?? '') !== '') {
         }
         [$erfolg, $meldung] = felder_schreiben_ueberall($datei, $werte);
 
-        // Alternativtexte der Bilder — kurze Beschreibung für Menschen, die
+        // Alternativtexte der Bilder, kurze Beschreibung für Menschen, die
         // das Bild nicht sehen können, und für Google.
         foreach ($_POST['bildtext'] ?? [] as $name => $wert) {
             bildtext_schreiben($datei, (string) $name, (string) $wert);

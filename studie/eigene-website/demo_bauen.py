@@ -115,7 +115,7 @@ body.wg-modus-pflege .wg-seite{display:none}
 <div class="wg-leiste">
   <div>
     <span>Entwurf K&amp;D Webdesign</span>
-    <span class="wg-hinweis">— Probefassung im Browser. Änderungen bleiben nur auf diesem Gerät.</span>
+    <span class="wg-hinweis">· Probefassung im Browser. Änderungen bleiben nur auf diesem Gerät.</span>
   </div>
   <div class="wg-knoepfe">
     <button type="button" data-modus="seite" aria-pressed="true">Website</button>
@@ -159,7 +159,7 @@ SKRIPT = r"""<script>
  * schreibt sie zurueck. Hier passiert dasselbe im Browser, nur dass statt
  * der Datei der Speicher des Browsers beschrieben wird.
  *
- * Feldnamen, Beschriftungen und Verhalten sind absichtlich identisch —
+ * Feldnamen, Beschriftungen und Verhalten sind absichtlich identisch:
  * wer hier etwas ausprobiert, probiert das echte Verhalten aus.
  */
 (function () {
@@ -218,7 +218,7 @@ SKRIPT = r"""<script>
     stelle.ende.parentNode.insertBefore(document.createTextNode(wert), stelle.ende);
   }
 
-  /* Telefonverweis mitziehen — wie verweis_nachziehen() in inhalt.php. */
+  /* Telefonverweis mitziehen, wie verweis_nachziehen() in inhalt.php. */
   function verweisNachziehen(stelle, wert) {
     var a = stelle.start.parentNode;
     while (a && a.tagName !== 'A') { a = a.parentNode; }
@@ -345,7 +345,7 @@ SKRIPT = r"""<script>
         '<input type="text" data-alt="' + name + '"></label></div></div>';
     });
     ziel.innerHTML = html;
-    // Werte setzen (nicht über value="" im HTML — sonst zerbricht Text mit ")
+    // Werte setzen (nicht über value="" im HTML, sonst zerbricht Text mit ")
     Object.keys(stellen.texte).forEach(function (name) {
       ziel.querySelector('[data-feld="' + name + '"]').value =
         textLesen(stellen.texte[name][0]);
@@ -356,7 +356,7 @@ SKRIPT = r"""<script>
     });
   }
 
-  /* Bild verkleinern — dasselbe, was bild_ablegen() auf dem Server tut. */
+  /* Bild verkleinern, dasselbe was bild_ablegen() auf dem Server tut. */
   function bildVerkleinern(datei) {
     return new Promise(function (fertig, schiefgegangen) {
       if (!/^image\/(jpeg|png|webp)$/.test(datei.type)) {
@@ -462,7 +462,7 @@ SKRIPT = r"""<script>
       var text = anfrage.querySelector('[name=nachricht]').value.trim();
 
       if (falle || schnell) {           // wie formular.php: still schlucken
-        zeigeDanke('Von einem Programm — in Wirklichkeit passiert hier nichts.');
+        zeigeDanke('Von einem Programm. In Wirklichkeit passiert hier nichts.');
         return;
       }
       if (!name || !text || (!mail && !tel)) {
@@ -471,7 +471,7 @@ SKRIPT = r"""<script>
         return;
       }
       zeigeDanke('An hallo@moewes-dettmer.de:\n\nName: ' + name +
-        '\nE-Mail: ' + (mail || '—') + '\nTelefon: ' + (tel || '—') +
+        '\nE-Mail: ' + (mail || '-') + '\nTelefon: ' + (tel || '-') +
         '\n\n' + text);
       anfrage.reset();
       geladen = Math.floor(Date.now() / 1000);
@@ -489,7 +489,7 @@ SKRIPT = r"""<script>
     }
     kasten.innerHTML = '<h3>Anfrage angekommen</h3>' +
       '<p class="klein">In der ausgelieferten Fassung geht jetzt genau diese ' +
-      'E-Mail an den Betrieb — nichts wird gespeichert. Hier wird sie nur ' +
+      'E-Mail an den Betrieb, nichts wird gespeichert. Hier wird sie nur ' +
       'angezeigt.</p><pre style="white-space:pre-wrap;font:13px/1.6 var(--mono);' +
       'margin:0;color:var(--basis)"></pre>';
     kasten.querySelector('pre').textContent = inhalt;

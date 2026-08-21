@@ -1,11 +1,11 @@
-/* Peter Czarnetzki Elektroinstallationen — Stil.
+/* Peter Czarnetzki Elektroinstallationen, Stil.
  *
  * Richtung aus dem Befund: technisch und präzise, schmale sachliche Grotesk,
  * eckige Kanten, tiefes Blau (#1F3A5F). Kein Farbverlauf, keine runden
  * Karten mit Schlagschatten, keine Stockfotos.
  *
  * Alle Farben stehen als Variablen auf :root (helle Fassung). Die dunkle
- * Fassung überschreibt nur die Variablen — einmal für die Systemeinstellung,
+ * Fassung überschreibt nur die Variablen, einmal für die Systemeinstellung,
  * einmal für eine ausdrückliche Wahl.
  */
 
@@ -23,7 +23,7 @@
   --linie-stark:#C2CBD6;
   --sans:"Helvetica Neue",Arial,"Liberation Sans",system-ui,sans-serif;
   --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
-  --bahn:64rem;
+  --bahn:68rem;
 }
 
 @media (prefers-color-scheme: dark){
@@ -51,8 +51,11 @@ body{
 .bahn{max-width:var(--bahn);margin:0 auto;padding:0 clamp(1.1rem,4vw,2.5rem)}
 
 h1,h2,h3{color:var(--basis);line-height:1.12;margin:0;
- letter-spacing:-.015em;font-weight:700;text-wrap:balance}
-h1{font-size:clamp(2rem,5.2vw,3.1rem)}
+ letter-spacing:-.015em;font-weight:700;text-wrap:balance;
+ overflow-wrap:break-word;hyphens:auto}
+/* Lange deutsche Wörter wie „Datenschutzerklärung" passen auf einem
+   320-Pixel-Gerät sonst nicht in die Zeile. */
+h1{font-size:clamp(1.8rem,5.2vw,3.1rem)}
 h2{font-size:clamp(1.35rem,3vw,1.85rem)}
 h3{font-size:1.05rem}
 p{margin:0 0 .9rem;max-width:64ch}
@@ -63,8 +66,10 @@ img{max-width:100%;height:auto;display:block}
 
 .marke{font-family:var(--mono);font-size:11px;letter-spacing:.18em;
  text-transform:uppercase;color:var(--gedaempft);
- display:flex;align-items:center;gap:.65rem;margin:0 0 1rem}
-.marke::before{content:"";width:28px;height:2px;background:var(--blau);flex:none}
+ display:flex;align-items:flex-start;gap:.65rem;margin:0 0 1rem}
+/* Der Strich sitzt auf der ersten Zeile, auch wenn der Text umbricht. */
+.marke::before{content:"";width:28px;height:2px;background:var(--blau);
+ flex:none;margin-top:.62em}
 
 /* ---- Kopf ---------------------------------------------------------- */
 header.kopf{background:var(--blau-tief);color:#DCE6F2;
@@ -100,8 +105,13 @@ header.kopf{background:var(--blau-tief);color:#DCE6F2;
 
 /* ---- Kennzahlenband ------------------------------------------------ */
 .band{background:var(--flaeche);border-bottom:1px solid var(--linie)}
+/* Vier Angaben: eine Spalte auf dem Handy, zwei auf dem Tablet, vier am
+   Rechner. Mit auto-fit blieb sonst je nach Breite eine Angabe allein in
+   der zweiten Zeile stehen. */
 .band ul{list-style:none;margin:0;padding:1.5rem 0;display:grid;
- grid-template-columns:repeat(auto-fit,minmax(13rem,1fr));gap:1.25rem}
+ grid-template-columns:1fr;gap:1.25rem 2rem}
+@media(min-width:34rem){.band ul{grid-template-columns:1fr 1fr}}
+@media(min-width:62rem){.band ul{grid-template-columns:repeat(4,1fr)}}
 .band b{display:block;font-size:1.5rem;color:var(--basis);line-height:1.1}
 .band span{font-size:.9rem;color:var(--gedaempft)}
 
@@ -180,10 +190,32 @@ footer a{color:#C7D6E8}
   .recht dd{margin-bottom:.8rem}
 }
 
+/* ---- Anrufleiste auf dem Handy ------------------------------------
+ * Auf einer Handwerkerseite ist der Anruf der wichtigste Weg. Auf einem
+ * kleinen Gerät soll er erreichbar sein, ohne dass jemand nach oben
+ * scrollen muss. Ab Tablet-Breite verschwindet die Leiste wieder.
+ */
+.ruf-leiste{display:none}
+@media (max-width:40rem){
+  /* Grössere Flächen zum Antippen: 24 Pixel hohe Links trifft man mit dem
+     Daumen nicht zuverlässig. */
+  .kopf nav{gap:0 1.2rem}
+  .kopf nav a{padding-block:.6rem}
+  .ruf-leiste{display:block;position:fixed;left:0;right:0;bottom:0;z-index:40;
+   background:var(--blau-tief);border-top:1px solid var(--blau);
+   padding:.6rem clamp(.9rem,4vw,1.5rem);
+   padding-bottom:calc(.6rem + env(safe-area-inset-bottom))}
+  .ruf-leiste a{display:flex;align-items:center;justify-content:center;
+   gap:.5rem;background:#fff;color:var(--blau-tief);font-weight:700;
+   text-decoration:none;padding:.8rem 1rem;border-radius:3px;font-size:1.05rem}
+  body{padding-bottom:5rem}
+  header.kopf .ruf{display:none}
+}
+
 @media print{
   @page{margin:16mm}
   body{background:#fff;color:#000;font-size:10pt}
-  header.kopf,footer,.knopfreihe,form.anfrage{display:none}
+  header.kopf,footer,.knopfreihe,form.anfrage,.ruf-leiste{display:none}
   .aufmacher{background:#fff;color:#000;padding:0}
   .aufmacher h1{color:#000}
 }
