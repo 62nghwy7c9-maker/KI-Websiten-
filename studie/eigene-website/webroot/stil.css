@@ -1,0 +1,274 @@
+/* Moewes & Dettmer — Stil.
+ *
+ * Gestaltungsrichtung nach dem Vorbild von sanity.io/context: sehr helle
+ * Fläche, sehr große und eng gesetzte Überschriften, ein einziger warmer
+ * Akzent, ein Punktraster als einziges grafisches Motiv, viel Luft zwischen
+ * den Abschnitten, abwechselnd links und rechts gesetzte Zeilen.
+ *
+ * Übernommen ist die Gestaltungssprache, nichts anderes: kein Code, keine
+ * Texte, keine Bilder, keine Schriftlizenz. Das Punktraster ist mit einem
+ * radial-gradient gezeichnet, die Schriften sind Systemschriften.
+ */
+
+:root{
+  --papier:#FFFFFF;
+  --flaeche:#F6F5F2;
+  --tinte:#0E0E0D;
+  --text:#3C3C39;
+  --gedaempft:#6E6E68;
+  --akzent:#D9541F;
+  --akzent-tief:#B0400F;
+  --akzent-weich:#FDEDE5;
+  --linie:#E6E4DE;
+  --linie-stark:#CFCCC3;
+  --warn:#8A2C1E;
+  --warn-weich:#F9E9E4;
+  --punkt:#DCDAD2;
+  --sans:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  --mono:ui-monospace,"SF Mono","JetBrains Mono",Menlo,Consolas,monospace;
+  --bahn:70rem;
+  --luft:clamp(4rem,8vw,6.5rem);
+}
+
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --papier:#0E0E0D; --flaeche:#161614; --tinte:#F4F2ED; --text:#C6C3BB;
+    --gedaempft:#8E8B83; --akzent:#F2764A; --akzent-tief:#FF8F66;
+    --akzent-weich:#2A1710; --linie:#26251F; --linie-stark:#3A3830;
+    --warn:#E08672; --warn-weich:#2E1A16; --punkt:#2A2924;
+  }
+}
+:root[data-theme="dark"]{
+  --papier:#0E0E0D; --flaeche:#161614; --tinte:#F4F2ED; --text:#C6C3BB;
+  --gedaempft:#8E8B83; --akzent:#F2764A; --akzent-tief:#FF8F66;
+  --akzent-weich:#2A1710; --linie:#26251F; --linie-stark:#3A3830;
+  --warn:#E08672; --warn-weich:#2E1A16; --punkt:#2A2924;
+}
+
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--papier);color:var(--text);
+ font:17px/1.65 var(--sans);-webkit-font-smoothing:antialiased}
+.bahn{max-width:var(--bahn);margin:0 auto;padding:0 clamp(1.2rem,5vw,3rem)}
+
+h1,h2,h3{color:var(--tinte);font-weight:700;margin:0;text-wrap:balance}
+h1{font-size:clamp(2.6rem,7.2vw,5rem);line-height:1.02;letter-spacing:-.035em}
+h2{font-size:clamp(1.9rem,4.4vw,3rem);line-height:1.06;letter-spacing:-.028em}
+h3{font-size:clamp(1.1rem,1.8vw,1.3rem);line-height:1.25;letter-spacing:-.015em}
+p{margin:0 0 1rem;max-width:60ch}
+a{color:var(--akzent)}
+a:hover{color:var(--akzent-tief)}
+:focus-visible{outline:3px solid var(--akzent);outline-offset:3px}
+strong{color:var(--tinte)}
+code{font-family:var(--mono);font-size:.87em}
+img{max-width:100%;height:auto;display:block}
+
+/* ---- Punktraster: das einzige grafische Motiv --------------------- */
+.punkte{background-image:radial-gradient(var(--punkt) 1.5px,transparent 1.6px);
+ background-size:18px 18px}
+
+.schild{display:inline-flex;align-items:center;gap:.55rem;
+ font-family:var(--mono);font-size:11.5px;letter-spacing:.14em;
+ text-transform:uppercase;color:var(--gedaempft);margin:0 0 1.4rem}
+.schild::before{content:"";width:7px;height:7px;border-radius:50%;
+ background:var(--akzent);flex:none}
+
+/* ---- Kopf --------------------------------------------------------- */
+header.kopf{position:sticky;top:0;z-index:30;background:var(--papier);
+ border-bottom:1px solid var(--linie)}
+.kopf-innen{display:flex;align-items:center;justify-content:space-between;
+ gap:1rem 2rem;padding-block:.85rem;flex-wrap:wrap}
+.logo{font-weight:700;font-size:1.08rem;color:var(--tinte);
+ text-decoration:none;letter-spacing:-.02em;white-space:nowrap}
+.logo b{color:var(--akzent);font-weight:700}
+.kopf nav{display:flex;flex-wrap:wrap;gap:.3rem 1.5rem;font-size:.96rem}
+.kopf nav a{color:var(--text);text-decoration:none}
+.kopf nav a:hover{color:var(--tinte)}
+
+.knopf{display:inline-flex;align-items:center;gap:.5rem;
+ padding:.72rem 1.4rem;border-radius:100px;font-weight:600;font-size:1rem;
+ text-decoration:none;border:1.5px solid transparent;cursor:pointer;
+ font-family:inherit;transition:background .15s,border-color .15s}
+.knopf.voll{background:var(--akzent);color:#fff}
+.knopf.voll:hover{background:var(--akzent-tief);color:#fff}
+.knopf.leer{border-color:var(--linie-stark);color:var(--tinte)}
+.knopf.leer:hover{border-color:var(--tinte)}
+.kopf .knopf{padding:.5rem 1.1rem;font-size:.94rem}
+
+/* ---- Pfeillink ---------------------------------------------------- */
+.pfeil{display:inline-flex;align-items:center;gap:.45rem;font-weight:600;
+ text-decoration:none}
+.pfeil::after{content:"→";transition:transform .18s}
+.pfeil:hover::after{transform:translateX(4px)}
+
+/* ---- Aufmacher ---------------------------------------------------- */
+.aufmacher{padding:clamp(4rem,11vw,8rem) 0 clamp(3rem,7vw,5rem);
+ position:relative;overflow:hidden}
+.aufmacher::before{content:"";position:absolute;inset:0 0 auto 0;height:100%;
+ background-image:radial-gradient(var(--punkt) 1.5px,transparent 1.6px);
+ background-size:18px 18px;
+ -webkit-mask-image:radial-gradient(70% 60% at 82% 18%,#000,transparent 72%);
+ mask-image:radial-gradient(70% 60% at 82% 18%,#000,transparent 72%);
+ pointer-events:none}
+.aufmacher .bahn{position:relative}
+.aufmacher h1{max-width:15ch}
+.aufmacher h1 em{font-style:normal;color:var(--akzent)}
+.aufmacher .unter{font-size:clamp(1.1rem,2.1vw,1.35rem);color:var(--gedaempft);
+ margin:1.5rem 0 0;max-width:48ch}
+.reihe{display:flex;flex-wrap:wrap;gap:.8rem;margin-top:2.4rem;
+ align-items:center}
+
+/* ---- Streifen mit Zahlen ------------------------------------------ */
+.streifen{border-block:1px solid var(--linie);background:var(--flaeche)}
+.streifen ul{list-style:none;margin:0;padding:2rem 0;display:grid;
+ gap:1.5rem;grid-template-columns:repeat(auto-fit,minmax(12rem,1fr))}
+.streifen b{display:block;font-size:1.7rem;color:var(--tinte);
+ letter-spacing:-.025em;line-height:1.1}
+.streifen span{font-size:.93rem;color:var(--gedaempft)}
+
+section{padding-block:var(--luft);scroll-margin-top:4.5rem}
+/* Zwei Abschnitte hintereinander sollen nicht die doppelte Luft bekommen —
+   der Abstand zwischen ihnen ist genau einmal --luft. */
+section + section{padding-top:0}
+.vorspann{color:var(--gedaempft);font-size:1.08rem;max-width:52ch;
+ margin-top:1.1rem}
+
+/* ---- Wechselzeilen ------------------------------------------------ */
+.zeile{display:grid;gap:2.5rem;align-items:center;margin-top:3.5rem}
+@media(min-width:54rem){
+  .zeile{grid-template-columns:1fr 1fr;gap:4rem}
+  .zeile.gedreht .bild{order:-1}
+}
+.zeile + .zeile{margin-top:var(--luft)}
+.zeile .bild{background:var(--flaeche);border:1px solid var(--linie);
+ border-radius:14px;padding:1.2rem;overflow:hidden}
+.zeile .bild img{border-radius:8px;border:1px solid var(--linie)}
+.zeile h3{margin-bottom:.7rem}
+
+/* ---- Karten ------------------------------------------------------- */
+.karten{display:grid;gap:1.2rem;margin-top:3rem;
+ grid-template-columns:repeat(auto-fit,minmax(15.5rem,1fr))}
+.karte{background:var(--flaeche);border:1px solid var(--linie);
+ border-radius:14px;padding:1.6rem 1.5rem}
+.karte h3{margin-bottom:.5rem}
+.karte p{font-size:.97rem;margin:0;color:var(--text)}
+.karte .kopfzeile{font-family:var(--mono);font-size:11px;letter-spacing:.12em;
+ text-transform:uppercase;color:var(--akzent);margin-bottom:.7rem}
+
+/* ---- Prüfpunkte --------------------------------------------------- */
+.liste19{list-style:none;margin:2.5rem 0 0;padding:0;display:grid;
+ gap:0 2.5rem;grid-template-columns:repeat(auto-fit,minmax(18rem,1fr))}
+.liste19 li{display:flex;gap:.9rem;padding:.62rem 0;
+ border-bottom:1px solid var(--linie);font-size:.97rem;align-items:baseline}
+.liste19 .nr{font-family:var(--mono);font-size:11.5px;color:var(--akzent);
+ font-weight:700;flex:none;min-width:1.7rem}
+
+/* ---- Schritte ----------------------------------------------------- */
+.schritte{list-style:none;counter-reset:s;margin:3rem 0 0;padding:0;
+ display:grid;gap:1.6rem;grid-template-columns:repeat(auto-fit,minmax(16rem,1fr))}
+.schritte li{counter-increment:s}
+.schritte li::before{content:counter(s,decimal-leading-zero);
+ display:block;font-family:var(--mono);font-size:2rem;color:var(--akzent);
+ font-weight:700;line-height:1;margin-bottom:.7rem;letter-spacing:-.04em}
+.schritte b{display:block;color:var(--tinte);margin-bottom:.2rem}
+.schritte span{font-size:.95rem;color:var(--gedaempft)}
+
+/* ---- Preise ------------------------------------------------------- */
+.preise{display:grid;gap:1.2rem;margin-top:3rem;
+ grid-template-columns:repeat(auto-fit,minmax(15rem,1fr))}
+.paket{border:1px solid var(--linie);border-radius:14px;padding:1.7rem 1.5rem;
+ display:flex;flex-direction:column;background:var(--papier)}
+.paket.hervor{border-color:var(--akzent);background:var(--akzent-weich)}
+.paket .stufe{font-family:var(--mono);font-size:11px;letter-spacing:.12em;
+ text-transform:uppercase;color:var(--gedaempft)}
+.paket.hervor .stufe{color:var(--akzent-tief)}
+.paket .preis{font-size:2.3rem;font-weight:700;color:var(--tinte);
+ margin:.6rem 0 .1rem;letter-spacing:-.035em}
+.paket .preis small{font-size:.95rem;font-weight:500;color:var(--gedaempft)}
+.paket ul{list-style:none;margin:1.1rem 0 0;padding:0;font-size:.95rem;flex:1}
+.paket li{padding:.32rem 0 .32rem 1.25rem;position:relative}
+.paket li::before{content:"";position:absolute;left:0;top:.85em;width:6px;
+ height:6px;border-radius:50%;background:var(--akzent)}
+
+/* ---- Fragen ------------------------------------------------------- */
+.fragen{margin-top:3rem;border-top:1px solid var(--linie)}
+.fragen details{border-bottom:1px solid var(--linie)}
+.fragen summary{cursor:pointer;list-style:none;padding:1.25rem 2.5rem 1.25rem 0;
+ font-weight:600;color:var(--tinte);font-size:1.07rem;position:relative}
+.fragen summary::-webkit-details-marker{display:none}
+.fragen summary::after{content:"+";position:absolute;right:.3rem;top:1.1rem;
+ font-size:1.5rem;color:var(--akzent);line-height:1;font-weight:400}
+.fragen details[open] summary::after{content:"−"}
+.fragen .antwort{padding:0 0 1.4rem;color:var(--text)}
+.fragen .antwort p:last-child{margin-bottom:0}
+
+/* ---- Abschluss ---------------------------------------------------- */
+.abschluss{background:var(--tinte);color:#D6D4CE;border-radius:18px;
+ padding:clamp(2.5rem,6vw,4.5rem) clamp(1.5rem,5vw,4rem);margin:var(--luft) 0 0;
+ position:relative;overflow:hidden}
+.abschluss h2{color:#fff;max-width:16ch}
+.abschluss p{color:#A5A29A;max-width:46ch}
+.abschluss .knopf.leer{border-color:#4A4740;color:#EDEBE5}
+.abschluss .knopf.leer:hover{border-color:#fff;color:#fff}
+
+/* ---- Kontakt ------------------------------------------------------ */
+.kontakt{display:grid;gap:3rem;grid-template-columns:1fr;margin-top:3rem}
+@media(min-width:54rem){.kontakt{grid-template-columns:.85fr 1.15fr}}
+.karte-adresse{font-style:normal;line-height:1.95}
+.karte-adresse a{font-weight:600;text-decoration:none}
+.karte-adresse .zeile{color:var(--gedaempft);font-size:.78rem;
+ font-family:var(--mono);letter-spacing:.1em;text-transform:uppercase;
+ display:block;margin-top:1.15rem}
+form.anfrage label{display:block;font-weight:600;color:var(--tinte);
+ margin:0 0 .35rem;font-size:.95rem}
+form.anfrage input[type=text],form.anfrage input[type=email],
+form.anfrage input[type=tel],form.anfrage textarea{width:100%;font:inherit;
+ padding:.78rem .9rem;margin-bottom:1.1rem;border:1px solid var(--linie-stark);
+ border-radius:8px;background:var(--papier);color:var(--tinte)}
+form.anfrage textarea{min-height:8.5rem;resize:vertical}
+form.anfrage button{font:inherit}
+.fehler{background:var(--warn-weich);border-left:3px solid var(--warn);
+ color:var(--warn);padding:.9rem 1rem;margin:0 0 1.3rem;font-size:.95rem;
+ border-radius:0 8px 8px 0}
+.fallgrube{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+.klein{font-size:.87rem;color:var(--gedaempft)}
+
+figure{margin:0}
+figure figcaption{font-size:.85rem;color:var(--gedaempft);margin-top:.7rem}
+
+/* ---- Fuß ---------------------------------------------------------- */
+footer{border-top:1px solid var(--linie);margin-top:var(--luft)}
+footer .bahn{padding-block:2.5rem 3rem;display:flex;flex-wrap:wrap;
+ gap:1rem 2rem;justify-content:space-between;font-size:.92rem;
+ color:var(--gedaempft)}
+footer a{color:var(--text);text-decoration:none}
+footer a:hover{color:var(--akzent)}
+
+/* ---- Rechtsseiten ------------------------------------------------- */
+.recht{padding-block:clamp(3rem,7vw,5rem)}
+.recht h1{font-size:clamp(2.2rem,5vw,3.2rem)}
+.recht dl{display:grid;grid-template-columns:auto 1fr;gap:.45rem 1.8rem;
+ margin:2rem 0}
+.recht dt{font-weight:600;color:var(--tinte)}
+.recht dd{margin:0}
+.recht h2{font-size:clamp(1.3rem,2.4vw,1.6rem);margin-top:2.5rem}
+@media(max-width:34rem){
+  .recht dl{grid-template-columns:1fr;gap:0}
+  .recht dd{margin-bottom:.9rem}
+}
+
+.kasten{border:1px solid var(--linie);border-radius:14px;
+ padding:1.5rem clamp(1.2rem,3vw,2rem);margin-top:2rem;background:var(--flaeche)}
+.kasten.warnung{border-color:var(--warn);background:var(--warn-weich);
+ color:var(--warn)}
+.kasten.warnung h3{color:var(--warn)}
+.kasten h3{margin-bottom:.5rem}
+.kasten p:last-child{margin-bottom:0}
+
+@media print{
+  @page{margin:16mm}
+  body{background:#fff;color:#000;font-size:10pt}
+  header.kopf,footer,.reihe,form.anfrage,.abschluss{display:none}
+  .aufmacher::before{display:none}
+  section{break-inside:avoid;padding:1rem 0}
+}

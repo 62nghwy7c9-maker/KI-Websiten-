@@ -20,8 +20,8 @@
 declare(strict_types=1);
 
 /** Wohin die Anfragen gehen. Beim Aufsetzen eintragen. */
-const EMPFAENGER = 'hallo@kd-webdesign.de';
-const BETRIEB = 'K&D Webdesign';
+const EMPFAENGER = 'hallo@moewes-dettmer.de';
+const BETRIEB = 'Moewes & Dettmer';
 
 /** Wohin nach dem Absenden zurückgesprungen wird. */
 const ZURUECK = '../danke.html';

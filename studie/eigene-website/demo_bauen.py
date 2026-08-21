@@ -1,4 +1,4 @@
-"""Baut aus der echten K&D-Website eine Fassung, die im Browser läuft.
+"""Baut aus der eigenen Website eine Fassung, die im Browser läuft.
 
 Die ausgelieferte Website braucht PHP auf dem Hosting des Kunden. Zum
 Ausprobieren steht aber kein Hosting zur Verfügung — deshalb diese Fassung:
@@ -8,7 +8,7 @@ der Pflegebereich in JavaScript nachgebaut ist und im Browser speichert.
 Wichtig: Der Inhalt wird **nicht** abgeschrieben, sondern aus
 seite/index.html gelesen. Was hier zu sehen ist, ist die echte Seite.
 
-    python3 studie/kd-webdesign/demo_bauen.py
+    python3 studie/eigene-website/demo_bauen.py
 """
 from __future__ import annotations
 
@@ -62,7 +62,7 @@ def bauen() -> str:
     return "\n\n".join(teile) + "\n"
 
 
-KOPF = """<title>K&amp;D Webdesign</title>
+KOPF = """<title>Moewes &amp; Dettmer</title>
 
 <style>
 /*STIL*/
@@ -166,7 +166,7 @@ SKRIPT = r"""<script>
   'use strict';
 
   var PASSWORT = 'muster';
-  var SCHLUESSEL = 'wg-kd-webdesign-v1';
+  var SCHLUESSEL = 'wg-moewes-dettmer-v1';
   var KANTE = 1600;
 
   var BESCHRIFTUNG = {
@@ -174,7 +174,7 @@ SKRIPT = r"""<script>
     oeffnungszeiten: 'Öffnungszeiten', stellenanzeige: 'Stellenanzeige',
     hinweis: 'Aktueller Hinweis', einleitung: 'Einleitungstext',
     bildtitel: 'Bildunterschrift', betrieb: 'Bild aus dem Betrieb', pflege: 'Bild vom Pflegebereich',
-    betreuung: 'Preis der Betreuung', gebiet: 'Wo wir arbeiten',
+    betreuung: 'Preis der Betreuung', gebiet: 'Wo wir arbeiten', firma: 'Firmenname',
     anschrift: 'Anschrift', notdienst: 'Hinweis Notdienst'
   };
   function beschriftung(name) {
@@ -470,7 +470,7 @@ SKRIPT = r"""<script>
         fehler.textContent = 'Bitte Name, Nachricht und einen Rückweg angeben.';
         return;
       }
-      zeigeDanke('An hallo@kd-webdesign.de:\n\nName: ' + name +
+      zeigeDanke('An hallo@moewes-dettmer.de:\n\nName: ' + name +
         '\nE-Mail: ' + (mail || '—') + '\nTelefon: ' + (tel || '—') +
         '\n\n' + text);
       anfrage.reset();

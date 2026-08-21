@@ -231,6 +231,7 @@ function feld_beschriftung(string $name): string
         'bildtitel' => 'Bildunterschrift',
         'betrieb' => 'Bild aus dem Betrieb',
         'pflege' => 'Bild vom Pflegebereich',
+        'firma' => 'Firmenname',
     ];
     return $bekannt[$name] ?? ucfirst(str_replace('_', ' ', $name));
 }

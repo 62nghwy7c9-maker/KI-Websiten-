@@ -242,7 +242,7 @@ footer .bahn{padding:1.25rem}
 </main>
 
 <footer><div class="bahn">
-  K&amp;D Webdesign. Wenn etwas nicht stimmt: 0162&thinsp;3242260. Wir können jeden Stand der
+  Moewes &amp; Dettmer. Wenn etwas nicht stimmt: 0162&thinsp;3242260. Wir können jeden Stand der
   letzten Wochen zurückholen.
 </div></footer>
 </body>
