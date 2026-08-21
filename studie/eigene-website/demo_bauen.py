@@ -1,12 +1,15 @@
-"""Baut aus der eigenen Website eine Fassung, die im Browser läuft.
+"""Baut aus der eigenen Website eine Fassung fürs Browserfenster.
 
-Die ausgelieferte Website braucht PHP auf dem Hosting des Kunden. Zum
-Ausprobieren steht aber kein Hosting zur Verfügung — deshalb diese Fassung:
-dieselben Dateien, dieselben Markierungen, dieselben Feldnamen, nur dass
-der Pflegebereich in JavaScript nachgebaut ist und im Browser speichert.
+Die ausgelieferte Seite besteht aus vier Dateien und einem PHP-Endpunkt für
+das Kontaktformular. Zum Ansehen steht kein Hosting zur Verfügung, deshalb
+diese Fassung: dieselben Dateien in einer, die Verweise zwischen den Seiten
+werden zu Schaltern, und das Formular zeigt die Mail, die sonst rausginge.
 
-Wichtig: Der Inhalt wird **nicht** abgeschrieben, sondern aus
-seite/index.html gelesen. Was hier zu sehen ist, ist die echte Seite.
+Die Skripte der echten Seite bleiben unverändert drin. Was hier läuft, ist
+also genau das, was ausgeliefert wird: der Prüfvorgang, das gestaffelte
+Einblenden, die Zahlen und die Kopfleiste.
+
+Diese Seite hat keinen Pflegebereich. Wir pflegen sie selbst.
 
     python3 studie/eigene-website/demo_bauen.py
 """
@@ -22,12 +25,11 @@ ZIEL = HIER / "demo.html"
 
 
 def hauptteil(html: str) -> str:
-    """Alles zwischen <body> und </body>, ohne das abschließende Skript."""
+    """Alles zwischen <body> und </body>, samt Skripten."""
     treffer = re.search(r"<body[^>]*>(.*)</body>", html, re.S)
     if not treffer:
         raise SystemExit("kein <body> gefunden")
-    koerper = treffer.group(1)
-    return re.sub(r"<script>.*?</script>", "", koerper, flags=re.S).strip()
+    return treffer.group(1).strip()
 
 
 def bild_als_datenadresse(pfad: Path) -> str:
@@ -44,15 +46,18 @@ def bauen() -> str:
         "datenschutz": hauptteil((SEITE / "datenschutz.html").read_text(encoding="utf-8")),
     }
 
-    # Das Platzhalterbild wandert als Datenadresse in die Datei — die Seite
-    # muss ohne einen einzigen fremden Abruf funktionieren.
     bild = bild_als_datenadresse(SEITE / "bilder" / "pflegebereich.png")
     for name in seiten:
-        seiten[name] = seiten[name].replace('src="bilder/pflegebereich.png"', f'src="{bild}"')
-        # Verweise zwischen den Seiten werden zu Schaltern der Vorschau.
-        for datei, ziel in (("index.html", "start"), ("impressum.html", "impressum"),
+        seiten[name] = seiten[name].replace(
+            'src="bilder/pflegebereich.png"', f'src="{bild}"')
+        for datei, ziel in (("index.html", "start"),
+                            ("impressum.html", "impressum"),
                             ("datenschutz.html", "datenschutz")):
-            seiten[name] = seiten[name].replace(f'href="{datei}"', f'href="#" data-seite="{ziel}"')
+            seiten[name] = seiten[name].replace(
+                f'href="{datei}"', f'href="#" data-seite="{ziel}"')
+        # Sprungmarken auf die Startseite von den Rechtsseiten aus
+        seiten[name] = seiten[name].replace(
+            'href="#" data-seite="start"#', 'href="#" data-seite="start" data-anker="#')
 
     teile = [KOPF.replace("/*STIL*/", stil)]
     for name, inhalt in seiten.items():
@@ -68,441 +73,102 @@ KOPF = """<title>Moewes &amp; Dettmer</title>
 /*STIL*/
 
 /* ---- Nur für die Vorschau, nicht Teil der ausgelieferten Website ---- */
-.wg-leiste{position:sticky;top:0;z-index:50;display:flex;flex-wrap:wrap;
- gap:.5rem 1rem;align-items:center;justify-content:space-between;
- background:#111821;color:#E7EDF4;padding:.6rem clamp(1rem,4vw,2.5rem);
- font:600 14px/1.4 var(--sans)}
-.wg-leiste .wg-hinweis{font-weight:400;color:#93A3B4;font-size:12.5px}
-.wg-leiste .wg-knoepfe{display:flex;flex-wrap:wrap;gap:.4rem}
-.wg-leiste button{font:inherit;font-size:13px;padding:.42rem .9rem;border:0;
- border-radius:2px;background:#2B3946;color:#E7EDF4;cursor:pointer}
-.wg-leiste button:hover{background:#3A4B5C}
-.wg-leiste button[aria-pressed=true]{background:#F0F4F8;color:#111821}
-.wg-leiste button.wg-zurueck{background:transparent;color:#93A3B4;
- text-decoration:underline}
-
-.wg-pflege{display:none;background:var(--flaeche);min-height:70vh;
- padding:clamp(1.5rem,5vw,3rem) 0}
-body.wg-modus-pflege .wg-pflege{display:block}
-body.wg-modus-pflege .wg-seite{display:none}
-.wg-pflege .karte-innen{background:var(--grund);border:1px solid var(--linie);
- max-width:44rem;margin:0 auto;padding:clamp(1.25rem,4vw,2.25rem)}
-.wg-pflege h2{margin-bottom:.4rem}
-.wg-pflege label{display:block;margin:0 0 1.1rem}
-.wg-pflege label b{display:block;color:var(--basis);margin-bottom:.3rem;
- font-size:.95rem}
-.wg-pflege input[type=text],.wg-pflege input[type=password],
-.wg-pflege textarea{width:100%;font:inherit;padding:.7rem .85rem;
- border:1px solid var(--linie-stark);border-radius:2px;
- background:var(--grund);color:var(--basis)}
-.wg-pflege textarea{min-height:7rem;resize:vertical}
-.wg-pflege button.speichern{font:inherit;font-weight:700;padding:.8rem 1.8rem;
- border:0;border-radius:2px;background:var(--blau);color:#fff;cursor:pointer}
-.wg-pflege .meldung{padding:.8rem 1rem;margin:0 0 1.25rem;font-size:.95rem;
- border-left:4px solid var(--blau);background:var(--flaeche);color:var(--basis)}
-.wg-pflege .meldung.gut{border-left-color:#2E7D4F}
-.wg-pflege .meldung.schlecht{border-left-color:var(--signal)}
-.wg-bild{display:flex;gap:1rem;align-items:flex-start;
- border-top:1px solid var(--linie);padding-top:1rem;margin-top:1rem}
-.wg-bild img{width:130px;height:98px;object-fit:cover;flex:none;
- background:var(--linie)}
-.wg-bild .felder{flex:1;min-width:0}
-@media(max-width:520px){.wg-bild{flex-direction:column}
- .wg-bild img{width:100%;height:auto}}
-@media print{.wg-leiste,.wg-pflege{display:none}}
+.wg-leiste{position:sticky;top:0;z-index:60;display:flex;flex-wrap:wrap;
+ gap:.4rem 1rem;align-items:center;justify-content:space-between;
+ background:#111110;color:#E9E7E1;padding:.55rem clamp(1rem,4vw,3rem);
+ font:600 13px/1.4 var(--sans)}
+.wg-leiste .wg-hinweis{font-weight:400;color:#93908A;font-size:12px}
+.wg-leiste .wg-knoepfe{display:flex;flex-wrap:wrap;gap:.35rem}
+.wg-leiste button{font:inherit;font-size:12.5px;padding:.38rem .85rem;border:0;
+ border-radius:100px;background:#2B2A27;color:#E9E7E1;cursor:pointer}
+.wg-leiste button:hover{background:#3C3A36}
+.wg-leiste button[aria-pressed=true]{background:#F2F0EB;color:#111110}
+/* Die Kopfleiste der Seite klebt unter der Vorschauleiste. */
+header.kopf{top:2.4rem}
+@media print{.wg-leiste{display:none}header.kopf{top:0}}
 </style>
 
 <div class="wg-leiste">
   <div>
-    <span>Entwurf K&amp;D Webdesign</span>
-    <span class="wg-hinweis">· Probefassung im Browser. Änderungen bleiben nur auf diesem Gerät.</span>
+    <span>Entwurf Moewes &amp; Dettmer</span>
+    <span class="wg-hinweis">· Probefassung im Browser. Am Rechner scrollen, dann läuft der Prüfvorgang.</span>
   </div>
   <div class="wg-knoepfe">
-    <button type="button" data-modus="seite" aria-pressed="true">Website</button>
-    <button type="button" data-modus="pflege" aria-pressed="false">Pflegebereich</button>
-    <button type="button" class="wg-zurueck">Alles zurücksetzen</button>
-  </div>
-</div>
-
-<div class="wg-pflege">
-  <div class="bahn">
-    <div class="karte-innen">
-      <div id="wg-anmeldung">
-        <h2>Inhalte pflegen</h2>
-        <p class="klein">So sieht der Bereich aus, den der Betrieb bekommt.
-        Passwort zum Ausprobieren: <code>muster</code></p>
-        <div id="wg-meldung"></div>
-        <label><b>Passwort</b>
-          <input type="password" id="wg-passwort" autocomplete="off"></label>
-        <button type="button" class="speichern" id="wg-anmelden">Anmelden</button>
-      </div>
-
-      <div id="wg-formular" hidden>
-        <h2>Inhalte pflegen</h2>
-        <p class="klein" style="margin-bottom:1.25rem">Ändern Sie, was Sie
-        brauchen, und klicken Sie unten auf Speichern. Die Änderung ist
-        sofort auf der Website sichtbar.</p>
-        <div id="wg-meldung2"></div>
-        <div id="wg-felder"></div>
-        <button type="button" class="speichern" id="wg-speichern">Speichern</button>
-      </div>
-    </div>
+    <button type="button" data-seite="start" aria-pressed="true">Startseite</button>
+    <button type="button" data-seite="impressum" aria-pressed="false">Impressum</button>
+    <button type="button" data-seite="datenschutz" aria-pressed="false">Datenschutz</button>
   </div>
 </div>"""
 
 
 SKRIPT = r"""<script>
-/* Der Pflegebereich, in JavaScript nachgebaut.
- *
- * Auf dem Hosting des Kunden macht das PHP: Es liest die Markierungen
- * <!--wg:name-->Text<!--/wg--> aus der HTML-Datei, zeigt sie als Felder und
- * schreibt sie zurueck. Hier passiert dasselbe im Browser, nur dass statt
- * der Datei der Speicher des Browsers beschrieben wird.
- *
- * Feldnamen, Beschriftungen und Verhalten sind absichtlich identisch:
- * wer hier etwas ausprobiert, probiert das echte Verhalten aus.
- */
+/* Nur zwei Dinge, die es auf dem echten Hosting nicht braucht:
+   das Umschalten zwischen den drei Seiten und ein Formular, das die Mail
+   anzeigt, statt sie zu verschicken. */
 (function () {
   'use strict';
 
-  var PASSWORT = 'muster';
-  var SCHLUESSEL = 'wg-moewes-dettmer-v1';
-  var KANTE = 1600;
-
-  var BESCHRIFTUNG = {
-    telefon: 'Telefonnummer', mail: 'E-Mail-Adresse',
-    oeffnungszeiten: 'Öffnungszeiten', stellenanzeige: 'Stellenanzeige',
-    hinweis: 'Aktueller Hinweis', einleitung: 'Einleitungstext',
-    bildtitel: 'Bildunterschrift', betrieb: 'Bild aus dem Betrieb', pflege: 'Bild vom Pflegebereich',
-    betreuung: 'Preis der Betreuung', gebiet: 'Wo wir arbeiten', firma: 'Firmenname',
-    anschrift: 'Anschrift', notdienst: 'Hinweis Notdienst'
-  };
-  function beschriftung(name) {
-    return BESCHRIFTUNG[name] ||
-      name.charAt(0).toUpperCase() + name.slice(1).replace(/_/g, ' ');
-  }
-
-  /* ---- Markierungen im Dokument finden ---------------------------- */
-  function stellenSuchen(wurzel) {
-    var gehe = document.createNodeIterator(wurzel, NodeFilter.SHOW_COMMENT);
-    var texte = {}, bilder = {}, offen = null, knoten;
-    while ((knoten = gehe.nextNode())) {
-      var wert = knoten.nodeValue.trim();
-      var auf = wert.match(/^wg:([a-z0-9_]+)$/);
-      var bild = wert.match(/^wg:bild:([a-z0-9_]+)$/);
-      if (bild) {
-        var img = knoten.nextElementSibling;
-        if (img && img.tagName === 'IMG') {
-          (bilder[bild[1]] = bilder[bild[1]] || []).push(img);
-        }
-      } else if (auf) {
-        offen = {name: auf[1], start: knoten};
-      } else if (wert === '/wg' && offen) {
-        (texte[offen.name] = texte[offen.name] || [])
-          .push({start: offen.start, ende: knoten});
-        offen = null;
-      }
-    }
-    return {texte: texte, bilder: bilder};
-  }
-
-  function textLesen(stelle) {
-    var s = '', k = stelle.start.nextSibling;
-    while (k && k !== stelle.ende) { s += k.textContent; k = k.nextSibling; }
-    return s.replace(/\s+/g, ' ').trim();
-  }
-
-  function textSchreiben(stelle, wert) {
-    var k = stelle.start.nextSibling;
-    while (k && k !== stelle.ende) { var n = k.nextSibling; k.remove(); k = n; }
-    stelle.ende.parentNode.insertBefore(document.createTextNode(wert), stelle.ende);
-  }
-
-  /* Telefonverweis mitziehen, wie verweis_nachziehen() in inhalt.php. */
-  function verweisNachziehen(stelle, wert) {
-    var a = stelle.start.parentNode;
-    while (a && a.tagName !== 'A') { a = a.parentNode; }
-    if (!a || a.getAttribute('href').indexOf('tel:') !== 0) { return; }
-    var ziffern = wert.replace(/[^0-9+]/g, '');
-    if (ziffern.indexOf('00') === 0) { ziffern = '+' + ziffern.slice(2); }
-    else if (ziffern.charAt(0) === '0') { ziffern = '+49' + ziffern.slice(1); }
-    if (ziffern.length >= 7) { a.setAttribute('href', 'tel:' + ziffern); }
-  }
-
-  var stellen = stellenSuchen(document.body);
-
-  /* ---- Gespeicherte Werte anwenden -------------------------------- */
-  function gespeichert() {
-    try { return JSON.parse(localStorage.getItem(SCHLUESSEL) || '{}'); }
-    catch (e) { return {}; }
-  }
-  function sichern(daten) {
-    try { localStorage.setItem(SCHLUESSEL, JSON.stringify(daten)); return true; }
-    catch (e) { return false; }
-  }
-  function anwenden(daten) {
-    Object.keys(stellen.texte).forEach(function (name) {
-      if (typeof daten[name] === 'string') {
-        stellen.texte[name].forEach(function (st) {
-          textSchreiben(st, daten[name]);
-          verweisNachziehen(st, daten[name]);
-        });
-      }
-    });
-    Object.keys(stellen.bilder).forEach(function (name) {
-      if (daten['bild:' + name]) {
-        stellen.bilder[name].forEach(function (img) {
-          img.src = daten['bild:' + name];
-        });
-      }
-      if (typeof daten['alt:' + name] === 'string') {
-        stellen.bilder[name].forEach(function (img) {
-          img.alt = daten['alt:' + name];
-        });
-      }
-    });
-  }
-  anwenden(gespeichert());
-
-  /* ---- Der Pruefvorgang im Aufmacher ------------------------------
-   * Die Probefassung nimmt die Skripte der echten Seite nicht mit, sonst
-   * liefen zwei Fassungen nebeneinander. Der Scrollweg wird deshalb hier
-   * noch einmal gesetzt, mit derselben Rechnung wie in webroot/index.html.
-   */
-  var kino = document.querySelector('[data-kino]');
-  var gross = window.matchMedia('(min-width: 62rem)');
-  var ruhig = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  function fortschritt() {
-    if (!kino) { return; }
-    if (ruhig || !gross.matches) { kino.style.setProperty('--fs', '1'); return; }
-    var weg = kino.offsetHeight - window.innerHeight;
-    var f = weg > 0
-      ? Math.min(Math.max(-kino.getBoundingClientRect().top / weg, 0), 1)
-      : 1;
-    kino.style.setProperty('--fs', f.toFixed(4));
-  }
-  var laeuft = false;
-  function tick() { laeuft = false; fortschritt(); }
-  tick();
-  window.addEventListener('scroll', function () {
-    if (!laeuft) { laeuft = true; requestAnimationFrame(tick); }
-  }, { passive: true });
-  window.addEventListener('resize', tick);
-  if (gross.addEventListener) { gross.addEventListener('change', tick); }
-
-  /* ---- Umschalten zwischen Website und Pflegebereich --------------- */
   var leiste = document.querySelector('.wg-leiste');
-  leiste.addEventListener('click', function (e) {
-    var b = e.target.closest('button');
-    if (!b) { return; }
-    if (b.classList.contains('wg-zurueck')) {
-      try { localStorage.removeItem(SCHLUESSEL); } catch (err) {}
-      location.reload();
-      return;
-    }
-    var modus = b.dataset.modus;
-    if (!modus) { return; }
-    document.body.classList.toggle('wg-modus-pflege', modus === 'pflege');
-    leiste.querySelectorAll('button[data-modus]').forEach(function (x) {
-      x.setAttribute('aria-pressed', String(x === b));
+
+  function zeigeSeite(name) {
+    document.querySelectorAll('.wg-seite').forEach(function (s) {
+      s.hidden = s.dataset.name !== name;
+    });
+    leiste.querySelectorAll('button[data-seite]').forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.dataset.seite === name));
     });
     window.scrollTo(0, 0);
+    window.dispatchEvent(new Event('resize'));   // Prüfvorgang neu rechnen
+  }
+
+  leiste.addEventListener('click', function (e) {
+    var b = e.target.closest('button[data-seite]');
+    if (b) { zeigeSeite(b.dataset.seite); }
   });
 
-  /* Verweise zwischen den drei Seiten */
   document.body.addEventListener('click', function (e) {
     var a = e.target.closest('a[data-seite]');
     if (!a) { return; }
     e.preventDefault();
     zeigeSeite(a.dataset.seite);
-  });
-  function zeigeSeite(name) {
-    document.querySelectorAll('.wg-seite').forEach(function (s) {
-      s.hidden = s.dataset.name !== name;
-    });
-    document.body.classList.remove('wg-modus-pflege');
-    leiste.querySelectorAll('button[data-modus]').forEach(function (x) {
-      x.setAttribute('aria-pressed', String(x.dataset.modus === 'seite'));
-    });
-    window.scrollTo(0, 0);
-  }
-
-  /* ---- Anmeldung --------------------------------------------------- */
-  var meldung = document.getElementById('wg-meldung');
-  document.getElementById('wg-anmelden').addEventListener('click', function () {
-    var eingabe = document.getElementById('wg-passwort');
-    if (eingabe.value === PASSWORT) {
-      document.getElementById('wg-anmeldung').hidden = true;
-      document.getElementById('wg-formular').hidden = false;
-      felderZeichnen();
-    } else {
-      meldung.innerHTML = '<p class="meldung schlecht">Passwort stimmt nicht.</p>';
-      eingabe.value = '';
-      eingabe.focus();
+    var anker = a.dataset.anker;
+    if (anker) {
+      var ziel = document.querySelector('.wg-seite:not([hidden]) ' + anker);
+      if (ziel) { ziel.scrollIntoView(); }
     }
   });
-  document.getElementById('wg-passwort').addEventListener('keydown', function (e) {
-    if (e.key === 'Enter') { document.getElementById('wg-anmelden').click(); }
-  });
 
-  /* ---- Das Formular ------------------------------------------------ */
-  function felderZeichnen() {
-    var ziel = document.getElementById('wg-felder');
-    var html = '';
-    Object.keys(stellen.texte).forEach(function (name) {
-      var wert = textLesen(stellen.texte[name][0]);
-      var mehrfach = stellen.texte[name].length > 1
-        ? ' <span class="klein">(steht ' + stellen.texte[name].length +
-          '× auf der Seite und wird überall geändert)</span>' : '';
-      html += '<label><b>' + beschriftung(name) + mehrfach + '</b>';
-      html += wert.length > 70
-        ? '<textarea data-feld="' + name + '"></textarea>'
-        : '<input type="text" data-feld="' + name + '">';
-      html += '</label>';
-    });
-    Object.keys(stellen.bilder).forEach(function (name) {
-      var img = stellen.bilder[name][0];
-      html += '<div class="wg-bild"><img src="' + img.src + '" alt="" ' +
-        'data-vorschau="' + name + '"><div class="felder">' +
-        '<label><b>' + beschriftung(name) + '</b>' +
-        '<input type="file" accept="image/jpeg,image/png,image/webp" ' +
-        'data-bild="' + name + '"></label>' +
-        '<label><b>Bildbeschreibung</b>' +
-        '<input type="text" data-alt="' + name + '"></label></div></div>';
-    });
-    ziel.innerHTML = html;
-    // Werte setzen (nicht über value="" im HTML, sonst zerbricht Text mit ")
-    Object.keys(stellen.texte).forEach(function (name) {
-      ziel.querySelector('[data-feld="' + name + '"]').value =
-        textLesen(stellen.texte[name][0]);
-    });
-    Object.keys(stellen.bilder).forEach(function (name) {
-      ziel.querySelector('[data-alt="' + name + '"]').value =
-        stellen.bilder[name][0].alt;
-    });
-  }
-
-  /* Bild verkleinern, dasselbe was bild_ablegen() auf dem Server tut. */
-  function bildVerkleinern(datei) {
-    return new Promise(function (fertig, schiefgegangen) {
-      if (!/^image\/(jpeg|png|webp)$/.test(datei.type)) {
-        schiefgegangen(new Error('Das ist kein Bild. Erlaubt sind JPG, PNG und WEBP.'));
-        return;
-      }
-      var leser = new FileReader();
-      leser.onerror = function () { schiefgegangen(new Error('Datei nicht lesbar.')); };
-      leser.onload = function () {
-        var bild = new Image();
-        bild.onerror = function () { schiefgegangen(new Error('Das ist kein Bild.')); };
-        bild.onload = function () {
-          var faktor = Math.min(1, KANTE / Math.max(bild.width, bild.height));
-          var tafel = document.createElement('canvas');
-          tafel.width = Math.round(bild.width * faktor);
-          tafel.height = Math.round(bild.height * faktor);
-          tafel.getContext('2d').drawImage(bild, 0, 0, tafel.width, tafel.height);
-          fertig({
-            daten: tafel.toDataURL('image/jpeg', 0.82),
-            breite: tafel.width, hoehe: tafel.height,
-            vorher: bild.width + '×' + bild.height
-          });
-        };
-        bild.src = leser.result;
-      };
-      leser.readAsDataURL(datei);
-    });
-  }
-
-  var meldung2 = document.getElementById('wg-meldung2');
-  document.getElementById('wg-speichern').addEventListener('click', function () {
-    var daten = gespeichert();
-    var ziel = document.getElementById('wg-felder');
-    var zahl = 0;
-
-    Object.keys(stellen.texte).forEach(function (name) {
-      var wert = ziel.querySelector('[data-feld="' + name + '"]').value
-        .replace(/\s+/g, ' ').trim();
-      if (wert !== textLesen(stellen.texte[name][0])) {
-        daten[name] = wert;
-        stellen.texte[name].forEach(function (st) {
-          textSchreiben(st, wert);
-          verweisNachziehen(st, wert);
-        });
-        zahl += stellen.texte[name].length;
-      }
-    });
-    Object.keys(stellen.bilder).forEach(function (name) {
-      var alt = ziel.querySelector('[data-alt="' + name + '"]').value.trim();
-      if (alt !== stellen.bilder[name][0].alt) {
-        daten['alt:' + name] = alt;
-        stellen.bilder[name].forEach(function (img) { img.alt = alt; });
-        zahl += 1;
-      }
-    });
-
-    var dateien = [];
-    Object.keys(stellen.bilder).forEach(function (name) {
-      var feld = ziel.querySelector('[data-bild="' + name + '"]');
-      if (feld.files && feld.files[0]) { dateien.push({name: name, datei: feld.files[0]}); }
-    });
-
-    if (!dateien.length) { fertigMelden(daten, zahl, ''); return; }
-
-    Promise.all(dateien.map(function (d) {
-      return bildVerkleinern(d.datei).then(function (erg) {
-        daten['bild:' + d.name] = erg.daten;
-        stellen.bilder[d.name].forEach(function (img) { img.src = erg.daten; });
-        var v = ziel.querySelector('[data-vorschau="' + d.name + '"]');
-        if (v) { v.src = erg.daten; }
-        return erg.vorher + ' → ' + erg.breite + '×' + erg.hoehe;
-      });
-    })).then(function (notizen) {
-      fertigMelden(daten, zahl + notizen.length,
-        ' Bild verkleinert: ' + notizen.join(', ') + '.');
-    }).catch(function (fehler) {
-      meldung2.innerHTML = '<p class="meldung schlecht">' + fehler.message + '</p>';
-    });
-  });
-
-  function fertigMelden(daten, zahl, zusatz) {
-    var ok = sichern(daten);
-    meldung2.innerHTML = '<p class="meldung ' + (ok ? 'gut' : 'schlecht') + '">' +
-      (ok ? zahl + ' Stelle(n) gespeichert.' + zusatz +
-            ' Sehen Sie oben unter „Website“ nach.'
-          : 'Der Browser konnte nicht speichern (Bild zu groß?). ' +
-            'Auf der Seite ist die Änderung trotzdem zu sehen.') + '</p>';
-    felderZeichnen();
-  }
-
-  /* ---- Das Kontaktformular ----------------------------------------- */
+  /* Das Kontaktformular. Auf dem Hosting nimmt formular.php die Anfrage
+     entgegen und schickt sie ins Postfach. Hier wird sie nur gezeigt. */
   var geladen = Math.floor(Date.now() / 1000);
   var anfrage = document.querySelector('form.anfrage');
-  if (anfrage) {
-    anfrage.addEventListener('submit', function (e) {
-      e.preventDefault();
-      var fehler = document.getElementById('fehler');
-      var falle = anfrage.querySelector('[name=website]').value;
-      var schnell = (Math.floor(Date.now() / 1000) - geladen) < 3;
-      var name = anfrage.querySelector('[name=name]').value.trim();
-      var mail = anfrage.querySelector('[name=mail]').value.trim();
-      var tel = anfrage.querySelector('[name=telefon]').value.trim();
-      var text = anfrage.querySelector('[name=nachricht]').value.trim();
+  if (!anfrage) { return; }
 
-      if (falle || schnell) {           // wie formular.php: still schlucken
-        zeigeDanke('Von einem Programm. In Wirklichkeit passiert hier nichts.');
-        return;
-      }
-      if (!name || !text || (!mail && !tel)) {
-        fehler.hidden = false;
-        fehler.textContent = 'Bitte Name, Nachricht und einen Rückweg angeben.';
-        return;
-      }
-      zeigeDanke('An hallo@moewes-dettmer.de:\n\nName: ' + name +
-        '\nE-Mail: ' + (mail || '-') + '\nTelefon: ' + (tel || '-') +
-        '\n\n' + text);
-      anfrage.reset();
-      geladen = Math.floor(Date.now() / 1000);
-    });
-  }
+  anfrage.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var fehler = document.getElementById('fehler');
+    var falle = anfrage.querySelector('[name=website]').value;
+    var schnell = (Math.floor(Date.now() / 1000) - geladen) < 3;
+    var name = anfrage.querySelector('[name=name]').value.trim();
+    var mail = anfrage.querySelector('[name=mail]').value.trim();
+    var tel = anfrage.querySelector('[name=telefon]').value.trim();
+    var text = anfrage.querySelector('[name=nachricht]').value.trim();
+
+    if (falle || schnell) {          // wie formular.php: still schlucken
+      zeigeDanke('Von einem Programm. In Wirklichkeit passiert hier nichts.');
+      return;
+    }
+    if (!name || !text || (!mail && !tel)) {
+      fehler.hidden = false;
+      fehler.textContent = 'Bitte Name, Nachricht und einen Rückweg angeben.';
+      return;
+    }
+    zeigeDanke('An hallo@moewes-dettmer.de:\n\nName: ' + name +
+      '\nE-Mail: ' + (mail || '-') + '\nTelefon: ' + (tel || '-') +
+      '\n\n' + text);
+    anfrage.reset();
+    geladen = Math.floor(Date.now() / 1000);
+  });
 
   function zeigeDanke(inhalt) {
     var kasten = document.getElementById('wg-danke');
@@ -510,14 +176,13 @@ SKRIPT = r"""<script>
       kasten = document.createElement('div');
       kasten.id = 'wg-danke';
       kasten.className = 'kasten';
-      kasten.style.marginTop = '1.5rem';
       anfrage.parentNode.appendChild(kasten);
     }
     kasten.innerHTML = '<h3>Anfrage angekommen</h3>' +
-      '<p class="klein">In der ausgelieferten Fassung geht jetzt genau diese ' +
-      'E-Mail an den Betrieb, nichts wird gespeichert. Hier wird sie nur ' +
-      'angezeigt.</p><pre style="white-space:pre-wrap;font:13px/1.6 var(--mono);' +
-      'margin:0;color:var(--basis)"></pre>';
+      '<p class="klein">Auf dem Hosting geht jetzt genau diese E-Mail raus, ' +
+      'nichts wird gespeichert. Hier wird sie nur angezeigt.</p>' +
+      '<pre style="white-space:pre-wrap;font:13px/1.6 var(--mono);margin:0;' +
+      'color:var(--tinte)"></pre>';
     kasten.querySelector('pre').textContent = inhalt;
     kasten.scrollIntoView({block: 'center'});
   }

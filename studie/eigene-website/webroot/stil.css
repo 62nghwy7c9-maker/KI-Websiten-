@@ -216,13 +216,61 @@ header.kopf{position:sticky;top:0;z-index:30;background:var(--papier);
   .befunde li,.summe{--an:1}
 }
 
-/* Einblenden beim Scrollen. Ohne Skript steht --fs nie an, dann ist alles
-   einfach da. Das Verstecken passiert erst, wenn .js gesetzt ist. */
+/* ---- Bewegung -------------------------------------------------------
+ * Vier Regeln, damit es nicht nach Effekt aussieht:
+ * 1. Nichts bewegt sich von selbst. Alles hängt an einer Handlung des
+ *    Besuchers: scrollen, zeigen, aufklappen.
+ * 2. Nichts wiederholt sich. Was eingeblendet ist, bleibt.
+ * 3. Kurz. Zwischen 200 und 600 Millisekunden.
+ * 4. Wer weniger Bewegung eingestellt hat, bekommt gar keine.
+ *
+ * Ohne Skript steht .js nie an, dann ist alles einfach da: Verstecken
+ * passiert erst, wenn JavaScript läuft.
+ */
 .js [data-auf]{opacity:0;transform:translateY(14px)}
 .js [data-auf].da{opacity:1;transform:none;
  transition:opacity .6s ease,transform .6s ease}
+
+/* Gestaffelt: Die Kinder kommen nacheinander, --n setzt das Skript. */
+.js .staffel > *{opacity:0;transform:translateY(10px)}
+.js .staffel.da > *{opacity:1;transform:none;
+ transition:opacity .45s ease,transform .45s ease;
+ transition-delay:calc(var(--n,0) * 34ms)}
+
+/* Das Punktraster im Aufmacher zieht beim Scrollen leicht mit. */
+.aufmacher::before{transform:translateY(calc(var(--fs,0) * -5vh))}
+
+/* Die Kopfleiste setzt sich ab, sobald man gescrollt hat. */
+header.kopf{transition:box-shadow .25s ease,border-color .25s ease}
+header.kopf.gescrollt{box-shadow:0 1px 14px rgba(14,14,13,.07)}
+
+/* Karten heben sich unter dem Zeiger leicht an. */
+.karte,.paket{transition:transform .2s ease,border-color .2s ease}
+.karte:hover{transform:translateY(-3px);border-color:var(--linie-stark)}
+.paket:hover{transform:translateY(-3px)}
+
+/* Zahlen im Streifen: Der Endwert steht im HTML, das Skript zählt nur
+   hoch. Ohne Skript steht die Zahl sofort da. */
+.streifen b{font-variant-numeric:tabular-nums}
+
+/* Antwort im Fragenblock klappt auf statt zu erscheinen. */
+@keyframes aufklappen{
+  from{opacity:0;transform:translateY(-6px)}
+  to{opacity:1;transform:none}
+}
+.js .fragen details[open] .antwort{animation:aufklappen .32s ease}
+.fragen summary::after{transition:transform .2s ease}
+.fragen details[open] summary::after{transform:rotate(180deg)}
+
+/* Knöpfe geben unter dem Finger nach. */
+.knopf:active{transform:translateY(1px)}
+
 @media(prefers-reduced-motion:reduce){
-  .js [data-auf]{opacity:1;transform:none;transition:none}
+  .js [data-auf],.js .staffel > *{opacity:1;transform:none;transition:none}
+  .aufmacher::before{transform:none}
+  .karte:hover,.paket:hover,.knopf:active{transform:none}
+  .js .fragen details[open] .antwort{animation:none}
+  .fragen details[open] summary::after{transform:none}
 }
 .aufmacher::before{content:"";position:absolute;inset:0 0 auto 0;height:100%;
  background-image:radial-gradient(var(--punkt) 1.5px,transparent 1.6px);
