@@ -72,7 +72,18 @@ ul.haken ol li,ul.haken ul li{{padding:.2rem 0;border:0}}
   a{{color:inherit;text-decoration:none}}
   @page{{margin:18mm 16mm}}
 }}
+.marke{{display:flex;align-items:center;gap:.55rem;margin:0 0 2.2rem;
+  padding-bottom:1rem;border-bottom:1px solid var(--linie)}}
+.marke svg{{width:1.3rem;height:1.3rem;flex:none}}
+.marke b{{font:700 .95rem/1 "Archivo Narrow",Arial Narrow,sans-serif;
+  letter-spacing:.09em;text-transform:uppercase}}
+@media print{{.marke{{margin-bottom:1.4rem}}}}
 </style></head><body><main>
+<p class="marke"><svg viewBox="0 0 48 48" aria-hidden="true">
+<g fill="none" stroke="currentColor" stroke-width="4.6" stroke-linecap="square">
+<path d="M5 17 V5 H17"/><path d="M31 5 H43 V17"/>
+<path d="M43 31 V43 H31"/><path d="M17 43 H5 V31"/></g>
+<circle cx="24" cy="24" r="5.4" fill="#B0271C"/></svg><b>Webgewerk</b></p>
 """
 
 FUSS = """</main></body></html>

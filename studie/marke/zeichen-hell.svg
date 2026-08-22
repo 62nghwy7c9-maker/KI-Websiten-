@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48"
+     role="img" aria-label="Webgewerk">
+  <title>Webgewerk</title>
+  <g fill="none" stroke="#FBFCFA" stroke-width="4" stroke-linecap="square">
+    <path d="M5 17 V5 H17"/><path d="M31 5 H43 V17"/>
+    <path d="M43 31 V43 H31"/><path d="M17 43 H5 V31"/>
+  </g>
+  <circle cx="24" cy="24" r="5" fill="#B0271C"/>
+</svg>

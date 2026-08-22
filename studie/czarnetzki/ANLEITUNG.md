@@ -111,7 +111,7 @@ Fotos. Alles andere bleibt so, wie es geprüft und freigegeben wurde.
 
 ## Wenn etwas nicht stimmt
 
-K&D Webdesign
+Webgewerk
 0162 3242260
 
 Wir können jeden Stand der letzten Wochen zurückholen.

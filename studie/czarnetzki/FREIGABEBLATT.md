@@ -79,4 +79,4 @@ und Bilder selbst, in zwei Minuten, auch vom Handy.
 
 Datum, Unterschrift: ______________________________
 
-Moewes & Dettmer · Kira Moewes und Yannik Dettmer · 0162 3242260
+Webgewerk · Kira Moewes und Yannik Dettmer · 0162 3242260

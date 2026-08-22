@@ -121,7 +121,7 @@ body.wg-modus-pflege .wg-seite{display:none}
 
 <div class="wg-leiste">
   <div>
-    <span>Entwurf K&amp;D Webdesign</span>
+    <span>Entwurf Webgewerk</span>
     <span class="wg-hinweis">· Probefassung im Browser. Änderungen bleiben nur auf diesem Gerät.</span>
   </div>
   <div class="wg-knoepfe">

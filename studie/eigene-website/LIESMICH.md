@@ -25,7 +25,7 @@ werden.
 
 ## Der Name
 
-Ausgeliefert wird **Moewes & Dettmer**. Der Name steht in einem Feld des
+Ausgeliefert wird **Webgewerk**. Der Name steht in einem Feld des
 Pflegebereichs: Ein anderer Name ist eine Eingabe und ein Klick, keine
 Umbauaktion. Geprüft — beim Ändern des Feldes werden alle 20 Stellen auf
 allen vier Seiten mitgezogen.
@@ -34,18 +34,18 @@ Zur Entscheidung, Stand 21.08.2026:
 
 | | dafür | dagegen |
 |---|---|---|
-| **Moewes & Dettmer** | frei als Domain, unverwechselbar, zwei haftende Menschen — genau das Verkaufsargument | sagt nicht, was wir tun; braucht die Zeile darunter |
+| **Webgewerk** | frei als Domain, unverwechselbar, zwei haftende Menschen — genau das Verkaufsargument | sagt nicht, was wir tun; braucht die Zeile darunter |
 | **Webgewerk** | sagt, was wir tun, gut zu merken | **webgewerk.de ist vergeben** (geprüft am 21.08., geparkt bei offline@i-mem.net); „Gewerk" heißt Handwerk, die Zielgruppe ist breiter |
-| **K&D Webagentur** | neutral | zwei Buchstaben sagen nichts und sind nicht suchbar; „Webagentur" ist die Schublade, gegen die das ganze Konzept argumentiert |
+| **Webgewerk** | neutral | zwei Buchstaben sagen nichts und sind nicht suchbar; „Webagentur" ist die Schublade, gegen die das ganze Konzept argumentiert |
 
 ## Was noch fehlt
 
 1. **Ladungsfähige Anschrift** — Impressum und Datenschutz tragen
    `[Straße und Hausnummer]`, der rote Kasten weist darauf hin. Ohne sie
    darf die Seite nicht online.
-2. **Domain und E-Mail** — `moewes-dettmer.de` hatte am 21.08. keinen
+2. **Domain und E-Mail** — `webgewerk.com` hatte am 21.08. keinen
    DNS-Eintrag; das ist ein Hinweis, kein Beleg. Bei DENIC prüfen.
-   Zusätzlich `moewes-dettmer.com` und die Schreibweise mit `ö` sichern —
+   Zusätzlich `web-gewerk.com` als Schreibvariante sichern,
    den Namen wird man am Telefon buchstabieren müssen.
 3. **Telefonnummer bestätigen** (0162 3242260).
 4. **Rechtstexte prüfen lassen.**

@@ -54,7 +54,7 @@ an Sie, nicht an uns.
 
 ## Wer hat welchen Zugang
 
-| Zugang | Sie | K&D Webdesign |
+| Zugang | Sie | Webgewerk |
 |---|---|---|
 | Pflegebereich | ja | ja |
 | Konto beim Hoster | ja, Eigentümer | nein |

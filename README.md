@@ -6,7 +6,7 @@ Konzept und Pipeline für die Website-Check-Akquise.
 
 | Datei | Inhalt |
 |---|---|
-| `studie/word/KD-Webdesign-Unternehmenskonzept.docx` | Das Konzept. **Quelle der Wahrheit.** Erzeugt aus `studie/word/konzept.js`. |
+| `studie/word/Webgewerk-Unternehmenskonzept.docx` | Das Konzept. **Quelle der Wahrheit.** Erzeugt aus `studie/word/konzept.js`. |
 | `Konzept.docx` | Kiras Ursprungsfassung vom 12.08. Nur noch als Beleg, nicht mehr bearbeiten. |
 | `CLAUDE.md` | Masterprompt und Projekt-Brief für Claude Code |
 | `studie/todo.html` | Die Aufgabenliste. Erzeugt aus `studie/aufgaben.json`. |

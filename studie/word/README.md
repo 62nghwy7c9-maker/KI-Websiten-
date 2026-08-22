@@ -3,7 +3,7 @@
     node studie/word/konzept.js
     node studie/word/todo.js
 
-Erzeugt `KD-Webdesign-Unternehmenskonzept.docx` und `KD-Webdesign-Aufgabenliste.docx`.
+Erzeugt `Webgewerk-Unternehmenskonzept.docx` und `Webgewerk-Aufgabenliste.docx`.
 
 Standard-Word-Optik: Calibri, die eingebauten Überschriftenformate, keine
 Farbflächen. Wer die Datei öffnet, soll sie wie jedes andere Word-Dokument

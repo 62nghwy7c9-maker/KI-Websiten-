@@ -110,7 +110,7 @@ def bauen() -> str:
 
     teile.append("""
 <footer><div class="bahn">
-  K&amp;D Webdesign · Kira Moewes und Yannik Dettmer · Kerpen<br>
+  Webgewerk · Kira Moewes und Yannik Dettmer · Kerpen<br>
   Erzeugt aus studie/aufgaben.json — nicht von Hand ändern, sonst läuft die
   Word-Fassung auseinander.
 </div></footer>""")

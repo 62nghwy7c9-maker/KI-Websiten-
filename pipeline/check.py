@@ -170,6 +170,10 @@ h1{{font-size:1.85rem;line-height:1.22;margin:0 0 1rem;font-weight:700;
 .trenner{{display:none}}
 .fuss{{border-top:1px solid var(--linie);margin-top:2.4rem;padding-top:.9rem;
  font-size:.8rem;color:var(--grau);line-height:1.55}}
+/* Unser Zeichen im Fuss, nicht im Kopf: Oben steht der Betrieb des
+   Empfaengers. Wer ein Blatt ueberreicht, stellt sich nicht davor. */
+.absender{{display:flex;align-items:flex-start;gap:.7rem}}
+.absender svg{{width:1.5rem;height:1.5rem;flex:none;margin-top:.1rem}}
 @media print{{
  @page{{margin:20mm 18mm}}
  body{{background:#fff;font-size:11pt}}
@@ -353,12 +357,13 @@ def bauen(bericht: Pruefbericht, absender: Absender,
         + f'. Zehn Minuten genügen.</p>',
         '</div>',
         '<div class="fuss">',
+        '<div class="absender"><svg viewBox="0 0 48 48" aria-hidden="true"><g fill="none" stroke="#14201C" stroke-width="4.6" stroke-linecap="square"><path d="M5 17 V5 H17"/><path d="M31 5 H43 V17"/><path d="M43 31 V43 H31"/><path d="M17 43 H5 V31"/></g><circle cx="24" cy="24" r="5.4" fill="#B0271C"/></svg><div>'
         f'<b>{_e(absender.name)}</b><br>{_e(absender.anschrift)}<br>'
         f'{_e(absender.telefon)}'
         + (f' ({_e(absender.telefon_name)})' if absender.telefon_name else '')
         + f' · {_e(absender.mail)}'
         + (f' ({_e(absender.mail_name)})' if absender.mail_name else '')
-        + '<br><br>',
+        + '</div></div><br>',
         f'Geprüft wurde {_e(_kurz(k.url))} am {_e(_datum(bericht.stand))}. '
         f'Alle Punkte ohne eigene Quellenangabe stammen aus diesem Abruf und '
         f'sind dort nachprüfbar. Sie können jeden davon selbst aufrufen.',

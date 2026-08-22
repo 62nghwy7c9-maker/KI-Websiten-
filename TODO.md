@@ -1,7 +1,7 @@
 # Offene Punkte
 
 **Stand:** 15. August 2026
-**Gilt für:** K&D Webdesign — Check-Pipeline und eigene Firmenseite
+**Gilt für:** Webgewerk — Check-Pipeline und eigene Firmenseite
 
 Sortiert nach dem, was blockiert. Was oben steht, hält etwas anderes auf.
 Erledigtes wird nicht gelöscht, sondern abgehakt und datiert — damit
@@ -87,15 +87,15 @@ nicht** — an genau dem Punkt, den sie bei Kunden bemängelt.
 
 | | Punkt | Wer |
 |---|---|---|
-| ☐ | Bei **denic.de/webwhois** nachsehen, wem `kd-webdesign.de` gehört, und nach dem Preis fragen | K/Y |
+| ☐ | Bei **denic.de/webwhois** nachsehen, wem `webgewerk.com` gehört, und nach dem Preis fragen | K/Y |
 | ☐ | Falls das nichts wird: `webgewerk-kerpen.de` auf Verfügbarkeit prüfen | K/Y |
-| ☐ | `kd-webdesign.com` als Reserve sichern (rund 12 €/Jahr), **nicht** als Hauptadresse | K/Y |
+| ☐ | `webgewerk.com` sichern (rund 12 €/Jahr). Am 22.08. beim Registry als frei geprüft. | K/Y |
 
 **Belegter Stand vom 13.08.2026:**
 
-- `kd-webdesign.de` — **registriert**. Sie löst auf und liefert eine leere Seite
+- `webgewerk.com` — **registriert**. Sie löst auf und liefert eine leere Seite
   mit `offline@i-mem.net` aus. Geparkt, kein Wettbewerber.
-- `kd-webdesign.com`, `web-gewerk.com`, `web-gewerk.net`, `webgewerk.org`,
+- `web-gewerk.com`, `web-gewerk.net`, `webgewerk.org`,
   `web-gewerk.org` — **nicht registriert** (Registerabfrage mit bestandener
   Kontrolle).
 - `.de`, `.koeln`, `.nrw`, `.eu` — **nicht prüfbar**. Für diese Endungen gibt
@@ -172,10 +172,10 @@ ob Anerkennung hilft oder Druck wegnimmt.
 | 15.08.2026 | Selbstprüfung gelaufen — fünf Befunde, zwei davon vorher unbekannt |
 | 15.08.2026 | Firmenseite auf das Gerüst aus `durchgeplant-` umgestellt: Plan-Set-Motiv, Systemschriften, Dunkelmodus, Sicherheitsnetz ohne JavaScript |
 | 15.08.2026 | **Three.js und Kristall entfernt.** An ihrer Stelle steht der Prüfvorgang selbst. 674 KB → 32 KB |
-| 15.08.2026 | Entschieden: K&D Webdesign und durchgeplant sind verwandt, aber unterscheidbar — gleiches Motiv, eigene Farben |
+| 15.08.2026 | Entschieden: Webgewerk und durchgeplant sind verwandt, aber unterscheidbar — gleiches Motiv, eigene Farben |
 | 14.08.2026 | Vorspann der Firmenseite neu gebaut: dunkle Bühne, Kristall in Ocker statt Schiefergrau, Satz und Objekt nebeneinander statt übereinander |
 | 14.08.2026 | **Fehlendes `viewport`-Meta gefunden und behoben.** Die eigene Seite wäre auf dem Handy in Desktop-Breite geladen — Prüfpunkt 3 aus dem eigenen Katalog, an der eigenen Seite gerissen |
-| 13.08.2026 | Firmenname entschieden: **K&D Webdesign**, Zusatz „Ihr Gewerk im Fokus" |
+| 13.08.2026 | Firmenname entschieden: **Webgewerk**, Zusatz „Ihr Gewerk im Fokus" |
 | 13.08.2026 | Regelwerk auf den Check angewandt — Farben, verbotene Wörter entfernt, Kontaktnamen ergänzt |
 | 13.08.2026 | Entwurf der eigenen Firmenseite steht |
 | 12.08.2026 | Pipeline reproduziert alle vier von Hand erstellten Befunde |

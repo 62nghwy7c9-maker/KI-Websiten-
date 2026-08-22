@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 48" width="300" height="48"
+     role="img" aria-label="Webgewerk">
+  <title>Webgewerk</title>
+  <g fill="none" stroke="#FBFCFA" stroke-width="2.6" stroke-linecap="square">
+    <path d="M3 13 V3 H13"/><path d="M25 3 H35 V13"/>
+    <path d="M35 35 V45 H25"/><path d="M13 45 H3 V35"/>
+  </g>
+  <circle cx="19" cy="24" r="4.2" fill="#B0271C"/>
+  <text x="52" y="34" font-family="Archivo Narrow, Arial Narrow, sans-serif"
+        font-weight="700" font-size="30" letter-spacing="2" fill="#FBFCFA">WEBGEWERK</text>
+</svg>

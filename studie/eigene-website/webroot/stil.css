@@ -1,4 +1,4 @@
-/* Moewes & Dettmer, technische Zeichnung.
+/* Webgewerk, technische Zeichnung.
  *
  * Die Seite ist als Zeichnungsblatt gebaut: Zeichenrahmen, Raster, Schriftfeld
  * mit den beiden Namen. Der Gedanke stammt nicht aus einer Formensammlung,
@@ -492,3 +492,8 @@ footer a:hover { color: var(--tinte); }
 
 /* Hinweis unter einer gekürzten Aufzählung. */
 .mehr { margin: 1.2rem 0 0; font: 400 .9rem/1.5 var(--mono); color: var(--matt); }
+
+/* ── Zeichen in der Kopfleiste ───────────────────────────────────────── */
+
+.logo { display: inline-flex; align-items: center; gap: .6rem; }
+.logo .zeichen { width: 1.35rem; height: 1.35rem; flex: none; color: var(--tinte); }
