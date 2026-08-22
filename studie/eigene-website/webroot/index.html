@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Moewes &amp; Dettmer — Websites für Betriebe im Rhein-Erft-Kreis</title>
+<title>Moewes &amp; Dettmer · Websites für Betriebe im Rhein-Erft-Kreis</title>
 <meta name="description" content="Wir prüfen Ihre Website an 19 Punkten und zeigen Ihnen schriftlich, was ein Besucher nicht findet. Danach bauen wir eine neue: schnell, ohne Baukasten, mit einem Bereich, in dem Sie Texte und Bilder selbst ändern. Ab 990 €.">
 <link rel="stylesheet" href="stil.css">
 </head>
@@ -25,50 +25,99 @@
 
 <main>
 
-<section class="aufmacher" data-kino>
-  <div class="buehne">
-    <div class="bahn">
-      <div>
-        <p class="schild">Kerpen · Rhein-Erft-Kreis</p>
-        <h1>Ihre Website hat Fehler. <em>Wir sagen Ihnen welche.</em></h1>
-        <p class="unter">Sie bekommen eine Liste mit 19 geprüften Punkten: was ein Besucher auf Ihrer Seite nicht findet, was Sie das kostet und was sich in einer Stunde beheben lässt. Jeden Punkt können Sie selbst nachprüfen.</p>
-        <div class="reihe">
-          <a class="knopf voll" href="#kontakt">Kostenlosen Check anfordern</a>
-          <a class="pfeil" href="#check">Ansehen, was geprüft wird</a>
-        </div>
+<section class="aufmacher">
+  <div class="bahn">
+    <div>
+      <p class="schild">Kerpen · Rhein-Erft-Kreis</p>
+      <h1>Ihre Website hat Fehler. <em>Wir sagen Ihnen welche.</em></h1>
+      <div class="masslinie" aria-hidden="true"></div>
+      <p class="unter">Sie bekommen eine Liste mit 19 geprüften Punkten: was ein Besucher auf Ihrer Seite nicht findet, was Sie das kostet und was sich in einer Stunde beheben lässt. Jeden Punkt können Sie selbst nachprüfen.</p>
+      <div class="reihe">
+        <a class="knopf voll" href="#kontakt">Kostenlosen Check anfordern</a>
+        <a class="pfeil" href="#check">Ansehen, was geprüft wird</a>
       </div>
 
-      <!-- Der Prüfvorgang. Dekorativ im Sinne der Vorlesbarkeit: Was hier
-           gezeigt wird, steht daneben im Text. -->
-      <div class="pruefung" aria-hidden="true">
-        <div class="blatt">
-          <span class="balken kopfband"></span>
-          <span class="balken bild"></span>
-          <span class="balken z1"></span>
-          <span class="balken z2"></span>
-          <span class="balken z3"></span>
-          <span class="kacheln"><span></span><span></span><span></span></span>
-          <span class="balken z2"></span>
-          <span class="balken fuss"></span>
-        </div>
-        <span class="messlinie"></span>
-        <ul class="befunde">
-          <!-- --y ist die Höhe im Drahtgerüst, --ab die Schwelle, ab der der
-               Befund aufspringt: --y geteilt durch 1,15. Wer --y ändert, muss
-               --ab mitziehen, sonst springt der Befund auf, bevor gemessen
-               wurde. -->
-          <li style="--y:7%;--ab:.06"><i></i><b>Seitentitel ist Vorlagentext</b></li>
-          <li style="--y:19%;--ab:.165"><i></i><b>Nummer nicht antippbar</b></li>
-          <li style="--y:34%;--ab:.296"><i></i><b>Nicht für Handys eingerichtet</b></li>
-          <li style="--y:47%;--ab:.409"><i></i><b>Lange Ladezeit</b></li>
-          <li style="--y:61%;--ab:.530"><i></i><b>Keine Seite für Stellen</b></li>
-          <li style="--y:75%;--ab:.652"><i></i><b>Kein Anfrageformular</b></li>
-          <li style="--y:89%;--ab:.774"><i></i><b>Impressum unvollständig</b></li>
-        </ul>
-        <p class="summe"><em>7</em><span>Punkte gefunden</span></p>
-      </div>
+      <!-- Schriftfeld wie unten rechts auf einer technischen Zeichnung.
+           Es steht hier nicht als Zierrat: Wer gezeichnet und wer geprüft
+           hat, ist genau das, was wir verkaufen. -->
+      <dl class="schriftfeld">
+        <div><dt>Gezeichnet</dt><dd>Kira Moewes</dd></div>
+        <div><dt>Geprüft</dt><dd>Yannik Dettmer</dd></div>
+        <div><dt>Prüfpunkte</dt><dd><span data-zaehl="19">19</span></dd></div>
+        <div><dt>Blatt</dt><dd>01</dd></div>
+      </dl>
     </div>
-    <div class="lauf" aria-hidden="true"></div>
+
+    <!-- Ein Blatt mit den vier Befunden, die wir bei elf geprüften Betrieben
+         am häufigsten gemessen haben. Die Anstriche zeichnen sich selbst,
+         wie mit dem Rotstift. Nichts davon ist erfunden; dieselben Punkte
+         stehen unten in der Prüfliste. -->
+    <div class="blattbild" aria-hidden="true">
+      <svg viewBox="0 0 540 430" role="img">
+        <defs>
+          <marker id="pfeilspitze" markerWidth="7" markerHeight="7" refX="6" refY="3.5"
+                  orient="auto"><path d="M0,0 L7,3.5 L0,7 z" fill="#1F4E5F"/></marker>
+        </defs>
+
+        <!-- Bestand in Blau: die Seite, wie sie heute ist -->
+        <g stroke="#1F4E5F" fill="none" stroke-width="1">
+          <rect x="34" y="30" width="230" height="352"/>
+          <rect x="34" y="30" width="230" height="30" fill="#1F4E5F" opacity=".08"/>
+          <rect x="46" y="74" width="206" height="74" opacity=".55"/>
+          <line x1="46" y1="74" x2="252" y2="148" opacity=".3"/>
+          <line x1="252" y1="74" x2="46" y2="148" opacity=".3"/>
+          <g opacity=".28" stroke-width="7" stroke="#1F4E5F" stroke-linecap="square">
+            <line x1="46" y1="172" x2="228" y2="172"/>
+            <line x1="46" y1="190" x2="252" y2="190"/>
+            <line x1="46" y1="208" x2="196" y2="208"/>
+            <line x1="46" y1="250" x2="240" y2="250"/>
+            <line x1="46" y1="268" x2="210" y2="268"/>
+            <line x1="46" y1="322" x2="150" y2="322"/>
+          </g>
+        </g>
+
+        <!-- Maßlinie: 390 Pixel, die Breite, bei der wir auf Handytauglichkeit prüfen -->
+        <g stroke="#1F4E5F" stroke-width="1" fill="none" opacity=".8">
+          <line x1="34" y1="400" x2="264" y2="400"
+                marker-start="url(#pfeilspitze)" marker-end="url(#pfeilspitze)"/>
+          <line x1="34" y1="392" x2="34" y2="408"/>
+          <line x1="264" y1="392" x2="264" y2="408"/>
+        </g>
+        <text x="149" y="422" text-anchor="middle" fill="#1F4E5F"
+              font-family="Spline Sans Mono, monospace" font-size="11">390 px</text>
+
+        <!-- Befunde in Rot -->
+        <g stroke="#B0271C" fill="none" stroke-width="1.8" stroke-linecap="round">
+          <ellipse class="marke" style="--l:210;--i:0" cx="150" cy="45" rx="66" ry="15"/>
+          <path   class="marke fuehrung" style="--l:150;--i:0" d="M216 45 H300"/>
+          <ellipse class="marke" style="--l:150;--i:1" cx="137" cy="190" rx="52" ry="26"/>
+          <path   class="marke fuehrung" style="--l:170;--i:1" d="M189 190 H300"/>
+          <ellipse class="marke" style="--l:140;--i:2" cx="143" cy="259" rx="48" ry="22"/>
+          <path   class="marke fuehrung" style="--l:170;--i:2" d="M191 259 H300"/>
+          <ellipse class="marke" style="--l:120;--i:3" cx="98" cy="322" rx="40" ry="14"/>
+          <path   class="marke fuehrung" style="--l:210;--i:3" d="M138 322 H300"/>
+        </g>
+
+        <g font-family="Spline Sans Mono, monospace" font-size="12" fill="#B0271C">
+          <text class="notiz" style="--i:0" x="308" y="41">05 Nummer nicht</text>
+          <text class="notiz" style="--i:0" x="308" y="56">antippbar</text>
+          <text class="notiz" style="--i:1" x="308" y="186">03 Nicht für</text>
+          <text class="notiz" style="--i:1" x="308" y="201">Handys</text>
+          <text class="notiz" style="--i:2" x="308" y="255">10 Kein Anfrage-</text>
+          <text class="notiz" style="--i:2" x="308" y="270">formular</text>
+          <text class="notiz" style="--i:3" x="308" y="318">09 Keine Seite</text>
+          <text class="notiz" style="--i:3" x="308" y="333">für Stellen</text>
+        </g>
+      </svg>
+      <!-- Auf schmalen Schirmen ist die Beschriftung im Blatt zu klein.
+           Dann stehen dieselben vier Befunde hier als lesbarer Text. -->
+      <ul class="blattlegende">
+        <li><span>05</span> Nummer nicht antippbar</li>
+        <li><span>03</span> Nicht für Handys</li>
+        <li><span>10</span> Kein Anfrageformular</li>
+        <li><span>09</span> Keine Seite für Stellen</li>
+      </ul>
+    </div>
   </div>
 </section>
 
@@ -88,7 +137,7 @@
     <p class="schild">Der Website-Check</p>
     <h2>Wir behaupten nichts, was Sie nicht selbst sehen können.</h2>
     <p class="vorspann">Zu jedem Punkt steht auf dem Blatt, was gemessen wurde
-    und woran man es erkennt. Auf den Check kommen höchstens vier Punkte —
+    und woran man es erkennt. Auf den Check kommen höchstens vier Punkte,
     die, die am meisten kosten. Der Rest steht in der Anlage.</p>
 
     <ul class="liste19 staffel" data-auf>
@@ -118,7 +167,7 @@
       <p>Kein Angebot mit einem Rabatt, der morgen abläuft. Keine Punktzahl,
       die wir uns ausgedacht haben. Kein Gespräch, aus dem man nicht wieder
       herauskommt. Ist an Ihrer Seite nichts zu beanstanden, schreiben wir
-      das auch — dann haben Sie es schriftlich.</p>
+      das auch. Dann haben Sie es schriftlich.</p>
     </div>
   </div>
 </section>
@@ -135,17 +184,17 @@
       <div>
         <h3>Beschriftete Felder statt Baukasten</h3>
         <p>Telefonnummer, Öffnungszeiten, Stellenanzeige, Tagesangebot,
-        Hinweise wie Betriebsurlaub — und Bilder. Sie sehen nur die Felder,
+        Hinweise wie Betriebsurlaub, dazu Bilder. Sie sehen nur die Felder,
         die sich bei Ihnen tatsächlich ändern.</p>
         <p>Steht Ihre Telefonnummer an acht Stellen auf der Website, ändert
-        das eine Feld alle acht — samt der Verweise, die auf dem Handy den
+        das eine Feld alle acht, samt der Verweise, die auf dem Handy den
         Anruf auslösen.</p>
         <p><a class="pfeil" href="#fragen">Häufige Fragen dazu</a></p>
       </div>
       <div class="bild">
         <figure>
           <img src="bilder/pflegebereich.png" alt="Der Pflegebereich mit beschrifteten Feldern für Telefonnummer, Öffnungszeiten und Stellenanzeige">
-          <figcaption>Der Bereich, in dem Sie Ihre Inhalte ändern — auch vom Handy aus.</figcaption>
+          <figcaption>Der Bereich, in dem Sie Ihre Inhalte ändern, auch vom Handy aus.</figcaption>
         </figure>
       </div>
     </div>
@@ -154,19 +203,18 @@
       <div>
         <h3>Fotos ohne Vorbereitung</h3>
         <p>Sie wählen ein Bild aus, wir verkleinern es automatisch. Aus einem
-        Telefon kommen 4.000 Pixel und mehrere Megabyte — ungefragt
+        Telefon kommen 4.000 Pixel und mehrere Megabyte, und ungefragt
         hochgeladen macht ein einziges Foto eine schnelle Seite langsam.
         Darüber sollen Sie nicht nachdenken müssen.</p>
         <p>Vor jeder Änderung wird gesichert. Die letzten zwanzig Stände
         bleiben liegen; wir holen jeden davon zurück.</p>
       </div>
-      <div class="bild punkte" style="min-height:14rem;display:flex;align-items:center;justify-content:center">
-        <div style="text-align:center;font-family:var(--mono);font-size:.9rem;color:var(--gedaempft);background:var(--papier);border:1px solid var(--linie);border-radius:10px;padding:1.4rem 1.8rem">
-          <div style="font-size:1.5rem;color:var(--tinte);font-weight:700;letter-spacing:-.03em">3600 × 2400</div>
-          <div style="margin:.4rem 0;color:var(--akzent);font-size:1.3rem">↓</div>
-          <div style="font-size:1.5rem;color:var(--tinte);font-weight:700;letter-spacing:-.03em">1600 × 1067</div>
-          <div style="margin-top:.6rem">automatisch beim Speichern</div>
-        </div>
+      <div class="verkleinern">
+        <p class="vorher">3600 × 2400</p>
+        <p class="pfeilab" aria-hidden="true">↓</p>
+        <p class="nachher">1600 × 1067</p>
+        <p class="wann">automatisch beim Speichern</p>
+      </div>
       </div>
     </div>
   </div>
@@ -276,7 +324,7 @@
     </div>
 
     <div class="kasten">
-      <h3>Betreuung: 69 € im Monat — und freiwillig</h3>
+      <h3>Betreuung: 69 € im Monat, und freiwillig</h3>
       <p>Monatliche Prüfung, ob Ihre Seite erreichbar ist und das
       Sicherheitszertifikat gilt, dazu bis zu zwei Änderungen im Monat, die
       über Ihren Pflegebereich hinausgehen. <strong>Ihre Website läuft auch
@@ -296,7 +344,7 @@
         <summary>Was kostet mich das laufend?</summary>
         <div class="antwort">
           <p>Für Domain und Hosting zahlen Sie Ihrem Anbieter meist 60 bis
-          150 € im Jahr — direkt, nicht über uns. An uns zahlen Sie nach dem
+          150 € im Jahr, direkt und nicht über uns. An uns zahlen Sie nach dem
           Bau nichts, wenn Sie keine Betreuung wollen.</p>
         </div>
       </details>
@@ -305,7 +353,7 @@
         <div class="antwort">
           <p>Nein, und das hat einen Grund. WordPress baut jede Seite bei
           jedem Aufruf neu zusammen und braucht dafür monatliche Updates und
-          Erweiterungen — genau die Punkte, an denen alte Seiten scheitern.
+          Erweiterungen, genau die Punkte, an denen alte Seiten scheitern.
           Wir bauen fertige Seiten. Wenn Sie an WordPress hängen, sind wir
           der falsche Anbieter, und das sagen wir Ihnen im Vorgespräch.</p>
         </div>
@@ -315,7 +363,7 @@
         <div class="antwort">
           <p>Ihnen. Die Domain läuft auf Ihren Namen, das Hosting auf Ihren
           Vertrag und Ihre Rechnung. Bei der Übergabe bekommen Sie alle
-          Dateien, alle Zugangsdaten und die Nutzungsrechte schriftlich —
+          Dateien, alle Zugangsdaten und die Nutzungsrechte schriftlich,
           auch wenn Sie später zu jemand anderem gehen.</p>
         </div>
       </details>
@@ -342,7 +390,7 @@
         <div class="antwort">
           <p>Dann zwei Wege statt einer Absage: Wir machen die Aufnahmen an
           einem halben Tag vor Ort, oder wir empfehlen Ihnen einen
-          Fotografen — ohne Provision. Wenn beides nicht in Frage kommt,
+          Fotografen, ohne Provision. Wenn beides nicht in Frage kommt,
           arbeiten wir mit Flächen und Typografie. Symbolbilder aus dem
           Internet setzen wir nicht ein.</p>
         </div>
@@ -390,7 +438,7 @@
         <label for="f-telefon">oder Ihre Telefonnummer</label>
         <input id="f-telefon" name="telefon" type="tel" autocomplete="tel">
 
-        <label for="f-nachricht">Ihre Internetadresse — und worum es geht</label>
+        <label for="f-nachricht">Ihre Internetadresse, und worum es geht</label>
         <textarea id="f-nachricht" name="nachricht" rows="6" required></textarea>
 
         <p class="fallgrube" aria-hidden="true">
@@ -407,7 +455,7 @@
       </form>
     </div>
 
-    <div class="abschluss punkte">
+    <div class="abschluss">
       <h2>Zehn Minuten am Telefon reichen für den Anfang.</h2>
       <p>Wenn Ihnen Schreiben zu umständlich ist: Rufen Sie an. Wir sehen uns
       Ihre Seite an, während wir sprechen.</p>
@@ -450,30 +498,13 @@
     });
   }, 2000);
 
-  /* Scrollweg des Aufmachers als --fs. Ihn lesen die Messlinie, jeder
-     Befund, die Summe und die Haarlinie. */
-  var kino = document.querySelector("[data-kino]");
-  /* Die Klebebühne gibt es erst ab 62rem. Darunter ist der Aufmacher ein
-     normaler Abschnitt, und der Prüfvorgang steht fertig da. */
-  var gross = window.matchMedia("(min-width: 62rem)");
-  function fortschritt() {
-    if (!kino) return;
-    if (!gross.matches) { kino.style.setProperty("--fs", "1"); return; }
-    var weg = kino.offsetHeight - window.innerHeight;
-    var p = weg > 0
-      ? Math.min(Math.max(-kino.getBoundingClientRect().top / weg, 0), 1)
-      : 1;
-    kino.style.setProperty("--fs", p.toFixed(4));
-  }
-
   var laeuft = false;
-  function tick() { laeuft = false; kopfleiste(); if (!ruhig) fortschritt(); }
+  function tick() { laeuft = false; kopfleiste(); }
   tick();
   window.addEventListener("scroll", function () {
     if (!laeuft) { laeuft = true; requestAnimationFrame(tick); }
   }, { passive: true });
   window.addEventListener("resize", tick);
-  if (gross.addEventListener) { gross.addEventListener("change", tick); }
 
   /* Kopfleiste absetzen, sobald gescrollt wurde. */
   var kopf = document.querySelector("header.kopf");

@@ -1,442 +1,472 @@
-/* Moewes & Dettmer — Stil.
+/* Moewes & Dettmer, technische Zeichnung.
  *
- * Gestaltungsrichtung nach dem Vorbild von sanity.io/context: sehr helle
- * Fläche, sehr große und eng gesetzte Überschriften, ein einziger warmer
- * Akzent, ein Punktraster als einziges grafisches Motiv, viel Luft zwischen
- * den Abschnitten, abwechselnd links und rechts gesetzte Zeilen.
+ * Die Seite ist als Zeichnungsblatt gebaut: Zeichenrahmen, Raster, Schriftfeld
+ * mit den beiden Namen. Der Gedanke stammt nicht aus einer Formensammlung,
+ * sondern aus dem, was wir verkaufen: Wir messen, halten fest und
+ * unterschreiben mit Namen. Ein Handwerksmeister kennt diese Blätter.
  *
- * Übernommen ist die Gestaltungssprache, nichts anderes: kein Code, keine
- * Texte, keine Bilder, keine Schriftlizenz. Das Punktraster ist mit einem
- * radial-gradient gezeichnet, die Schriften sind Systemschriften.
+ * Farbe traegt Bedeutung: Blau ist Bestand, Rot ist Befund. Rot steht deshalb
+ * nirgends dekorativ, nur an Maengeln.
  */
 
-:root{
-  --papier:#FFFFFF;
-  --flaeche:#F6F5F2;
-  --tinte:#0E0E0D;
-  --text:#3C3C39;
-  --gedaempft:#6E6E68;
-  --akzent:#D9541F;
-  --akzent-tief:#B0400F;
-  --akzent-weich:#FDEDE5;
-  --linie:#E6E4DE;
-  --linie-stark:#CFCCC3;
-  --warn:#8A2C1E;
-  --warn-weich:#F9E9E4;
-  --punkt:#DCDAD2;
-  --sans:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
-  --mono:ui-monospace,"SF Mono","JetBrains Mono",Menlo,Consolas,monospace;
-  --bahn:70rem;
-  --luft:clamp(4rem,8vw,6.5rem);
+@import url('https://fonts.googleapis.com/css2?family=Archivo+Narrow:wght@500;600;700&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Spline+Sans+Mono:wght@400;500;600&display=swap');
+
+:root {
+  --papier:   #F2F4F1;
+  --blatt:    #FBFCFA;
+  --raster:   #D6DEDA;
+  --linie:    #C3CDC8;
+  --tinte:    #14201C;
+  --blau:     #1F4E5F;
+  --blau-hell:#33707F;
+  --rot:      #B0271C;
+  --matt:     #5E6B66;
+
+  --schrift: "Atkinson Hyperlegible", -apple-system, BlinkMacSystemFont,
+             "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --riss:    "Archivo Narrow", "Arial Narrow", var(--schrift);
+  --mono:    "Spline Sans Mono", ui-monospace, SFMono-Regular, Menlo,
+             Consolas, monospace;
+
+  --bahn: 74rem;
+  --rand: clamp(1.1rem, 4vw, 3rem);
 }
 
-@media (prefers-color-scheme: dark){
-  :root:not([data-theme="light"]){
-    --papier:#0E0E0D; --flaeche:#161614; --tinte:#F4F2ED; --text:#C6C3BB;
-    --gedaempft:#8E8B83; --akzent:#F2764A; --akzent-tief:#FF8F66;
-    --akzent-weich:#2A1710; --linie:#26251F; --linie-stark:#3A3830;
-    --warn:#E08672; --warn-weich:#2E1A16; --punkt:#2A2924;
+*, *::before, *::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+body {
+  margin: 0;
+  font: 400 clamp(1rem, .55vw + .88rem, 1.09rem)/1.62 var(--schrift);
+  color: var(--tinte);
+  background: var(--papier);
+  -webkit-font-smoothing: antialiased;
+}
+
+.bahn { width: 100%; max-width: var(--bahn); margin-inline: auto; padding-inline: var(--rand); }
+
+/* ── Schrift ─────────────────────────────────────────────────────────── */
+
+h1, h2, h3 { margin: 0; font-family: var(--riss); font-weight: 700;
+             line-height: 1.05; letter-spacing: -.005em; hyphens: auto; }
+h1 { font-size: clamp(2.1rem, 6.4vw, 4.2rem); text-transform: uppercase; }
+h1 em { font-style: normal; color: var(--rot); }
+h2 { font-size: clamp(1.6rem, 3.5vw, 2.5rem); text-transform: uppercase; }
+h3 { font-size: clamp(1.08rem, 1.4vw, 1.22rem); letter-spacing: .01em; }
+p  { margin: 0 0 1rem; }
+a  { color: var(--blau); }
+
+strong, b { font-weight: 700; }
+
+/* Anmerkung am Blattrand: so werden Zeichnungen beschriftet. */
+.schild {
+  font: 500 .74rem/1 var(--mono);
+  letter-spacing: .18em; text-transform: uppercase;
+  color: var(--blau); margin: 0 0 1rem;
+  display: flex; align-items: center; gap: .7rem;
+}
+.schild::before {
+  content: ""; width: 1.6rem; height: 1px; background: var(--blau); flex: none;
+}
+
+.vorspann { font-size: 1.09em; color: var(--matt); max-width: 46rem; margin-top: 1.1rem; }
+
+/* ── Kopfleiste ──────────────────────────────────────────────────────── */
+
+.kopf {
+  position: sticky; top: 0; z-index: 40;
+  background: color-mix(in srgb, var(--papier) 92%, transparent);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid transparent;
+  transition: border-color .25s, background .25s;
+}
+.kopf.gescrollt { border-bottom-color: var(--linie); background: var(--papier); }
+.kopf-innen { display: flex; align-items: center; gap: 1.4rem; min-height: 4.1rem; }
+.logo {
+  font: 700 1.02rem/1 var(--riss); letter-spacing: .06em; text-transform: uppercase;
+  color: var(--tinte); text-decoration: none; margin-right: auto; white-space: nowrap;
+}
+.kopf nav { display: none; gap: 1.5rem; }
+.kopf nav a {
+  font: 500 .82rem/1 var(--mono); letter-spacing: .04em;
+  color: var(--matt); text-decoration: none; padding: .3rem 0;
+  border-bottom: 1px solid transparent; transition: color .18s, border-color .18s;
+}
+.kopf nav a:hover { color: var(--tinte); border-bottom-color: var(--rot); }
+@media (min-width: 62rem) { .kopf nav { display: flex; } }
+
+/* ── Knöpfe ──────────────────────────────────────────────────────────── */
+
+.knopf {
+  display: inline-flex; align-items: center; justify-content: center;
+  font: 600 .82rem/1 var(--mono); letter-spacing: .07em; text-transform: uppercase;
+  padding: .82rem 1.35rem; text-decoration: none; border: 1px solid var(--tinte);
+  border-radius: 0; transition: transform .16s, box-shadow .16s, background .16s;
+}
+.knopf.voll { background: var(--tinte); color: var(--blatt); box-shadow: 3px 3px 0 var(--blau); }
+.knopf.voll:hover { transform: translate(-2px, -2px); box-shadow: 5px 5px 0 var(--blau); }
+.knopf.leer { background: transparent; color: var(--tinte); }
+.knopf.leer:hover { background: var(--tinte); color: var(--blatt); }
+.kopf .knopf { display: none; padding: .6rem 1rem; }
+@media (min-width: 48rem) { .kopf .knopf { display: inline-flex; } }
+
+.pfeil {
+  font: 500 .88rem/1 var(--mono); color: var(--blau); text-decoration: none;
+  border-bottom: 1px solid var(--linie); padding-bottom: .2rem;
+  transition: border-color .18s;
+}
+.pfeil::after { content: " \2192"; }
+.pfeil:hover { border-bottom-color: var(--blau); }
+
+.reihe { display: flex; flex-wrap: wrap; gap: .8rem; margin-top: 1.8rem; align-items: center; }
+
+/* ── Abschnitte als Zeichnungsblätter ────────────────────────────────── */
+
+main > section { padding: clamp(3.4rem, 7vw, 6rem) 0; }
+main > section > .bahn { position: relative; }
+
+/* Der Zeichenrahmen: eine Haarlinie, innen abgesetzt. Nur oben, damit
+   die Blätter aneinanderstoßen wie in einem Satz Zeichnungen. */
+main > section + section > .bahn::before {
+  content: ""; position: absolute; left: var(--rand); right: var(--rand);
+  top: calc(-1 * clamp(1.7rem, 3.5vw, 3rem)); height: 1px; background: var(--linie);
+}
+
+/* ── Aufmacher ───────────────────────────────────────────────────────── */
+
+.aufmacher { padding-top: clamp(2.4rem, 5vw, 4rem); }
+.aufmacher .bahn { display: grid; gap: clamp(2rem, 4vw, 3.4rem); }
+@media (min-width: 62rem) {
+  .aufmacher .bahn { grid-template-columns: 1.02fr .98fr; align-items: center; }
+}
+
+.aufmacher h1 { margin-bottom: 1.3rem; }
+
+/* Maßlinie unter der Überschrift: fährt beim Laden aus. */
+.masslinie {
+  height: 1px; background: var(--blau); margin: 0 0 1.4rem;
+  transform-origin: left; animation: ausfahren .9s .15s cubic-bezier(.2,.8,.2,1) both;
+}
+@keyframes ausfahren { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+
+.aufmacher .unter { color: var(--matt); max-width: 34rem; }
+
+/* Schriftfeld, wie unten rechts auf jeder Zeichnung. */
+.schriftfeld {
+  margin-top: 2.4rem; border: 1px solid var(--tinte); background: var(--blatt);
+  display: grid; grid-template-columns: 1fr 1fr;
+}
+@media (min-width: 34rem) {
+  .schriftfeld { grid-template-columns: 1.25fr 1.25fr .8fr .6fr; }
+  .schriftfeld > div { border-bottom: 0; }
+}
+.schriftfeld > div { padding: .7rem .8rem; border-right: 1px solid var(--linie);
+                     border-bottom: 1px solid var(--linie); }
+.schriftfeld > div:last-child { border-right: 0; }
+.schriftfeld dt {
+  font: 500 .64rem/1 var(--mono); letter-spacing: .14em; text-transform: uppercase;
+  color: var(--matt); margin-bottom: .35rem;
+}
+.schriftfeld dd { margin: 0; font: 600 .88rem/1.2 var(--riss); letter-spacing: .02em;
+                  white-space: nowrap; }
+
+/* ── Das Blatt mit den Befunden ──────────────────────────────────────── */
+
+.blattbild {
+  position: relative; background: var(--blatt);
+  border: 1px solid var(--tinte); padding: 1rem;
+  background-image:
+    linear-gradient(var(--raster) 1px, transparent 1px),
+    linear-gradient(90deg, var(--raster) 1px, transparent 1px);
+  background-size: 1.25rem 1.25rem;
+}
+.blattbild svg { display: block; width: 100%; height: auto; position: relative; }
+/* Ecken wie auf einem beschnittenen Zeichnungsblatt. */
+.blattbild::before, .blattbild::after {
+  content: ""; position: absolute; width: 14px; height: 14px; border: 1px solid var(--tinte);
+}
+.blattbild::before { top: 6px; left: 6px; border-right: 0; border-bottom: 0; }
+.blattbild::after { bottom: 6px; right: 6px; border-left: 0; border-top: 0; }
+
+/* Die roten Anstriche zeichnen sich selbst. */
+.marke { stroke-dasharray: var(--l, 300); stroke-dashoffset: var(--l, 300);
+         animation: zeichnen .55s cubic-bezier(.4,0,.2,1) forwards;
+         animation-delay: calc(.6s + var(--i, 0) * .28s); }
+@keyframes zeichnen { to { stroke-dashoffset: 0; } }
+.notiz { opacity: 0; animation: auftauchen .4s ease forwards;
+         animation-delay: calc(.95s + var(--i, 0) * .28s); }
+@keyframes auftauchen { to { opacity: 1; } }
+
+/* ── Zahlenband ──────────────────────────────────────────────────────── */
+
+.streifen { background: var(--tinte); color: var(--blatt); }
+.streifen ul { list-style: none; margin: 0; padding: 2rem 0; display: grid;
+               gap: 1.6rem 1.6rem; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+@media (min-width: 56rem) { .streifen ul { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+.streifen li { display: grid; gap: .3rem; }
+.streifen b { font: 700 clamp(1.2rem, 3.2vw, 1.5rem)/1 var(--riss);
+              letter-spacing: .01em; text-transform: uppercase; overflow-wrap: anywhere; }
+.streifen span { font: 400 .84rem/1.4 var(--mono); color: #A9B6B1; }
+
+/* ── Prüfliste ───────────────────────────────────────────────────────── */
+
+.liste19 { list-style: none; margin: 2.2rem 0 0; padding: 0;
+           border-top: 1px solid var(--linie); }
+.liste19 li {
+  display: grid; grid-template-columns: 3.1rem 1fr; gap: .8rem; align-items: baseline;
+  padding: .72rem .4rem; border-bottom: 1px solid var(--linie);
+  position: relative; transition: background .18s;
+}
+.liste19 li:hover { background: var(--blatt); }
+/* Beim Überfahren wird die Zeile unterstrichen, als zöge man sie mit dem Lineal. */
+.liste19 li::after {
+  content: ""; position: absolute; left: 0; bottom: -1px; height: 1px; width: 0;
+  background: var(--rot); transition: width .35s cubic-bezier(.2,.8,.2,1);
+}
+.liste19 li:hover::after { width: 100%; }
+.liste19 .nr { font: 500 .82rem/1.6 var(--mono); color: var(--blau); letter-spacing: .05em; }
+@media (min-width: 48rem) { .liste19 { columns: 2; column-gap: 3rem; }
+                            .liste19 li { break-inside: avoid; } }
+
+/* ── Kasten ──────────────────────────────────────────────────────────── */
+
+.kasten {
+  margin-top: 2.4rem; padding: 1.5rem 1.7rem; background: var(--blatt);
+  border: 1px solid var(--tinte); border-left: 4px solid var(--rot);
+}
+.kasten h3 { margin-bottom: .6rem; }
+.kasten p:last-child { margin-bottom: 0; }
+
+/* ── Zwei Spalten ────────────────────────────────────────────────────── */
+
+.zeile { display: grid; gap: clamp(1.6rem, 3vw, 3rem); margin-top: 2.4rem; align-items: center; }
+@media (min-width: 56rem) {
+  .zeile { grid-template-columns: 1fr 1fr; }
+  .zeile.gedreht > *:first-child { order: 2; }
+}
+.zeile .bild figure { margin: 0; }
+.zeile .bild img {
+  display: block; width: 100%; height: auto;
+  border: 1px solid var(--tinte); background: var(--blatt); padding: .4rem;
+}
+.zeile figcaption { font: 400 .82rem/1.5 var(--mono); color: var(--matt); margin-top: .7rem; }
+
+/* ── Karten ──────────────────────────────────────────────────────────── */
+
+.karten { display: grid; gap: 1px; margin-top: 2.4rem;
+          background: var(--linie); border: 1px solid var(--linie); }
+@media (min-width: 44rem) { .karten { grid-template-columns: 1fr 1fr; } }
+@media (min-width: 68rem) { .karten { grid-template-columns: repeat(4, 1fr); } }
+.karte { background: var(--blatt); padding: 1.5rem 1.4rem; transition: background .2s; }
+.karte:hover { background: var(--papier); }
+.kopfzeile {
+  font: 500 .7rem/1 var(--mono); letter-spacing: .14em; text-transform: uppercase;
+  color: var(--rot); margin-bottom: .9rem;
+}
+.karte h3 { margin-bottom: .6rem; }
+.karte p { margin: 0; color: var(--matt); font-size: .96em; }
+
+/* ── Schritte ────────────────────────────────────────────────────────── */
+
+.schritte { list-style: none; counter-reset: s; margin: 2.4rem 0 0; padding: 0;
+            display: grid; gap: 1px; background: var(--linie);
+            border: 1px solid var(--linie); }
+@media (min-width: 44rem) { .schritte { grid-template-columns: 1fr 1fr; } }
+@media (min-width: 68rem) { .schritte { grid-template-columns: repeat(3, 1fr); } }
+.schritte li { counter-increment: s; background: var(--blatt); padding: 1.4rem 1.3rem;
+               display: grid; gap: .4rem; position: relative; }
+.schritte li::before {
+  content: counter(s, decimal-leading-zero);
+  font: 500 .76rem/1 var(--mono); letter-spacing: .1em; color: var(--blau);
+}
+.schritte b { font: 700 1.06rem/1.2 var(--riss); text-transform: uppercase; letter-spacing: .02em; }
+.schritte span { color: var(--matt); font-size: .95em; }
+
+/* ── Preise ──────────────────────────────────────────────────────────── */
+
+.preise { display: grid; gap: 1px; margin-top: 2.4rem;
+          background: var(--linie); border: 1px solid var(--linie); }
+@media (min-width: 52rem) { .preise { grid-template-columns: repeat(3, 1fr); } }
+.paket { background: var(--blatt); padding: 1.7rem 1.5rem; }
+.paket.hervor { background: var(--tinte); color: var(--blatt); }
+.paket.hervor .stufe { color: #9BC6D2; }
+.paket.hervor ul li::before { color: #9BC6D2; }
+.stufe { font: 500 .72rem/1 var(--mono); letter-spacing: .13em; text-transform: uppercase;
+         color: var(--rot); display: block; margin-bottom: 1rem; }
+.preis { font: 700 2.5rem/1 var(--riss); letter-spacing: -.02em; margin-bottom: 1.2rem; }
+.preis small { font-size: 1.1rem; font-weight: 500; }
+.paket ul { list-style: none; margin: 0; padding: 0; display: grid; gap: .55rem;
+            font-size: .95em; }
+.paket ul li { display: grid; grid-template-columns: 1.1rem 1fr; gap: .5rem; }
+.paket ul li::before { content: "\2013"; color: var(--blau); font-family: var(--mono); }
+
+/* ── Fragen ──────────────────────────────────────────────────────────── */
+
+.fragen { margin-top: 2.2rem; border-top: 1px solid var(--linie); }
+.fragen details { border-bottom: 1px solid var(--linie); }
+.fragen summary {
+  cursor: pointer; list-style: none; padding: 1.05rem .3rem;
+  font: 700 1.02rem/1.35 var(--riss); text-transform: uppercase; letter-spacing: .015em;
+  display: flex; gap: 1rem; align-items: baseline; transition: color .18s;
+}
+.fragen summary::-webkit-details-marker { display: none; }
+.fragen summary::after {
+  content: "+"; margin-left: auto; font: 400 1.4rem/1 var(--mono); color: var(--blau);
+  transition: transform .22s;
+}
+.fragen details[open] summary::after { transform: rotate(45deg); }
+.fragen summary:hover { color: var(--blau); }
+.fragen .antwort { padding: 0 .3rem 1.2rem; color: var(--matt); max-width: 52rem; }
+.fragen details[open] .antwort { animation: aufklappen .3s ease both; }
+@keyframes aufklappen { from { opacity: 0; transform: translateY(-4px); } }
+
+/* ── Kontakt ─────────────────────────────────────────────────────────── */
+
+.kontakt { display: grid; gap: clamp(1.6rem, 3vw, 2.6rem); margin-top: 2.4rem; }
+@media (min-width: 56rem) { .kontakt { grid-template-columns: .8fr 1.2fr; align-items: start; } }
+
+.karte-adresse {
+  font-style: normal; background: var(--blatt); border: 1px solid var(--tinte);
+  padding: 1.5rem 1.4rem; line-height: 1.6;
+}
+.karte-adresse strong { font: 700 1.1rem/1.2 var(--riss); text-transform: uppercase;
+                        letter-spacing: .02em; display: block; margin-bottom: .2rem; }
+.karte-adresse .zeile {
+  display: block; margin: 1.1rem 0 .15rem;
+  font: 500 .66rem/1 var(--mono); letter-spacing: .14em; text-transform: uppercase;
+  color: var(--matt);
+}
+.karte-adresse a { color: var(--blau); text-decoration: none;
+                   border-bottom: 1px solid var(--linie); }
+.karte-adresse a:hover { border-bottom-color: var(--blau); }
+
+.anfrage { background: var(--blatt); border: 1px solid var(--tinte); padding: 1.5rem 1.4rem; }
+.anfrage label {
+  display: block; margin: 1rem 0 .35rem;
+  font: 500 .68rem/1 var(--mono); letter-spacing: .13em; text-transform: uppercase;
+  color: var(--matt);
+}
+.anfrage label:first-of-type { margin-top: 0; }
+.anfrage input, .anfrage textarea {
+  width: 100%; font: inherit; font-size: .98rem; color: var(--tinte);
+  padding: .68rem .75rem; background: var(--papier);
+  border: 1px solid var(--linie); border-radius: 0;
+  transition: border-color .18s, box-shadow .18s;
+}
+.anfrage input:focus, .anfrage textarea:focus {
+  outline: none; border-color: var(--blau); box-shadow: 0 0 0 3px rgba(31,78,95,.14);
+}
+.anfrage textarea { resize: vertical; }
+.anfrage .knopf { margin-top: 1.3rem; width: 100%; }
+.anfrage .klein { font-size: .84rem; color: var(--matt); margin: 1rem 0 0; }
+.fallgrube { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+.fehler { background: #FBEDEC; border: 1px solid var(--rot); color: var(--rot);
+          padding: .8rem 1rem; margin: 0 0 1.2rem; font-size: .94rem; }
+.fehler a { color: var(--rot); }
+
+/* ── Abschluss ───────────────────────────────────────────────────────── */
+
+.abschluss {
+  margin-top: clamp(2.6rem, 5vw, 4.2rem); background: var(--tinte); color: var(--blatt);
+  padding: clamp(2rem, 4vw, 3.2rem); border: 1px solid var(--tinte);
+}
+.abschluss h2 { margin-bottom: .8rem; }
+.abschluss p { color: #A9B6B1; max-width: 40rem; }
+.abschluss .knopf.voll { background: var(--blatt); color: var(--tinte);
+                         border-color: var(--blatt); box-shadow: 3px 3px 0 var(--blau-hell); }
+.abschluss .knopf.leer { color: var(--blatt); border-color: #4A5A55; }
+.abschluss .knopf.leer:hover { background: var(--blatt); color: var(--tinte); }
+
+/* ── Fuß ─────────────────────────────────────────────────────────────── */
+
+footer { border-top: 1px solid var(--linie); margin-top: clamp(3rem, 6vw, 5rem);
+         padding: 2rem 0 2.6rem; }
+footer .bahn { display: flex; flex-wrap: wrap; gap: .7rem 2rem; justify-content: space-between;
+               font: 400 .84rem/1.6 var(--mono); color: var(--matt); }
+footer a { color: var(--matt); text-decoration: none; border-bottom: 1px solid var(--linie); }
+footer a:hover { color: var(--tinte); }
+
+/* ── Einblenden ──────────────────────────────────────────────────────── */
+
+/* Ohne JavaScript steht alles da. Erst html.js darf verstecken. */
+.js [data-auf] { opacity: 0; transform: translateY(12px);
+                 transition: opacity .55s ease, transform .55s cubic-bezier(.2,.8,.2,1); }
+.js [data-auf].da { opacity: 1; transform: none; }
+.js .staffel.da > * { animation: hoch .5s cubic-bezier(.2,.8,.2,1) both;
+                      animation-delay: calc(var(--n, 0) * 45ms); }
+@keyframes hoch { from { opacity: 0; transform: translateY(10px); } }
+
+/* ── Barrierefreiheit ────────────────────────────────────────────────── */
+
+:focus-visible { outline: 2px solid var(--rot); outline-offset: 3px; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important; animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
   }
-}
-:root[data-theme="dark"]{
-  --papier:#0E0E0D; --flaeche:#161614; --tinte:#F4F2ED; --text:#C6C3BB;
-  --gedaempft:#8E8B83; --akzent:#F2764A; --akzent-tief:#FF8F66;
-  --akzent-weich:#2A1710; --linie:#26251F; --linie-stark:#3A3830;
-  --warn:#E08672; --warn-weich:#2E1A16; --punkt:#2A2924;
+  .js [data-auf] { opacity: 1; transform: none; }
+  .marke { stroke-dashoffset: 0; }
+  .notiz { opacity: 1; }
 }
 
-*,*::before,*::after{box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{margin:0;background:var(--papier);color:var(--text);
- font:17px/1.65 var(--sans);-webkit-font-smoothing:antialiased}
-.bahn{max-width:var(--bahn);margin:0 auto;padding:0 clamp(1.2rem,5vw,3rem)}
+/* ── Der Bildverkleinerer ────────────────────────────────────────────── */
 
-h1,h2,h3{color:var(--tinte);font-weight:700;margin:0;text-wrap:balance;
- overflow-wrap:break-word;hyphens:auto}
-/* Lange deutsche Wörter wie „Datenschutzerklärung" passen sonst auf einem
-   320-Pixel-Gerät nicht in die Zeile. */
-h1{font-size:clamp(2.6rem,7.2vw,5rem);line-height:1.02;letter-spacing:-.035em}
-h2{font-size:clamp(1.9rem,4.4vw,3rem);line-height:1.06;letter-spacing:-.028em}
-h3{font-size:clamp(1.1rem,1.8vw,1.3rem);line-height:1.25;letter-spacing:-.015em}
-p{margin:0 0 1rem;max-width:60ch}
-a{color:var(--akzent)}
-a:hover{color:var(--akzent-tief)}
-:focus-visible{outline:3px solid var(--akzent);outline-offset:3px}
-strong{color:var(--tinte)}
-code{font-family:var(--mono);font-size:.87em}
-img{max-width:100%;height:auto;display:block}
+.verkleinern {
+  background: var(--blatt); border: 1px solid var(--tinte);
+  padding: 1.6rem 1.4rem; text-align: center;
+}
+.verkleinern p { margin: 0; }
+.verkleinern .vorher, .verkleinern .nachher {
+  font: 700 1.55rem/1.1 var(--riss); letter-spacing: .01em;
+}
+.verkleinern .vorher { color: var(--matt); text-decoration: line-through;
+                       text-decoration-color: var(--rot); }
+.verkleinern .pfeilab { font: 400 1.4rem/1 var(--mono); color: var(--rot); margin: .35rem 0; }
+.verkleinern .wann { margin-top: .7rem; font: 400 .82rem/1.4 var(--mono); color: var(--matt); }
 
-/* ---- Punktraster: das einzige grafische Motiv --------------------- */
-.punkte{background-image:radial-gradient(var(--punkt) 1.5px,transparent 1.6px);
- background-size:18px 18px}
+/* ── Rechtsseiten ────────────────────────────────────────────────────── */
 
-.schild{display:inline-flex;align-items:center;gap:.55rem;
- font-family:var(--mono);font-size:11.5px;letter-spacing:.14em;
- text-transform:uppercase;color:var(--gedaempft);margin:0 0 1.4rem}
-.schild::before{content:"";width:7px;height:7px;border-radius:50%;
- background:var(--akzent);flex:none}
+.recht { padding: clamp(2.6rem, 5vw, 4.4rem) var(--rand) clamp(3rem, 6vw, 5rem);
+         max-width: 52rem; }
+.recht h1 { font-size: clamp(1.7rem, 4.5vw, 2.6rem); margin-bottom: 1.4rem; }
+.recht h2 { font-size: clamp(1.14rem, 2vw, 1.35rem); margin: 2.4rem 0 .7rem; }
+.recht h3 { margin: 1.6rem 0 .5rem; }
+.recht p, .recht li { color: var(--matt); overflow-wrap: anywhere; }
+/* "Datenschutzerklaerung" ist breiter als ein schmales Handy. Ohne das
+   schiebt ein einziges Wort die ganze Seite zur Seite. */
+.recht h1, .recht h2, .recht h3 { overflow-wrap: anywhere; hyphens: auto; }
+.recht strong { color: var(--tinte); }
+.recht ul, .recht ol { padding-left: 1.2rem; }
+.recht li { margin: .4rem 0; }
+.recht a { overflow-wrap: anywhere; }
+.recht address { font-style: normal; }
 
-/* ---- Kopf --------------------------------------------------------- */
-header.kopf{position:sticky;top:0;z-index:30;background:var(--papier);
- border-bottom:1px solid var(--linie)}
-.kopf-innen{display:flex;align-items:center;justify-content:space-between;
- gap:1rem 2rem;padding-block:.85rem;flex-wrap:wrap}
-.logo{font-weight:700;font-size:1.08rem;color:var(--tinte);
- text-decoration:none;letter-spacing:-.02em;white-space:nowrap}
-.logo b{color:var(--akzent);font-weight:700}
-.kopf nav{display:flex;flex-wrap:wrap;gap:.3rem 1.5rem;font-size:.96rem}
-.kopf nav a{color:var(--text);text-decoration:none}
-.kopf nav a:hover{color:var(--tinte)}
+.warnung {
+  background: #FBEDEC; border: 1px solid var(--rot); border-left-width: 4px;
+  padding: 1rem 1.2rem; margin: 1.4rem 0; color: var(--tinte);
+}
+.warnung strong { color: var(--rot); }
 
-.knopf{display:inline-flex;align-items:center;gap:.5rem;
- padding:.72rem 1.4rem;border-radius:100px;font-weight:600;font-size:1rem;
- text-decoration:none;border:1.5px solid transparent;cursor:pointer;
- font-family:inherit;transition:background .15s,border-color .15s}
-.knopf.voll{background:var(--akzent);color:#fff}
-.knopf.voll:hover{background:var(--akzent-tief);color:#fff}
-.knopf.leer{border-color:var(--linie-stark);color:var(--tinte)}
-.knopf.leer:hover{border-color:var(--tinte)}
-.kopf .knopf{padding:.5rem 1.1rem;font-size:.94rem}
+/* ── Legende zum Blatt ───────────────────────────────────────────────── */
 
-/* ---- Pfeillink ---------------------------------------------------- */
-.pfeil{display:inline-flex;align-items:center;gap:.45rem;font-weight:600;
- text-decoration:none}
-.pfeil::after{content:"→";transition:transform .18s}
-.pfeil:hover::after{transform:translateX(4px)}
-
-/* ---- Aufmacher -----------------------------------------------------
- * Rechts läuft der Prüfvorgang: das Drahtgerüst einer beliebigen Website,
- * eine Messlinie wandert beim Scrollen hindurch, und wo sie auf einen
- * Mangel trifft, springt ein Befund auf. Am Ende steht die Zahl.
- *
- * Zwei Regeln, die von der ersten Fassung bleiben:
- * - Die Etiketten sind echte Punkte aus dem Prüfkatalog, keine erfundenen.
- * - Das Drahtgerüst bleibt abstrakt. Eine erkennbare fremde Seite wäre
- *   Anschwärzen, nicht Werbung.
- *
- * Der Scrollweg 0 bis 1 liegt als --fs am Abschnitt an; ihn lesen die
- * Messlinie, jeder Befund, die Summe und die Haarlinie unten. Kein
- * Scroll-Hijacking: Man scrollt ganz normal, die Seite läuft mit.
- */
-/* Kein overflow:hidden hier: Das würde position:sticky der Bühne
-   ausschalten. Das Punktraster ist ohnehin auf inset:0 begrenzt. */
-.aufmacher{padding:clamp(4rem,11vw,8rem) 0 clamp(3rem,7vw,5rem);
- position:relative}
-
-/* Auf grossen Bildschirmen bekommt der Aufmacher einen Scrollweg, auf dem
-   die Buehne stehen bleibt. Darunter ist er ein normaler Abschnitt und der
-   Pruefvorgang steht fertig da. */
-@media(min-width:62rem){
-  .aufmacher{padding:0;height:190vh;height:190svh}
-  .buehne{position:sticky;top:0;height:100vh;height:100svh;display:flex;
-   align-items:center;padding-block:5rem 3rem}
-  .buehne .bahn{display:grid;grid-template-columns:1.1fr .9fr;
-   gap:clamp(2rem,4vw,3.5rem);align-items:center;width:100%}
-  /* Die Höhe führt, nicht die Breite: So passt der Prüfvorgang auch auf
-     ein flaches Notebook-Fenster, ohne dass die Bühne überläuft. */
-  .buehne .pruefung{height:min(56svh,24rem);width:auto;aspect-ratio:4/4.6;
-   justify-self:center}
-  .buehne h1{font-size:clamp(2.4rem,4.6vw,4rem)}
+/* Ab 62rem steht die Beschriftung im Blatt selbst und ist gut lesbar.
+   Darunter wird sie zu klein, dann tritt die Legende an ihre Stelle. */
+.blattlegende { display: grid; gap: .45rem; list-style: none;
+                margin: 1rem 0 0; padding: .9rem 0 0; border-top: 1px solid var(--linie); }
+.blattlegende li { display: grid; grid-template-columns: 2rem 1fr; gap: .5rem;
+                   font: 400 .88rem/1.4 var(--mono); color: var(--rot); }
+.blattlegende span { color: var(--matt); }
+@media (min-width: 62rem) { .blattlegende { display: none; } }
+@media (max-width: 61.99rem) {
+  .blattbild .notiz, .blattbild .fuehrung { display: none; }
 }
 
-.pruefung{position:relative;width:100%;max-width:24rem;
- margin:3rem auto 4.5rem;aspect-ratio:4/4.6}
-@media(min-width:62rem){.pruefung{margin:0;max-width:none}}
-/* Unter 62rem läuft nichts: Der Prüfvorgang steht fertig da, die Messlinie
-   hätte nichts mehr zu messen. */
-@media(max-width:61.99rem){.messlinie{display:none}}
-
-.blatt{position:absolute;inset:0;border:1px solid var(--linie);
- border-radius:12px;background:var(--flaeche);
- display:flex;flex-direction:column;gap:2.4%;padding:5%}
-.balken{background:var(--linie);border-radius:3px;flex:none}
-.balken.kopfband{height:7%}
-.balken.bild{height:30%;background:transparent;
- border:1px dashed var(--linie-stark)}
-.balken.z1{height:2.6%;width:88%}
-.balken.z2{height:2.6%;width:72%}
-.balken.z3{height:2.6%;width:80%}
-.kacheln{display:flex;gap:3%;height:16%;flex:none}
-.kacheln span{flex:1;background:var(--linie);border-radius:3px}
-.balken.fuss{height:5%;margin-top:auto}
-
-/* Die Messlinie ist um den Faktor 1,15 schneller als der Scrollweg, damit
-   sie unten ankommt, bevor der Aufmacher endet. Sonst steht die Summe erst
-   da, wenn niemand mehr hinsieht. */
-.messlinie{position:absolute;left:-4%;right:-4%;z-index:4;height:2px;
- top:calc(min(var(--fs,1) * 1.15,1) * 100%);
- background:linear-gradient(90deg,transparent,var(--akzent) 12%,
-  var(--akzent) 88%,transparent)}
-.messlinie::before{content:"";position:absolute;left:0;top:-3px;
- width:8px;height:8px;background:var(--akzent);transform:rotate(45deg)}
-
-/* Ein Befund springt auf, sobald die Messlinie seine Hoehe erreicht hat.
-   Das steckt in --ab und braucht kein Skript: Die Rechnung wird negativ,
-   solange die Linie darueber steht, und clamp kappt sie auf null. */
-.befunde{position:absolute;inset:0;z-index:3;list-style:none;margin:0;padding:0}
-.befunde li{position:absolute;left:-3%;right:2%;top:var(--y);
- display:flex;align-items:center;gap:7px;
- --an:clamp(0,(var(--fs,1) - var(--ab)) * 16,1);
- opacity:var(--an);
- transform:translateX(calc((1 - var(--an)) * 14px))}
-.befunde li::before{content:"";width:7px;height:7px;flex:none;
- border-radius:50%;background:var(--akzent);
- box-shadow:0 0 0 3px var(--akzent-weich)}
-.befunde li i{flex:1 1 auto;height:1px;
- background:repeating-linear-gradient(90deg,
-  var(--linie-stark) 0 4px,transparent 4px 8px)}
-.befunde li b{flex:none;font-family:var(--mono);font-weight:500;
- font-size:10.5px;letter-spacing:.02em;color:var(--tinte);
- background:var(--papier);border:1px solid var(--linie-stark);
- border-radius:4px;padding:.32rem .5rem;white-space:nowrap}
-
-.summe{position:absolute;right:2%;bottom:-12%;z-index:3;margin:0;
- text-align:right;line-height:1;
- --an:clamp(0,(var(--fs,1) - .82) * 14,1);opacity:var(--an)}
-.summe em{display:block;font-style:normal;font-size:2.4rem;font-weight:700;
- color:var(--akzent);font-variant-numeric:tabular-nums;letter-spacing:-.03em}
-.summe span{font-family:var(--mono);font-size:11px;letter-spacing:.12em;
- text-transform:uppercase;color:var(--gedaempft)}
-
-/* Fortschritt als Haarlinie am unteren Rand. Sie beantwortet die Frage,
-   wie lange das noch geht, ohne sie zu stellen. */
-.lauf{display:none}
-@media(min-width:62rem){
-  .lauf{display:block;position:absolute;left:0;bottom:0;width:100%;height:2px;
-   z-index:4;background:var(--linie)}
-  .lauf::after{content:"";display:block;height:100%;
-   width:calc(var(--fs,0) * 100%);background:var(--akzent)}
+.recht dl { margin: 1.4rem 0; }
+.recht dt {
+  font: 500 .66rem/1 var(--mono); letter-spacing: .14em; text-transform: uppercase;
+  color: var(--matt); margin-top: 1.1rem;
 }
-
-/* Wer weniger Bewegung eingestellt hat, bekommt den fertigen Stand. */
-@media(prefers-reduced-motion:reduce){
-  .aufmacher{height:auto;padding:clamp(4rem,11vw,8rem) 0 clamp(3rem,7vw,5rem)}
-  .buehne{position:static;min-height:0;padding:0}
-  .messlinie,.lauf{display:none}
-  .befunde li,.summe{--an:1}
-}
-
-/* ---- Bewegung -------------------------------------------------------
- * Vier Regeln, damit es nicht nach Effekt aussieht:
- * 1. Nichts bewegt sich von selbst. Alles hängt an einer Handlung des
- *    Besuchers: scrollen, zeigen, aufklappen.
- * 2. Nichts wiederholt sich. Was eingeblendet ist, bleibt.
- * 3. Kurz. Zwischen 200 und 600 Millisekunden.
- * 4. Wer weniger Bewegung eingestellt hat, bekommt gar keine.
- *
- * Ohne Skript steht .js nie an, dann ist alles einfach da: Verstecken
- * passiert erst, wenn JavaScript läuft.
- */
-.js [data-auf]{opacity:0;transform:translateY(14px)}
-.js [data-auf].da{opacity:1;transform:none;
- transition:opacity .6s ease,transform .6s ease}
-
-/* Gestaffelt: Die Kinder kommen nacheinander, --n setzt das Skript. */
-.js .staffel > *{opacity:0;transform:translateY(10px)}
-.js .staffel.da > *{opacity:1;transform:none;
- transition:opacity .45s ease,transform .45s ease;
- transition-delay:calc(var(--n,0) * 34ms)}
-
-/* Das Punktraster im Aufmacher zieht beim Scrollen leicht mit. */
-.aufmacher::before{transform:translateY(calc(var(--fs,0) * -5vh))}
-
-/* Die Kopfleiste setzt sich ab, sobald man gescrollt hat. */
-header.kopf{transition:box-shadow .25s ease,border-color .25s ease}
-header.kopf.gescrollt{box-shadow:0 1px 14px rgba(14,14,13,.07)}
-
-/* Karten heben sich unter dem Zeiger leicht an. */
-.karte,.paket{transition:transform .2s ease,border-color .2s ease}
-.karte:hover{transform:translateY(-3px);border-color:var(--linie-stark)}
-.paket:hover{transform:translateY(-3px)}
-
-/* Zahlen im Streifen: Der Endwert steht im HTML, das Skript zählt nur
-   hoch. Ohne Skript steht die Zahl sofort da. */
-.streifen b{font-variant-numeric:tabular-nums}
-
-/* Antwort im Fragenblock klappt auf statt zu erscheinen. */
-@keyframes aufklappen{
-  from{opacity:0;transform:translateY(-6px)}
-  to{opacity:1;transform:none}
-}
-.js .fragen details[open] .antwort{animation:aufklappen .32s ease}
-.fragen summary::after{transition:transform .2s ease}
-.fragen details[open] summary::after{transform:rotate(180deg)}
-
-/* Knöpfe geben unter dem Finger nach. */
-.knopf:active{transform:translateY(1px)}
-
-@media(prefers-reduced-motion:reduce){
-  .js [data-auf],.js .staffel > *{opacity:1;transform:none;transition:none}
-  .aufmacher::before{transform:none}
-  .karte:hover,.paket:hover,.knopf:active{transform:none}
-  .js .fragen details[open] .antwort{animation:none}
-  .fragen details[open] summary::after{transform:none}
-}
-.aufmacher::before{content:"";position:absolute;inset:0 0 auto 0;height:100%;
- background-image:radial-gradient(var(--punkt) 1.5px,transparent 1.6px);
- background-size:18px 18px;
- -webkit-mask-image:radial-gradient(70% 60% at 82% 18%,#000,transparent 72%);
- mask-image:radial-gradient(70% 60% at 82% 18%,#000,transparent 72%);
- pointer-events:none}
-.aufmacher .bahn{position:relative}
-.aufmacher h1{max-width:15ch}
-.aufmacher h1 em{font-style:normal;color:var(--akzent)}
-.aufmacher .unter{font-size:clamp(1.1rem,2.1vw,1.35rem);color:var(--gedaempft);
- margin:1.5rem 0 0;max-width:48ch}
-.reihe{display:flex;flex-wrap:wrap;gap:.8rem;margin-top:2.4rem;
- align-items:center}
-
-/* ---- Streifen mit Zahlen ------------------------------------------ */
-.streifen{border-block:1px solid var(--linie);background:var(--flaeche)}
-.streifen ul{list-style:none;margin:0;padding:2rem 0;display:grid;
- gap:1.5rem;grid-template-columns:repeat(auto-fit,minmax(12rem,1fr))}
-.streifen b{display:block;font-size:1.7rem;color:var(--tinte);
- letter-spacing:-.025em;line-height:1.1}
-.streifen span{font-size:.93rem;color:var(--gedaempft)}
-
-section{padding-block:var(--luft);scroll-margin-top:4.5rem}
-/* Zwei Abschnitte hintereinander sollen nicht die doppelte Luft bekommen —
-   der Abstand zwischen ihnen ist genau einmal --luft. */
-section + section{padding-top:0}
-.vorspann{color:var(--gedaempft);font-size:1.08rem;max-width:52ch;
- margin-top:1.1rem}
-
-/* ---- Wechselzeilen ------------------------------------------------ */
-.zeile{display:grid;gap:2.5rem;align-items:center;margin-top:3.5rem}
-@media(min-width:54rem){
-  .zeile{grid-template-columns:1fr 1fr;gap:4rem}
-  .zeile.gedreht .bild{order:-1}
-}
-.zeile + .zeile{margin-top:var(--luft)}
-.zeile .bild{background:var(--flaeche);border:1px solid var(--linie);
- border-radius:14px;padding:1.2rem;overflow:hidden}
-.zeile .bild img{border-radius:8px;border:1px solid var(--linie)}
-.zeile h3{margin-bottom:.7rem}
-
-/* ---- Karten ------------------------------------------------------- */
-.karten{display:grid;gap:1.2rem;margin-top:3rem;
- grid-template-columns:repeat(auto-fit,minmax(15.5rem,1fr))}
-.karte{background:var(--flaeche);border:1px solid var(--linie);
- border-radius:14px;padding:1.6rem 1.5rem}
-.karte h3{margin-bottom:.5rem}
-.karte p{font-size:.97rem;margin:0;color:var(--text)}
-.karte .kopfzeile{font-family:var(--mono);font-size:11px;letter-spacing:.12em;
- text-transform:uppercase;color:var(--akzent);margin-bottom:.7rem}
-
-/* ---- Prüfpunkte --------------------------------------------------- */
-.liste19{list-style:none;margin:2.5rem 0 0;padding:0;display:grid;
- gap:0 2.5rem;grid-template-columns:repeat(auto-fit,minmax(18rem,1fr))}
-.liste19 li{display:flex;gap:.9rem;padding:.62rem 0;
- border-bottom:1px solid var(--linie);font-size:.97rem;align-items:baseline}
-.liste19 .nr{font-family:var(--mono);font-size:11.5px;color:var(--akzent);
- font-weight:700;flex:none;min-width:1.7rem}
-
-/* ---- Schritte ----------------------------------------------------- */
-.schritte{list-style:none;counter-reset:s;margin:3rem 0 0;padding:0;
- display:grid;gap:1.6rem;grid-template-columns:repeat(auto-fit,minmax(16rem,1fr))}
-.schritte li{counter-increment:s}
-.schritte li::before{content:counter(s,decimal-leading-zero);
- display:block;font-family:var(--mono);font-size:2rem;color:var(--akzent);
- font-weight:700;line-height:1;margin-bottom:.7rem;letter-spacing:-.04em}
-.schritte b{display:block;color:var(--tinte);margin-bottom:.2rem}
-.schritte span{font-size:.95rem;color:var(--gedaempft)}
-
-/* ---- Preise ------------------------------------------------------- */
-.preise{display:grid;gap:1.2rem;margin-top:3rem;
- grid-template-columns:repeat(auto-fit,minmax(15rem,1fr))}
-.paket{border:1px solid var(--linie);border-radius:14px;padding:1.7rem 1.5rem;
- display:flex;flex-direction:column;background:var(--papier)}
-.paket.hervor{border-color:var(--akzent);background:var(--akzent-weich)}
-.paket .stufe{font-family:var(--mono);font-size:11px;letter-spacing:.12em;
- text-transform:uppercase;color:var(--gedaempft)}
-.paket.hervor .stufe{color:var(--akzent-tief)}
-.paket .preis{font-size:2.3rem;font-weight:700;color:var(--tinte);
- margin:.6rem 0 .1rem;letter-spacing:-.035em}
-.paket .preis small{font-size:.95rem;font-weight:500;color:var(--gedaempft)}
-.paket ul{list-style:none;margin:1.1rem 0 0;padding:0;font-size:.95rem;flex:1}
-.paket li{padding:.32rem 0 .32rem 1.25rem;position:relative}
-.paket li::before{content:"";position:absolute;left:0;top:.85em;width:6px;
- height:6px;border-radius:50%;background:var(--akzent)}
-
-/* ---- Fragen ------------------------------------------------------- */
-.fragen{margin-top:3rem;border-top:1px solid var(--linie)}
-.fragen details{border-bottom:1px solid var(--linie)}
-.fragen summary{cursor:pointer;list-style:none;padding:1.25rem 2.5rem 1.25rem 0;
- font-weight:600;color:var(--tinte);font-size:1.07rem;position:relative}
-.fragen summary::-webkit-details-marker{display:none}
-.fragen summary::after{content:"+";position:absolute;right:.3rem;top:1.1rem;
- font-size:1.5rem;color:var(--akzent);line-height:1;font-weight:400}
-.fragen details[open] summary::after{content:"−"}
-.fragen .antwort{padding:0 0 1.4rem;color:var(--text)}
-.fragen .antwort p:last-child{margin-bottom:0}
-
-/* ---- Abschluss ---------------------------------------------------- */
-.abschluss{background:var(--tinte);color:#D6D4CE;border-radius:18px;
- padding:clamp(2.5rem,6vw,4.5rem) clamp(1.5rem,5vw,4rem);margin:var(--luft) 0 0;
- position:relative;overflow:hidden}
-.abschluss h2{color:#fff;max-width:16ch}
-.abschluss p{color:#A5A29A;max-width:46ch}
-.abschluss .knopf.leer{border-color:#4A4740;color:#EDEBE5}
-.abschluss .knopf.leer:hover{border-color:#fff;color:#fff}
-
-/* ---- Kontakt ------------------------------------------------------ */
-.kontakt{display:grid;gap:3rem;grid-template-columns:1fr;margin-top:3rem}
-@media(min-width:54rem){.kontakt{grid-template-columns:.85fr 1.15fr}}
-.karte-adresse{font-style:normal;line-height:1.95}
-.karte-adresse a{font-weight:600;text-decoration:none}
-.karte-adresse .zeile{color:var(--gedaempft);font-size:.78rem;
- font-family:var(--mono);letter-spacing:.1em;text-transform:uppercase;
- display:block;margin-top:1.15rem}
-form.anfrage label{display:block;font-weight:600;color:var(--tinte);
- margin:0 0 .35rem;font-size:.95rem}
-form.anfrage input[type=text],form.anfrage input[type=email],
-form.anfrage input[type=tel],form.anfrage textarea{width:100%;font:inherit;
- padding:.78rem .9rem;margin-bottom:1.1rem;border:1px solid var(--linie-stark);
- border-radius:8px;background:var(--papier);color:var(--tinte)}
-form.anfrage textarea{min-height:8.5rem;resize:vertical}
-form.anfrage button{font:inherit}
-.fehler{background:var(--warn-weich);border-left:3px solid var(--warn);
- color:var(--warn);padding:.9rem 1rem;margin:0 0 1.3rem;font-size:.95rem;
- border-radius:0 8px 8px 0}
-.fallgrube{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
-.klein{font-size:.87rem;color:var(--gedaempft)}
-
-figure{margin:0}
-figure figcaption{font-size:.85rem;color:var(--gedaempft);margin-top:.7rem}
-
-/* ---- Fuß ---------------------------------------------------------- */
-footer{border-top:1px solid var(--linie);margin-top:var(--luft)}
-footer .bahn{padding-block:2.5rem 3rem;display:flex;flex-wrap:wrap;
- gap:1rem 2rem;justify-content:space-between;font-size:.92rem;
- color:var(--gedaempft)}
-footer a{color:var(--text);text-decoration:none}
-footer a:hover{color:var(--akzent)}
-
-/* ---- Rechtsseiten ------------------------------------------------- */
-.recht{padding-block:clamp(3rem,7vw,5rem)}
-.recht h1{font-size:clamp(1.8rem,5vw,3.2rem)}
-.recht dl{display:grid;grid-template-columns:auto 1fr;gap:.45rem 1.8rem;
- margin:2rem 0}
-.recht dt{font-weight:600;color:var(--tinte)}
-.recht dd{margin:0}
-.recht h2{font-size:clamp(1.3rem,2.4vw,1.6rem);margin-top:2.5rem}
-@media(max-width:34rem){
-  .recht dl{grid-template-columns:1fr;gap:0}
-  .recht dd{margin-bottom:.9rem}
-}
-
-.kasten{border:1px solid var(--linie);border-radius:14px;
- padding:1.5rem clamp(1.2rem,3vw,2rem);margin-top:2rem;background:var(--flaeche)}
-.kasten.warnung{border-color:var(--warn);background:var(--warn-weich);
- color:var(--warn)}
-.kasten.warnung h3{color:var(--warn)}
-.kasten h3{margin-bottom:.5rem}
-.kasten p:last-child{margin-bottom:0}
-
-@media print{
-  @page{margin:16mm}
-  body{background:#fff;color:#000;font-size:10pt}
-  header.kopf,footer,.reihe,form.anfrage,.abschluss{display:none}
-  .aufmacher::before{display:none}
-  section{break-inside:avoid;padding:1rem 0}
-}
+.recht dd { margin: .25rem 0 0; color: var(--tinte); }
