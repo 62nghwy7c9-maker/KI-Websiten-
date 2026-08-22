@@ -217,10 +217,11 @@ main > section + section > .bahn::before {
 .blattbild::before { top: 6px; left: 6px; border-right: 0; border-bottom: 0; }
 .blattbild::after { bottom: 6px; right: 6px; border-left: 0; border-top: 0; }
 
-/* Die roten Anstriche zeichnen sich selbst. */
+/* Die roten Anstriche zeichnen sich selbst, sobald die Messlinie ihre
+   Hoehe erreicht hat. --v ist diese Zeit und steht an jedem Element:
+   Verzoegerung = .25s Vorlauf + 1.9s mal Hoehe im Blatt. */
 .marke { stroke-dasharray: var(--l, 300); stroke-dashoffset: var(--l, 300);
-         animation: zeichnen .55s cubic-bezier(.4,0,.2,1) forwards;
-         animation-delay: calc(.6s + var(--i, 0) * .28s); }
+         animation: zeichnen .55s cubic-bezier(.4,0,.2,1) var(--v, .6s) forwards; }
 @keyframes zeichnen { to { stroke-dashoffset: 0; } }
 .notiz { opacity: 0; animation: auftauchen .4s ease forwards;
          animation-delay: calc(.95s + var(--i, 0) * .28s); }
@@ -436,7 +437,8 @@ footer a:hover { color: var(--tinte); }
   }
   .js [data-auf] { opacity: 1; transform: none; }
   .marke { stroke-dashoffset: 0; }
-  .notiz { opacity: 1; }
+  .notiz, .befunde li, .summe { opacity: 1; }
+  .messlinie { display: none; }
 }
 
 /* ── Der Bildverkleinerer ────────────────────────────────────────────── */
@@ -514,22 +516,52 @@ footer a:hover { color: var(--tinte); }
 
 .blattbild { position: relative; }
 
+/* Jede Zeile beginnt an der rechten Kante ihres Kreises (--x) auf dessen
+   Hoehe (--y). Dazwischen liegt der duenne Strich, rechts das Etikett. */
 .befunde { position: absolute; inset: 1rem; z-index: 3;
            list-style: none; margin: 0; padding: 0; }
-.befunde li { position: absolute; left: 41%; right: 0; top: var(--y);
-              display: flex; align-items: center; gap: 7px; }
-.befunde li::before { content: ""; width: 7px; height: 7px; flex: none;
-  border-radius: 50%; background: var(--rot);
-  box-shadow: 0 0 0 3px rgba(176, 39, 28, .16); }
-.befunde li i { flex: 1 1 auto; height: 1px;
-  background: repeating-linear-gradient(90deg, var(--rot) 0 4px, transparent 4px 8px); }
+.befunde li { position: absolute; left: var(--x); right: 0; top: var(--y);
+              transform: translateY(-50%);
+              display: flex; align-items: center; gap: 9px;
+              opacity: 0; animation: auftauchen .4s ease var(--v, 1s) forwards; }
+/* Der Strich setzt am Kreis an: erst ein kurzes volles Stueck, dann
+   gestrichelt weiter. So sieht man, wohin er zeigt. */
+.befunde li i { flex: 1 1 auto; height: 1px; min-width: 18px;
+  background: linear-gradient(90deg, var(--rot) 0 16px, #A9B5B0 16px); }
 .befunde li b { flex: none; font: 500 10.5px/1.3 var(--mono); letter-spacing: .02em;
-  color: var(--rot); background: var(--blatt); border: 1px solid var(--linie);
+  color: var(--tinte); background: var(--papier); border: 1px solid var(--linie);
   padding: .32rem .5rem; white-space: nowrap; }
+
+/* Die Messlinie faehrt einmal von oben nach unten durch das Blatt und
+   verschwindet dann. Sie laeuft am Scrollen vorbei, haelt also nichts auf. */
+.messlinie { position: absolute; left: .55rem; right: .55rem; top: 1rem; z-index: 2;
+  height: 2px; opacity: 0;
+  background: linear-gradient(90deg, transparent, var(--rot) 12%,
+              var(--rot) 88%, transparent);
+  animation: messen 1.9s linear .25s forwards; }
+.messlinie::before { content: ""; position: absolute; left: 0; top: -3px;
+  width: 8px; height: 8px; background: var(--rot); transform: rotate(45deg); }
+@keyframes messen {
+  0%   { top: 1rem; opacity: 0; }
+  8%   { opacity: 1; }
+  82%  { opacity: 1; }
+  100% { top: calc(100% - 1rem); opacity: 0; }
+}
+
+/* Die Zahl steht am Ende der Zeichnung, wie das Ergebnis unter einer
+   Rechnung. Sie zaehlt genau die Befunde, die oben markiert sind. */
+.summe { position: absolute; right: 1.1rem; bottom: 1rem; z-index: 3; margin: 0;
+  text-align: right; line-height: 1;
+  opacity: 0; animation: auftauchen .4s ease 2.25s forwards; }
+.summe em { display: block; font-style: normal; font-size: 2.4rem;
+  font-family: var(--riss); font-weight: 700; color: var(--rot);
+  font-variant-numeric: tabular-nums; letter-spacing: -.02em; }
+.summe span { font-family: var(--mono); font-size: 11px; letter-spacing: .12em;
+  text-transform: uppercase; color: var(--matt); }
 
 /* Auf schmalen Schirmen wird das Blatt so klein, dass Etiketten daneben
    nicht mehr lesbar sind. Dann tritt die Legende darunter an ihre Stelle. */
-@media (max-width: 61.99rem) { .befunde { display: none; } }
+@media (max-width: 61.99rem) { .befunde, .summe, .messlinie { display: none; } }
 @media (min-width: 62rem) { .blattlegende { display: none; } }
 
 
@@ -630,16 +662,27 @@ footer a:hover { color: var(--tinte); }
         <text x="149" y="422" text-anchor="middle" fill="#1F4E5F"
               font-family="Spline Sans Mono, monospace" font-size="11">390 px</text>
 
+        <g stroke="#B0271C" fill="none" stroke-width="1.8" stroke-linecap="round">
+          <ellipse class="marke" style="--l:210;--v:.45s" cx="150" cy="45" rx="66" ry="15"/>
+          <ellipse class="marke" style="--l:150;--v:1.09s" cx="137" cy="190" rx="52" ry="26"/>
+          <ellipse class="marke" style="--l:120;--v:1.67s" cx="98" cy="322" rx="40" ry="14"/>
+        </g>
 
       </svg>
-      <!-- Die Befunde liegen als Text über dem Blatt, nicht darin: Ein
-           Punkt auf der Stelle, ein Strich hinüber, das Etikett daneben.
-           Als echter Text bleibt er in jeder Größe scharf und lesbar. -->
+      <!-- Der rote Kreis liegt im Blatt, das Etikett daneben, dazwischen
+           ein dünner Strich. Das Etikett ist echter Text und bleibt damit
+           in jeder Größe scharf und lesbar. --x ist die rechte Kante des
+           zugehörigen Kreises: Wer den Kreis verschiebt, muss --x und --y
+           mitziehen, sonst zeigt der Strich ins Leere. -->
+      <!-- Die Messlinie faehrt einmal durch das Blatt, so wie beim Pruefen
+           von oben nach unten gelesen wird. Danach steht das Ergebnis. -->
+      <span class="messlinie" aria-hidden="true"></span>
       <ul class="befunde" aria-hidden="true">
-        <li style="--y:9.5%"><i></i><b>05 Nummer nicht antippbar</b></li>
-        <li style="--y:42%"><i></i><b>03 Nicht für Handys</b></li>
-        <li style="--y:73%"><i></i><b>10 Kein Anfrageformular</b></li>
+        <li style="--y:10.5%;--x:40%;--v:.57s"><i></i><b>05 Nummer nicht antippbar</b></li>
+        <li style="--y:44.2%;--x:35%;--v:1.21s"><i></i><b>03 Nicht für Handys</b></li>
+        <li style="--y:74.9%;--x:25.6%;--v:1.79s"><i></i><b>10 Kein Anfrageformular</b></li>
       </ul>
+      <p class="summe" aria-hidden="true"><em>3</em><span>Punkte gefunden</span></p>
       <ul class="blattlegende">
         <li><span>05</span> Nummer nicht antippbar</li>
         <li><span>03</span> Nicht für Handys</li>
