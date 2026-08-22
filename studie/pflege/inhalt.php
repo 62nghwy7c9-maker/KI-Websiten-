@@ -575,7 +575,7 @@ function bild_schreiben(string $datei, string $name, array $datei_feld): array
         if (!is_dir(SICHERUNG)) {
             @mkdir(SICHERUNG, 0775, true);
         }
-        @copy($ziel, SICHERUNG . '/' . date('Y-m-d_H-i-s') . '_' . basename($ziel));
+        @copy($ziel, sicherung_name(basename($ziel)));
     }
 
     if (!bild_ablegen($datei_feld['tmp_name'], $ziel, $info)) {
@@ -646,7 +646,7 @@ function zaehlnummer_erhoehen(string $datei, string $name): array
     if ($neu === null || $anzahl === 0) {
         return [true, 'Bild gespeichert.'];
     }
-    @copy($pfad, SICHERUNG . '/' . date('Y-m-d_H-i-s') . '_' . $datei);
+    @copy($pfad, sicherung_name($datei));
     file_put_contents($pfad, $neu);
     sicherungen_aufraeumen($datei);
     return [true, 'Bild gespeichert.'];
