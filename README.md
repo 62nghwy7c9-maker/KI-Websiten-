@@ -6,12 +6,19 @@ Konzept und Pipeline für die Website-Check-Akquise.
 
 | Datei | Inhalt |
 |---|---|
-| `Konzept.docx` | Das Konzept. Blau = ergänzt, schwarz = Kiras Original. **Quelle der Wahrheit.** |
+| `studie/word/KD-Webdesign-Unternehmenskonzept.docx` | Das Konzept. **Quelle der Wahrheit.** Erzeugt aus `studie/word/konzept.js`. |
+| `Konzept.docx` | Kiras Ursprungsfassung vom 12.08. Nur noch als Beleg, nicht mehr bearbeiten. |
 | `CLAUDE.md` | Masterprompt und Projekt-Brief für Claude Code |
-| `KONZEPT-WEBDESIGN.html` | Strategiepapier: Zuschnitt, Preis, Verkaufsstruktur |
-| `PLAN-90-TAGE.html` | Umsetzungsplan bis 09.11.2026 |
+| `studie/todo.html` | Die Aufgabenliste. Erzeugt aus `studie/aufgaben.json`. |
+| `TODO.md` | Offene Punkte der Pipeline und der eigenen Firmenseite |
+| `PLAN-90-TAGE.html` | Umsetzungsplan bis 09.11.2026, mit Abbruchkriterien |
 
 Die HTML-Dateien im Browser öffnen und mit Strg+P als PDF speichern.
+
+`KONZEPT-WEBDESIGN.md` und `.html` sind am 22.08. gelöscht worden. Das
+Unternehmenskonzept erklärt sie ausdrücklich für ersetzt, und eine zweite,
+ältere Fassung desselben Papiers führt nur dazu, dass jemand mit der
+falschen arbeitet.
 
 ## Pipeline
 
