@@ -506,6 +506,32 @@ footer a:hover { color: var(--tinte); }
 .logo { display: inline-flex; align-items: center; gap: .6rem; }
 .logo .zeichen { width: 1.35rem; height: 1.35rem; flex: none; color: var(--tinte); }
 
+/* ── Befunde auf dem Blatt ───────────────────────────────────────────
+ * Ein Punkt auf der Stelle, ein dünner Strich hinüber, das Etikett
+ * daneben. Als echter Text statt im Bild: bleibt in jeder Größe scharf,
+ * lässt sich vergrößern und wird vorgelesen, wenn jemand das braucht.
+ */
+
+.blattbild { position: relative; }
+
+.befunde { position: absolute; inset: 1rem; z-index: 3;
+           list-style: none; margin: 0; padding: 0; }
+.befunde li { position: absolute; left: 41%; right: 0; top: var(--y);
+              display: flex; align-items: center; gap: 7px; }
+.befunde li::before { content: ""; width: 7px; height: 7px; flex: none;
+  border-radius: 50%; background: var(--rot);
+  box-shadow: 0 0 0 3px rgba(176, 39, 28, .16); }
+.befunde li i { flex: 1 1 auto; height: 1px;
+  background: repeating-linear-gradient(90deg, var(--rot) 0 4px, transparent 4px 8px); }
+.befunde li b { flex: none; font: 500 10.5px/1.3 var(--mono); letter-spacing: .02em;
+  color: var(--rot); background: var(--blatt); border: 1px solid var(--linie);
+  padding: .32rem .5rem; white-space: nowrap; }
+
+/* Auf schmalen Schirmen wird das Blatt so klein, dass Etiketten daneben
+   nicht mehr lesbar sind. Dann tritt die Legende darunter an ihre Stelle. */
+@media (max-width: 61.99rem) { .befunde { display: none; } }
+@media (min-width: 62rem) { .blattlegende { display: none; } }
+
 
 /* ---- Nur für die Vorschau, nicht Teil der ausgelieferten Website ---- */
 .wg-leiste { position: sticky; top: 0; z-index: 60; display: flex; flex-wrap: wrap;
@@ -604,24 +630,16 @@ footer a:hover { color: var(--tinte); }
         <text x="149" y="422" text-anchor="middle" fill="#1F4E5F"
               font-family="Spline Sans Mono, monospace" font-size="11">390 px</text>
 
-        <g stroke="#B0271C" fill="none" stroke-width="1.8" stroke-linecap="round">
-          <ellipse class="marke" style="--l:210;--i:0" cx="150" cy="45" rx="66" ry="15"/>
-          <path class="marke fuehrung" style="--l:150;--i:0" d="M216 45 H300"/>
-          <ellipse class="marke" style="--l:150;--i:1" cx="137" cy="190" rx="52" ry="26"/>
-          <path class="marke fuehrung" style="--l:170;--i:1" d="M189 190 H300"/>
-          <ellipse class="marke" style="--l:120;--i:2" cx="98" cy="322" rx="40" ry="14"/>
-          <path class="marke fuehrung" style="--l:210;--i:2" d="M138 322 H300"/>
-        </g>
 
-        <g font-family="Spline Sans Mono, monospace" font-size="12" fill="#B0271C">
-          <text class="notiz" style="--i:0" x="308" y="41">05 Nummer nicht</text>
-          <text class="notiz" style="--i:0" x="308" y="56">antippbar</text>
-          <text class="notiz" style="--i:1" x="308" y="186">03 Nicht für</text>
-          <text class="notiz" style="--i:1" x="308" y="201">Handys</text>
-          <text class="notiz" style="--i:2" x="308" y="318">10 Kein Anfrage-</text>
-          <text class="notiz" style="--i:2" x="308" y="333">formular</text>
-        </g>
       </svg>
+      <!-- Die Befunde liegen als Text über dem Blatt, nicht darin: Ein
+           Punkt auf der Stelle, ein Strich hinüber, das Etikett daneben.
+           Als echter Text bleibt er in jeder Größe scharf und lesbar. -->
+      <ul class="befunde" aria-hidden="true">
+        <li style="--y:9.5%"><i></i><b>05 Nummer nicht antippbar</b></li>
+        <li style="--y:42%"><i></i><b>03 Nicht für Handys</b></li>
+        <li style="--y:73%"><i></i><b>10 Kein Anfrageformular</b></li>
+      </ul>
       <ul class="blattlegende">
         <li><span>05</span> Nummer nicht antippbar</li>
         <li><span>03</span> Nicht für Handys</li>

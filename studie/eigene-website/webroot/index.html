@@ -86,24 +86,16 @@
         <text x="149" y="422" text-anchor="middle" fill="#1F4E5F"
               font-family="Spline Sans Mono, monospace" font-size="11">390 px</text>
 
-        <g stroke="#B0271C" fill="none" stroke-width="1.8" stroke-linecap="round">
-          <ellipse class="marke" style="--l:210;--i:0" cx="150" cy="45" rx="66" ry="15"/>
-          <path class="marke fuehrung" style="--l:150;--i:0" d="M216 45 H300"/>
-          <ellipse class="marke" style="--l:150;--i:1" cx="137" cy="190" rx="52" ry="26"/>
-          <path class="marke fuehrung" style="--l:170;--i:1" d="M189 190 H300"/>
-          <ellipse class="marke" style="--l:120;--i:2" cx="98" cy="322" rx="40" ry="14"/>
-          <path class="marke fuehrung" style="--l:210;--i:2" d="M138 322 H300"/>
-        </g>
 
-        <g font-family="Spline Sans Mono, monospace" font-size="12" fill="#B0271C">
-          <text class="notiz" style="--i:0" x="308" y="41">05 Nummer nicht</text>
-          <text class="notiz" style="--i:0" x="308" y="56">antippbar</text>
-          <text class="notiz" style="--i:1" x="308" y="186">03 Nicht für</text>
-          <text class="notiz" style="--i:1" x="308" y="201">Handys</text>
-          <text class="notiz" style="--i:2" x="308" y="318">10 Kein Anfrage-</text>
-          <text class="notiz" style="--i:2" x="308" y="333">formular</text>
-        </g>
       </svg>
+      <!-- Die Befunde liegen als Text über dem Blatt, nicht darin: Ein
+           Punkt auf der Stelle, ein Strich hinüber, das Etikett daneben.
+           Als echter Text bleibt er in jeder Größe scharf und lesbar. -->
+      <ul class="befunde" aria-hidden="true">
+        <li style="--y:9.5%"><i></i><b>05 Nummer nicht antippbar</b></li>
+        <li style="--y:42%"><i></i><b>03 Nicht für Handys</b></li>
+        <li style="--y:73%"><i></i><b>10 Kein Anfrageformular</b></li>
+      </ul>
       <ul class="blattlegende">
         <li><span>05</span> Nummer nicht antippbar</li>
         <li><span>03</span> Nicht für Handys</li>
