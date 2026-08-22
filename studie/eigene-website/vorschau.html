@@ -506,105 +506,6 @@ footer a:hover { color: var(--tinte); }
 .logo { display: inline-flex; align-items: center; gap: .6rem; }
 .logo .zeichen { width: 1.35rem; height: 1.35rem; flex: none; color: var(--tinte); }
 
-/* ── Der Prüfvorgang im Aufmacher ────────────────────────────────────
- * Die Messlinie wandert beim Scrollen durch das Drahtgerüst, und wo sie
- * auf einen Mangel trifft, springt ein Befund auf. Am Ende steht die Zahl.
- *
- * Der Scrollweg 0 bis 1 liegt als --fs am Abschnitt an; ihn lesen die
- * Messlinie, jeder Befund, die Summe und die Haarlinie unten. Kein
- * Scroll-Hijacking: Man scrollt normal, die Seite läuft mit.
- *
- * Rot ist hier dasselbe Rot wie überall auf der Seite: Befund.
- */
-
-.aufmacher { position: relative; }
-
-@media (min-width: 62rem) {
-  .aufmacher { padding: 0; height: 190vh; height: 190svh; }
-  .buehne { position: sticky; top: 0; height: 100vh; height: 100svh;
-            display: flex; align-items: center; padding-block: 5rem 3rem; }
-  .buehne .bahn { display: grid; grid-template-columns: 1.05fr .95fr;
-                  gap: clamp(2rem, 4vw, 3.5rem); align-items: center; width: 100%; }
-  /* Die Höhe führt, nicht die Breite: So passt der Prüfvorgang auch auf
-     ein flaches Notebook-Fenster, ohne dass die Bühne überläuft. */
-  .buehne .pruefung { height: min(56svh, 24rem); width: auto;
-                      aspect-ratio: 4/4.6; justify-self: center; }
-}
-
-.pruefung { position: relative; width: 100%; max-width: 24rem;
-            margin: 2.4rem auto 4.5rem; aspect-ratio: 4/4.6; }
-@media (min-width: 62rem) { .pruefung { margin: 0; max-width: none; } }
-@media (max-width: 61.99rem) { .messlinie { display: none; } }
-
-.blatt { position: absolute; inset: 0; border: 1px solid var(--tinte);
-         background: var(--blatt); display: flex; flex-direction: column;
-         gap: 2.4%; padding: 5%; }
-.balken { background: var(--raster); flex: none; }
-.balken.kopfband { height: 7%; }
-.balken.bild { height: 30%; background: transparent; border: 1px dashed var(--linie); }
-.balken.z1 { height: 2.6%; width: 88%; }
-.balken.z2 { height: 2.6%; width: 72%; }
-.balken.z3 { height: 2.6%; width: 80%; }
-.kacheln { display: flex; gap: 3%; height: 16%; flex: none; }
-.kacheln span { flex: 1; background: var(--raster); }
-.balken.fuss { height: 5%; margin-top: auto; }
-
-/* Die Messlinie ist um den Faktor 1,15 schneller als der Scrollweg, damit
-   sie unten ankommt, bevor der Aufmacher endet. Sonst steht die Summe erst
-   da, wenn niemand mehr hinsieht. */
-.messlinie { position: absolute; left: -4%; right: -4%; z-index: 4; height: 2px;
-  top: calc(min(var(--fs, 1) * 1.15, 1) * 100%);
-  background: linear-gradient(90deg, transparent, var(--rot) 12%,
-              var(--rot) 88%, transparent); }
-.messlinie::before { content: ""; position: absolute; left: 0; top: -3px;
-  width: 8px; height: 8px; background: var(--rot); transform: rotate(45deg); }
-
-/* Ein Befund springt auf, sobald die Messlinie seine Höhe erreicht hat.
-   Das steckt in --ab und braucht kein Skript: Die Rechnung wird negativ,
-   solange die Linie darüber steht, und clamp kappt sie auf null. */
-.befunde { position: absolute; inset: 0; z-index: 3; list-style: none; margin: 0; padding: 0; }
-.befunde li { position: absolute; left: -3%; right: 2%; top: var(--y);
-  display: flex; align-items: center; gap: 7px;
-  --an: clamp(0, (var(--fs, 1) - var(--ab)) * 16, 1);
-  opacity: var(--an);
-  transform: translateX(calc((1 - var(--an)) * 14px)); }
-.befunde li::before { content: ""; width: 7px; height: 7px; flex: none;
-  border-radius: 50%; background: var(--rot);
-  box-shadow: 0 0 0 3px rgba(176, 39, 28, .16); }
-.befunde li i { flex: 1 1 auto; height: 1px;
-  background: repeating-linear-gradient(90deg, var(--linie) 0 4px, transparent 4px 8px); }
-.befunde li b { flex: none; font-family: var(--mono); font-weight: 500;
-  font-size: 10.5px; letter-spacing: .02em; color: var(--tinte);
-  background: var(--papier); border: 1px solid var(--linie);
-  padding: .32rem .5rem; white-space: nowrap; }
-
-.summe { position: absolute; right: 2%; bottom: -12%; z-index: 3; margin: 0;
-  text-align: right; line-height: 1;
-  --an: clamp(0, (var(--fs, 1) - .82) * 14, 1); opacity: var(--an); }
-.summe em { display: block; font-style: normal; font-size: 2.4rem;
-  font-family: var(--riss); font-weight: 700; color: var(--rot);
-  font-variant-numeric: tabular-nums; letter-spacing: -.02em; }
-.summe span { font-family: var(--mono); font-size: 11px; letter-spacing: .12em;
-  text-transform: uppercase; color: var(--matt); }
-
-/* Fortschritt als Haarlinie am unteren Rand. Sie beantwortet die Frage,
-   wie lange das noch geht, ohne sie zu stellen. */
-.lauf { display: none; }
-@media (min-width: 62rem) {
-  .lauf { display: block; position: absolute; left: 0; bottom: 0; width: 100%;
-          height: 2px; z-index: 4; background: var(--linie); }
-  .lauf::after { content: ""; display: block; height: 100%;
-                 width: calc(var(--fs, 0) * 100%); background: var(--rot); }
-}
-
-/* Wer weniger Bewegung eingestellt hat, bekommt den fertigen Stand. */
-@media (prefers-reduced-motion: reduce) {
-  .aufmacher { height: auto; padding: clamp(2.4rem, 5vw, 4rem) 0 clamp(3rem, 7vw, 5rem); }
-  .buehne { position: static; min-height: 0; padding: 0; }
-  .messlinie, .lauf { display: none; }
-  .befunde li, .summe { --an: 1; }
-}
-
 
 /* ---- Nur für die Vorschau, nicht Teil der ausgelieferten Website ---- */
 .wg-leiste { position: sticky; top: 0; z-index: 60; display: flex; flex-wrap: wrap;
@@ -644,8 +545,7 @@ footer a:hover { color: var(--tinte); }
 
 <main>
 
-<section class="aufmacher" data-kino>
-  <div class="buehne">
+<section class="aufmacher">
   <div class="bahn">
     <div>
       <p class="schild">Kerpen · Rhein-Erft-Kreis</p>
@@ -672,42 +572,64 @@ footer a:hover { color: var(--tinte); }
     <!-- Drei Befunde, die wir bei elf geprüften Betrieben am häufigsten
          gemessen haben. Sie stehen hier als Beispiel, nicht als Urteil
          über eine bestimmte Seite. -->
-    <!-- Der Pruefvorgang. Die Messlinie wandert beim Scrollen durch das
-         Drahtgeruest, und wo sie auf einen Mangel trifft, springt ein
-         Befund auf. Die Etiketten sind echte Punkte aus dem Pruefkatalog.
-         Das Geruest bleibt abstrakt: Eine erkennbare fremde Seite waere
-         Anschwaerzen, nicht Werbung. -->
-    <div class="pruefung" aria-hidden="true">
-      <div class="blatt">
-        <span class="balken kopfband"></span>
-        <span class="balken bild"></span>
-        <span class="balken z1"></span>
-        <span class="balken z2"></span>
-        <span class="balken z3"></span>
-        <span class="kacheln"><span></span><span></span><span></span></span>
-        <span class="balken z2"></span>
-        <span class="balken fuss"></span>
-      </div>
-      <span class="messlinie"></span>
-      <ul class="befunde">
-        <!-- --y ist die Hoehe im Drahtgeruest, --ab die Schwelle, ab der der
-             Befund aufspringt: --y geteilt durch 1,15. Wer --y aendert, muss
-             --ab mitziehen, sonst springt der Befund auf, bevor gemessen
-             wurde. -->
-        <li style="--y:7%;--ab:.06"><i></i><b>Seitentitel ist Vorlagentext</b></li>
-        <li style="--y:19%;--ab:.165"><i></i><b>Nummer nicht antippbar</b></li>
-        <li style="--y:34%;--ab:.296"><i></i><b>Nicht für Handys eingerichtet</b></li>
-        <li style="--y:47%;--ab:.409"><i></i><b>Lange Ladezeit</b></li>
-        <li style="--y:61%;--ab:.530"><i></i><b>Keine Seite für Stellen</b></li>
-        <li style="--y:75%;--ab:.652"><i></i><b>Kein Anfrageformular</b></li>
-        <li style="--y:89%;--ab:.774"><i></i><b>Impressum unvollständig</b></li>
+    <div class="blattbild" aria-hidden="true">
+      <svg viewBox="0 0 540 430" role="img">
+        <defs>
+          <marker id="pfeilspitze" markerWidth="7" markerHeight="7" refX="6" refY="3.5"
+                  orient="auto"><path d="M0,0 L7,3.5 L0,7 z" fill="#1F4E5F"/></marker>
+        </defs>
+
+        <g stroke="#1F4E5F" fill="none" stroke-width="1">
+          <rect x="34" y="30" width="230" height="352"/>
+          <rect x="34" y="30" width="230" height="30" fill="#1F4E5F" opacity=".08"/>
+          <rect x="46" y="74" width="206" height="74" opacity=".55"/>
+          <line x1="46" y1="74" x2="252" y2="148" opacity=".3"/>
+          <line x1="252" y1="74" x2="46" y2="148" opacity=".3"/>
+          <g opacity=".28" stroke-width="7" stroke="#1F4E5F" stroke-linecap="square">
+            <line x1="46" y1="172" x2="228" y2="172"/>
+            <line x1="46" y1="190" x2="252" y2="190"/>
+            <line x1="46" y1="208" x2="196" y2="208"/>
+            <line x1="46" y1="250" x2="240" y2="250"/>
+            <line x1="46" y1="268" x2="210" y2="268"/>
+            <line x1="46" y1="322" x2="150" y2="322"/>
+          </g>
+        </g>
+
+        <g stroke="#1F4E5F" stroke-width="1" fill="none" opacity=".8">
+          <line x1="34" y1="400" x2="264" y2="400"
+                marker-start="url(#pfeilspitze)" marker-end="url(#pfeilspitze)"/>
+          <line x1="34" y1="392" x2="34" y2="408"/>
+          <line x1="264" y1="392" x2="264" y2="408"/>
+        </g>
+        <text x="149" y="422" text-anchor="middle" fill="#1F4E5F"
+              font-family="Spline Sans Mono, monospace" font-size="11">390 px</text>
+
+        <g stroke="#B0271C" fill="none" stroke-width="1.8" stroke-linecap="round">
+          <ellipse class="marke" style="--l:210;--i:0" cx="150" cy="45" rx="66" ry="15"/>
+          <path class="marke fuehrung" style="--l:150;--i:0" d="M216 45 H300"/>
+          <ellipse class="marke" style="--l:150;--i:1" cx="137" cy="190" rx="52" ry="26"/>
+          <path class="marke fuehrung" style="--l:170;--i:1" d="M189 190 H300"/>
+          <ellipse class="marke" style="--l:120;--i:2" cx="98" cy="322" rx="40" ry="14"/>
+          <path class="marke fuehrung" style="--l:210;--i:2" d="M138 322 H300"/>
+        </g>
+
+        <g font-family="Spline Sans Mono, monospace" font-size="12" fill="#B0271C">
+          <text class="notiz" style="--i:0" x="308" y="41">05 Nummer nicht</text>
+          <text class="notiz" style="--i:0" x="308" y="56">antippbar</text>
+          <text class="notiz" style="--i:1" x="308" y="186">03 Nicht für</text>
+          <text class="notiz" style="--i:1" x="308" y="201">Handys</text>
+          <text class="notiz" style="--i:2" x="308" y="318">10 Kein Anfrage-</text>
+          <text class="notiz" style="--i:2" x="308" y="333">formular</text>
+        </g>
+      </svg>
+      <ul class="blattlegende">
+        <li><span>05</span> Nummer nicht antippbar</li>
+        <li><span>03</span> Nicht für Handys</li>
+        <li><span>10</span> Kein Anfrageformular</li>
       </ul>
-      <p class="summe"><em>7</em><span>Punkte gefunden</span></p>
     </div>
   </div>
-  </div>
-    <div class="lauf" aria-hidden="true"></div>
-  </section>
+</section>
 
 <div class="streifen">
   <div class="bahn">
@@ -974,30 +896,13 @@ footer a:hover { color: var(--tinte); }
     });
   }, 2000);
 
-  /* Scrollweg des Aufmachers als --fs. Ihn lesen die Messlinie, jeder
-     Befund, die Summe und die Haarlinie unten. */
-  var kino = document.querySelector("[data-kino]");
-  /* Die Klebebuehne gibt es erst ab 62rem. Darunter ist der Aufmacher ein
-     normaler Abschnitt, und der Pruefvorgang steht fertig da. */
-  var gross = window.matchMedia("(min-width: 62rem)");
-  function fortschritt() {
-    if (!kino) { return; }
-    if (!gross.matches) { kino.style.setProperty("--fs", "1"); return; }
-    var weg = kino.offsetHeight - window.innerHeight;
-    var p = weg > 0
-      ? Math.min(Math.max(-kino.getBoundingClientRect().top / weg, 0), 1)
-      : 1;
-    kino.style.setProperty("--fs", p.toFixed(4));
-  }
-
   var laeuft = false;
-  function tick() { laeuft = false; kopfleiste(); if (!ruhig) fortschritt(); }
+  function tick() { laeuft = false; kopfleiste(); }
   tick();
   window.addEventListener("scroll", function () {
     if (!laeuft) { laeuft = true; requestAnimationFrame(tick); }
   }, { passive: true });
   window.addEventListener("resize", tick);
-  if (gross.addEventListener) { gross.addEventListener("change", tick); }
 
   /* Kopfleiste absetzen, sobald gescrollt wurde. */
   var kopf = document.querySelector("header.kopf");

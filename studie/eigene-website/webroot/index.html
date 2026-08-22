@@ -27,8 +27,7 @@
 
 <main>
 
-<section class="aufmacher" data-kino>
-  <div class="buehne">
+<section class="aufmacher">
   <div class="bahn">
     <div>
       <p class="schild">Kerpen · Rhein-Erft-Kreis</p>
@@ -55,42 +54,64 @@
     <!-- Drei Befunde, die wir bei elf geprüften Betrieben am häufigsten
          gemessen haben. Sie stehen hier als Beispiel, nicht als Urteil
          über eine bestimmte Seite. -->
-    <!-- Der Pruefvorgang. Die Messlinie wandert beim Scrollen durch das
-         Drahtgeruest, und wo sie auf einen Mangel trifft, springt ein
-         Befund auf. Die Etiketten sind echte Punkte aus dem Pruefkatalog.
-         Das Geruest bleibt abstrakt: Eine erkennbare fremde Seite waere
-         Anschwaerzen, nicht Werbung. -->
-    <div class="pruefung" aria-hidden="true">
-      <div class="blatt">
-        <span class="balken kopfband"></span>
-        <span class="balken bild"></span>
-        <span class="balken z1"></span>
-        <span class="balken z2"></span>
-        <span class="balken z3"></span>
-        <span class="kacheln"><span></span><span></span><span></span></span>
-        <span class="balken z2"></span>
-        <span class="balken fuss"></span>
-      </div>
-      <span class="messlinie"></span>
-      <ul class="befunde">
-        <!-- --y ist die Hoehe im Drahtgeruest, --ab die Schwelle, ab der der
-             Befund aufspringt: --y geteilt durch 1,15. Wer --y aendert, muss
-             --ab mitziehen, sonst springt der Befund auf, bevor gemessen
-             wurde. -->
-        <li style="--y:7%;--ab:.06"><i></i><b>Seitentitel ist Vorlagentext</b></li>
-        <li style="--y:19%;--ab:.165"><i></i><b>Nummer nicht antippbar</b></li>
-        <li style="--y:34%;--ab:.296"><i></i><b>Nicht für Handys eingerichtet</b></li>
-        <li style="--y:47%;--ab:.409"><i></i><b>Lange Ladezeit</b></li>
-        <li style="--y:61%;--ab:.530"><i></i><b>Keine Seite für Stellen</b></li>
-        <li style="--y:75%;--ab:.652"><i></i><b>Kein Anfrageformular</b></li>
-        <li style="--y:89%;--ab:.774"><i></i><b>Impressum unvollständig</b></li>
+    <div class="blattbild" aria-hidden="true">
+      <svg viewBox="0 0 540 430" role="img">
+        <defs>
+          <marker id="pfeilspitze" markerWidth="7" markerHeight="7" refX="6" refY="3.5"
+                  orient="auto"><path d="M0,0 L7,3.5 L0,7 z" fill="#1F4E5F"/></marker>
+        </defs>
+
+        <g stroke="#1F4E5F" fill="none" stroke-width="1">
+          <rect x="34" y="30" width="230" height="352"/>
+          <rect x="34" y="30" width="230" height="30" fill="#1F4E5F" opacity=".08"/>
+          <rect x="46" y="74" width="206" height="74" opacity=".55"/>
+          <line x1="46" y1="74" x2="252" y2="148" opacity=".3"/>
+          <line x1="252" y1="74" x2="46" y2="148" opacity=".3"/>
+          <g opacity=".28" stroke-width="7" stroke="#1F4E5F" stroke-linecap="square">
+            <line x1="46" y1="172" x2="228" y2="172"/>
+            <line x1="46" y1="190" x2="252" y2="190"/>
+            <line x1="46" y1="208" x2="196" y2="208"/>
+            <line x1="46" y1="250" x2="240" y2="250"/>
+            <line x1="46" y1="268" x2="210" y2="268"/>
+            <line x1="46" y1="322" x2="150" y2="322"/>
+          </g>
+        </g>
+
+        <g stroke="#1F4E5F" stroke-width="1" fill="none" opacity=".8">
+          <line x1="34" y1="400" x2="264" y2="400"
+                marker-start="url(#pfeilspitze)" marker-end="url(#pfeilspitze)"/>
+          <line x1="34" y1="392" x2="34" y2="408"/>
+          <line x1="264" y1="392" x2="264" y2="408"/>
+        </g>
+        <text x="149" y="422" text-anchor="middle" fill="#1F4E5F"
+              font-family="Spline Sans Mono, monospace" font-size="11">390 px</text>
+
+        <g stroke="#B0271C" fill="none" stroke-width="1.8" stroke-linecap="round">
+          <ellipse class="marke" style="--l:210;--i:0" cx="150" cy="45" rx="66" ry="15"/>
+          <path class="marke fuehrung" style="--l:150;--i:0" d="M216 45 H300"/>
+          <ellipse class="marke" style="--l:150;--i:1" cx="137" cy="190" rx="52" ry="26"/>
+          <path class="marke fuehrung" style="--l:170;--i:1" d="M189 190 H300"/>
+          <ellipse class="marke" style="--l:120;--i:2" cx="98" cy="322" rx="40" ry="14"/>
+          <path class="marke fuehrung" style="--l:210;--i:2" d="M138 322 H300"/>
+        </g>
+
+        <g font-family="Spline Sans Mono, monospace" font-size="12" fill="#B0271C">
+          <text class="notiz" style="--i:0" x="308" y="41">05 Nummer nicht</text>
+          <text class="notiz" style="--i:0" x="308" y="56">antippbar</text>
+          <text class="notiz" style="--i:1" x="308" y="186">03 Nicht für</text>
+          <text class="notiz" style="--i:1" x="308" y="201">Handys</text>
+          <text class="notiz" style="--i:2" x="308" y="318">10 Kein Anfrage-</text>
+          <text class="notiz" style="--i:2" x="308" y="333">formular</text>
+        </g>
+      </svg>
+      <ul class="blattlegende">
+        <li><span>05</span> Nummer nicht antippbar</li>
+        <li><span>03</span> Nicht für Handys</li>
+        <li><span>10</span> Kein Anfrageformular</li>
       </ul>
-      <p class="summe"><em>7</em><span>Punkte gefunden</span></p>
     </div>
   </div>
-  </div>
-    <div class="lauf" aria-hidden="true"></div>
-  </section>
+</section>
 
 <div class="streifen">
   <div class="bahn">
@@ -357,30 +378,13 @@
     });
   }, 2000);
 
-  /* Scrollweg des Aufmachers als --fs. Ihn lesen die Messlinie, jeder
-     Befund, die Summe und die Haarlinie unten. */
-  var kino = document.querySelector("[data-kino]");
-  /* Die Klebebuehne gibt es erst ab 62rem. Darunter ist der Aufmacher ein
-     normaler Abschnitt, und der Pruefvorgang steht fertig da. */
-  var gross = window.matchMedia("(min-width: 62rem)");
-  function fortschritt() {
-    if (!kino) { return; }
-    if (!gross.matches) { kino.style.setProperty("--fs", "1"); return; }
-    var weg = kino.offsetHeight - window.innerHeight;
-    var p = weg > 0
-      ? Math.min(Math.max(-kino.getBoundingClientRect().top / weg, 0), 1)
-      : 1;
-    kino.style.setProperty("--fs", p.toFixed(4));
-  }
-
   var laeuft = false;
-  function tick() { laeuft = false; kopfleiste(); if (!ruhig) fortschritt(); }
+  function tick() { laeuft = false; kopfleiste(); }
   tick();
   window.addEventListener("scroll", function () {
     if (!laeuft) { laeuft = true; requestAnimationFrame(tick); }
   }, { passive: true });
   window.addEventListener("resize", tick);
-  if (gross.addEventListener) { gross.addEventListener("change", tick); }
 
   /* Kopfleiste absetzen, sobald gescrollt wurde. */
   var kopf = document.querySelector("header.kopf");
