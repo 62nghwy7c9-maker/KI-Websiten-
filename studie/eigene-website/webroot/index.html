@@ -93,24 +93,23 @@
         </g>
 
       </svg>
-      <!-- Der rote Kreis liegt im Blatt, das Etikett daneben, dazwischen
-           ein dünner Strich. Das Etikett ist echter Text und bleibt damit
-           in jeder Größe scharf und lesbar. --x ist die rechte Kante des
-           zugehörigen Kreises: Wer den Kreis verschiebt, muss --x und --y
-           mitziehen, sonst zeigt der Strich ins Leere. -->
-      <!-- Die Messlinie faehrt einmal durch das Blatt, so wie beim Pruefen
+      <!-- Neben dem Kasten läuft auf Höhe jeder Umkringelung ein Streifen
+           heraus, rechts davon steht der Fehler mit seiner Nummer. --y ist
+           die Höhe der zugehörigen Umkringelung im Blatt: Wer den Kreis
+           verschiebt, muss --y mitziehen, sonst läuft der Streifen falsch. -->
+      <!-- Die Messlinie fährt einmal durch das Blatt, so wie beim Prüfen
            von oben nach unten gelesen wird. Danach steht das Ergebnis. -->
       <span class="messlinie" aria-hidden="true"></span>
       <ul class="befunde" aria-hidden="true">
-        <li style="--y:10.5%;--x:40%;--v:.57s"><i></i><b>05 Nummer nicht antippbar</b></li>
-        <li style="--y:44.2%;--x:35%;--v:1.21s"><i></i><b>03 Nicht für Handys</b></li>
-        <li style="--y:74.9%;--x:25.6%;--v:1.79s"><i></i><b>10 Kein Anfrageformular</b></li>
+        <li style="--y:10.5%;--v:.57s"><i></i><b><em>1</em>Nummer nicht antippbar</b></li>
+        <li style="--y:44.2%;--v:1.21s"><i></i><b><em>2</em>Nicht für Handys</b></li>
+        <li style="--y:74.9%;--v:1.79s"><i></i><b><em>3</em>Kein Anfrageformular</b></li>
       </ul>
       <p class="summe" aria-hidden="true"><em>3</em><span>Punkte gefunden</span></p>
       <ul class="blattlegende">
-        <li><span>05</span> Nummer nicht antippbar</li>
-        <li><span>03</span> Nicht für Handys</li>
-        <li><span>10</span> Kein Anfrageformular</li>
+        <li><span>1</span> Nummer nicht antippbar</li>
+        <li><span>2</span> Nicht für Handys</li>
+        <li><span>3</span> Kein Anfrageformular</li>
       </ul>
     </div>
   </div>
