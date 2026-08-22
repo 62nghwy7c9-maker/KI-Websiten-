@@ -87,29 +87,27 @@
               font-family="Spline Sans Mono, monospace" font-size="11">390 px</text>
 
         <g stroke="#B0271C" fill="none" stroke-width="1.8" stroke-linecap="round">
-          <ellipse class="marke" style="--l:210;--v:.45s" cx="150" cy="45" rx="66" ry="15"/>
-          <ellipse class="marke" style="--l:150;--v:1.09s" cx="137" cy="190" rx="52" ry="26"/>
-          <ellipse class="marke" style="--l:120;--v:1.67s" cx="98" cy="322" rx="40" ry="14"/>
+          <ellipse class="marke" style="--l:210;--i:0" cx="150" cy="45" rx="66" ry="15"/>
+          <path class="marke fuehrung" style="--l:150;--i:0" d="M216 45 H300"/>
+          <ellipse class="marke" style="--l:150;--i:1" cx="137" cy="190" rx="52" ry="26"/>
+          <path class="marke fuehrung" style="--l:170;--i:1" d="M189 190 H300"/>
+          <ellipse class="marke" style="--l:120;--i:2" cx="98" cy="322" rx="40" ry="14"/>
+          <path class="marke fuehrung" style="--l:210;--i:2" d="M138 322 H300"/>
         </g>
 
+        <g font-family="Spline Sans Mono, monospace" font-size="12" fill="#B0271C">
+          <text class="notiz" style="--i:0" x="308" y="41">05 Nummer nicht</text>
+          <text class="notiz" style="--i:0" x="308" y="56">antippbar</text>
+          <text class="notiz" style="--i:1" x="308" y="186">03 Nicht für</text>
+          <text class="notiz" style="--i:1" x="308" y="201">Handys</text>
+          <text class="notiz" style="--i:2" x="308" y="318">10 Kein Anfrage-</text>
+          <text class="notiz" style="--i:2" x="308" y="333">formular</text>
+        </g>
       </svg>
-      <!-- Neben dem Kasten läuft auf Höhe jeder Umkringelung ein Streifen
-           heraus, rechts davon steht der Fehler mit seiner Nummer. --y ist
-           die Höhe der zugehörigen Umkringelung im Blatt: Wer den Kreis
-           verschiebt, muss --y mitziehen, sonst läuft der Streifen falsch. -->
-      <!-- Die Messlinie fährt einmal durch das Blatt, so wie beim Prüfen
-           von oben nach unten gelesen wird. Danach steht das Ergebnis. -->
-      <span class="messlinie" aria-hidden="true"></span>
-      <ul class="befunde" aria-hidden="true">
-        <li style="--y:10.5%;--v:.57s"><i></i><b><em>1</em>Nummer nicht antippbar</b></li>
-        <li style="--y:44.2%;--v:1.21s"><i></i><b><em>2</em>Nicht für Handys</b></li>
-        <li style="--y:74.9%;--v:1.79s"><i></i><b><em>3</em>Kein Anfrageformular</b></li>
-      </ul>
-      <p class="summe" aria-hidden="true"><em>3</em><span>Punkte gefunden</span></p>
       <ul class="blattlegende">
-        <li><span>1</span> Nummer nicht antippbar</li>
-        <li><span>2</span> Nicht für Handys</li>
-        <li><span>3</span> Kein Anfrageformular</li>
+        <li><span>05</span> Nummer nicht antippbar</li>
+        <li><span>03</span> Nicht für Handys</li>
+        <li><span>10</span> Kein Anfrageformular</li>
       </ul>
     </div>
   </div>
