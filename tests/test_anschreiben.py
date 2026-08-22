@@ -16,7 +16,7 @@ def test_offene_stelle_wird_zum_aufhaenger():
     k = Kandidat(firma="Elektro Müller", url="mueller.de", ort="Kerpen",
                  sucht="einen Elektriker",
                  sucht_beleg="Ihre Anzeige bei Indeed vom 4. August")
-    t = bauen(_bericht(k), "Yannik Dettmer", "0162 3242260",
+    t = bauen(_bericht(k), "Yannik Dettmer", "0152 01560005",
               _bericht(k).auswahl_fuer_check)
     assert "Sie suchen einen Elektriker" in t
     assert "Ihre Anzeige bei Indeed vom 4. August" in t
@@ -30,7 +30,7 @@ def test_ohne_beleg_keine_behauptung():
     from pipeline.anschreiben import bauen
     k = Kandidat(firma="Elektro Müller", url="mueller.de", ort="Kerpen",
                  sucht="einen Elektriker")           # Beleg fehlt absichtlich
-    t = bauen(_bericht(k), "Yannik Dettmer", "0162 3242260",
+    t = bauen(_bericht(k), "Yannik Dettmer", "0152 01560005",
               _bericht(k).auswahl_fuer_check)
     brief = t[t.index("Sehr geehrte"):t.index("---", t.index("Sehr geehrte"))]
     assert "Sie suchen" not in brief
@@ -42,7 +42,7 @@ def test_drei_fragen_nur_in_der_notiz():
     from pipeline.modelle import Kandidat
     from pipeline.anschreiben import bauen
     k = Kandidat(firma="Elektro Müller", url="mueller.de", ort="Kerpen")
-    t = bauen(_bericht(k), "Yannik Dettmer", "0162 3242260",
+    t = bauen(_bericht(k), "Yannik Dettmer", "0152 01560005",
               _bericht(k).auswahl_fuer_check)
     frage = "Wie lange suchen Sie schon jemanden?"
     brief = t[t.index("Sehr geehrte"):t.index("---", t.index("Sehr geehrte"))]

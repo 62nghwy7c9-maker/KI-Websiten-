@@ -316,7 +316,7 @@ footer .bahn{padding:1.25rem}
 </main>
 
 <footer><div class="bahn">
-  Wenn etwas nicht stimmt: 0162&thinsp;3242260. Wir können jeden Stand der
+  Wenn etwas nicht stimmt: 0152&thinsp;01560005. Wir können jeden Stand der
   letzten Wochen zurückholen.
 </div></footer>
 </body>

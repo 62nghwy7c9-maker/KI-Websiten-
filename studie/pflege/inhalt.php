@@ -8,7 +8,7 @@
  * Der Grundgedanke: Die Website bleibt reines HTML. Bearbeitbare Stellen
  * werden im HTML markiert:
  *
- *     <!--wg:telefon-->0162 3242260<!--/wg-->
+ *     <!--wg:telefon-->0152 01560005<!--/wg-->
  *
  * Der Pflegebereich liest diese Markierungen, zeigt sie als Formularfelder
  * und schreibt die neuen Werte an genau dieselbe Stelle zurück. Zwischen den

@@ -16,7 +16,7 @@ Zuständigkeit: **K** = Kira, **Y** = Yannik, **C** = Claude.
 | | Punkt | Wer | Warum es blockiert |
 |---|---|---|---|
 | ☐ | **Ladungsfähige Anschrift** in `absender.json` eintragen | K/Y | § 5 DDG verlangt sie auf jedem geschäftlichen Dokument. Bis dahin trägt **jeder** der elf Checks oben einen roten Sperrbalken und darf nicht übergeben werden. Das ist der einzige echte Blocker. |
-| ☐ | Entscheiden, **welche Telefonnummer** gilt | K/Y | Bisher gab es zwei Angaben: +49 152 01560005 und +49 162 3242260. Eingetragen ist die zweite mit Yanniks Namen. Auf einem gedruckten Blatt ist eine falsche Nummer der teuerste Fehler. |
+| ☑ | **Telefonnummer entschieden**: +49 152 01560005 | K/Y | Am 22.08. von Kira festgelegt. Überall eingetragen, angezeigt als `0152 01560005`, verlinkt als `tel:+4915201560005`. |
 | ☐ | Die vier fertigen Befunde **freigeben** | K | Sander-Bau, Lindam, Merzenich, Labau. Die Pipeline reproduziert alle vier, aber die Freigabe steht aus. |
 
 ---

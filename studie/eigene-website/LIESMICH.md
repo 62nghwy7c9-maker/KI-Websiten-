@@ -47,7 +47,7 @@ Zur Entscheidung, Stand 21.08.2026:
    DNS-Eintrag; das ist ein Hinweis, kein Beleg. Bei DENIC prüfen.
    Zusätzlich `web-gewerk.com` als Schreibvariante sichern,
    den Namen wird man am Telefon buchstabieren müssen.
-3. **Telefonnummer bestätigen** (0162 3242260).
+3. **Telefonnummer bestätigen** (0152 01560005).
 4. **Rechtstexte prüfen lassen.**
 
 ## Bewegung
