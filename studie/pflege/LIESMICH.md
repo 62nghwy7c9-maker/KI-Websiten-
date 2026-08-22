@@ -125,7 +125,8 @@ ausdrücklich nicht das Ziel.
 
 ## Was das für das Konzept bedeutet
 
-- Der Betreuungsumfang „bis zu zwei Änderungen im Monat" verliert seine
+- Der Grund, warum es keine Betreuung mehr gibt: Der Pflegebereich nimmt dem
+  Kunden genau die Arbeit ab, für die sie bezahlt worden wäre. Das entwertet
   Schärfe: Öffnungszeiten, Telefonnummer, Stellenanzeige und Hinweise macht
   der Kunde selbst, sofort und ohne uns zu fragen.
 - Das Abhängigkeitsargument im Verkauf wird stärker: „Ihre Domain, Ihr Vertrag,

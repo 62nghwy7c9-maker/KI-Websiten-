@@ -7,86 +7,6 @@
   },
   "bloecke": [
     {
-      "titel": "Bis Freitag, 21.08.2026 — Entscheidungen, keine Arbeit",
-      "vorspann": "Nichts hiervon kostet mehr als ein paar Minuten. Alles hiervon hält etwas anderes auf.",
-      "zeilen": [
-        [
-          "K+Y",
-          "21.08.",
-          "Ladungsfähige Anschrift festlegen und in absender.json eintragen",
-          "blockiert alles: ohne sie trägt jeder Check einen roten Sperrbalken (§ 5 DDG). Elf fertige Pakete warten nur darauf",
-          "R",
-          "Anhang B"
-        ],
-        [
-          "K+Y",
-          "21.08.",
-          "Entscheiden, welche Telefonnummer gilt",
-          "zwei im Umlauf: 0152 01560005 und 0162 3242260. Auf einem gedruckten Blatt ist eine falsche Nummer der teuerste Fehler",
-          "R"
-        ],
-        [
-          "K+Y",
-          "21.08.",
-          "Klären: Betreuung 69 € oder 59 € im Monat",
-          "im Konzept stehen 69 €, am 17.08. fiel die Zahl 59. Bestätigen, bevor sie auf ein Angebot kommt",
-          "R",
-          "1"
-        ],
-        [
-          "K+Y",
-          "21.08.",
-          "Tag 1 als festes Datum setzen — Vorschlag: Montag, 05.10.2026",
-          "Tag 1 ist der Tag, an dem der erste Check übergeben wird. Jede Frist weiter unten hängt daran. Ohne Datum ist „Vorlauf“ kein Termin, sondern eine Hoffnung",
-          "BL"
-        ],
-        [
-          "K+Y",
-          "21.08.",
-          "Verfügbare Wochenstunden, feste Tage und Uhrzeiten schriftlich festhalten",
-          "ohne diese Zahl ist die Wirtschaftlichkeit nicht rechenbar und der 90-Tage-Plan nicht planbar. Der wichtigste offene Punkt des Konzepts",
-          "R",
-          "12"
-        ],
-        [
-          "K+Y",
-          "21.08.",
-          "Termin mit der Rechtsberatung in der Familie vereinbaren — mit festem Datum im Kalender",
-          "unentgeltliche Hilfe hat keine Rechnung und deshalb keinen Druck. Sie ist das Erste, was liegen bleibt",
-          "S"
-        ],
-        [
-          "K+Y",
-          "21.08.",
-          "Vier fertige Befunde freigeben: Sander-Bau, Lindam, Merzenich, Labau",
-          "die Pipeline reproduziert alle vier. Nur die Freigabe steht aus",
-          "S"
-        ],
-        [
-          "K",
-          "21.08.",
-          "Die zwei Selbstbeschreibungen schreiben, je ein bis zwei Sätze",
-          "solange sie fehlen, steht auf der eigenen Seite Platzhaltertext — Prüfpunkt 15, an der eigenen Seite gerissen",
-          "R"
-        ],
-        [
-          "Y",
-          "21.08.",
-          "DPMA-Markenrecherche auf entgegenstehende Marken",
-          "30 Minuten, und sie muss vor die Gewerbeanmeldung. Danach ist der Name teuer zu ändern",
-          "S"
-        ],
-        [
-          "C",
-          "21.08.",
-          "Check-Vorlage korrigieren: sie trägt Yanniks Namen mit Kiras Mailadresse",
-          "steht seit dem Konzept-Check offen und ist in keiner Aufgabenliste je aufgetaucht. Auf einem gedruckten Blatt ist das derselbe Fehler wie eine falsche Telefonnummer",
-          "R",
-          "5"
-        ]
-      ]
-    },
-    {
       "titel": "Bis Freitag, 28.08.2026 — Gründung anstoßen",
       "vorspann": "Alles mit Vorlauf bei Ämtern, Versicherern und Banken. Was hier liegen bleibt, verschiebt Tag 1.",
       "zeilen": [
@@ -457,40 +377,6 @@
           "S"
         ]
       ]
-    },
-    {
-      "titel": "An ein Ereignis gebunden — spätestens Sa, 02.01.2027",
-      "vorspann": "Diese vier haben keinen Kalendertermin, sondern einen Auslöser. Der Auslöser kommt zuerst, das Datum ist die Notbremse.",
-      "zeilen": [
-        [
-          "K",
-          "vor dem ersten Betreuungsvertrag, spätestens 02.01.",
-          "AVV-Vorlage für Betreuungskunden erstellen (Art. 28 DSGVO)",
-          "wir bekommen Zugang zu Hosting und Postfach des Kunden. Ohne AVV ist das nicht zulässig",
-          "S"
-        ],
-        [
-          "Y",
-          "vor der ersten Rechnung, spätestens 02.01.",
-          "E-Rechnungs-Empfang und revisionssichere Ablage einrichten",
-          "der Empfang von E-Rechnungen ist Pflicht, unabhängig von der eigenen Größe. Ablage nach § 147 AO",
-          "S"
-        ],
-        [
-          "K+Y",
-          "vor dem ersten Livegang auf Kundendomain",
-          "Verfahren für den Domainumzug einmal an einer eigenen Domain durchspielen",
-          "das ist der riskanteste Schritt im ganzen Projekt: Wer beim Umstellen die MX-Einträge abräumt, macht einen Betrieb unerreichbar (Konzept 7.1)",
-          "BL"
-        ],
-        [
-          "K+Y",
-          "am Tag der ersten Absage",
-          "Sperrliste zum ersten Mal benutzen",
-          "wer einmal Nein gesagt hat, wird nie wieder angeschrieben. Die Zeile existiert, damit es beim ersten Mal nicht vergessen wird",
-          "S"
-        ]
-      ]
     }
   ],
   "gestrichen": [
@@ -535,11 +421,6 @@
     [
       "10.3",
       "Konversionsannahmen sind ungeprüft und durch keine Quelle gedeckt",
-      "K+Y"
-    ],
-    [
-      "10.4",
-      "Betreuungsbestand trägt bei jetziger Rate erst nach fünf Jahren",
       "K+Y"
     ]
   ],

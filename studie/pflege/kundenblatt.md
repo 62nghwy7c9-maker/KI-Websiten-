@@ -57,8 +57,8 @@ an Sie, nicht an uns.
 | Zugang | Sie | K&D Webdesign |
 |---|---|---|
 | Pflegebereich | ja | ja |
-| Konto beim Hoster | ja, Eigentümer | `[nur mit Betreuungsvertrag / nein]` |
-| Domain | ja, Eigentümer | `[nur mit Betreuungsvertrag / nein]` |
+| Konto beim Hoster | ja, Eigentümer | nein |
+| Domain | ja, Eigentümer | nein |
 | E-Mail-Postfächer | ja | nein, nie |
 
 Sie können uns den Zugang jederzeit entziehen. Die Website läuft weiter — sie
@@ -70,11 +70,7 @@ gehört Ihnen, mit allen Dateien und allen Rechten.
 
 `[Name]` · `[Telefon]` · `[E-Mail]`
 
-`[Mit Betreuung:]` Wir prüfen jeden Monat, ob Ihre Seite erreichbar ist und
-das Sicherheitszertifikat gilt, und übernehmen bis zu zwei Änderungen im
-Monat, die über den Pflegebereich hinausgehen.
-
-`[Ohne Betreuung:]` Die Seite läuft von allein — es gibt nichts, was von
+Die Seite läuft von allein — es gibt nichts, was von
 selbst kaputtgeht. Niemand schaut aber regelmäßig nach. Änderungen, die über
 den Pflegebereich hinausgehen, rechnen wir mit `[70]` € je Stunde ab,
 mindestens eine halbe Stunde.

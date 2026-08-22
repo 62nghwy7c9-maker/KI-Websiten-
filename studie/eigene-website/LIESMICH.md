@@ -47,7 +47,7 @@ Zur Entscheidung, Stand 21.08.2026:
    DNS-Eintrag; das ist ein Hinweis, kein Beleg. Bei DENIC prüfen.
    Zusätzlich `moewes-dettmer.com` und die Schreibweise mit `ö` sichern —
    den Namen wird man am Telefon buchstabieren müssen.
-3. **Telefonnummer und Betreuungspreis bestätigen** (0162 3242260, 69 €).
+3. **Telefonnummer bestätigen** (0162 3242260).
 4. **Rechtstexte prüfen lassen.**
 
 ## Bewegung

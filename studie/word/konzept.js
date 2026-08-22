@@ -67,12 +67,11 @@ add(h("1 · Kurzfassung", 1));
 add(p([["K&D Webdesign", BL], [" baut kleinen Betrieben im Rhein-Erft-Kreis eine neue Website zum festen Preis und mit festem Termin. Der Einstieg ist ein kostenloser, individuell erstellter Website-Check, der belegbare Mängel der Bestandsseite benennt — bevor überhaupt ein Verkaufsgespräch stattfindet.", S]]));
 add(liste([
   [["Zielkunde: ", S, true], ["jeder Betrieb im Fahrgebiet Kerpen–Grevenbroich mit bestehender Website und mindestens drei belegten Mängeln — Handwerk, Gastronomie, Vereine, Praxen, Handel. Betriebsgröße im Regelfall 1 bis 50 Mitarbeiter.", BL]],
-  [["Angebot: ", S, true], ["Festpreis ab 990 € (Paket S), Standardpaket M 1.490 €, Paket L 2.290 €. 40 % Anzahlung vor Baubeginn. Betreuung 69 €/Monat.", S]],
+  [["Angebot: ", S, true], ["Festpreis ab 990 € (Paket S), Standardpaket M 1.490 €, Paket L 2.290 €. 40 % Anzahlung vor Baubeginn.", S]],
   [["Aufwand beim Kunden: ", BL, true], ["ein Vorgespräch, einmal Material zusammenstellen, zwei Rückmeldungen.", BL]],
   [["Alleinstellung: ", S, true], ["fester Preis, fester Termin, ein Ansprechpartner — und ein nachgewiesener Mangel, bevor wir etwas verkaufen.", S]],
 ]));
 add(p([["Geändert: Die frühere Zusage „rund zwei Stunden Zeitaufwand beim Kunden“ ist gestrichen. Sie war nie gemessen und widersprach den Mitwirkungspflichten in 4.3. Die echte Stundenzahl wird in den drei Pilotprojekten erhoben und danach hier eingetragen.", BL]], { kursiv: true, klein: true }));
-add(p([["Offen: Betreuung 69 € oder 59 €? Im Konzept stehen 69 €, im Gespräch fiel die Zahl 59. Bestätigen, bevor sie auf ein Angebot kommt.", R]]));
 
 /* ---- 2 Markt -------------------------------------------------------- */
 add(h("2 · Markt und Wettbewerb", 1));
@@ -158,7 +157,6 @@ add(tabelle(
     ["S", "Auftritt, 4–5 Seiten, Übernahme vorhandener Texte, Aufbereitung des gelieferten Bildmaterials, Kontaktformular, Impressum und Datenschutz nach Vorlage", "15 h", "990 €"],
     ["M — Standard", "Auftritt und Karriereseite, 6–8 Seiten, Texte aus Kundenstichpunkten formuliert, technisches SEO-Grundsetup", "22 h", "1.490 €"],
     ["L", "zusätzlich Texte aus einem geführten Interview, erweiterte Bildaufbereitung, bis 12 Seiten", "32 h", "2.290 €"],
-    ["Betreuung", [["Betreuung von Domain und Hosting, monatliches Backup, monatliche Erreichbarkeits- und Zertifikatsprüfung, bis zu zwei Inhaltsänderungen im Monat, Reaktion auf Störungen am nächsten Werktag", BL]], "laufend", [["69 €/Mon.", BL]]],
   ],
   [1500, 4600, 1200, 1700]));
 add(abstand());
@@ -245,7 +243,6 @@ add(liste([
   [["Es wird nicht verhandelt. ", BL, true], ["Wer weniger zahlen will, bekommt weniger Seiten — ein anderes Paket, nicht denselben Umfang billiger. Der frühere Spielraum von 10 % ist gestrichen: Er widersprach der eigenen Begründung, ein verhandelter Preis zerstöre die Alleinstellung.", BL]],
   [["40 % Anzahlung vor Baubeginn", S, true], [", ohne Ausnahme. Schlussrechnung nach Abnahme und Livegang.", S]],
   [["Pilotpreis: ", S, true], ["die ersten drei Projekte zu 50 % (Paket M: 745 €) gegen vollständige Referenzrechte. Befristet auf drei Abschlüsse, danach kein Rabatt.", S]],
-  [["Betreuung 69 €/Monat", S, true], [", Mindestlaufzeit zwölf Monate, danach monatlich kündbar.", S]],
 ]));
 add(p([["Marktvergleich: Wartungspakete im Kleinstsegment liegen bei 29–69 €/Monat; ab etwa 89 € erwarten Kunden Reporting und zugesagte Reaktionszeiten. 69 € ist das obere Ende ohne Service-Level-Zusage. Deshalb muss der Leistungsumfang exakt benannt sein.", S]]));
 
@@ -254,11 +251,10 @@ add(h("7 · Produktion und Technik", 1));
 add(h("7.1 Bauweise, Hosting, Domain", 2));
 add(p([["Websites werden mit Claude Code als statische Seiten gebaut und je Kunde in einem eigenen Git-Repository versioniert. Ausgeliefert wird HTML, CSS und minimales JavaScript, ohne CMS und ohne Datenbank. Das bringt sehr kurze Ladezeiten — ausgerechnet der Prüfpunkt, mit dem wir bei fremden Seiten argumentieren —, praktisch keine Sicherheitsupdates, kein Plugin-Risiko und eine vollständige Versionshistorie.", S]]));
 add(h("Hosting und Domain: betreuen, nicht besitzen", 3, BL));
-add(p([["Wir verwalten beides für den Kunden, aber nichts läuft über uns. Das ist der Unterschied zwischen einer Betreuung und einem Wiederverkauf — und er ist wichtig: Ein Wiederverkauf würde uns zum Vertragspartner für Ausfälle machen, die wir nicht verursachen.", BL]]));
+add(p([["Wir richten beides für den Kunden ein, aber nichts läuft über uns. Das ist der Unterschied zwischen Einrichten und Wiederverkaufen — und er ist wichtig: Ein Wiederverkauf würde uns zum Vertragspartner für Ausfälle machen, die wir nicht verursachen.", BL]]));
 add(liste([
   [["Die Domain läuft auf den Namen des Kunden, das Hosting auf seinen Vertrag und seine Rechnung. Für uns entstehen keine laufenden Kosten je Kunde.", BL]],
   [["Wir brauchen Zugang, nicht Eigentum: SFTP- oder Git-Zugang beim Hoster des Kunden, dazu Zugriff auf die Domainverwaltung.", BL]],
-  [["Schriftliche Vollmacht: Wer im Namen des Kunden mit dessen Anbieter spricht, braucht eine kurze Ermächtigung. Ein Absatz im Betreuungsvertrag.", BL]],
   [["Voraussetzung an das Hosting: Es muss das Hochladen eigener Dateien erlauben. Ein reiner Baukasten-Tarif kann das nicht — dort ist ein Wechsel Teil des Projekts.", BL]],
   [["Im Verkauf ein Argument, kein Zugeständnis: „Ihre Domain, Ihr Vertrag, Ihre Rechnung — wir kümmern uns nur darum. Sie sind an keinem Tag von uns abhängig.“", BL]],
 ]));
@@ -267,7 +263,6 @@ add(p([["Bisher läuft jede Änderung über uns. Entschieden am 17.08.: Das wird
 add(p([["Die Grenze bleibt eng: kein CMS, keine Datenbank, kein Fremddienst. Selbst bedienbar werden nur die Felder, die sich tatsächlich ändern — Öffnungszeiten, Telefonnummer, eine Stellenanzeige, ein Absatz Text, ein Bild. Ein Baukasten, in dem der Kunde das Layout zerlegen kann, ist ausdrücklich nicht das Ziel.", BL]]));
 add(p([["Entschieden am 19.08., gebaut und geprüft: Es wird der eigene kleine Endpunkt beim Hoster des Kunden — drei PHP-Dateien, kein Fremddienst, keine Datenbank, keine laufenden Kosten. Im HTML wird eine änderbare Stelle zwischen zwei Markierungen gesetzt; der Pflegebereich zeigt sie dem Kunden als beschriftetes Formularfeld und schreibt den neuen Text an dieselbe Stelle zurück. Das HTML drumherum bekommt er nie zu sehen. Wird die Telefonnummer geändert, wird der anklickbare Verweis mitgezogen.", BL]]));
 add(p([["Dieselbe Entscheidung löst das Kontaktformular, weil es dieselbe Sorte Datei ist: Die Anfrage geht direkt in das Postfach des Betriebs. Kein Formulardienst, kein weiterer AV-Vertrag, kein weiterer Anbieter in der Datenschutzerklärung. Gegen Spam zwei unsichtbare Fallen statt eines Captchas. Damit ist Prüfpunkt 6 auf unseren eigenen Seiten erfüllbar.", BL]]));
-add(p([["Was das verschiebt: Der Betreuungsumfang von bis zu zwei Änderungen im Monat verliert an Gewicht, weil Öffnungszeiten, Telefonnummer, Stellenanzeige und Hinweise der Kunde selbst ändert. Das Abhängigkeitsargument im Verkauf wird stärker. Die Anforderung an das Hosting wächst um einen Punkt: Es muss PHP können. Alle üblichen Tarife können das.", BL]]));
 add(p([["Bilder gehen genauso: eine Markierung vor dem Bild, und der Kunde tauscht es selbst aus. Was er hochlädt, wird geprüft und automatisch auf 1600 Pixel verkleinert — aus einem Telefon kommen 4000 Pixel und mehrere Megabyte, und ungefragt hochgeladen macht das eine schnelle Seite langsam. Das ist Prüfpunkt 4, mit dem wir selbst argumentieren.", BL]]));
 add(p([["Wo die Grenze liegt und bleibt: Text und Bilder an markierten Stellen, mehr nicht. Keine neuen Seiten, kein Verschieben von Blöcken, kein Layout. Wer das will, will einen Baukasten, und dann sind Wix und Jimdo billiger als wir. Der Satz für das Verkaufsgespräch: Alles, was sich bei Ihnen ändert, ändern Sie selbst — alles, was gestaltet werden muss, machen wir.", BL]]));
 add(p([["Geprüft: Felder lesen, Speichern ohne Veränderung des umgebenden HTML, Sicherung vor jedem Speichern, Nachziehen des Telefonverweises, Bildaustausch samt Verkleinerung, Abweisung einer als Bild getarnten Datei, Anmeldung mit falschem und richtigem Passwort, beide Spamfallen. Nicht geprüft: der tatsächliche Mailversand — das geht erst auf echtem Hosting und ist der erste Test beim Pilotprojekt.", R]]));
@@ -293,8 +288,8 @@ add(liste([
   [["TTL nach 48 Stunden ohne Auffälligkeiten wieder anheben.", BL]],
 ]));
 add(p([["Rückweg: Solange die alte Seite beim alten Anbieter noch liegt und die notierten DNS-Einträge vorliegen, ist der Stand von vorher in Minuten wiederhergestellt. Den alten Tarif deshalb frühestens einen Monat nach dem Umzug kündigen — das kostet den Kunden einmalig 15 bis 30 € und ist die günstigste Versicherung im ganzen Projekt.", BL]]));
-add(h("Übergabe an den Kunden — das Produkt ohne Betreuung", 3, BL));
-add(p([["Die Betreuung ist ein Zusatz, kein Bestandteil. Wer sie nicht will, bekommt trotzdem ein vollständiges, funktionierendes und ihm gehörendes Produkt. Das muss so sein: Ein Produkt, das ohne Abo nicht funktioniert, ist ein Abo.", BL]]));
+add(h("Übergabe an den Kunden", 3, BL));
+add(p([["Der Kunde bekommt ein vollstaendiges, funktionierendes und ihm gehoerendes Produkt. Es gibt nichts, was er zusaetzlich buchen muss, damit es laeuft.", BL]]));
 add(p([["Die Übergabemappe — immer dieselben neun Punkte, immer schriftlich:", BL]]));
 add(liste([
   "Die Website live auf seiner Domain, auf seinem Hostingvertrag, auf seinen Namen.",
@@ -307,7 +302,7 @@ add(liste([
   "Die Übergabeliste: was er selbst erledigen muss — Google-Unternehmensprofil, alte Einträge, Visitenkarten.",
   "Schriftlich die Nutzungsrechte (§ 31 UrhG) und die Schlussrechnung. Er ist Eigentümer und kann jederzeit gehen.",
 ], BL));
-add(p([["Was ohne Betreuung nicht passiert: ", BL, true], ["Niemand prüft monatlich, ob die Seite erreichbar ist und das Zertifikat noch gilt. Statisch geht nichts kaputt, aber ein abgelaufenes Zertifikat zeigt jedem Besucher eine Sicherheitswarnung — genau Prüfpunkt 2, mit dem wir verkaufen. Ohne Betreuung merkt es der Betrieb erst, wenn ein Kunde anruft. Und jede Änderung, die über den Pflegebereich hinausgeht, kostet 70 €/h, mindestens eine halbe Stunde. Beides gehört ins Angebot, nicht ins Kleingedruckte.", BL]]));
+add(p([["Was danach niemand fuer ihn tut: ", BL, true], ["Niemand prüft monatlich, ob die Seite erreichbar ist und das Zertifikat noch gilt. Statisch geht nichts kaputt, aber ein abgelaufenes Zertifikat zeigt jedem Besucher eine Sicherheitswarnung — genau Prüfpunkt 2, mit dem wir verkaufen. Der Betrieb merkt es erst, wenn ein Kunde anruft. Deshalb steht es auf dem Übergabeblatt. Und jede Änderung, die über den Pflegebereich hinausgeht, kostet 70 €/h, mindestens eine halbe Stunde. Beides gehört ins Angebot, nicht ins Kleingedruckte.", BL]]));
 
 add(h("Was der Kunde selbst verwaltet — und was er dafür anfassen muss", 3, BL));
 add(p([["Für ihn gibt es drei Stellen, und das ist die ganze Aufteilung. Wer das im Vorgespräch so erklärt, nimmt dem Thema die Größe.", BL]]));
@@ -319,7 +314,7 @@ add(tabelle(["Stelle", "Wofür", "Wie oft"], [
 add(abstand());
 add(p([["Seine gesamte Verwaltungsarbeit sind drei Dinge: Zahlungsdaten beim Hoster aktuell halten, die Jahresrechnung nicht wegwerfen, und nichts kündigen, ohne vorher anzurufen. Mehr nicht.", BL]]));
 add(p([["Der eine Satz, der in jedes Übergabegespräch gehört: ", BL, true], ["An der Domain hängt nicht nur die Website, sondern auch das Geschäfts-E-Mail-Postfach. Geht eine Zahlung nicht durch, ist beides weg — und wir bekommen davon nichts mit, weil die Rechnung an ihn geht, nicht an uns. Das ist kein Kleingedrucktes, das ist der teuerste Fehler, den ein Betrieb hier machen kann.", BL]]));
-add(p([["Unser Zugang ist geliehen, nicht besessen. Mit Betreuungsvertrag haben wir Zugang zu Hosting und Domainverwaltung, nie zu den E-Mail-Postfächern. Er kann uns den Zugang jederzeit entziehen; die Website läuft weiter. Genau das ist im Verkauf das Argument gegen das Baukasten-Abo: Sie sind an keinem Tag von uns abhängig.", BL]]));
+add(p([["Unser Zugang ist geliehen, nicht besessen. Waehrend des Projekts haben wir Zugang zu Hosting und Domainverwaltung, nie zu den E-Mail-Postfaechern, und nach der Uebergabe gar nicht mehr. Er kann uns den Zugang jederzeit entziehen; die Website läuft weiter. Genau das ist im Verkauf das Argument gegen das Baukasten-Abo: Sie sind an keinem Tag von uns abhängig.", BL]]));
 add(p([["Die Vorlage für das Blatt, das er dazu bekommt, liegt im Repository unter studie/pflege/kundenblatt.md — eine Seite, drei Stellen, seine Zugangsdaten, unsere Telefonnummer.", BL]]));
 
 add(h("WordPress und Baukästen: warum wir da nicht hineinliefern", 3, BL));
@@ -343,12 +338,11 @@ add(liste([
 add(p([["Bisher hieß es „besteht den vollständigen Prüfkatalog ohne einen einzigen Befund“. Das war nicht erfüllbar, weil drei Punkte am Kunden hängen — und es hätte auch den ersten Kundenkontakt blockiert. Kein Punkt fällt weg, sie sind nur zugeordnet.", BL]], { kursiv: true, klein: true }));
 
 add(h("7.3 Ablauf", 2));
-add(p([["Betrieb geprüft → Check und Designentwurf erstellt → persönlich übergeben → Nachfassanruf nach drei Werktagen → Vorgespräch mit Zieldefinition → Angebot und 40 % Anzahlung → Bau → maximal zwei Anpassungsrunden → ", S], ["Abnahme", BL, true], [" → Livegang auf Kundendomain → ", S], ["Übergabe", BL, true], [" → Schlussrechnung → Betreuung anbieten.", S]]));
+add(p([["Betrieb geprüft → Check und Designentwurf erstellt → persönlich übergeben → Nachfassanruf nach drei Werktagen → Vorgespräch mit Zieldefinition → Angebot und 40 % Anzahlung → Bau → maximal zwei Anpassungsrunden → ", S], ["Abnahme", BL, true], [" → Livegang auf Kundendomain → ", S], ["Übergabe", BL, true], [" → Schlussrechnung.", S]]));
 
 /* ---- 8 Betrieb ------------------------------------------------------- */
 add(h("8 · Betrieb nach Livegang", 1));
 add(liste([
-  [["In der Betreuung enthalten (69 €/Monat): ", S, true], ["Betreuung von Domain und Hosting beim Anbieter des Kunden, monatliches Backup, monatliche Erreichbarkeits- und Zertifikatsprüfung, ", S], ["bis zu zwei Inhaltsänderungen im Monat", BL, true], [", Reaktion auf Störungsmeldungen innerhalb eines Werktages.", BL]],
   [["Was eine Änderung ist: ", BL, true], ["eine zusammenhängende Anpassung an bestehenden Inhalten — ein Text, ein Bildtausch, Öffnungszeiten, eine Stellenanzeige —, Aufwand bis 30 Minuten. Nicht übertragbar: Zwei nicht genutzte Änderungen im Januar sind im Februar nicht vier.", BL]],
   [["Nicht enthalten: ", S, true], ["neue Seiten, Umbauten, Funktionserweiterungen, SEO-Betreuung, Textarbeit über den Änderungsumfang hinaus — 70 €/h nach schriftlicher Freigabe.", S]],
   [["Kündigung: ", S, true], ["zwölf Monate Mindestlaufzeit, danach monatlich zum Monatsende. Bei Kündigung übergeben wir Repository und Dateien.", S]],
@@ -463,22 +457,15 @@ add(abstand());
 add(p([["Die Konversionsannahmen (20 % Vorgespräch, 5–10 % Abschluss) sind ungeprüft und durch keine Quelle gedeckt. Sie stehen hier, um die Größenordnung sichtbar zu machen — nicht als Planung.", R], ], { kursiv: true, klein: true }));
 add(liste([
   "Der Check-Aufwand ist der entscheidende Hebel, nicht der Verkaufspreis. Von zwei Stunden auf 45 Minuten zu kommen verdoppelt den effektiven Stundensatz.",
-  "Das Neugeschäft trägt sich im ersten Jahr nicht als Stundenlohn. Es finanziert den Aufbau von Vorlage, Referenzen und Betreuungsbestand.",
-  [["Der Betreuungsbestand ist das eigentliche Geschäft — aber weit entfernt, siehe 10.4.", BL]],
+  "Das Neugeschäft trägt sich im ersten Jahr nicht als Stundenlohn. Es finanziert den Aufbau von Vorlage und Referenzen.",
 ]));
 
-add(h("10.4 Wann der Betreuungsbestand trägt", 2, BL));
-add(p([["20 Betreuungskunden zu 69 € sind 1.380 € im Monat oder 16.560 € im Jahr, bei rund 0 € laufenden Kosten — der Kunde zahlt sein Hosting selbst.", BL]]));
-add(p([["Der Arbeitsaufwand ist mit dem neuen Änderungsumfang deutlich höher als bisher angesetzt. Zwei Änderungen im Monat zu je bis zu 30 Minuten sind im Vollausschöpfungsfall zwölf Stunden im Jahr je Kunde, realistisch eher sechs bis acht. Bei 20 Kunden und sieben Stunden sind das 140 Stunden — rechnerisch rund 118 € je Stunde. Das trägt bequem, aber es ist nicht mehr das Nebenbei-Geschäft der Vorfassung.", BL]]));
-add(tabelle(
-  ["Annahme", "Verträge/Jahr", "bis 20 Kunden"],
-  [
-    [[["Rate aus Abschnitt 11 fortgeschrieben (1 je 90 Tage)", BL]], [["4", BL]], [["5 Jahre", R]]],
-    [[["Bestfall: jeder gewonnene Kunde nimmt Betreuung", BL]], [["8", BL]], [["2,5 Jahre", BL]]],
-  ],
-  [4800, 2100, 2100]));
+add(h("10.4 Kein wiederkehrender Umsatz", 2, R));
+add(p([["Entschieden am 22.08.2026: Es gibt keine Betreuung. Damit gibt es auch keinen Bestand, der monatlich traegt. Jeder Monat faengt bei null an, und der Umsatz haengt vollstaendig daran, dass neue Auftraege hereinkommen.", R]]));
+add(p([["Der Grund ist ein Produktargument, kein kaufmaennisches: Der Pflegebereich nimmt dem Kunden genau die Arbeit ab, fuer die eine Betreuung sonst bezahlt wird. Ein Vertrag, der zwei Inhaltsaenderungen im Monat verkauft, waere neben einem Bereich, in dem der Kunde sie selbst in zwei Minuten macht, schwer zu begruenden. Und die Zusage \u201eNach dem Projekt sind wir raus\u201c vertraegt keinen Dauervertrag.", BL]]));
+add(p([["Was das kostet: Die vorige Fassung rechnete mit 20 Betreuungskunden zu 69 €, also 16.560 € im Jahr bei nahezu keinen laufenden Kosten. Dieser Betrag entfaellt ersatzlos. Er war ohnehin fruehestens im dritten Jahr erreichbar; die Planung der ersten beiden Jahre aendert sich dadurch nicht.", BL]]));
+add(p([["Was an seine Stelle tritt: Aenderungen ueber den Pflegebereich hinaus werden nach Aufwand berechnet, 70 €/h, mindestens eine halbe Stunde. Das ist kein Ersatz fuer wiederkehrenden Umsatz, sondern Gelegenheitsarbeit. Wer den Ausfall auffangen will, muss mehr Neugeschaeft machen, nicht anders abrechnen.", BL]]));
 add(abstand());
-add(p([["Der Teil, der das Modell tragen soll, trägt frühestens im dritten Jahr. Das ändert nichts an seiner Richtigkeit, aber alles an der Planung der ersten beiden. Eine Kündigungsquote ist dabei noch gar nicht angesetzt.", BL]]));
 
 add(h("10.5 Rücklagen", 2));
 add(p([["30 % jeder Einnahme als Steuerrücklage auf ein separates Konto. Als Kleinunternehmer fällt keine Umsatzsteuer an — Einkommensteuer fällt trotzdem an, und Gewerbesteuer ab 24.500 € Gewerbeertrag der Gesellschaft.", S]]));
@@ -496,7 +483,6 @@ add(tabelle(
     ["Live-Seiten", [["3", BL]], "Betriebsliste"],
     ["Projekte mit erfasster Ist-Zeit", "3", "Zeitprotokoll"],
     ["Zeit je Check", "unter 45 Min. ab Check 20", "Zeitprotokoll"],
-    ["Betreuungsverträge", [["2", BL]], "Verträge"],
   ],
   [3400, 2800, 2800]));
 add(abstand());
@@ -509,7 +495,7 @@ add(p([["Geändert: Die strengste Schwelle lag bei 60 Checks — bei einem 90-Ta
 /* ---- 12 Rollen -------------------------------------------------------- */
 add(h("12 · Rollen, Kapazität, Rechtsform", 1));
 add(liste([
-  "Yannik: Vertrieb, Erstkontakt, Vorgespräch, Angebot. Kira: Produktion, Technik, Betreuung.",
+  "Yannik: Vertrieb, Erstkontakt, Vorgespräch, Angebot. Kira: Produktion, Technik, Übergabe.",
   [["Der Check trägt Yanniks Namen und Yanniks E-Mail-Adresse.", BL]],
 ]));
 add(p([["Offen — beide, vor Tag 1: Verfügbare Stunden je Woche, feste Tage und Uhrzeiten, schriftlich. Ohne diese Zahl ist Abschnitt 10 nicht rechenbar und Abschnitt 11 nicht planbar. Das ist der wichtigste offene Punkt des Dokuments.", R]]));
@@ -534,7 +520,6 @@ add(liste([
   "Art. 14 DSGVO — Informationspflicht bei Daten aus öffentlichen Quellen. Gelöst durch die Beilage zum Check.",
   [["Art. 21 DSGVO — jeder Widerspruch führt in die Sperrliste und wird vor jedem Versand abgeglichen.", BL]],
   "Art. 30 DSGVO — Verzeichnis von Verarbeitungstätigkeiten ist Pflicht. Die Ausnahme für kleine Unternehmen greift bei regelmäßiger Verarbeitung nicht.",
-  "Art. 28 DSGVO — mit jedem Betreuungskunden ein Auftragsverarbeitungsvertrag, einschließlich Nennung aller Unterauftragsverarbeiter.",
   [["Claude / Anthropic: Sobald Kundendaten in Claude Code eingegeben werden, ist Anthropic Auftragsverarbeiter. Das erfordert einen Vertrag nach Art. 28, die Nennung im AVV mit dem Kunden und die Aufnahme ins Verarbeitungsverzeichnis. Alternative: konsequente Anonymisierung. Voraussetzung für das erste Projekt.", R]],
 ]));
 add(h("Löschfristen", 3, BL));
@@ -588,7 +573,7 @@ add(tabelle(
     [[["Vorlauf, Wochen −6 bis 0", BL]], [["Gesellschaftsvertrag · zwei Gewerbeanmeldungen · Domain und geschäftliche E-Mail · eigene Website · Vermögensschadenhaftpflicht · Entscheidung Formulardienst und Selbstbedienung · Vertrags- und Angebotsvorlage geprüft · Check-Vorlage mit Absenderangaben und Art.-14-Hinweis · Betriebsliste mit Sperrlisten-Spalte und Zeitprotokoll · verfügbare Wochenstunden schriftlich · Kapitalbedarf und Lebensunterhalt geklärt", BL]]],
     ["Tag 1–30", [["20 Checks übergeben (vier Touren) · erste Vorgespräche · Ist-Zeit je Check gemessen · alle drei Pilotkunden beauftragt, Bau von Projekt 1 begonnen", BL]]],
     ["Tag 30–60", [["Projekt 1 live und abgenommen · Projekte 2 und 3 im Bau, versetzt gestartet · Zeitprotokoll für Projekt 1 ausgewertet und in Projekt 2 übernommen · weitere 20 Checks", BL]]],
-    ["Tag 60–90", "drei Pilotprojekte live und abgenommen · Produktionsvorlage abgeleitet · Referenzunterlagen vollständig · Prüfpunkte 1–5 und 11–13 automatisiert · zwei Betreuungsverträge · Konzept gegen die Messwerte überarbeitet"],
+    ["Tag 60–90", "drei Pilotprojekte live und abgenommen · Produktionsvorlage abgeleitet · Referenzunterlagen vollständig · Prüfpunkte 1–5 und 11–13 automatisiert · Konzept gegen die Messwerte überarbeitet"],
   ],
   [2200, 6800]));
 
@@ -654,7 +639,6 @@ add(p([["Jede Zeile hat Verantwortlichen und Frist — ohne beides gehört sie n
 const c = [
   [[["Ladungsfähige Anschrift festlegen und eintragen", R, true]], "beide", [["sofort", R]]],
   [[["Entscheiden, welche Telefonnummer gilt", R]], "beide", [["sofort", R]]],
-  [[["Klären: Betreuung 69 € oder 59 €", R]], "beide", [["sofort", R]]],
   [[["Termin mit der Rechtsberatung in der Familie — mit festem Datum", BL]], "beide", [["Woche 1", BL]]],
   ["Schriftlicher GbR-Gesellschaftsvertrag, inkl. Kundenverträge bei Ausscheiden", "beide", "Vorlauf"],
   ["Gewerbeanmeldung je Gesellschafter", "beide", "Vorlauf"],
@@ -669,7 +653,6 @@ const c = [
   ["Formulardienst mit EU-Serverstandort und AV-Vertrag auswählen", "Kira", "Vorlauf"],
   [[["Claude-Tarif prüfen: Vertrag nach Art. 28 DSGVO vorhanden?", R]], "Kira", [["vor erstem Pilotprojekt", R]]],
   ["Verzeichnis von Verarbeitungstätigkeiten anlegen (Art. 30)", "Kira", "Vorlauf"],
-  ["AVV-Vorlage für Betreuungskunden erstellen (Art. 28)", "Kira", "vor erstem Betreuungsvertrag"],
   [[["Vertrag und AGB vorformulieren und prüfen lassen — inkl. Abnahme mit Rügefrist, Eskalation, Mahnwesen, Rechte an übernommenen Texten", BL]], "Yannik", "Vorlauf"],
   [[["§ 7 UWG und die DSGVO-Kette bis Anthropic an eine Fachstelle geben, falls die Familienberatung dort nicht zu Hause ist", BL]], "Yannik", [["vor Tag 1", BL]]],
   ["Art.-14-Datenschutzhinweis als Beilage formulieren", "Yannik", "Vorlauf"],

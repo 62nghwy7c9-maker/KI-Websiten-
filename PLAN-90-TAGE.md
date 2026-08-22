@@ -74,7 +74,7 @@ Kein vierter Strang. Wenn etwas hinzukommt, muss etwas anderes weichen.
 |---|---|---|---|---|
 | **B8** | **Eine Anzahlung ist eingegangen.** Das ist der Meilenstein, an dem sich alles entscheidet. | — | B7 | **Bis Ende Woche 9 keine Anzahlung → zurück zu B4 mit geänderter Branche oder geändertem Preis, nicht mit mehr Checks derselben Art** |
 | **B9** | **Erste bezahlte Website ausgeliefert und live**, zwei Anpassungsrunden, Schlussrechnung gestellt. | 20–25 h | B8 | Dritte Anpassungsrunde → wird berechnet, nicht geschenkt |
-| **B10** | **Betreuungsvertrag angeboten** — bei Übergabe, mündlich, ohne Kampagne. | 0,5 h | B9 | — |
+| **B10** | **Übergabegespräch geführt** — Anleitung durchgegangen, Passwort vom Kunden gesetzt. | 0,5 h | B9 | — |
 | **B11** | **Weitere 20 Checks**, parallel zur Auslieferung. Der Trichter darf nicht leerlaufen, während gebaut wird. | 20–30 h | B4 ausgewertet | — |
 | **A3** | **Arbeitsprobenseite:** drei Projekte, jedes ehrlich beschriftet — live/Konzept, mit oder ohne Erlaubnis. Erst jetzt, weil vorher nichts Echtes drauf steht. | 5–8 h | B9 | — |
 | **C5** | **Gewerbeanmeldung**, falls die Steuerberatung sie bestätigt und die Geschäftsfähigkeitsfrage geklärt ist. | 2 h | C3, Prüfauftrag 1 | Geschäftsfähigkeit ungeklärt → Anmeldung verschieben, nicht umgehen |

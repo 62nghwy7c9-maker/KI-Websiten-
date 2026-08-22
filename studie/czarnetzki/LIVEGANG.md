@@ -180,8 +180,7 @@ Erst wenn Abschnitt 4 und 5 abgehakt sind:
 4. **Google-Unternehmensprofil** ansprechen. Das ist Prüfpunkt 14 aus dem
    Check und Sache des Betriebs, aber sagen Sie es ihm, statt es
    wegzulassen.
-5. **Sagen, dass wir raus sind.** Ohne Betreuungsvertrag endet unsere
-   Arbeit hier. Er kann anrufen, aber er zahlt dann nach Aufwand. Das muss
+5. **Sagen, dass wir raus sind.** Mit der Übergabe endet unsere Arbeit. Er kann anrufen, aber er zahlt dann nach Aufwand. Das muss
    klar gesagt sein, sonst steht die Erwartung im Raum.
 
 ---
