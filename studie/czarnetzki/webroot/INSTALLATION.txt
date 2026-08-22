@@ -27,7 +27,9 @@ Keine Installation, keine Datenbank, kein Baukasten.
    Aendern koennen Sie es selbst: im Pflegebereich ganz unten unter
    "Passwort aendern". Mindestens acht Zeichen. Das Passwort steht danach
    nirgends im Klartext auf dem Server, nur als unumkehrbarer Zahlenwert
-   in pflege/passwort.txt.
+   in pflege/passwort.php. Diese Datei schuetzt sich selbst: Ruft sie
+   jemand von aussen auf, antwortet sie mit 404 und gibt nichts heraus.
+   Das gilt auf jedem Server, auch wo .htaccess nicht ausgewertet wird.
 
    Aendern Sie es, sobald jemand geht, der es kannte.
 

@@ -185,6 +185,19 @@
     "qualifiziert": {
       "type": "boolean"
     },
+    "lieferbar": {
+      "type": "string",
+      "enum": [
+        "moeglich",
+        "tarifwechsel_noetig",
+        "unklar"
+      ],
+      "description": "Kann unser Paket auf das Hosting des Betriebs? Kein Pruefpunkt, sondern die Frage vor dem Angebot."
+    },
+    "lieferbar_grund": {
+      "type": "string",
+      "description": "Begruendung in einem Satz. Nur fuer die Akte, nie auf dem Check."
+    },
     "auswahl_fuer_check": {
       "type": "array",
       "maxItems": 4,

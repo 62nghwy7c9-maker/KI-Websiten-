@@ -97,6 +97,11 @@ class Pruefbericht:
     messung: list[Messwert] = field(default_factory=list)
     befunde: list[Befund] = field(default_factory=list)
     qualifiziert: bool = False
+    lieferbar: str = "unklar"
+    """Kann unser Paket auf dieses Hosting? 'moeglich', 'tarifwechsel_noetig',
+    'unklar'. Kein Prüfpunkt, sondern die Frage vor dem Angebot."""
+    lieferbar_grund: str = ""
+    """In einem Satz, warum. Steht nie auf dem Check, nur in der Akte."""
     auswahl_fuer_check: list[int] = field(default_factory=list)
     hinweise: list[str] = field(default_factory=list)
     """Was nicht gemessen werden konnte und warum. Wird nie verschwiegen."""
@@ -122,6 +127,8 @@ class Pruefbericht:
             messung=[Messwert(**m) for m in d.get("messung", [])],
             befunde=[Befund(**b) for b in d.get("befunde", [])],
             qualifiziert=d.get("qualifiziert", False),
+            lieferbar=d.get("lieferbar", "unklar"),
+            lieferbar_grund=d.get("lieferbar_grund", ""),
             auswahl_fuer_check=d.get("auswahl_fuer_check", []),
             hinweise=d.get("hinweise", []),
         )

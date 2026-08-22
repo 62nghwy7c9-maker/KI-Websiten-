@@ -213,3 +213,60 @@ def test_schema_verbietet_kostensatz_ohne_beleg():
     }
     with pytest.raises(jsonschema.ValidationError):
         jsonschema.validate(bericht, schema)
+
+
+# ── Lieferbarkeit ────────────────────────────────────────────────────────────
+# Alle Faelle stammen aus der Messung vom 22.08.2026 an 20 Handwerksbetrieben
+# im Rhein-Erft-Kreis. Keiner ist erfunden.
+
+def test_baukasten_hinter_eigener_domain_wird_erkannt():
+    """Pruefpunkt 13 sieht nur die Adresse und uebersieht genau diesen Fall.
+
+    marx-bedachungen.de und holzwerker-bruehl.de haben eine eigene Domain und
+    sitzen trotzdem bei Jimdo. Ohne diese Pruefung faellt das erst beim
+    Ausliefern auf.
+    """
+    from pipeline.messung import _lieferbarkeit
+    from pipeline import katalog as K
+
+    urteil, grund = _lieferbarkeit(
+        '<meta name="generator" content="Jimdo Creator">', {"server": "cloudflare"})
+    assert urteil == K.LIEFERBAR_TARIFWECHSEL
+    assert "jimdo" in grund.lower()
+
+    urteil, _ = _lieferbarkeit(
+        '<meta name="generator" content="Wix.com Website Builder">', {})
+    assert urteil == K.LIEFERBAR_TARIFWECHSEL
+
+
+def test_wordpress_gilt_als_lieferbar():
+    """Wer WordPress hat, hat zwingend PHP. Acht der zwanzig Betriebe."""
+    from pipeline.messung import _lieferbarkeit
+    from pipeline import katalog as K
+
+    urteil, grund = _lieferbarkeit(
+        '<link href="/wp-content/themes/x/style.css">',
+        {"server": "Apache", "x-powered-by": "PHP/8.1.34"})
+    assert urteil == K.LIEFERBAR_MOEGLICH
+    assert "php" in grund.lower()
+
+
+def test_nginx_wird_im_grund_vermerkt():
+    """Fuenf der zwanzig laufen auf nginx. Dort greift .htaccess nicht."""
+    from pipeline.messung import _lieferbarkeit
+    from pipeline import katalog as K
+
+    urteil, grund = _lieferbarkeit('<link href="/wp-content/x.css">',
+                                   {"server": "nginx"})
+    assert urteil == K.LIEFERBAR_MOEGLICH
+    assert "nginx" in grund and "htaccess" in grund
+
+
+def test_ohne_hinweis_bleibt_es_unklar():
+    """Nichts erfinden: Was nicht erkennbar ist, wird nachgefragt."""
+    from pipeline.messung import _lieferbarkeit
+    from pipeline import katalog as K
+
+    urteil, grund = _lieferbarkeit("<html><body>Hallo</body></html>", {})
+    assert urteil == K.LIEFERBAR_UNKLAR
+    assert "fragen" in grund.lower()

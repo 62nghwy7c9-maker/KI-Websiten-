@@ -102,8 +102,9 @@ sein muss.
 - [ ] **22. Der dritte wichtige Punkt.** Die Adresse `/pflege/inhalt.php`
   direkt eintippen. Es **muss** eine Fehlermeldung kommen. Erscheint dort
   Text, ist eine Schutzeinstellung nicht aktiv.
-- [ ] **23.** Dasselbe mit `/pflege/sicherungen/`. Auch hier muss ein
-  Fehler kommen, keine Dateiliste.
+- [ ] **23.** Dasselbe mit `/pflege/sicherungen/` und mit
+  `/pflege/passwort.php`. Beide müssen einen Fehler liefern, keine
+  Dateiliste und keinen Text.
 
 Erst wenn 11 bis 23 stimmen, geht es weiter.
 

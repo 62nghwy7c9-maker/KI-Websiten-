@@ -35,7 +35,22 @@ define('SEITEN', getenv('WG_PFLEGE_SEITEN') ?: dirname(__DIR__));
 const SICHERUNG = __DIR__ . '/sicherungen';
 
 /** Hier liegt das Passwort, wenn der Betrieb es selbst geaendert hat. */
-const PASSWORTDATEI = __DIR__ . '/passwort.txt';
+const PASSWORTDATEI = __DIR__ . '/passwort.php';
+/** Alte Ablage aus frueheren Auslieferungen, wird beim ersten Mal uebernommen. */
+const PASSWORTDATEI_ALT = __DIR__ . '/passwort.txt';
+
+/**
+ * Riegel am Anfang jeder Datei, die niemand von aussen lesen darf.
+ *
+ * Bisher hing dieser Schutz allein an der .htaccess. Die wertet nur Apache
+ * aus. Bei einem Viertel der geprueften Handwerksbetriebe laeuft aber nginx,
+ * und dort waere die Datei offen im Netz gestanden. Mit diesem Vorspann ist
+ * es gleichgueltig, welcher Server davorsteht: Ruft ihn jemand direkt auf,
+ * fuehrt der Server die erste Zeile aus und bricht ab, bevor irgendetwas
+ * ausgegeben wird. Wir selbst lesen die Datei als Datei und schneiden den
+ * Vorspann ab.
+ */
+const RIEGEL = "<?php http_response_code(404); exit; ?>\n";
 
 /** Felder, die nicht leer bleiben duerfen. */
 const PFLICHT = ['telefon', 'mail'];
@@ -112,10 +127,8 @@ function felder_schreiben(string $datei, array $neu): array
         }
     }
 
-    if (!is_dir(SICHERUNG)) {
-        @mkdir(SICHERUNG, 0775, true);
-    }
-    @file_put_contents(sicherung_name($datei), $html);
+    sicherungsordner();
+    verriegelt_schreiben(sicherung_name($datei), $html);
     sicherungen_aufraeumen($datei);
 
     $geaendert = 0;
@@ -218,13 +231,33 @@ function rawurlencode_erhalten(string $wert): string
  * Hash, das Passwort selbst steht nirgends auf dem Server.
  */
 
+/** Schreibt Inhalt hinter den Riegel. Gibt zurueck, ob es geklappt hat. */
+function verriegelt_schreiben(string $pfad, string $inhalt): bool
+{
+    return @file_put_contents($pfad, RIEGEL . $inhalt) !== false;
+}
+
+/** Liest Inhalt hinter dem Riegel. false, wenn die Datei nicht lesbar ist. */
+function verriegelt_lesen(string $pfad): string|false
+{
+    $roh = @file_get_contents($pfad);
+    if ($roh === false) {
+        return false;
+    }
+    // Jeden Riegel abschneiden, nicht nur den aktuellen. Sonst waeren
+    // Staende aus einer aelteren Fassung nach einem Update unbrauchbar.
+    return preg_replace('/^<\?php[^?]*\?>\R/', '', $roh, 1) ?? $roh;
+}
+
 /** Liefert den geltenden Hash: eigene Datei vor eingebautem Wert. */
 function passwort_hash(string $eingebaut): string
 {
-    if (is_file(PASSWORTDATEI)) {
-        $eigen = trim((string) file_get_contents(PASSWORTDATEI));
-        if ($eigen !== '') {
-            return $eigen;
+    foreach ([PASSWORTDATEI, PASSWORTDATEI_ALT] as $ablage) {
+        if (is_file($ablage)) {
+            $eigen = trim((string) verriegelt_lesen($ablage));
+            if ($eigen !== '') {
+                return $eigen;
+            }
         }
     }
     return $eingebaut;
@@ -248,11 +281,15 @@ function passwort_setzen(string $alt, string $neu, string $wiederholung,
         return [false, 'Die beiden neuen Passwörter sind nicht gleich.'];
     }
     $hash = password_hash($neu, PASSWORD_DEFAULT);
-    if (@file_put_contents(PASSWORTDATEI, $hash . "\n") === false) {
+    if (!verriegelt_schreiben(PASSWORTDATEI, $hash . "\n")) {
         return [false, 'Das Passwort konnte nicht gespeichert werden. '
             . 'Bitte melden Sie sich bei uns.'];
     }
     @chmod(PASSWORTDATEI, 0640);
+    // Die alte, ungeschuetzte Ablage darf danach nicht liegen bleiben.
+    if (is_file(PASSWORTDATEI_ALT)) {
+        @unlink(PASSWORTDATEI_ALT);
+    }
     return [true, 'Passwort geändert. Beim nächsten Anmelden gilt das neue.'];
 }
 
@@ -273,7 +310,7 @@ function sicherungen_liste(string $datei): array
     if (!in_array($datei, DATEIEN, true)) {
         return [];
     }
-    $liste = glob(SICHERUNG . "/*_{$datei}") ?: [];
+    $liste = glob(SICHERUNG . "/*_{$datei}.php") ?: [];
     // Neueste zuerst. Sortiert wird nach Zeit und Zaehlnummer, nicht nach
     // dem Namen: Alphabetisch stuende "..._14-43-35-1_seite" vor
     // "..._14-43-35_seite", waere aber der neuere Stand.
@@ -310,7 +347,7 @@ function sicherung_zurueckholen(string $datei, string $stand): array
     // Der Zaehler (-1, -2 ...) haengt an Staenden aus derselben Sekunde.
     // Ohne ihn im Muster waeren genau die nicht zurueckzuholen.
     if (!preg_match('/^[0-9]{4}-[0-9]{2}-[0-9]{2}_[0-9]{2}-[0-9]{2}-[0-9]{2}(-[0-9]{1,3})?_'
-        . preg_quote($datei, '/') . '$/', $stand)) {
+        . preg_quote($datei, '/') . '\.php$/', $stand)) {
         return [false, 'Unbekannter Stand.'];
     }
     $quelle = SICHERUNG . '/' . $stand;
@@ -321,13 +358,13 @@ function sicherung_zurueckholen(string $datei, string $stand): array
     // Erst den zurueckzuholenden Inhalt lesen, dann sichern, dann schreiben.
     // In dieser Reihenfolge kann die Sicherheitskopie ihn nicht mehr
     // zerstoeren, selbst wenn beim Ablegen etwas schiefgeht.
-    $alter = @file_get_contents($quelle);
+    $alter = verriegelt_lesen($quelle);
     if ($alter === false) {
         return [false, 'Diesen Stand konnte ich nicht lesen.'];
     }
     $jetzt = @file_get_contents($ziel);
     if ($jetzt !== false) {
-        @file_put_contents(sicherung_name($datei), $jetzt);
+        verriegelt_schreiben(sicherung_name($datei), $jetzt);
     }
     if (@file_put_contents($ziel, $alter) === false) {
         return [false, 'Der Stand konnte nicht zurückgeholt werden.'];
@@ -357,6 +394,23 @@ function sicherung_schluessel(string $pfad): array
 }
 
 /**
+ * Legt den Sicherungsordner an und verschliesst ihn.
+ *
+ * Die index.php verhindert, dass ein Server den Ordnerinhalt auflistet,
+ * auch wenn er die .htaccess nicht auswertet.
+ */
+function sicherungsordner(): void
+{
+    if (!is_dir(SICHERUNG)) {
+        @mkdir(SICHERUNG, 0775, true);
+    }
+    $wache = SICHERUNG . '/index.php';
+    if (!is_file($wache)) {
+        @file_put_contents($wache, "<?php http_response_code(404); exit;\n");
+    }
+}
+
+/**
  * Ein freier Dateiname für eine Sicherung.
  *
  * Der Zeitstempel hat Sekunden. Zwei Sicherungen in derselben Sekunde
@@ -368,10 +422,13 @@ function sicherung_schluessel(string $pfad): array
 function sicherung_name(string $datei): string
 {
     $stempel = date('Y-m-d_H-i-s');
-    $pfad = SICHERUNG . "/{$stempel}_{$datei}";
+    // Die Endung .php sorgt dafuer, dass der Server die Datei ausfuehrt
+    // statt sie herauszugeben. Zusammen mit dem Riegel am Dateianfang
+    // kommt dabei nichts heraus.
+    $pfad = SICHERUNG . "/{$stempel}_{$datei}.php";
     $nr = 1;
     while (file_exists($pfad)) {
-        $pfad = SICHERUNG . "/{$stempel}-{$nr}_{$datei}";
+        $pfad = SICHERUNG . "/{$stempel}-{$nr}_{$datei}.php";
         $nr++;
     }
     return $pfad;
@@ -380,7 +437,7 @@ function sicherung_name(string $datei): string
 /** Behält die letzten 20 Sicherungen je Datei. */
 function sicherungen_aufraeumen(string $datei, int $behalten = 20): void
 {
-    $liste = glob(SICHERUNG . "/*_{$datei}") ?: [];
+    $liste = glob(SICHERUNG . "/*_{$datei}.php") ?: [];
     // Aelteste zuerst, nach derselben Ordnung wie in der Anzeige. Sonst
     // wuerde beim Aufraeumen der falsche Stand weggeworfen.
     usort($liste, static fn($a, $b) => sicherung_schluessel($a) <=> sicherung_schluessel($b));
@@ -572,10 +629,11 @@ function bild_schreiben(string $datei, string $name, array $datei_feld): array
 
     // Altes Bild sichern, bevor es überschrieben wird.
     if (is_file($ziel)) {
-        if (!is_dir(SICHERUNG)) {
-            @mkdir(SICHERUNG, 0775, true);
+        sicherungsordner();
+        $roh = @file_get_contents($ziel);
+        if ($roh !== false) {
+            verriegelt_schreiben(sicherung_name(basename($ziel)), $roh);
         }
-        @copy($ziel, sicherung_name(basename($ziel)));
     }
 
     if (!bild_ablegen($datei_feld['tmp_name'], $ziel, $info)) {
@@ -646,7 +704,10 @@ function zaehlnummer_erhoehen(string $datei, string $name): array
     if ($neu === null || $anzahl === 0) {
         return [true, 'Bild gespeichert.'];
     }
-    @copy($pfad, sicherung_name($datei));
+    $roh = @file_get_contents($pfad);
+    if ($roh !== false) {
+        verriegelt_schreiben(sicherung_name($datei), $roh);
+    }
     file_put_contents($pfad, $neu);
     sicherungen_aufraeumen($datei);
     return [true, 'Bild gespeichert.'];

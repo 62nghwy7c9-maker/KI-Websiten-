@@ -18,7 +18,7 @@ require __DIR__ . '/inhalt.php';
  * einmalig mit:  php -r "echo password_hash('IhrPasswort', PASSWORD_DEFAULT);"
  * Im Klartext steht das Passwort nirgends — auch nicht bei uns.
  */
-/* Reihenfolge: passwort.txt im Ordner (das aendert der Betrieb selbst),
+/* Reihenfolge: passwort.php im Ordner (das aendert der Betrieb selbst),
  * dann WG_PFLEGE_HASH, dann dieser eingebaute Wert. In dieser Datei steht
  * nie etwas Kundenspezifisches -- sonst geht es beim naechsten Kopieren
  * der Vorlage verloren. Genau das ist am 21.08. passiert. */

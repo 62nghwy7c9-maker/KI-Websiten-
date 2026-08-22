@@ -106,6 +106,9 @@ class Abruf:
         self.html = ""
         self.dauer_ms = 0
         self.fehler = ""
+        self.kopfzeilen: dict[str, str] = {}
+        """Antwortkopfzeilen, klein geschrieben. Fuer die Lieferbarkeit
+        gebraucht: server und x-powered-by verraten, worauf die Seite laeuft."""
 
     @property
     def erreichbar(self) -> bool:
@@ -158,12 +161,17 @@ def _einmal_holen(url: str, timeout: int) -> Abruf:
                              timeout=timeout) as r:
             a.status = r.status
             a.endgueltige_url = r.geturl()
+            a.kopfzeilen = {k.lower(): v for k, v in r.headers.items()}
             roh = r.read(3_000_000)
             zeichensatz = r.headers.get_content_charset() or "utf-8"
             a.html = roh.decode(zeichensatz, errors="replace")
     except HTTPError as e:
         a.status = e.code
         a.endgueltige_url = e.url or url
+        try:
+            a.kopfzeilen = {k.lower(): v for k, v in e.headers.items()}
+        except Exception:
+            pass
         try:
             a.html = e.read(1_000_000).decode("utf-8", errors="replace")
         except Exception:
@@ -344,6 +352,44 @@ def _platzhalter_funde(text: str, muster: tuple[str, ...]) -> list[str]:
 
 
 # ── Stufe 1 ──────────────────────────────────────────────────────────────────
+
+def _lieferbarkeit(html: str, kopfzeilen: dict[str, str]) -> tuple[str, str]:
+    """Kann unser Paket auf dieses Hosting? Gibt (Urteil, Begruendung) zurueck.
+
+    Kein Pruefpunkt. Der Betrieb hat keinen Mangel, wenn er bei Jimdo sitzt.
+    Wir koennen dort nur nicht liefern, und das muss vor dem Angebot feststehen
+    statt am Tag der Uebergabe.
+    """
+    heu = (html[:400_000] + " " + " ".join(f"{k}: {v}" for k, v in kopfzeilen.items())).lower()
+
+    for muster in K.BAUKASTEN_SIGNATUREN:
+        if muster in heu:
+            name = muster.split()[0].strip("-x")
+            return (K.LIEFERBAR_TARIFWECHSEL,
+                    f"Die Seite laeuft auf einem Baukasten ({name}). "
+                    "Dort lassen sich keine eigenen Dateien hochladen. "
+                    "Ohne Tarifwechsel ist unser Paket nicht lieferbar.")
+
+    server = kopfzeilen.get("server", "").lower()
+    php_beleg = [h for h in K.PHP_HINWEISE if h in heu]
+    ohne_htaccess = [s for s in K.SERVER_OHNE_HTACCESS if s in server]
+
+    if php_beleg:
+        grund = f"PHP belegt ({', '.join(php_beleg[:3])})."
+        if ohne_htaccess:
+            grund += (f" Server ist {ohne_htaccess[0]}, wertet .htaccess nicht aus: "
+                      "Sperren nach dem Hochladen von Hand nachsehen.")
+        return K.LIEFERBAR_MOEGLICH, grund
+
+    if server and not ohne_htaccess:
+        return (K.LIEFERBAR_MOEGLICH,
+                f"Kein Baukasten erkannt, Server {server}. PHP nicht belegt, "
+                "aber bei diesem Server ueblich. Im Vorgespraech bestaetigen lassen.")
+
+    return (K.LIEFERBAR_UNKLAR,
+            "Weder Baukasten noch PHP erkennbar. Vor dem Angebot fragen, "
+            "welchen Hosting-Tarif der Betrieb hat.")
+
 
 def messen(kandidat: Kandidat, lcp_ms: int | None = None) -> Pruefbericht:
     """Misst alle automatischen Prüfpunkte gegen die Website des Kandidaten.
@@ -673,6 +719,16 @@ def messen(kandidat: Kandidat, lcp_ms: int | None = None) -> Pruefbericht:
         bericht.hinweise.append(
             "Speisekarte ansehen: echter Text, oder Foto/PDF? Wenn Bild oder PDF, "
             "kann Google keine Gerichte lesen — das ist ein starker Befund.")
+
+    # Lieferbarkeit: kein Pruefpunkt, sondern die Frage vor dem Angebot.
+    bericht.lieferbar, bericht.lieferbar_grund = _lieferbarkeit(
+        abruf.html, abruf.kopfzeilen)
+    if bericht.lieferbar == K.LIEFERBAR_TARIFWECHSEL:
+        bericht.hinweise.append(
+            "Vor dem Angebot klaeren: " + bericht.lieferbar_grund)
+    elif bericht.lieferbar == K.LIEFERBAR_UNKLAR:
+        bericht.hinweise.append(
+            "Hosting unklar: " + bericht.lieferbar_grund)
 
     # 14 Google-Profil: bewusst manuell, kein offener API-Zugang für fremde Betriebe
     m(Messwert(14, "Google-Unternehmensprofil", "manuell zu prüfen",

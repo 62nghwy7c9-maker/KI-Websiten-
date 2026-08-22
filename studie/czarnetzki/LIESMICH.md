@@ -54,8 +54,8 @@ Offen bleibt Prüfpunkt 14 (Google-Unternehmensprofil) — das gehört auf die
 1. **Inhalt von `webroot/` hochladen.** Fertig — es ist nichts einzustellen.
 2. **`INSTALLATION.txt` löschen.**
 3. **Passwort ändern.** Ausgeliefert wird `Heerstrasse15A`. Gespeichert ist
-   davon nur ein unumkehrbarer Zahlenwert in `pflege/passwort.txt`, den die
-   `.htaccess` von außen sperrt. Geändert wird es im Pflegebereich selbst,
+   davon nur ein unumkehrbarer Zahlenwert in `pflege/passwort.php`. Die Datei
+   sperrt sich selbst und braucht dafür keine `.htaccess`. Geändert wird es im Pflegebereich selbst,
    ganz unten unter „Passwort ändern" (mindestens acht Zeichen). Es ist
    nichts an Dateien zu bearbeiten, und nichts Kundenspezifisches steht in
    den Programmdateien.

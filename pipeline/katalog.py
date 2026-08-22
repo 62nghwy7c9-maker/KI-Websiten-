@@ -51,6 +51,49 @@ BAUKASTEN_HOSTS = (
     "vercel.app", "github.io", "site123.me", "ionos.space", "1and1-editor.",
 )
 
+# ── Lieferbarkeit ────────────────────────────────────────────────────────────
+# Kein Prüfpunkt: Das ist kein Mangel der fremden Seite, sondern die Frage, ob
+# unser Paket auf deren Hosting überhaupt laufen kann. Sie gehört vor das
+# Angebot, nicht auf den Check.
+#
+# Gemessen am 22.08.2026 an 20 Handwerksbetrieben im Rhein-Erft-Kreis:
+# 17 könnten PHP, 3 sitzen auf einem Baukasten, 5 laufen auf nginx.
+# Daraus die drei Regeln unten.
+
+BAUKASTEN_SIGNATUREN = (
+    "wix.com website builder", "wixstatic", "x-wix-",
+    "jimdo", "jimstatic",
+    "squarespace", "webflow", "weebly", "shopify",
+    "site123", "webnode", "strikingly", "mywebsite", "ionos-space",
+    "framer", "beepworld", "npage",
+)
+"""Erkennt einen Baukasten **hinter einer eigenen Domain**.
+
+Prüfpunkt 13 sieht nur die Adresse. Ein Betrieb kann aber eine eigene Domain
+haben und trotzdem bei Jimdo sitzen — genau so gemessen bei zwei der zwanzig
+Betriebe. Dort erkennt Punkt 13 nichts, und der Umstand fiele erst beim
+Ausliefern auf. Gesucht wird deshalb im Seitenquelltext und in den
+Antwortkopfzeilen, nicht im Hostnamen.
+"""
+
+SERVER_OHNE_HTACCESS = ("nginx", "caddy", "lighttpd", "cloudflare")
+"""Server, die .htaccess nicht auswerten.
+
+Der Pflegebereich schützt sich seit dem 22.08.2026 selbst und hängt nicht mehr
+daran. Für die Übergabe bleibt es trotzdem wichtig: Bei diesen Servern muss
+Punkt 12 der Prüfliste (inhalt.php und sicherungen von außen aufrufen) von Hand
+nachgesehen werden, statt sich auf die Datei zu verlassen.
+"""
+
+PHP_HINWEISE = ("php", "wordpress", "wp-content", "plesk", "typo3", "joomla",
+                "contao", "drupal", "shopware")
+"""Belegt, dass auf dem Hosting PHP läuft. WordPress ist der stärkste Hinweis:
+Wer WordPress hat, hat zwingend PHP."""
+
+LIEFERBAR_MOEGLICH = "moeglich"
+LIEFERBAR_TARIFWECHSEL = "tarifwechsel_noetig"
+LIEFERBAR_UNKLAR = "unklar"
+
 # Hinweise auf unbearbeiteten Vorlagentext (Prüfpunkt 15).
 ALT_AB_JAHREN = 3
 """Ab diesem Abstand zur juengsten Jahreszahl gilt eine Seite als veraltet.
