@@ -5,7 +5,7 @@
  *
  * Warum überhaupt eine Datei dafür: Eine statische Website ist nur Text auf
  * einer Festplatte. Sie kann nichts entgegennehmen. Damit ein Formular
- * funktioniert, braucht es ein Programm, das den Knopfdruck verarbeitet —
+ * funktioniert, braucht es ein Programm, das den Knopfdruck verarbeitet,
  * das ist diese Datei.
  *
  * Warum kein fertiger Dienst: Jeder Formulardienst bekäme die Anfragen der
@@ -14,7 +14,9 @@
  * die niemand braucht. Diese Datei liegt beim Kunden, die Daten gehen direkt
  * in sein Postfach, und niemand sonst sieht sie.
  *
- * Kein Speichern, keine Datenbank, kein Protokoll mit Inhalten.
+ * Keine Datenbank und kein externer Dienst. Jede Anfrage geht per Mail
+ * hinaus und wird zusätzlich auf dem Server abgelegt, damit sie nicht
+ * verlorengeht, wenn der Mailversand ausfällt.
  */
 
 declare(strict_types=1);
@@ -56,7 +58,7 @@ function zurueck(string $ziel): never
     exit;
 }
 
-/** Entfernt Zeilenumbrüche — sonst ließen sich Mail-Kopfzeilen einschleusen. */
+/** Entfernt Zeilenumbrüche, sonst ließen sich Mail-Kopfzeilen einschleusen. */
 function eine_zeile(string $s): string
 {
     return trim((string) preg_replace('/[\r\n]+/', ' ', $s));
@@ -65,10 +67,93 @@ function eine_zeile(string $s): string
 /** Hängt eine Anfrage an die Ablage an. Beim ersten Mal legt sie die Datei
  *  mit dem Riegel davor an. LOCK_EX, damit zwei gleichzeitige Anfragen
  *  sich nicht ins Gehege kommen. */
+/** Sperre fuer jeden Zugriff auf die Ablage. */
+const ABLAGE_SPERRE = __DIR__ . '/anfragen.lock';
+
+/** Nebendatei beim Neuschreiben. Traegt denselben Riegel wie die Ablage. */
+const ABLAGE_NEU = __DIR__ . '/anfragen-neu.php';
+
+/** Hoechstens so viele Anfragen bleiben in der Ablage stehen. */
+const ABLAGE_HOECHSTENS = 200;
+
+/** Trennzeile zwischen zwei Anfragen. */
+const ABLAGE_TRENNER = '============================================================';
+
+/**
+ * Legt eine Anfrage ab und haelt die Datei dabei in Grenzen.
+ *
+ * Jeder Zugriff auf die Ablage laeuft ueber dieselbe Sperrdatei: das
+ * Anhaengen hier, das Kuerzen hier, das Loeschen im Pflegebereich. Wer die
+ * Datei neu schreibt, wuerde sonst eine Anfrage verlieren, die genau in
+ * diesem Moment eintrifft. Die Sperre auf der Ablage selbst reicht dafuer
+ * nicht: Beim Neuschreiben wird die Datei ersetzt, und wer noch auf der
+ * alten haengt, schreibt ins Leere.
+ */
 function ablegen(string $eintrag): bool
 {
-    $vorspann = is_file(ABLAGE) ? '' : RIEGEL;
-    return @file_put_contents(ABLAGE, $vorspann . $eintrag, FILE_APPEND | LOCK_EX) !== false;
+    $sperre = @fopen(ABLAGE_SPERRE, 'c');
+    if ($sperre === false) {
+        // Ohne Sperre lieber anhaengen als die Anfrage verlieren.
+        return @file_put_contents(ABLAGE, (is_file(ABLAGE) ? '' : RIEGEL) . $eintrag,
+            FILE_APPEND | LOCK_EX) !== false;
+    }
+    @flock($sperre, LOCK_EX);
+    $ok = @file_put_contents(ABLAGE, (is_file(ABLAGE) ? '' : RIEGEL) . $eintrag,
+        FILE_APPEND) !== false;
+    if ($ok) {
+        ablage_kuerzen(ABLAGE_HOECHSTENS);
+    }
+    @flock($sperre, LOCK_UN);
+    @fclose($sperre);
+    return $ok;
+}
+
+/**
+ * Wirft die aeltesten Anfragen weg, wenn es zu viele werden.
+ *
+ * Wird nur mit gehaltener Sperre aufgerufen. Ohne Obergrenze waechst die
+ * Datei unbegrenzt, und irgendwann laedt der Pflegebereich sie bei jedem
+ * Aufruf komplett in den Speicher.
+ */
+function ablage_kuerzen(int $behalten): void
+{
+    $roh = @file_get_contents(ABLAGE);
+    if ($roh === false || $roh === '') {
+        return;
+    }
+    $teile = preg_split('/^={10,}[ \t]*\r?$/m', $roh) ?: [];
+    array_shift($teile);                       // Riegel und alles davor
+    $teile = array_values(array_filter($teile, static fn($t) => trim($t) !== ''));
+    if (count($teile) <= $behalten) {
+        return;
+    }
+    $inhalt = RIEGEL;
+    foreach (array_slice($teile, -$behalten) as $t) {
+        $inhalt .= ABLAGE_TRENNER . $t;
+    }
+    ablage_schreiben($inhalt);
+}
+
+/**
+ * Schreibt die Ablage neu, ohne sie unterwegs zu zerstoeren.
+ *
+ * Erst vollstaendig in eine Nebendatei, dann umbenennen. Das Umbenennen
+ * ist auf demselben Dateisystem unteilbar: Entweder steht die alte Datei
+ * da oder die neue, nie eine halbe. Bricht der Server mittendrin ab, ist
+ * die Ablage unversehrt und nur die Nebendatei liegt herum.
+ *
+ * Wird nur mit gehaltener Sperre aufgerufen.
+ */
+function ablage_schreiben(string $inhalt): bool
+{
+    if (@file_put_contents(ABLAGE_NEU, $inhalt) === false) {
+        return false;
+    }
+    if (!@rename(ABLAGE_NEU, ABLAGE)) {
+        @unlink(ABLAGE_NEU);
+        return false;
+    }
+    return true;
 }
 
 if (($_SERVER['REQUEST_METHOD'] ?? '') !== 'POST') {
@@ -80,12 +165,12 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') !== 'POST') {
  *
  * 1. Ein Feld namens "website", das im Formular versteckt ist. Menschen
  *    sehen es nicht und füllen es nicht aus. Automatische Programme füllen
- *    stumpf alles aus — wer hier etwas einträgt, ist keiner.
+ *    stumpf alles aus, wer hier etwas einträgt, ist keiner.
  * 2. Die Zeit. Ein Mensch braucht mindestens ein paar Sekunden zum Tippen.
  *    Wer in unter drei Sekunden absendet, hat nicht getippt.
  *
  * Das ersetzt ein Captcha und verlangt dem Kunden nichts ab. Ein Meister,
- * der Verkehrsschilder anklicken muss, ruft nicht an — er geht weg.
+ * der Verkehrsschilder anklicken muss, ruft nicht an, er geht weg.
  */
 if (!empty($_POST['website'])) {
     zurueck(ZURUECK);            // still schlucken, kein Hinweis für den Absender
@@ -125,8 +210,8 @@ if ($mail === '' && $tel === '') {
 $betreff = 'Anfrage über die Website';
 $inhalt = "Neue Anfrage über die Website von " . BETRIEB . "\n\n"
     . "Name:      {$name}\n"
-    . "E-Mail:    " . ($mail !== '' ? $mail : '—') . "\n"
-    . "Telefon:   " . ($tel !== '' ? $tel : '—') . "\n"
+    . "E-Mail:    " . ($mail !== '' ? $mail : '-') . "\n"
+    . "Telefon:   " . ($tel !== '' ? $tel : '-') . "\n"
     . "Eingang:   " . date('d.m.Y, H:i') . " Uhr\n\n"
     . "Nachricht:\n{$text}\n";
 
@@ -135,7 +220,7 @@ $kopf = [
     'Content-Type: text/plain; charset=UTF-8',
     'X-Mailer: PHP',
 ];
-// Antworten geht direkt an den Absender — der Betrieb drückt einfach
+// Antworten geht direkt an den Absender, der Betrieb drückt einfach
 // „Antworten" und muss die Adresse nicht heraussuchen.
 if ($mail !== '') {
     $kopf[] = 'Reply-To: ' . $mail;

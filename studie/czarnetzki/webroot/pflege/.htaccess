@@ -8,7 +8,7 @@ RedirectMatch 404 /pflege/sicherungen/
 # Adressen und Telefonnummern. Nichts davon darf von aussen abrufbar sein.
 # Diese Sperre gilt zusaetzlich: Diese Dateien schuetzen sich auch selbst,
 # damit der Schutz nicht davon abhaengt, ob der Server .htaccess auswertet.
-<FilesMatch "^(inhalt\.php|passwort\.php|passwort\.txt|anfragen\.php)$">
+<FilesMatch "^(inhalt\.php|passwort\.php|passwort\.txt|anfragen\.php|anfragen-neu\.php|anfragen\.lock)$">
   Require all denied
 </FilesMatch>
 

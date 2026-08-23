@@ -3,7 +3,8 @@
 Für Peter Czarnetzki Elektroinstallationen · Stand 21.08.2026
 
 Der Entwurf ist fertig gebaut und läuft. Bevor er auf Ihre Adresse gehen
-kann, brauchen wir von Ihnen sechs Antworten. Alles andere ist erledigt.
+kann, brauchen wir von Ihnen Antworten auf sechs Punkte. Alles andere ist
+erledigt.
 
 ---
 
@@ -60,6 +61,21 @@ Das können alle üblichen Anbieter.
 
 Ihr Anbieter: ______________________________
 ☐ Zugang liegt vor   ☐ wir richten es gemeinsam ein
+
+**Haben Sie mit diesem Anbieter einen Auftragsverarbeitungsvertrag
+geschlossen?** Das ist ein Vertrag über den Umgang mit den Daten Ihrer
+Kunden. Viele Anbieter stellen ihn im Kundenmenü zum Abschließen bereit.
+
+☐ ja   ☐ nein   ☐ weiß ich nicht
+
+**Wie lange bewahrt Ihr Anbieter die Server-Protokolle auf?** Steht meist
+in dessen Datenschutzhinweisen, oft sieben oder dreißig Tage.
+
+☐ ______ Tage   ☐ weiß ich nicht
+
+Solange diese beiden Antworten fehlen, steht in Ihrer
+Datenschutzerklärung keine Frist und keine Zusage dazu. Wir tragen lieber
+nichts ein als etwas Falsches.
 
 ---
 
