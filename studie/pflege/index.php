@@ -25,11 +25,19 @@ require __DIR__ . '/inhalt.php';
  * Im Klartext steht das Passwort nirgends — auch nicht bei uns.
  */
 /* Reihenfolge: passwort.php im Ordner (das aendert der Betrieb selbst),
- * dann WG_PFLEGE_HASH, dann dieser eingebaute Wert. In dieser Datei steht
- * nie etwas Kundenspezifisches -- sonst geht es beim naechsten Kopieren
- * der Vorlage verloren. Genau das ist am 21.08. passiert. */
-$PASSWORT_HASH = getenv('WG_PFLEGE_HASH')
-    ?: '$2y$12$h4R2JvM2UlDA4HtrSNSG3.M2vh4gg4f2g8mMbZXUjOG30sjbbwkG2'; // "muster"
+ * dann WG_PFLEGE_HASH. Danach nichts mehr.
+ *
+ * Hier stand frueher ein eingebautes Passwort als letzte Rueckfallebene.
+ * Das war eine Tuer: Fehlte passwort.php, weil sie beim Hochladen
+ * uebersprungen, geloescht oder beim Kopieren der Vorlage vergessen
+ * wurde, kam jeder mit dem eingebauten Wort herein, und im Anmeldefenster
+ * stand kein Wort davon. Der Wert steht ausserdem im Quelltext jedes
+ * ausgelieferten Pakets.
+ *
+ * Jetzt gilt: Ist kein Passwort hinterlegt, ist der Bereich zu. Ausgesperrt
+ * ist der richtige Fehlerfall, offen ist der falsche. In dieser Datei steht
+ * weiterhin nie etwas Kundenspezifisches. */
+$PASSWORT_HASH = (string) getenv('WG_PFLEGE_HASH');
 
 /* Acht Stunden statt der ueblichen 24 Minuten. Wer einen Text tippt,
  * telefoniert zwischendurch und kommt zurueck: Seine Eingabe soll nicht
@@ -46,7 +54,16 @@ if (isset($_GET['abmelden'])) {
     exit;
 }
 
-if (!empty($_POST['passwort'])) {
+/* Ohne hinterlegtes Passwort bleibt der Bereich zu, und zwar sichtbar.
+   Ein stiller Fehlschlag waere hier das Gefaehrliche. */
+$hash_vorhanden = passwort_hash($PASSWORT_HASH) !== '';
+if (!$hash_vorhanden) {
+    $meldung = 'Für diesen Bereich ist kein Passwort hinterlegt. '
+        . 'Die Datei pflege/passwort.php fehlt. Bitte melden Sie sich bei uns, '
+        . 'bis dahin bleibt der Bereich gesperrt.';
+}
+
+if ($hash_vorhanden && !empty($_POST['passwort'])) {
     // Kurze Bremse gegen Durchprobieren. Eine Sekunde fällt einem Menschen
     // nicht auf und macht Rateversuche unbrauchbar.
     usleep(700000);

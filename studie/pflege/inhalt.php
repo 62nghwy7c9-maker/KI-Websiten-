@@ -277,7 +277,11 @@ function passwort_hash(string $eingebaut): string
 function passwort_setzen(string $alt, string $neu, string $wiederholung,
                          string $eingebaut): array
 {
-    if (!password_verify($alt, passwort_hash($eingebaut))) {
+    $geltend = passwort_hash($eingebaut);
+    if ($geltend === '') {
+        return [false, 'Es ist kein Passwort hinterlegt. Bitte melden Sie sich bei uns.'];
+    }
+    if (!password_verify($alt, $geltend)) {
         return [false, 'Das bisherige Passwort stimmt nicht.'];
     }
     if (mb_strlen($neu) < 8) {
