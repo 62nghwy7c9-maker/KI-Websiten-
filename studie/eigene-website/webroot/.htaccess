@@ -1,0 +1,14 @@
+# Die Ablage der Anfragen enthaelt Namen, Adressen und Telefonnummern von
+# Menschen, die uns geschrieben haben. Nichts davon darf von aussen
+# abrufbar sein.
+#
+# Diese Sperre gilt zusaetzlich: Die Dateien schuetzen sich auch selbst mit
+# einem Riegel in der ersten Zeile, damit der Schutz nicht davon abhaengt,
+# ob der Server .htaccess ueberhaupt auswertet. Bei personenbezogenen Daten
+# will man beide Schloesser.
+<FilesMatch "^(anfragen\.php|anfragen-neu\.php|anfragen\.lock)$">
+  Require all denied
+</FilesMatch>
+
+# Kein Verzeichnislisting.
+Options -Indexes
