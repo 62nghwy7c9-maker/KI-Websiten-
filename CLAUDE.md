@@ -29,7 +29,9 @@ Du bist mein Engineering-Partner für eine KI-Websiteagentur. Wir gewinnen klein
 
 **In Scope (diese Pipeline):** Kandidat einlesen → Website messen → Befund → Check-Artefakt → Anschreiben-Entwurf → Freigabe-Gate.
 
-**Out of Scope (bleibt manuell):** Vorstellungsgespräch, Vertrag, Beratung, Website-Produktion. Nicht bauen.
+**Out of Scope (bleibt manuell):** Vorstellungsgespräch, Vertrag, Beratung.
+
+**Nachgetragen:** Die Website-Produktion war ursprünglich ausgeschlossen. Sie ist seit dem ersten Kunden Teil des Systems und steht als Phase C in Abschnitt 3. Der Ablauf dazu liegt im Skill `kundenweg`.
 
 **Mockup** ist **nicht** Teil der Erstmail, sondern eine separate, nachgelagerte Stufe für *interessierte* Leads (Phase B, Abschnitt 7). Begründung: das Mockup ist teuer (Handarbeit) und rechtlich heikel (fremdes Logo/Farben) — es gehört nicht in den massenhaften Kaltversand, sondern ins Gespräch nach erkennbarem Interesse.
 
@@ -55,6 +57,32 @@ Stufe 4  Anschreiben          → Mail-Entwurf, verweist auf den Check, ein CTA
 ```
 Reply → Mockup (Handarbeit, rechtlich gegated) → Vorbereitung Vorstellungsgespräch
 ```
+
+**Phase C — pro zugesagtem Kunden, bis zur eigenen Domain:**
+
+```
+Stufe 5  Anlegen        → studie/<name>/stammdaten.json + ERHEBUNG.md
+                          aus der Messung vorbefüllt, aber als *Vermutung*
+Stufe 6  Erheben        → der Betrieb bestätigt jede Angabe selbst
+         ── GATE: was er nicht bestätigt hat, kommt nicht auf die Seite ──
+Stufe 7  Texten         → studie/<name>/texte.md, die Prosa
+Stufe 8  Bauen          → webroot/ + vier Papiere, vollständig erzeugt
+Stufe 9  Prüfstand      → 20 Invarianten, u. a. Datenschutztext gegen Code
+Stufe 10 Packen         → zwei ZIPs, neues Passwort (erscheint genau einmal)
+         ── GATE: Freigabeblatt unterschrieben ──
+Stufe 11 Hosting, Vorschau, Domain, Übergabe
+```
+
+Ein Befehl beantwortet jederzeit, wo jeder Kunde steht:
+
+```
+python -m pipeline kunde stand
+```
+
+Der Zustand wird **abgelesen, nicht geführt**: es gibt keine Datei, in der
+„freigegeben: ja" steht. Nur zwei Tatsachen lassen sich nicht ablesen, weil
+sie außerhalb des Rechners passieren — die Zusage und die Unterschrift. Die
+stehen mit Datum in `verlauf`.
 
 Jede Stufe hat: **Eingang** (definiertes Format), **Ausgabe-Artefakt** (fixes Format), **Gate** (was geprüft wird, bevor es weitergeht).
 

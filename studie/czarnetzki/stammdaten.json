@@ -1,0 +1,47 @@
+{
+  "kurzname": "czarnetzki",
+  "quelle": "kunden/bergheim_peter-czarnetzki-elektroinstallationen_pcelektro.de",
+  "farbe": "",
+  "bestaetigt": {
+    "firma": "Peter Czarnetzki Elektroinstallationen",
+    "inhaber": "Peter Czarnetzki",
+    "strasse": "Heerstraße 15A",
+    "plz": "50126",
+    "ort": "Bergheim",
+    "telefon": "02271 45550",
+    "mail": "info@pcelektro.de",
+    "domain": "pcelektro.de",
+    "gewerk": "Elektro",
+    "untertitel": "Elektrotechnik und mehr · Bergheim",
+    "einzugsgebiet": "Bergheim und der Rhein-Erft-Kreis",
+    "aufsichtsbehoerde": "der Landesbeauftragten für Datenschutz und Informationsfreiheit Nordrhein-Westfalen",
+    "fax": "02271 45551",
+    "ustid": "DE 121889124",
+    "handelsregister": "Amtsgericht Köln, HRA 17586",
+    "handwerkskammer": "Handwerkskammer zu Köln, Nummer 0691654",
+    "ihk": "Industrie- und Handelskammer zu Köln, Nummer 0000229483",
+    "berufsbezeichnung": "Elektrotechnikerhandwerk",
+    "kammer_aufsicht": "Handwerkskammer zu Köln",
+    "kammer_link": "www.hwk-koeln.de",
+    "rechtsform": "",
+    "mitarbeiter": "8",
+    "oeffnungszeiten": "Mo-Do 7:00-17:30, Fr 7:00-15:30 Uhr",
+    "einsatzzeiten": "Nachts & am Wochenende",
+    "anfahrt": "A61 · B477",
+    "gegruendet": "",
+    "hinweis": "",
+    "stellenanzeige": "",
+    "hoster": "",
+    "avv": "",
+    "protokolldauer": ""
+  },
+  "vermutet": {},
+  "bilder": {
+    "betrieb": {
+      "datei": "betrieb.jpg",
+      "alt": "Platzhalterbild für ein Foto aus dem Betrieb",
+      "titel": "Platzhalter. Dieses Bild tauschen Sie selbst im Pflegebereich aus."
+    }
+  },
+  "verlauf": {"zugesagt_am": "", "freigabe_am": "", "live_seit": ""}
+}

@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{titel}}</title>
+{{#beschreibung}}<meta name="description" content="{{beschreibung}}">
+{{/beschreibung}}{{#nicht_indexieren}}<meta name="robots" content="noindex">
+{{/nicht_indexieren}}<link rel="stylesheet" href="stil.css">
+</head>
+<body>
+
+<header class="kopf">
+  <div class="bahn kopf-oben">
+    <div class="firmenname">{{firma}}
+      <span>{{untertitel}}</span></div>
+    <a class="ruf" href="tel:{{telefon_wahl}}">Anrufen: <!--wg:telefon-->{{telefon}}<!--/wg--></a>
+  </div>
+  <div class="bahn kopf-nav">
+    <nav>{{&nav}}</nav>
+  </div>
+</header>

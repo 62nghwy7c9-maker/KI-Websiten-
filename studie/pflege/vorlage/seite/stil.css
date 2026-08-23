@@ -1,0 +1,233 @@
+/* Stil der Kundenseite.
+ *
+ * Richtung: technisch und praezise, schmale sachliche Grotesk, eckige
+ * Kanten, ein tiefes Blau als Hausfarbe. Kein Farbverlauf, keine runden
+ * Karten mit Schlagschatten, keine Stockfotos.
+ *
+ * Alle Farben stehen als Variablen auf :root (helle Fassung). Die dunkle
+ * Fassung ueberschreibt nur die Variablen, einmal fuer die
+ * Systemeinstellung, einmal fuer eine ausdrueckliche Wahl.
+ *
+ * Diese Datei ist fuer alle Kunden gleich. Eine eigene Hausfarbe kommt
+ * unten als Block dazu, und nur dann, wenn alle drei Toene festgelegt
+ * sind. Zwei Toene aus einem dritten auszurechnen erzeugt Kontraste, die
+ * niemand geprueft hat.
+ */
+
+:root{
+  --blau:#1F3A5F;          /* Hausfarbe, aus dem Logo abgeleitet */
+  --blau-tief:#152840;
+  --blau-hell:#2E5385;
+  --signal:#C8102E;        /* nur für Notfall und Warnung, sonst nie */
+  --grund:#FFFFFF;
+  --flaeche:#F4F6F9;
+  --basis:#111821;
+  --text:#39444F;
+  --gedaempft:#6A7683;
+  --linie:#DCE2E9;
+  --linie-stark:#C2CBD6;
+  --sans:"Helvetica Neue",Arial,"Liberation Sans",system-ui,sans-serif;
+  --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+  --bahn:68rem;
+}
+
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --blau:#7FA8DA; --blau-tief:#0E1720; --blau-hell:#A6C4E8;
+    --signal:#FF7A6B;
+    --grund:#0E1720; --flaeche:#16212D; --basis:#EDF1F6; --text:#BFC9D4;
+    --gedaempft:#8A97A5; --linie:#243244; --linie-stark:#33455C;
+  }
+}
+:root[data-theme="dark"]{
+  --blau:#7FA8DA; --blau-tief:#0E1720; --blau-hell:#A6C4E8;
+  --signal:#FF7A6B;
+  --grund:#0E1720; --flaeche:#16212D; --basis:#EDF1F6; --text:#BFC9D4;
+  --gedaempft:#8A97A5; --linie:#243244; --linie-stark:#33455C;
+}
+
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;background:var(--grund);color:var(--text);
+  font:16px/1.6 var(--sans);
+  -webkit-font-smoothing:antialiased;
+}
+.bahn{max-width:var(--bahn);margin:0 auto;padding:0 clamp(1.1rem,4vw,2.5rem)}
+
+h1,h2,h3{color:var(--basis);line-height:1.12;margin:0;
+ letter-spacing:-.015em;font-weight:700;text-wrap:balance;
+ overflow-wrap:break-word;hyphens:auto}
+/* Lange deutsche Wörter wie „Datenschutzerklärung" passen auf einem
+   320-Pixel-Gerät sonst nicht in die Zeile. */
+h1{font-size:clamp(1.8rem,5.2vw,3.1rem)}
+h2{font-size:clamp(1.35rem,3vw,1.85rem)}
+h3{font-size:1.05rem}
+p{margin:0 0 .9rem;max-width:64ch}
+a{color:var(--blau)}
+a:hover{color:var(--blau-hell)}
+:focus-visible{outline:3px solid var(--blau);outline-offset:2px}
+img{max-width:100%;height:auto;display:block}
+
+.marke{font-family:var(--mono);font-size:11px;letter-spacing:.18em;
+ text-transform:uppercase;color:var(--gedaempft);
+ display:flex;align-items:flex-start;gap:.65rem;margin:0 0 1rem}
+/* Der Strich sitzt auf der ersten Zeile, auch wenn der Text umbricht. */
+.marke::before{content:"";width:28px;height:2px;background:var(--blau);
+ flex:none;margin-top:.62em}
+
+/* ---- Kopf ---------------------------------------------------------- */
+header.kopf{background:var(--blau-tief);color:#DCE6F2;
+ border-bottom:3px solid var(--blau)}
+.kopf-oben{display:flex;flex-wrap:wrap;gap:.85rem 2rem;
+ align-items:center;justify-content:space-between;padding-block:1.1rem}
+.kopf-nav{border-top:1px solid #2C4467;padding-block:.7rem}
+.firmenname{font-weight:700;font-size:1.05rem;color:#fff;letter-spacing:-.01em}
+.firmenname span{display:block;font-weight:400;font-size:.8rem;
+ color:#9DB4D0;letter-spacing:.04em}
+.kopf nav{display:flex;flex-wrap:wrap;gap:.3rem 1.6rem;font-size:.95rem}
+.kopf nav a{color:#C7D6E8;text-decoration:none}
+.kopf nav a:hover{color:#fff;text-decoration:underline}
+.ruf{display:inline-flex;align-items:center;gap:.5rem;background:#fff;
+ color:var(--blau-tief);font-weight:700;text-decoration:none;
+ padding:.55rem 1rem;border-radius:2px;white-space:nowrap}
+.ruf:hover{background:#DCE6F2;color:var(--blau-tief)}
+
+/* ---- Aufmacher ----------------------------------------------------- */
+.aufmacher{background:var(--blau-tief);color:#D7E2F0;padding:clamp(3rem,8vw,5.5rem) 0 clamp(2.5rem,6vw,4rem)}
+.aufmacher h1{color:#fff;max-width:20ch}
+.aufmacher .unterzeile{font-size:clamp(1.05rem,2.2vw,1.25rem);
+ color:#A8C0DC;margin:1.1rem 0 0;max-width:52ch}
+.aufmacher .marke{color:#7E9AC0}
+.aufmacher .marke::before{background:#7E9AC0}
+.knopfreihe{display:flex;flex-wrap:wrap;gap:.75rem;margin-top:2rem}
+.knopf{display:inline-block;padding:.8rem 1.5rem;border-radius:2px;
+ font-weight:700;text-decoration:none;border:2px solid transparent}
+.knopf.voll{background:#fff;color:var(--blau-tief)}
+.knopf.voll:hover{background:#DCE6F2;color:var(--blau-tief)}
+.knopf.leer{border-color:#5A7CA6;color:#D7E2F0}
+.knopf.leer:hover{border-color:#fff;color:#fff}
+/* Auf den weissen Seiten (Danke, Impressum) steht derselbe Knopf auf
+   hellem Grund und braeuchte sonst eine Farbe im style-Attribut. */
+.recht .knopf.voll{background:var(--blau);color:var(--grund)}
+.recht .knopf.voll:hover{background:var(--blau-hell)}
+
+/* ---- Kennzahlenband ------------------------------------------------ */
+.band{background:var(--flaeche);border-bottom:1px solid var(--linie)}
+/* Vier Angaben: eine Spalte auf dem Handy, zwei auf dem Tablet, vier am
+   Rechner. Mit auto-fit blieb sonst je nach Breite eine Angabe allein in
+   der zweiten Zeile stehen. */
+.band ul{list-style:none;margin:0;padding:1.5rem 0;display:grid;
+ grid-template-columns:1fr;gap:1.25rem 2rem}
+@media(min-width:34rem){.band ul{grid-template-columns:1fr 1fr}}
+@media(min-width:62rem){.band ul{grid-template-columns:repeat(4,1fr)}}
+.band b{display:block;font-size:1.5rem;color:var(--basis);line-height:1.1}
+.band span{font-size:.9rem;color:var(--gedaempft)}
+
+section{padding:clamp(2.75rem,6vw,4.5rem) 0}
+section + section{border-top:1px solid var(--linie)}
+.vorspann{color:var(--gedaempft);max-width:58ch;margin-top:.9rem}
+
+/* ---- Leistungen ---------------------------------------------------- */
+.leistungen{display:grid;gap:1.5rem;margin-top:2rem;
+ grid-template-columns:repeat(auto-fit,minmax(16rem,1fr))}
+.gruppe{border-top:2px solid var(--blau);padding-top:1rem}
+.gruppe h3{margin-bottom:.6rem}
+.gruppe ul{list-style:none;margin:0;padding:0;font-size:.95rem}
+.gruppe li{padding:.28rem 0 .28rem 1.1rem;position:relative;color:var(--text)}
+.gruppe li::before{content:"";position:absolute;left:0;top:.82em;
+ width:5px;height:5px;background:var(--blau);transform:rotate(45deg)}
+
+/* ---- Hervorgehobener Kasten --------------------------------------- */
+.kasten{background:var(--flaeche);border-left:4px solid var(--blau);
+ padding:1.5rem clamp(1.1rem,3vw,2rem);margin-top:1.75rem}
+.kasten h3{margin-bottom:.5rem}
+.kasten p:last-child{margin-bottom:0}
+.kasten.warnung{border-left-color:var(--signal)}
+
+/* ---- Referenz ------------------------------------------------------ */
+.referenz{display:grid;gap:2rem;grid-template-columns:1fr;margin-top:2rem}
+@media(min-width:52rem){.referenz{grid-template-columns:1.1fr .9fr}}
+.referenz h3{margin-bottom:.5rem}
+.referenz ul{margin:.5rem 0 0;padding-left:1.1rem;font-size:.95rem}
+.referenz li{margin-bottom:.3rem}
+figure{margin:0}
+figure figcaption{font-size:.85rem;color:var(--gedaempft);margin-top:.5rem}
+
+/* ---- Kontakt und Formular ------------------------------------------ */
+.kontakt{display:grid;gap:2.5rem;grid-template-columns:1fr;margin-top:2rem}
+@media(min-width:52rem){.kontakt{grid-template-columns:.85fr 1.15fr}}
+.karte{font-style:normal;font-size:1.05rem;line-height:1.9}
+.karte a{font-weight:700;text-decoration:none}
+.karte .zeile{color:var(--gedaempft);font-size:.85rem;
+ font-family:var(--mono);letter-spacing:.06em;text-transform:uppercase;
+ display:block;margin-top:1.1rem}
+form.anfrage label{display:block;font-weight:700;color:var(--basis);
+ margin:0 0 .3rem;font-size:.95rem}
+form.anfrage input[type=text],form.anfrage input[type=email],
+form.anfrage input[type=tel],form.anfrage textarea{
+ width:100%;font:inherit;padding:.7rem .85rem;margin-bottom:1rem;
+ border:1px solid var(--linie-stark);border-radius:2px;
+ background:var(--grund);color:var(--basis)}
+form.anfrage textarea{min-height:8rem;resize:vertical}
+form.anfrage button{font:inherit;font-weight:700;padding:.85rem 1.9rem;
+ border:0;border-radius:2px;background:var(--blau);color:#fff;cursor:pointer}
+form.anfrage button:hover{background:var(--blau-hell)}
+.fehler{background:#FBE9EA;border-left:4px solid var(--signal);
+ color:#7A1220;padding:.85rem 1rem;margin:0 0 1.25rem;font-size:.95rem}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]) .fehler{background:#3A1A18;color:#FFC9C0}
+}
+:root[data-theme="dark"] .fehler{background:#3A1A18;color:#FFC9C0}
+.fallgrube{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+.klein{font-size:.85rem;color:var(--gedaempft)}
+
+/* ---- Fuss ---------------------------------------------------------- */
+footer{background:var(--blau-tief);color:#9DB4D0;font-size:.9rem}
+footer .bahn{padding-block:2rem 2.5rem;display:flex;flex-wrap:wrap;
+ gap:.75rem 2rem;justify-content:space-between}
+footer a{color:#C7D6E8}
+
+/* ---- Rechtsseiten -------------------------------------------------- */
+.recht{padding-block:clamp(2.5rem,6vw,4rem)}
+.recht dl{display:grid;grid-template-columns:auto 1fr;gap:.4rem 1.5rem;
+ margin:1.5rem 0}
+.recht dt{font-weight:700;color:var(--basis)}
+.recht dd{margin:0}
+.recht h2{margin-top:2.25rem}
+@media(max-width:34rem){
+  .recht dl{grid-template-columns:1fr;gap:0}
+  .recht dd{margin-bottom:.8rem}
+}
+
+/* ---- Anrufleiste auf dem Handy ------------------------------------
+ * Auf einer Handwerkerseite ist der Anruf der wichtigste Weg. Auf einem
+ * kleinen Gerät soll er erreichbar sein, ohne dass jemand nach oben
+ * scrollen muss. Ab Tablet-Breite verschwindet die Leiste wieder.
+ */
+.ruf-leiste{display:none}
+@media (max-width:40rem){
+  /* Grössere Flächen zum Antippen: 24 Pixel hohe Links trifft man mit dem
+     Daumen nicht zuverlässig. */
+  .kopf nav{gap:0 1.2rem}
+  .kopf nav a{padding-block:.6rem}
+  .ruf-leiste{display:block;position:fixed;left:0;right:0;bottom:0;z-index:40;
+   background:var(--blau-tief);border-top:1px solid var(--blau);
+   padding:.6rem clamp(.9rem,4vw,1.5rem);
+   padding-bottom:calc(.6rem + env(safe-area-inset-bottom))}
+  .ruf-leiste a{display:flex;align-items:center;justify-content:center;
+   gap:.5rem;background:#fff;color:var(--blau-tief);font-weight:700;
+   text-decoration:none;padding:.8rem 1rem;border-radius:3px;font-size:1.05rem}
+  body{padding-bottom:5rem}
+  header.kopf .ruf{display:none}
+}
+
+@media print{
+  @page{margin:16mm}
+  body{background:#fff;color:#000;font-size:10pt}
+  header.kopf,footer,.knopfreihe,form.anfrage,.ruf-leiste{display:none}
+  .aufmacher{background:#fff;color:#000;padding:0}
+  .aufmacher h1{color:#000}
+}
+
+{{&farbwahl}}

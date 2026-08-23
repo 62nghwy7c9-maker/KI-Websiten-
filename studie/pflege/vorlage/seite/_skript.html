@@ -1,0 +1,14 @@
+
+<script>
+  /* Zeitstempel für die Spamfalle des Formulars. Ohne JavaScript bleibt er
+     leer, dann lässt formular.php die Anfrage trotzdem durch. */
+  document.querySelector('.anfrage [name=zeit]').value =
+      Math.floor(Date.now() / 1000);
+
+  /* Wenn formular.php mit ?fehler=1 zurueckschickt, darf das nicht
+     stillschweigend passieren. Sonst glaubt der Absender, es sei alles
+     gut, und wartet auf eine Antwort, die nie kommt. */
+  if (new URLSearchParams(location.search).has('fehler')) {
+    document.getElementById('fehler').hidden = false;
+  }
+</script>

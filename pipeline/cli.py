@@ -373,6 +373,97 @@ def befehl_register(args) -> int:
     return 0
 
 
+
+# ── Stufe 5 bis 9: der Weg eines zugesagten Kunden ──────────────────────────
+
+def befehl_kunde(args) -> int:
+    """Alles nach der Zusage: anlegen, fragen, bauen, pruefen, packen.
+
+    Der eine Befehl, der immer geht, ist ``stand``. Er sagt fuer jeden
+    Betrieb, wo er steht und was als Naechstes dran ist -- auch dann, wenn
+    das Naechste ein Mensch tun muss und kein Rechner.
+    """
+    from . import kunde as K
+    from . import papiere, seite
+    from .ausliefern import anzeigen, schnueren
+    from .pruefstand import bericht, pruefen
+    from .stammdaten import Stammdaten, aus_messung
+
+    wurzel = Path(".")
+    was = args.was
+
+    if was == "stand":
+        ordner = ([wurzel / K.STUDIE / args.kurzname] if args.kurzname
+                  else K._kunden(wurzel))
+        for o in ordner:
+            lage = K.lage(o, wurzel)
+            print(f"\n{lage.kurzname}")
+            print(f"  Stufe:      {lage.stufe}")
+            if lage.erledigt:
+                print(f"  Erledigt:   {' > '.join(lage.erledigt)}")
+            print(f"  Als Naechstes: {lage.naechstes}")
+            if lage.befehl:
+                print(f"    {lage.befehl}")
+            for offen in lage.offen_beim_menschen:
+                print(f"  Beim Menschen: {offen}")
+        print()
+        return 0
+
+    if was == "anlegen":
+        messung = wurzel / "kunden" / args.slug / "messung.json"
+        if not messung.is_file():
+            raise SystemExit(f"Keine Messung unter {messung}")
+        name = args.kurzname_flag or args.kurzname or args.slug.split("_")[1][:20]
+        ordner = wurzel / K.STUDIE / name
+        if (ordner / "stammdaten.json").is_file():
+            raise SystemExit(f"{ordner} gibt es schon.")
+        ordner.mkdir(parents=True, exist_ok=True)
+        daten = aus_messung(messung, name)
+        daten.speichern(ordner)
+        bogen = K.erhebung(ordner)
+        print(f"{ordner}/stammdaten.json angelegt")
+        print(f"{bogen} zum Ausdrucken")
+        print(f"\n{len(daten.vermutet)} Angaben aus der Messung vorbefuellt. "
+              f"Keine davon geht ungeprueft auf die Seite.")
+        return 0
+
+    ordner = wurzel / K.STUDIE / args.kurzname
+    if not (ordner / "stammdaten.json").is_file():
+        raise SystemExit(f"Kein Kunde {args.kurzname} in {K.STUDIE}")
+
+    if was == "erhebung":
+        print(K.erhebung(ordner))
+        return 0
+
+    if was == "bauen":
+        e = seite.bauen(ordner, wurzel)
+        print(f"{len(e.dateien)} Dateien in {e.webroot}")
+        for w in e.warnungen:
+            print(f"  Achtung: {w}")
+        pa = papiere.bauen(ordner, wurzel)
+        print(f"{len(pa.dateien)} Papiere")
+        print("\nJetzt pruefen:")
+        print(f"  python -m pipeline kunde pruefen {args.kurzname}")
+        return 0
+
+    if was == "pruefen":
+        befunde = pruefen(ordner, wurzel)
+        print(bericht(befunde))
+        return 0 if all(b.ok for b in befunde) else 1
+
+    if was == "packen":
+        befunde = pruefen(ordner, wurzel)
+        schlecht = [b for b in befunde if not b.ok]
+        if schlecht and not args.trotzdem:
+            print(bericht(befunde))
+            print("\nNicht gepackt. Erst die roten Punkte klaeren.")
+            return 1
+        anzeigen(*schnueren(ordner, args.unsere_adresse, wurzel))
+        return 0
+
+    raise SystemExit(f"Unbekannt: {was}")
+
+
 def main(argv: list[str] | None = None) -> int:
     p = argparse.ArgumentParser(prog="pipeline", description=__doc__,
                                 formatter_class=argparse.RawDescriptionHelpFormatter)
@@ -440,6 +531,22 @@ def main(argv: list[str] | None = None) -> int:
                     help="keine Screenshots der Bestandsseiten aufnehmen")
     pk.add_argument("--trotzdem", action="store_true")
     pk.set_defaults(func=befehl_pakete)
+
+    k = unter.add_parser("kunde",
+                         help="Stufe 5+: ein zugesagter Kunde bis zur Domain")
+    k.add_argument("was", choices=["stand", "anlegen", "erhebung", "bauen",
+                                   "pruefen", "packen"])
+    k.add_argument("kurzname", nargs="?", default="",
+                   help="Ordnername unter studie/")
+    k.add_argument("--slug", default="",
+                   help="bei anlegen: Ordnername unter kunden/")
+    k.add_argument("--kurzname", dest="kurzname_flag", default="",
+                   help="bei anlegen: kurzer Ordnername unter studie/")
+    k.add_argument("--unsere-adresse", default=None,
+                   help="bei packen: Empfaenger der Testfassung")
+    k.add_argument("--trotzdem", action="store_true",
+                   help="bei packen: auch bei rotem Pruefstand")
+    k.set_defaults(func=befehl_kunde)
 
     r = unter.add_parser("register", help="Stand des Kontakt-Registers zeigen")
     r.set_defaults(func=befehl_register)

@@ -1,0 +1,76 @@
+{{&kopf}}
+<main>
+
+<section class="aufmacher">
+  <div class="bahn">
+    <p class="marke">{{aufmacher_marke}}</p>
+    <h1>{{aufmacher_h1}}</h1>
+    <p class="unterzeile"><!--wg:einleitung-->{{aufmacher_einleitung}}<!--/wg--></p>
+    <div class="knopfreihe">
+      <a class="knopf voll" href="tel:{{telefon_wahl}}"><!--wg:telefon-->{{telefon}}<!--/wg--></a>
+      <a class="knopf leer" href="#kontakt">Anfrage schreiben</a>
+    </div>
+  </div>
+</section>
+{{&band}}{{&abschnitte}}
+<section id="kontakt">
+  <div class="bahn">
+    <p class="marke">{{kontakt_marke}}</p>
+    <h2>{{kontakt_h2}}</h2>
+
+    <div class="kontakt">
+      <address class="karte">
+        <strong>{{firma}}</strong><br>
+        {{strasse}}<br>
+        {{plz}} {{ort}}
+
+        <span class="zeile">Telefon</span>
+        <a href="tel:{{telefon_wahl}}"><!--wg:telefon-->{{telefon}}<!--/wg--></a>
+{{#fax}}
+        <span class="zeile">Fax</span>
+        {{fax}}
+{{/fax}}
+        <span class="zeile">E-Mail</span>
+        <a href="mailto:{{mail}}"><!--wg:mail-->{{mail}}<!--/wg--></a>
+{{#oeffnungszeiten}}
+        <span class="zeile">{{zeiten_titel}}</span>
+        <!--wg:oeffnungszeiten-->{{oeffnungszeiten}}<!--/wg-->
+{{/oeffnungszeiten}}
+        <span class="zeile">Aktuell</span>
+        <!--wg:hinweis-->{{hinweis}}<!--/wg-->
+      </address>
+
+      <form class="anfrage" action="pflege/formular.php" method="post">
+        <p class="fehler" id="fehler" hidden>Die Anfrage konnte nicht
+        gesendet werden. Bitte rufen Sie uns an:
+        <a href="tel:{{telefon_wahl}}">{{telefon}}</a>.</p>
+        <label for="f-name">Ihr Name</label>
+        <input id="f-name" name="name" type="text" autocomplete="name" required>
+
+        <label for="f-mail">Ihre E-Mail-Adresse</label>
+        <input id="f-mail" name="mail" type="email" autocomplete="email">
+
+        <label for="f-telefon">oder Ihre Telefonnummer</label>
+        <input id="f-telefon" name="telefon" type="tel" autocomplete="tel">
+
+        <label for="f-nachricht">Worum geht es?</label>
+        <textarea id="f-nachricht" name="nachricht" rows="6" required></textarea>
+
+        <p class="fallgrube" aria-hidden="true">
+          <label for="f-website">Dieses Feld bitte leer lassen</label>
+          <input id="f-website" name="website" type="text" tabindex="-1" autocomplete="off">
+        </p>
+        <input type="hidden" name="zeit" value="">
+
+        <p class="klein">Ihre Angaben gehen ausschließlich an uns und werden
+        nur zur Beantwortung Ihrer Anfrage verwendet. Mehr dazu in der
+        <a href="datenschutz.html">Datenschutzerklärung</a>.</p>
+
+        <button type="submit">Anfrage senden</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+</main>
+{{&fuss}}

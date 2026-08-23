@@ -1,0 +1,51 @@
+{{&kopf}}
+<main class="bahn recht">
+  <p class="marke">Anbieterkennzeichnung</p>
+  <h1>Impressum</h1>
+  <p class="vorspann">Angaben nach § 5 Digitale-Dienste-Gesetz (DDG).</p>
+
+  <dl>
+    <dt>Firma</dt><dd>{{firma}}</dd>
+    <dt>Anschrift</dt><dd>{{strasse}}, {{plz}} {{ort}}</dd>
+    <dt>Inhaber</dt><dd>{{inhaber}}</dd>
+    <dt>Telefon</dt><dd><a href="tel:{{telefon_wahl}}"><!--wg:telefon-->{{telefon}}<!--/wg--></a></dd>
+{{#fax}}    <dt>Fax</dt><dd>{{fax}}</dd>
+{{/fax}}    <dt>E-Mail</dt><dd><a href="mailto:{{mail}}"><!--wg:mail-->{{mail}}<!--/wg--></a></dd>
+  </dl>
+{{#register_block}}
+  <h2>Register und Kammern</h2>
+  <dl>
+{{#handwerkskammer}}    <dt>Handwerkskammer</dt><dd>{{handwerkskammer}}</dd>
+{{/handwerkskammer}}{{#ihk}}    <dt>IHK</dt><dd>{{ihk}}</dd>
+{{/ihk}}{{#handelsregister}}    <dt>Handelsregister</dt><dd>{{handelsregister}}</dd>
+{{/handelsregister}}{{#ustid}}    <dt>Umsatzsteuer-ID</dt><dd>{{ustid}}</dd>
+{{/ustid}}  </dl>
+{{/register_block}}{{#berufsbezeichnung}}  <p class="klein">Berufsbezeichnung: {{berufsbezeichnung}}, verliehen in
+  der Bundesrepublik Deutschland. Es gelten die Handwerksordnung (HwO) und
+  die Vorschriften der {{kammer_aufsicht}}{{#kammer_link}}, einzusehen unter
+  <a href="https://{{kammer_link}}">{{kammer_link}}</a>{{/kammer_link}}.</p>
+{{/berufsbezeichnung}}
+  <h2>Verantwortlich für den Inhalt</h2>
+  <p>{{inhaber}}, Anschrift wie oben.</p>
+
+  <h2>Streitbeilegung</h2>
+  <p>Wir sind nicht bereit und nicht verpflichtet, an
+  Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle
+  teilzunehmen.</p>
+
+  <h2>Haftung für Inhalte</h2>
+  <p>Die Inhalte dieser Seiten wurden mit Sorgfalt erstellt. Für die
+  Richtigkeit, Vollständigkeit und Aktualität können wir jedoch keine Gewähr
+  übernehmen.</p>
+
+  <h2>Haftung für Links</h2>
+  <p>Unser Angebot enthält Links zu externen Websites Dritter, auf deren
+  Inhalte wir keinen Einfluss haben. Für diese fremden Inhalte ist stets der
+  jeweilige Anbieter verantwortlich. Bei Bekanntwerden von Rechtsverstößen
+  entfernen wir solche Links umgehend.</p>
+
+  <h2>Urheberrecht</h2>
+  <p>Die auf diesen Seiten erstellten Inhalte unterliegen dem deutschen
+  Urheberrecht. Beiträge Dritter sind als solche gekennzeichnet.</p>
+</main>
+{{&fuss}}

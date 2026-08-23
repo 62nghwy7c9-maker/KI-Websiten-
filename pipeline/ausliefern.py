@@ -1,6 +1,6 @@
 """Macht aus einer gebauten Kundenseite zwei fertige Pakete.
 
-    python3 studie/pflege/aufsetzen.py studie/czarnetzki
+    python -m pipeline kunde packen czarnetzki
 
 Erzeugt neben dem Kundenordner:
 
@@ -142,39 +142,41 @@ def packen(quelle: Path, ziel: Path) -> int:
     return anzahl
 
 
-def main() -> int:
-    p = argparse.ArgumentParser(description=__doc__,
-                                formatter_class=argparse.RawDescriptionHelpFormatter)
-    p.add_argument("kunde", type=Path,
-                   help="Ordner des Kunden, darin liegt webroot/")
-    p.add_argument("--unsere-adresse", default=None,
-                   help="Empfaenger der Testfassung (Vorgabe aus absender.json)")
-    args = p.parse_args()
+def schnueren(kunde: Path, unsere_adresse: str | None = None,
+              wurzel: Path = Path("."), leise: bool = False) -> tuple[str, str]:
+    """Baut beide Pakete und gibt Passwort und Selbsttestschluessel zurueck.
 
-    kunde: Path = args.kunde
+    Beides erscheint genau einmal, naemlich beim Aufrufer. Nichts davon wird
+    irgendwo abgelegt, und nichts davon laesst sich nachschlagen.
+    """
+    kunde = Path(kunde)
     webroot = kunde / "webroot"
     if not (webroot / "pflege" / "formular.php").is_file():
         raise SystemExit(f"Kein Kundenpaket in {webroot}")
 
-    unsere = args.unsere_adresse
+    unsere = unsere_adresse
     if unsere is None:
-        absender = Path("absender.json")
+        absender = wurzel / "absender.json"
         if absender.is_file():
             unsere = json.loads(absender.read_text(encoding="utf-8")).get("mail")
     if not unsere:
-        raise SystemExit("Keine eigene Adresse. Entweder --unsere-adresse setzen "
-                         "oder absender.json anlegen.")
+        raise SystemExit("Keine eigene Adresse. Entweder --unsere-adresse "
+                         "setzen oder absender.json anlegen.")
 
-    print(f"Kunde:            {kunde}")
-    print(f"Echter Empfaenger:{empfaenger_lesen(webroot):>20}")
+    def sagen(text: str) -> None:
+        if not leise:
+            print(text)
+
+    sagen(f"Kunde:            {kunde}")
+    sagen(f"Echter Empfaenger: {empfaenger_lesen(webroot)}")
 
     leeren(webroot)
-    print("Reste vom Ausprobieren: entfernt")
+    sagen("Reste vom Ausprobieren: entfernt")
 
     passwort = wuerfeln()
     (webroot / "pflege" / "passwort.php").write_text(
         RIEGEL + hash_erzeugen(passwort) + "\n", encoding="utf-8")
-    print("Neues Passwort:   gesetzt, nur als Hash abgelegt")
+    sagen("Neues Passwort:   gesetzt, nur als Hash abgelegt")
 
     # Die Auslieferfassung zuerst, und zwar ohne Werkzeug darin. Der
     # Selbsttest veraendert Inhalte, um sie zu pruefen. So etwas gehoert in
@@ -186,22 +188,28 @@ def main() -> int:
     testfassung(webroot, test_ordner, unsere)
 
     schluessel = ""
-    vorlage = Path("studie/pflege/selbsttest.php")
+    vorlage = wurzel / "studie/pflege/selbsttest.php"
     if vorlage.is_file():
         schluessel = secrets.token_hex(8)
         text = re.sub(r"const SCHLUESSEL = '[0-9a-f]+';",
                       f"const SCHLUESSEL = '{schluessel}';",
                       vorlage.read_text(encoding="utf-8"), count=1)
-        (test_ordner / "pflege" / "selbsttest.php").write_text(text, encoding="utf-8")
-        print("Selbsttest:       nur im Testpaket, neuer Schluessel")
+        (test_ordner / "pflege" / "selbsttest.php").write_text(
+            text, encoding="utf-8")
+        sagen("Selbsttest:       nur im Testpaket, neuer Schluessel")
 
     test_zip = kunde / f"{kunde.name}-TEST.zip"
     n2 = packen(test_ordner, test_zip)
     shutil.rmtree(test_ordner)
 
-    print()
-    print(f"  {lieferung}  ({n1} Dateien)")
-    print(f"  {test_zip}  ({n2} Dateien)")
+    sagen("")
+    sagen(f"  {lieferung}  ({n1} Dateien)")
+    sagen(f"  {test_zip}  ({n2} Dateien)")
+    return passwort, schluessel
+
+
+def anzeigen(passwort: str, schluessel: str) -> None:
+    """Das Einzige, was nirgends sonst zu sehen sein wird."""
     print()
     print("  " + "=" * 62)
     print(f"  Passwort fuer den Pflegebereich:  {passwort}")
@@ -211,6 +219,18 @@ def main() -> int:
         print()
         print(f"  Selbsttest aufrufen:  .../pflege/selbsttest.php?s={schluessel}")
     print("  " + "=" * 62)
+
+
+def main() -> int:
+    p = argparse.ArgumentParser(
+        description=__doc__,
+        formatter_class=argparse.RawDescriptionHelpFormatter)
+    p.add_argument("kunde", type=Path,
+                   help="Ordner des Kunden, darin liegt webroot/")
+    p.add_argument("--unsere-adresse", default=None,
+                   help="Empfaenger der Testfassung (Vorgabe aus absender.json)")
+    args = p.parse_args()
+    anzeigen(*schnueren(args.kunde, args.unsere_adresse))
     return 0
 
 
