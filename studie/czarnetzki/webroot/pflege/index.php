@@ -11,6 +11,12 @@
  */
 
 declare(strict_types=1);
+
+/* Viele Server stehen im Ausland und rechnen in ihrer eigenen Zeit. Ohne
+ * diese Zeile trägt eine Anfrage von 11 Uhr den Eingang 05 Uhr, und
+ * Sicherungen bekommen einen Namen, der nicht zum Tag passt. Wir rechnen
+ * überall in deutscher Zeit, mit Sommerzeit. */
+date_default_timezone_set('Europe/Berlin');
 require __DIR__ . '/inhalt.php';
 
 /* ---- Zugang ---------------------------------------------------------
