@@ -23,6 +23,20 @@ declare(strict_types=1);
 const EMPFAENGER = 'webgewerk@gmx.de';
 const BETRIEB = 'Webgewerk';
 
+/* Wohin jede Anfrage zusätzlich abgelegt wird.
+ *
+ * Der Mailversand über PHP ist auf günstigem und kostenlosem Webspace
+ * unzuverlässig: Manche Anbieter sperren ihn, manche Mails landen im
+ * Spam, manche verschwinden. Eine Anfrage, die dabei verlorengeht, ist
+ * ein verlorener Kunde. Deshalb wird jede Anfrage hier abgelegt, bevor
+ * die Mail überhaupt versucht wird.
+ *
+ * Die Datei heißt .php und beginnt mit einem Riegel: Wer sie im Browser
+ * aufruft, bekommt 404. Das gilt auch auf Servern, die .htaccess
+ * ignorieren, denn hier hält PHP selbst die Tür zu. */
+const ABLAGE = __DIR__ . '/anfragen.php';
+const RIEGEL = "<?php http_response_code(404); exit; ?>\n";
+
 /** Wohin nach dem Absenden zurückgesprungen wird. */
 const ZURUECK = 'danke.html';
 const ZURUECK_FEHLER = 'index.html?fehler=1#kontakt';
@@ -40,6 +54,15 @@ function zurueck(string $ziel): never
 function eine_zeile(string $s): string
 {
     return trim((string) preg_replace('/[\r\n]+/', ' ', $s));
+}
+
+/** Hängt eine Anfrage an die Ablage an. Beim ersten Mal legt sie die Datei
+ *  mit dem Riegel davor an. LOCK_EX, damit zwei gleichzeitige Anfragen
+ *  sich nicht ins Gehege kommen. */
+function ablegen(string $eintrag): bool
+{
+    $vorspann = is_file(ABLAGE) ? '' : RIEGEL;
+    return @file_put_contents(ABLAGE, $vorspann . $eintrag, FILE_APPEND | LOCK_EX) !== false;
 }
 
 if (($_SERVER['REQUEST_METHOD'] ?? '') !== 'POST') {
@@ -115,4 +138,16 @@ if ($mail !== '') {
 $ok = @mail(EMPFAENGER, '=?UTF-8?B?' . base64_encode($betreff) . '?=',
             $inhalt, implode("\r\n", $kopf));
 
-zurueck($ok ? ZURUECK : ZURUECK_FEHLER);
+/* Die Ablage vermerkt, ob die Mail rausging. Steht dort dauerhaft
+   "Mail: nein", verschickt dieser Server nicht, und die Anfragen müssen
+   aus dieser Datei gelesen werden. */
+$abgelegt = ablegen(
+    str_repeat('=', 60) . "\n"
+    . $inhalt
+    . 'Mail: ' . ($ok ? 'ja' : 'nein') . "\n\n"
+);
+
+/* Danke sagen, sobald die Anfrage sicher ist. Für den Absender zählt,
+   dass sie angekommen ist, nicht auf welchem Weg. Nur wenn beides
+   fehlschlägt, ist sie wirklich weg, und dann muss er das erfahren. */
+zurueck(($ok || $abgelegt) ? ZURUECK : ZURUECK_FEHLER);
