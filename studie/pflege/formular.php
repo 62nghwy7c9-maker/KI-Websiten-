@@ -5,7 +5,7 @@
  *
  * Warum überhaupt eine Datei dafür: Eine statische Website ist nur Text auf
  * einer Festplatte. Sie kann nichts entgegennehmen. Damit ein Formular
- * funktioniert, braucht es ein Programm, das den Knopfdruck verarbeitet —
+ * funktioniert, braucht es ein Programm, das den Knopfdruck verarbeitet
  * das ist diese Datei.
  *
  * Warum kein fertiger Dienst: Jeder Formulardienst bekäme die Anfragen der
@@ -23,6 +23,20 @@ declare(strict_types=1);
 const EMPFAENGER = 'info@musterbetrieb.de';
 const BETRIEB = 'Musterbetrieb';
 
+/* Wohin jede Anfrage zusätzlich abgelegt wird.
+ *
+ * Der Mailversand über PHP ist auf günstigem Webspace unzuverlässig:
+ * Manche Anbieter sperren ihn, manche Mails landen im Spam, manche
+ * verschwinden. Eine Anfrage, die dabei verlorengeht, ist ein verlorener
+ * Auftrag. Deshalb wird jede Anfrage hier abgelegt, bevor die Mail
+ * überhaupt versucht wird.
+ *
+ * Die Datei heißt .php und beginnt mit einem Riegel: Wer sie im Browser
+ * aufruft, bekommt 404. Das gilt auch auf Servern, die .htaccess
+ * ignorieren, denn hier hält PHP selbst die Tür zu. */
+const ABLAGE = __DIR__ . '/anfragen.php';
+const RIEGEL = "<?php http_response_code(404); exit; ?>\n";
+
 /** Wohin nach dem Absenden zurückgesprungen wird. */
 const ZURUECK = '/danke.html';
 const ZURUECK_FEHLER = '/kontakt.html?fehler=1';
@@ -36,10 +50,19 @@ function zurueck(string $ziel): never
     exit;
 }
 
-/** Entfernt Zeilenumbrüche — sonst ließen sich Mail-Kopfzeilen einschleusen. */
+/** Entfernt Zeilenumbrüche, sonst ließen sich Mail-Kopfzeilen einschleusen. */
 function eine_zeile(string $s): string
 {
     return trim((string) preg_replace('/[\r\n]+/', ' ', $s));
+}
+
+/** Hängt eine Anfrage an die Ablage an. Beim ersten Mal legt sie die Datei
+ *  mit dem Riegel davor an. LOCK_EX, damit zwei gleichzeitige Anfragen
+ *  sich nicht ins Gehege kommen. */
+function ablegen(string $eintrag): bool
+{
+    $vorspann = is_file(ABLAGE) ? '' : RIEGEL;
+    return @file_put_contents(ABLAGE, $vorspann . $eintrag, FILE_APPEND | LOCK_EX) !== false;
 }
 
 if (($_SERVER['REQUEST_METHOD'] ?? '') !== 'POST') {
@@ -51,12 +74,12 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') !== 'POST') {
  *
  * 1. Ein Feld namens "website", das im Formular versteckt ist. Menschen
  *    sehen es nicht und füllen es nicht aus. Automatische Programme füllen
- *    stumpf alles aus — wer hier etwas einträgt, ist keiner.
+ *    stumpf alles aus, wer hier etwas einträgt, ist keiner.
  * 2. Die Zeit. Ein Mensch braucht mindestens ein paar Sekunden zum Tippen.
  *    Wer in unter drei Sekunden absendet, hat nicht getippt.
  *
  * Das ersetzt ein Captcha und verlangt dem Kunden nichts ab. Ein Meister,
- * der Verkehrsschilder anklicken muss, ruft nicht an — er geht weg.
+ * der Verkehrsschilder anklicken muss, ruft nicht an, er geht weg.
  */
 if (!empty($_POST['website'])) {
     zurueck(ZURUECK);            // still schlucken, kein Hinweis für den Absender
@@ -96,8 +119,8 @@ if ($mail === '' && $tel === '') {
 $betreff = 'Anfrage über die Website';
 $inhalt = "Neue Anfrage über die Website von " . BETRIEB . "\n\n"
     . "Name:      {$name}\n"
-    . "E-Mail:    " . ($mail !== '' ? $mail : '—') . "\n"
-    . "Telefon:   " . ($tel !== '' ? $tel : '—') . "\n"
+    . "E-Mail:    " . ($mail !== '' ? $mail : '-') . "\n"
+    . "Telefon:   " . ($tel !== '' ? $tel : '-') . "\n"
     . "Eingang:   " . date('d.m.Y, H:i') . " Uhr\n\n"
     . "Nachricht:\n{$text}\n";
 
@@ -106,7 +129,7 @@ $kopf = [
     'Content-Type: text/plain; charset=UTF-8',
     'X-Mailer: PHP',
 ];
-// Antworten geht direkt an den Absender — der Betrieb drückt einfach
+// Antworten geht direkt an den Absender, der Betrieb drückt einfach
 // „Antworten" und muss die Adresse nicht heraussuchen.
 if ($mail !== '') {
     $kopf[] = 'Reply-To: ' . $mail;
@@ -115,4 +138,16 @@ if ($mail !== '') {
 $ok = @mail(EMPFAENGER, '=?UTF-8?B?' . base64_encode($betreff) . '?=',
             $inhalt, implode("\r\n", $kopf));
 
-zurueck($ok ? ZURUECK : ZURUECK_FEHLER);
+/* Die Ablage vermerkt, ob die Mail rausging. Steht dort dauerhaft
+   "Mail: nein", verschickt dieser Server nicht, und die Anfragen müssen
+   aus dieser Datei gelesen werden. */
+$abgelegt = ablegen(
+    str_repeat('=', 60) . "\n"
+    . $inhalt
+    . 'Mail: ' . ($ok ? 'ja' : 'nein') . "\n\n"
+);
+
+/* Danke sagen, sobald die Anfrage sicher ist. Für den Absender zählt,
+   dass sie angekommen ist, nicht auf welchem Weg. Nur wenn beides
+   fehlschlägt, ist sie wirklich weg, und dann muss er das erfahren. */
+zurueck(($ok || $abgelegt) ? ZURUECK : ZURUECK_FEHLER);
