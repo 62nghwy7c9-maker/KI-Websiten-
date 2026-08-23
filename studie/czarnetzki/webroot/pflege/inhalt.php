@@ -480,12 +480,14 @@ function feld_beschriftung(string $name): string
         'stellenanzeige' => 'Stellenanzeige',
         'hinweis' => 'Aktueller Hinweis',
         'leistungen' => 'Leistungen',
-        'betreuung' => 'Preis der Betreuung',
         'gebiet' => 'Wo wir arbeiten',
         'bildtitel' => 'Bildunterschrift',
         'betrieb' => 'Bild aus dem Betrieb',
         'pflege' => 'Bild vom Pflegebereich',
         'firma' => 'Firmenname',
+        'mitarbeiter' => 'Zahl der Mitarbeiter',
+        'einsatzzeiten' => 'Wann wir arbeiten',
+        'anfahrt' => 'Anfahrtswege',
     ];
     return $bekannt[$name] ?? ucfirst(str_replace('_', ' ', $name));
 }
