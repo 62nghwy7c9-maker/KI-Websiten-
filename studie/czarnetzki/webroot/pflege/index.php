@@ -22,7 +22,7 @@ require __DIR__ . '/inhalt.php';
 /* ---- Zugang ---------------------------------------------------------
  * Ein Passwort für den Betrieb, als Hash hinterlegt. Erzeugt wird der Hash
  * einmalig mit:  php -r "echo password_hash('IhrPasswort', PASSWORD_DEFAULT);"
- * Im Klartext steht das Passwort nirgends — auch nicht bei uns.
+ * Im Klartext steht das Passwort nirgends, auch nicht bei uns.
  */
 /* Reihenfolge: passwort.php im Ordner (das aendert der Betrieb selbst),
  * dann WG_PFLEGE_HASH. Danach nichts mehr.
@@ -160,6 +160,21 @@ if ($angemeldet && ($_POST['passwort_aendern'] ?? '') !== '') {
 }
 
 /* ---- Stand zurueckholen -------------------------------------------- */
+/* Loeschen einer Anfrage geht ueber zwei Schritte: erst fragen, dann
+   loeschen. Eine Kundenanfrage darf nicht an einem Fehlklick haengen. */
+$loeschfrage = '';
+if ($angemeldet && ($_POST['anfrage_fragen'] ?? '') !== '') {
+    $loeschfrage = (string) $_POST['anfrage_fragen'];
+}
+
+if ($angemeldet && ($_POST['anfrage_loeschen'] ?? '') !== '') {
+    if (!hash_equals($_SESSION['marke'] ?? '', (string) ($_POST['marke'] ?? ''))) {
+        $meldung = 'Die Sitzung ist abgelaufen. Bitte noch einmal versuchen.';
+    } else {
+        [$erfolg, $meldung] = anfragen_loeschen((string) $_POST['anfrage_loeschen']);
+    }
+}
+
 if ($angemeldet && ($_POST['bild_zurueckholen'] ?? '') !== '') {
     if (!hash_equals($_SESSION['marke'] ?? '', (string) ($_POST['marke'] ?? ''))) {
         $meldung = 'Die Sitzung ist abgelaufen. Bitte noch einmal versuchen.';
@@ -283,6 +298,10 @@ button.leise:hover{background:var(--akzent);color:#fff}
 .anfragen .wege a,.anfragen .wege span{margin-right:1rem}
 .anfragen .wege span{color:var(--gedaempft)}
 .anfragen .text{margin:0;white-space:normal}
+.anfragen .loeschen{margin:.6rem 0 0;text-align:right}
+.anfragen .frage{margin:.6rem 0 0;padding:.6rem .8rem;border-radius:4px;
+ background:#F6E4DF;color:var(--rot);font-size:15px}
+.anfragen .frage button{margin-left:.6rem}
 @media(max-width:520px){.anfragen .kopf span{white-space:normal}}
 footer{border-top:1px solid var(--linie);color:var(--gedaempft);font-size:14px}
 footer .bahn{padding:1.25rem}
@@ -311,7 +330,9 @@ footer .bahn{padding:1.25rem}
   </form>
 <?php else: ?>
   <?php if ($anfragen): $sichtbar = array_slice($anfragen, 0, 20); ?>
-    <section class="anfragen">
+    <form method="post" class="anfragen">
+      <input type="hidden" name="datei" value="<?= htmlspecialchars($datei) ?>">
+      <input type="hidden" name="marke" value="<?= htmlspecialchars($_SESSION['marke']) ?>">
       <h2><?= count($anfragen) ?> <?= count($anfragen) === 1 ? 'Anfrage' : 'Anfragen' ?> über die Website</h2>
       <?php foreach ($sichtbar as $a): ?>
         <article>
@@ -345,13 +366,25 @@ footer .bahn{padding:1.25rem}
             </p>
           <?php endif; ?>
           <p class="text"><?= nl2br(htmlspecialchars($a['nachricht'])) ?></p>
+          <?php if ($loeschfrage === $a['kennung']): ?>
+            <p class="frage">Diese Anfrage wirklich löschen? Sie ist danach weg.
+              <button type="submit" name="anfrage_loeschen"
+                      value="<?= htmlspecialchars($a['kennung']) ?>">Ja, löschen</button>
+              <button type="submit" name="abbrechen" value="1" class="leise">Abbrechen</button>
+            </p>
+          <?php else: ?>
+            <p class="loeschen">
+              <button type="submit" name="anfrage_fragen"
+                      value="<?= htmlspecialchars($a['kennung']) ?>" class="leise">löschen</button>
+            </p>
+          <?php endif; ?>
         </article>
       <?php endforeach; ?>
       <?php if (count($anfragen) > 20): ?>
         <p class="hinweis">Angezeigt sind die letzten 20. Die älteren stehen
         auf dem Server in der Datei pflege/anfragen.php.</p>
       <?php endif; ?>
-    </section>
+    </form>
   <?php endif; ?>
 
   <ul class="reiter">

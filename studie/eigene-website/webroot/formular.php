@@ -5,8 +5,8 @@
  *
  * Warum überhaupt eine Datei dafür: Eine statische Website ist nur Text auf
  * einer Festplatte. Sie kann nichts entgegennehmen. Damit ein Formular
- * funktioniert, braucht es ein Programm, das den Knopfdruck verarbeitet,
- * das ist diese Datei.
+ * funktioniert, braucht es ein Programm, das den Knopfdruck verarbeitet.
+ * Das ist diese Datei.
  *
  * Warum kein fertiger Dienst: Jeder Formulardienst bekäme die Anfragen der
  * Kunden unserer Kunden zu sehen. Das wäre ein Auftragsverarbeitungsvertrag
@@ -14,9 +14,9 @@
  * die niemand braucht. Diese Datei liegt beim Kunden, die Daten gehen direkt
  * in sein Postfach, und niemand sonst sieht sie.
  *
- * Keine Datenbank und kein externer Dienst. Jede Anfrage geht per Mail
- * hinaus und wird zusätzlich auf dem Server abgelegt, damit sie nicht
- * verlorengeht, wenn der Mailversand ausfällt.
+ * Die Anfrage geht per Mail an den Betrieb und wird zusaetzlich auf dem
+ * Server in anfragen.php abgelegt, damit keine verlorengeht, wenn der
+ * Mailversand ausfaellt. Keine Datenbank, kein fremder Dienst.
  */
 
 declare(strict_types=1);

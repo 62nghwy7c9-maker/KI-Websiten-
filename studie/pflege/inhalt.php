@@ -3,7 +3,7 @@
  * Gemeinsame Hilfsmittel für Pflegebereich und Formular.
  *
  * Kein Framework, keine Bibliothek, keine Datenbank. Eine Datei, die auf
- * jedem deutschen Hosting-Tarif läuft, der PHP kann — und das können alle.
+ * jedem deutschen Hosting-Tarif läuft, der PHP kann, und das können alle.
  *
  * Der Grundgedanke: Die Website bleibt reines HTML. Bearbeitbare Stellen
  * werden im HTML markiert:
@@ -12,7 +12,7 @@
  *
  * Der Pflegebereich liest diese Markierungen, zeigt sie als Formularfelder
  * und schreibt die neuen Werte an genau dieselbe Stelle zurück. Zwischen den
- * Markierungen steht Text, sonst nichts — der Kunde kann das Layout nicht
+ * Markierungen steht Text, sonst nichts. Der Kunde kann das Layout nicht
  * zerlegen, weil er es nie zu sehen bekommt.
  */
 
@@ -48,6 +48,15 @@ const PASSWORTDATEI_ALT = __DIR__ . '/passwort.txt';
 /** Hier legt das Kontaktformular jede Anfrage ab. */
 const ANFRAGEN = __DIR__ . '/anfragen.php';
 
+/** Dieselbe Sperre, die auch das Formular beim Anhaengen nimmt. */
+const ANFRAGEN_SPERRE = __DIR__ . '/anfragen.lock';
+
+/** Nebendatei beim Neuschreiben, mit demselben Riegel. */
+const ANFRAGEN_NEU = __DIR__ . '/anfragen-neu.php';
+
+/** Trennzeile zwischen zwei Anfragen, wie das Formular sie schreibt. */
+const ANFRAGEN_TRENNER = '============================================================';
+
 /* Wie viele fruehere Bilder aufbewahrt werden.
  *
  * Weniger als bei den Seiten, und das mit Absicht: Eine Seite wiegt ein
@@ -72,7 +81,7 @@ const RIEGEL = "<?php http_response_code(404); exit; ?>\n";
 /** Felder, die nicht leer bleiben duerfen. */
 const PFLICHT = ['telefon', 'mail'];
 
-/* Erlaubte Dateien. Alles andere wird nicht angefasst — der Kunde kann
+/* Erlaubte Dateien. Alles andere wird nicht angefasst, der Kunde kann
  * ueber diesen Weg an keine andere Datei auf dem Server heran. Aufgefuehrt
  * wird nur, was auch tatsaechlich vorhanden ist. */
 define('DATEIEN', array_values(array_filter(
@@ -114,7 +123,7 @@ function felder_lesen(string $datei): array
  * Schreibt neue Werte in eine Datei zurück.
  *
  * Vorher wird eine Sicherung angelegt. Nicht aus Vorsicht, sondern weil ein
- * Kunde, der aus Versehen den halben Text löscht, sonst uns anruft — und wir
+ * Kunde, der aus Versehen den halben Text löscht, sonst uns anruft, und wir
  * dann in einem Git-Verlauf suchen, den er nicht bedienen kann.
  *
  * @param array<string,string> $neu
@@ -154,7 +163,7 @@ function felder_schreiben(string $datei, array $neu): array
             continue;
         }
         $wert = trim(preg_replace('/\R/u', ' ', $wert) ?? '');
-        // Der Kunde schreibt Text, kein HTML. Alles wird maskiert — damit
+        // Der Kunde schreibt Text, kein HTML. Alles wird maskiert, damit
         // kann er weder das Layout zerschießen noch versehentlich ein
         // offenes <div> hinterlassen.
         $sicher = htmlspecialchars($wert, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
@@ -186,7 +195,7 @@ function felder_schreiben(string $datei, array $neu): array
  *
  * Ohne diesen Schritt entsteht der schlimmste denkbare Fehler: Auf der Seite
  * steht die neue Nummer, der Tippen-Verweis wählt aber weiter die alte. Das
- * ist genau Prüfpunkt 5 unseres eigenen Katalogs — und es fiele niemandem
+ * ist genau Prüfpunkt 5 unseres eigenen Katalogs, und es fiele niemandem
  * auf, weil die Seite richtig aussieht.
  */
 function verweis_nachziehen(string $html, string $name, string $wert): string
@@ -209,7 +218,7 @@ function verweis_nachziehen(string $html, string $name, string $wert): string
 
     return (string) preg_replace(
         // Zwischen dem oeffnenden a-Tag und der Markierung darf Text stehen
-        // („Anrufen: 02271 45550"), aber kein weiteres Element — sonst
+        // („Anrufen: 02271 45550"), aber kein weiteres Element, sonst
         // erwischt die Regel den falschen Verweis.
         '/(<a[^>]*href=")' . preg_quote($schema, '/') . '[^"]*("[^>]*>[^<]{0,40}<!--wg:'
             . preg_quote($name, '/') . '-->)/',
@@ -549,7 +558,7 @@ function felder_schreiben_ueberall(string $datei, array $neu): array
  * Bilder
  * ====================================================================
  * Text zu ändern reicht nicht. Das Zweithäufigste, was ein Betrieb an
- * seiner Website ändern will, ist ein Bild — neues Fahrzeug, neues Team,
+ * seiner Website ändern will, ist ein Bild: neues Fahrzeug, neues Team,
  * fertige Baustelle. Deshalb dasselbe Verfahren wie beim Text: eine
  * Markierung im HTML, direkt vor dem Bild.
  *
@@ -558,7 +567,7 @@ function felder_schreiben_ueberall(string $datei, array $neu): array
  *
  * Der Kunde wählt eine Datei aus, wir prüfen sie, rechnen sie klein und
  * legen sie unter demselben Namen ab. Am HTML ändert sich nur die
- * Zählnummer hinter dem Dateinamen — sonst zeigt der Browser tagelang das
+ * Zählnummer hinter dem Dateinamen, sonst zeigt der Browser tagelang das
  * alte Bild aus seinem Zwischenspeicher.
  */
 
@@ -676,7 +685,7 @@ function bild_schreiben(string $datei, string $name, array $datei_feld): array
  *
  * Warum verkleinern: Ein Betrieb fotografiert mit dem Telefon, und aus dem
  * Telefon kommen 4000 Pixel und sechs Megabyte. Ungefragt hochgeladen macht
- * das eine schnelle Seite langsam — Prüfpunkt 4, der Punkt, mit dem wir
+ * das eine schnelle Seite langsam. Das ist Prüfpunkt 4, der Punkt, mit dem wir
  * selbst argumentieren. Der Kunde soll darüber nicht nachdenken müssen.
  */
 function bild_ablegen(string $quelle, string $ziel, array $info): bool
@@ -790,19 +799,21 @@ function anfragen_lesen(): array
     if (!is_file(ANFRAGEN)) {
         return [];
     }
-    $roh = @file_get_contents(ANFRAGEN);
-    if ($roh === false || $roh === '') {
+    // Mitlesen, waehrend das Formular anhaengt, ergaebe eine halbe Anfrage.
+    $roh = anfragen_roh();
+    if ($roh === '') {
         return [];
     }
-    $roh = (string) preg_replace('/^<\?php.*?\?>\s*/s', '', $roh);
-    $bloecke = preg_split('/^={10,}\s*$/m', $roh) ?: [];
+    $bloecke = anfragen_teilen($roh);
 
     $anfragen = [];
     foreach ($bloecke as $block) {
-        if (trim($block) === '') {
-            continue;
-        }
-        $anfragen[] = anfrage_zerlegen($block);
+        $anfrage = anfrage_zerlegen($block);
+        // Die Kennung haengt am Wortlaut der Anfrage, nicht an ihrer
+        // Position. Trifft zwischen Anzeigen und Loeschen eine neue
+        // Anfrage ein, verrutscht dadurch nichts.
+        $anfrage['kennung'] = substr(sha1($block), 0, 12);
+        $anfragen[] = $anfrage;
     }
     return array_reverse($anfragen);
 }
@@ -977,4 +988,101 @@ function bild_zurueckholen(string $datei, string $stand): array
     // Ohne neue Zaehlnummer zeigt der Browser weiter das eben ersetzte Bild.
     [$ok, $meldung] = zaehlnummer_erhoehen($datei, $treffer['name']);
     return $ok ? [true, 'Das Bild von vorher ist wieder da.'] : [false, $meldung];
+}
+
+/** Liest die Ablage unter geteilter Sperre. Leer, wenn es sie nicht gibt. */
+function anfragen_roh(): string
+{
+    if (!is_file(ANFRAGEN)) {
+        return '';
+    }
+    $sperre = @fopen(ANFRAGEN_SPERRE, 'c');
+    if ($sperre !== false) {
+        @flock($sperre, LOCK_SH);
+    }
+    $roh = @file_get_contents(ANFRAGEN);
+    if ($sperre !== false) {
+        @flock($sperre, LOCK_UN);
+        @fclose($sperre);
+    }
+    return $roh === false ? '' : $roh;
+}
+
+/**
+ * Zerlegt die Ablage in die einzelnen Anfragen.
+ *
+ * @return list<string> je Eintrag der Text ohne die Trennzeile
+ */
+function anfragen_teilen(string $roh): array
+{
+    $roh = (string) preg_replace('/^<\?php.*?\?>\s*/s', '', $roh);
+    $teile = preg_split('/^={10,}[ \t]*\r?$/m', $roh) ?: [];
+    return array_values(array_filter($teile, static fn($t) => trim($t) !== ''));
+}
+
+/**
+ * Loescht genau eine Anfrage.
+ *
+ * Lesen, aendern und Zurueckschreiben laufen unter derselben Sperre, die
+ * auch das Formular beim Anhaengen nimmt. Sonst ginge eine Anfrage
+ * verloren, die zwischen Lesen und Schreiben eintrifft. Geschrieben wird
+ * ueber eine Nebendatei, die danach umbenannt wird: Bricht der Server
+ * mittendrin ab, steht die alte Ablage unversehrt da.
+ *
+ * @return array{0:bool,1:string}
+ */
+function anfragen_loeschen(string $kennung): array
+{
+    if (!preg_match('/^[a-f0-9]{12}$/', $kennung)) {
+        return [false, 'Unbekannte Anfrage.'];
+    }
+    if (!is_file(ANFRAGEN)) {
+        return [false, 'Es gibt keine Anfragen.'];
+    }
+
+    $sperre = @fopen(ANFRAGEN_SPERRE, 'c');
+    if ($sperre === false) {
+        return [false, 'Die Anfragen sind gerade in Benutzung. Bitte noch einmal versuchen.'];
+    }
+    @flock($sperre, LOCK_EX);
+
+    $ergebnis = [false, 'Diese Anfrage gibt es nicht mehr.'];
+    $roh = @file_get_contents(ANFRAGEN);
+    if ($roh !== false) {
+        $bleiben = [];
+        $gefunden = false;
+        foreach (anfragen_teilen($roh) as $block) {
+            if (!$gefunden && substr(sha1($block), 0, 12) === $kennung) {
+                $gefunden = true;       // nur den ersten Treffer entfernen
+                continue;
+            }
+            $bleiben[] = $block;
+        }
+        if ($gefunden) {
+            $inhalt = RIEGEL;
+            foreach ($bleiben as $block) {
+                $inhalt .= ANFRAGEN_TRENNER . $block;
+            }
+            $ergebnis = anfragen_schreiben($inhalt)
+                ? [true, 'Die Anfrage ist gelöscht.']
+                : [false, 'Die Anfrage konnte nicht gelöscht werden. Es wurde nichts verändert.'];
+        }
+    }
+
+    @flock($sperre, LOCK_UN);
+    @fclose($sperre);
+    return $ergebnis;
+}
+
+/** Schreibt die Ablage ueber eine Nebendatei neu. Nur mit gehaltener Sperre. */
+function anfragen_schreiben(string $inhalt): bool
+{
+    if (@file_put_contents(ANFRAGEN_NEU, $inhalt) === false) {
+        return false;
+    }
+    if (!@rename(ANFRAGEN_NEU, ANFRAGEN)) {
+        @unlink(ANFRAGEN_NEU);
+        return false;
+    }
+    return true;
 }
