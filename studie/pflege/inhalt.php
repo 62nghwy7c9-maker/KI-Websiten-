@@ -45,6 +45,9 @@ const PASSWORTDATEI = __DIR__ . '/passwort.php';
 /** Alte Ablage aus frueheren Auslieferungen, wird beim ersten Mal uebernommen. */
 const PASSWORTDATEI_ALT = __DIR__ . '/passwort.txt';
 
+/** Hier legt das Kontaktformular jede Anfrage ab. */
+const ANFRAGEN = __DIR__ . '/anfragen.php';
+
 /**
  * Riegel am Anfang jeder Datei, die niemand von aussen lesen darf.
  *
@@ -673,6 +676,7 @@ function bild_ablegen(string $quelle, string $ziel, array $info): bool
     if ($bild === false) {
         return @copy($quelle, $ziel);
     }
+    $bild = bild_ausrichten($bild, $quelle, $info[2]);
     [$breite, $hoehe] = [imagesx($bild), imagesy($bild)];
     $faktor = min(1.0, BILD_KANTE / max($breite, $hoehe));
     if ($faktor < 1.0) {
@@ -748,4 +752,117 @@ function bildtext_schreiben(string $datei, string $name, string $alt): bool
         return true;
     }
     return false;
+}
+
+/* =====================================================================
+ * Anfragen aus dem Kontaktformular
+ * ===================================================================== */
+
+/**
+ * Liest die abgelegten Anfragen, neueste zuerst.
+ *
+ * Warum das hier steht: Auf vielen guenstigen Tarifen verschickt PHP keine
+ * Mail. Das Formular legt die Anfrage deshalb zusaetzlich in anfragen.php
+ * ab. Diese Datei ist aber nur per FTP erreichbar, und dorthin schaut kein
+ * Handwerksbetrieb. Ohne diese Anzeige waere das Formular ein Briefkasten
+ * ohne Schluessel.
+ *
+ * Fehlt die Datei, ist sie leer oder enthaelt sie nur den Riegel, kommt
+ * eine leere Liste zurueck. Angezeigt wird dann nichts.
+ *
+ * @return list<array{name:string,mail:string,telefon:string,eingang:string,nachricht:string,versandt:bool}>
+ */
+function anfragen_lesen(): array
+{
+    if (!is_file(ANFRAGEN)) {
+        return [];
+    }
+    $roh = @file_get_contents(ANFRAGEN);
+    if ($roh === false || $roh === '') {
+        return [];
+    }
+    $roh = (string) preg_replace('/^<\?php.*?\?>\s*/s', '', $roh);
+    $bloecke = preg_split('/^={10,}\s*$/m', $roh) ?: [];
+
+    $anfragen = [];
+    foreach ($bloecke as $block) {
+        if (trim($block) === '') {
+            continue;
+        }
+        $anfragen[] = anfrage_zerlegen($block);
+    }
+    return array_reverse($anfragen);
+}
+
+/**
+ * Zerlegt einen einzelnen Eintrag in seine Felder.
+ *
+ * Es wird nur gelesen und getrennt, nichts bewertet. Alles, was hier
+ * herauskommt, stammt von Fremden aus dem Internet und muss bei der
+ * Ausgabe durch htmlspecialchars.
+ *
+ * @return array{name:string,mail:string,telefon:string,eingang:string,nachricht:string,versandt:bool}
+ */
+function anfrage_zerlegen(string $block): array
+{
+    $feld = static function (string $marke) use ($block): string {
+        $muster = '/^' . preg_quote($marke, '/') . '[ \t]*(.*)$/mu';
+        return preg_match($muster, $block, $t) ? trim($t[1]) : '';
+    };
+
+    $nachricht = '';
+    if (preg_match('/^Nachricht:[ \t]*\R(.*?)(?:\R^Mail: (?:ja|nein)[ \t]*$|\z)/msu', $block, $t)) {
+        $nachricht = trim($t[1]);
+    }
+
+    $leer = static fn(string $w): string => ($w === '-' ? '' : $w);
+
+    return [
+        'name' => $feld('Name:'),
+        'mail' => $leer($feld('E-Mail:')),
+        'telefon' => $leer($feld('Telefon:')),
+        'eingang' => $feld('Eingang:'),
+        'nachricht' => $nachricht,
+        'versandt' => (bool) preg_match('/^Mail: ja[ \t]*$/mu', $block),
+    ];
+}
+
+/**
+ * Dreht ein Foto so, wie es aufgenommen wurde.
+ *
+ * Telefone speichern ein Bild immer gleich herum und notieren die Drehung
+ * nur als Vermerk daneben. Beim Verkleinern geht dieser Vermerk verloren,
+ * und ein hochkant fotografiertes Bild liegt danach quer auf der Website.
+ * Deshalb drehen wir es hier einmal wirklich, solange der Vermerk noch da
+ * ist.
+ *
+ * Die Erweiterung exif ist auf guenstigem Webspace nicht immer vorhanden.
+ * Fehlt sie, bleibt das Bild ungedreht. Ein schief stehendes Bild ist
+ * aergerlich, ein abgebrochener Upload waere schlimmer.
+ */
+function bild_ausrichten(\GdImage $bild, string $quelle, int $typ): \GdImage
+{
+    if ($typ !== IMAGETYPE_JPEG || !function_exists('exif_read_data')) {
+        return $bild;
+    }
+    $exif = @exif_read_data($quelle);
+    $lage = is_array($exif) ? (int) ($exif['Orientation'] ?? 0) : 0;
+    if ($lage < 2 || $lage > 8) {
+        return $bild;                       // 1 oder unbekannt: nichts zu tun
+    }
+
+    // 3 steht auf dem Kopf, 6 liegt rechts, 8 liegt links.
+    $winkel = match ($lage) { 3, 4 => 180, 5, 6 => -90, 7, 8 => 90, default => 0 };
+    if ($winkel !== 0 && function_exists('imagerotate')) {
+        $gedreht = @imagerotate($bild, $winkel, 0);
+        if ($gedreht !== false) {
+            imagedestroy($bild);
+            $bild = $gedreht;
+        }
+    }
+    // 2, 4, 5 und 7 sind zusaetzlich gespiegelt.
+    if (in_array($lage, [2, 4, 5, 7], true) && function_exists('imageflip')) {
+        imageflip($bild, IMG_FLIP_HORIZONTAL);
+    }
+    return $bild;
 }

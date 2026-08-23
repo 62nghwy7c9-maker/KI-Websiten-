@@ -146,6 +146,7 @@ if ($angemeldet && ($_POST['zurueckholen'] ?? '') !== '') {
 $felder = $angemeldet ? felder_lesen($datei) : [];
 $staende = $angemeldet ? sicherungen_liste($datei) : [];
 $bilder = $angemeldet ? bilder_lesen($datei) : [];
+$anfragen = $angemeldet ? anfragen_lesen() : [];
 
 /* Vorschaubild ausliefern.
  * Nicht direkt verlinken: Wo die Website relativ zum Pflegebereich liegt,
@@ -221,10 +222,22 @@ h2{font-size:1.15rem;margin:2rem 0 .4rem;color:var(--basis)}
 .staende li{display:flex;align-items:center;justify-content:space-between;
  gap:1rem;padding:.6rem 0;border-bottom:1px solid var(--linie);font-size:15px}
 button.leise{background:transparent;color:var(--akzent);font-weight:600;
- padding:.35rem .7rem;border:1px solid var(--linie-stark);border-radius:4px}
+ padding:.35rem .7rem;border:1px solid var(--linie);border-radius:4px}
 button.leise:hover{background:var(--akzent);color:#fff}
 .passwort{max-width:24rem;margin-bottom:2rem}
 .anmelden{max-width:22rem}
+.anfragen{margin:0 0 2.5rem}
+.anfragen h2{margin-top:0}
+.anfragen article{border:1px solid var(--linie);border-left:4px solid var(--akzent);
+ border-radius:4px;padding:.9rem 1.1rem;margin-bottom:.9rem;background:#fff}
+.anfragen .kopf{display:flex;justify-content:space-between;gap:1rem;
+ flex-wrap:wrap;margin:0 0 .35rem}
+.anfragen .kopf span{color:var(--gedaempft);font-size:14px;white-space:nowrap}
+.anfragen .wege{margin:0 0 .6rem;font-size:15px}
+.anfragen .wege a,.anfragen .wege span{margin-right:1rem}
+.anfragen .wege span{color:var(--gedaempft)}
+.anfragen .text{margin:0;white-space:normal}
+@media(max-width:520px){.anfragen .kopf span{white-space:normal}}
 footer{border-top:1px solid var(--linie);color:var(--gedaempft);font-size:14px}
 footer .bahn{padding:1.25rem}
 </style>
@@ -248,6 +261,50 @@ footer .bahn{padding:1.25rem}
     <button type="submit">Anmelden</button>
   </form>
 <?php else: ?>
+  <?php if ($anfragen): $sichtbar = array_slice($anfragen, 0, 20); ?>
+    <section class="anfragen">
+      <h2><?= count($anfragen) ?> <?= count($anfragen) === 1 ? 'Anfrage' : 'Anfragen' ?> über die Website</h2>
+      <?php foreach ($sichtbar as $a): ?>
+        <article>
+          <p class="kopf">
+            <b><?= htmlspecialchars($a['name'] !== '' ? $a['name'] : 'Ohne Namen') ?></b>
+            <span><?= htmlspecialchars($a['eingang']) ?></span>
+          </p>
+          <?php
+            /* Verlinkt wird nur, was auch wirklich eine Adresse oder eine
+               Nummer ist. Was jemand sonst in das Feld geschrieben hat,
+               steht als Text da und wird nicht anklickbar. */
+            $mailziel = filter_var($a['mail'], FILTER_VALIDATE_EMAIL) ? $a['mail'] : '';
+            $telziel = $a['telefon'] !== '' ? telefon_ziel($a['telefon']) : '';
+          ?>
+          <?php if ($a['mail'] !== '' || $a['telefon'] !== ''): ?>
+            <p class="wege">
+              <?php if ($a['mail'] !== ''): ?>
+                <?php if ($mailziel !== ''): ?>
+                  <a href="mailto:<?= htmlspecialchars($mailziel) ?>"><?= htmlspecialchars($a['mail']) ?></a>
+                <?php else: ?>
+                  <span><?= htmlspecialchars($a['mail']) ?></span>
+                <?php endif; ?>
+              <?php endif; ?>
+              <?php if ($a['telefon'] !== ''): ?>
+                <?php if ($telziel !== ''): ?>
+                  <a href="tel:<?= htmlspecialchars($telziel) ?>"><?= htmlspecialchars($a['telefon']) ?></a>
+                <?php else: ?>
+                  <span><?= htmlspecialchars($a['telefon']) ?></span>
+                <?php endif; ?>
+              <?php endif; ?>
+            </p>
+          <?php endif; ?>
+          <p class="text"><?= nl2br(htmlspecialchars($a['nachricht'])) ?></p>
+        </article>
+      <?php endforeach; ?>
+      <?php if (count($anfragen) > 20): ?>
+        <p class="hinweis">Angezeigt sind die letzten 20. Die älteren stehen
+        auf dem Server in der Datei pflege/anfragen.php.</p>
+      <?php endif; ?>
+    </section>
+  <?php endif; ?>
+
   <ul class="reiter">
     <?php foreach (DATEIEN as $d): ?>
       <li><a href="?datei=<?= urlencode($d) ?>"
@@ -280,7 +337,7 @@ footer .bahn{padding:1.25rem}
       <?php if ($bilder): ?>
         <h2>Bilder</h2>
         <p class="hinweis">Ein Bild aussuchen und unten speichern. Zu grosse
-        Bilder werden automatisch verkleinert &mdash; Sie muessen nichts
+        Bilder werden automatisch verkleinert, Sie muessen nichts
         vorbereiten. Bleibt das Feld leer, bleibt das bisherige Bild.</p>
         <?php foreach ($bilder as $name => $b): ?>
           <div class="bild">
