@@ -46,6 +46,8 @@ ini_set('session.gc_maxlifetime', '28800');
 session_set_cookie_params(28800);
 session_start();
 $meldung = '';
+/** Was schiefgegangen ist. Wird zusaetzlich zur Erfolgsmeldung angezeigt. */
+$fehler = [];
 $erfolg = false;
 
 if (isset($_GET['abmelden'])) {
@@ -90,16 +92,31 @@ if ($angemeldet && ($_POST['speichern'] ?? '') !== '') {
         foreach ($_POST['feld'] ?? [] as $name => $wert) {
             $werte[(string) $name] = (string) $wert;
         }
-        [$erfolg, $meldung] = felder_schreiben_ueberall($datei, $werte);
+        /* Was gespeichert wurde und was nicht geklappt hat, wird
+           getrennt gesammelt. Frueher hat die Meldung eines misslungenen
+           Bildes die Erfolgsmeldung des Textes ueberschrieben. Der Betrieb
+           las dann nur den Fehler und glaubte, sein Text sei verloren,
+           obwohl er laengst gespeichert war. */
+        $geschafft = [];
 
-        // Alternativtexte der Bilder — kurze Beschreibung für Menschen, die
-        // das Bild nicht sehen können, und für Google.
+        if ($werte !== []) {
+            [$erfolg, $textmeldung] = felder_schreiben_ueberall($datei, $werte);
+            if ($erfolg) {
+                $geschafft[] = $textmeldung;
+            } else {
+                $fehler[] = $textmeldung;
+            }
+        }
+
+        // Alternativtexte der Bilder: kurze Beschreibung fuer Menschen, die
+        // das Bild nicht sehen koennen, und fuer Google.
         foreach ($_POST['bildtext'] ?? [] as $name => $wert) {
             bildtext_schreiben($datei, (string) $name, (string) $wert);
         }
 
         // Hochgeladene Bilder. Eines nach dem anderen, damit eine
         // fehlerhafte Datei die anderen nicht mitreisst.
+        $bilder_neu = 0;
         foreach ($_FILES['bild']['name'] ?? [] as $name => $dateiname) {
             if ($dateiname === '') {
                 continue;
@@ -112,11 +129,20 @@ if ($angemeldet && ($_POST['speichern'] ?? '') !== '') {
                 'size' => $_FILES['bild']['size'][$name],
             ];
             [$bild_ok, $bild_meldung] = bild_schreiben($datei, (string) $name, $feld);
-            if (!$bild_ok) {
-                $erfolg = false;
-                $meldung = $bild_meldung;
+            if ($bild_ok) {
+                $bilder_neu++;
+            } else {
+                $fehler[] = $bild_meldung;
             }
         }
+        if ($bilder_neu === 1) {
+            $geschafft[] = 'Das Bild ist ausgetauscht.';
+        } elseif ($bilder_neu > 1) {
+            $geschafft[] = $bilder_neu . ' Bilder sind ausgetauscht.';
+        }
+
+        $meldung = implode(' ', $geschafft);
+        $erfolg = $meldung !== '';
     }
 }
 
@@ -134,6 +160,15 @@ if ($angemeldet && ($_POST['passwort_aendern'] ?? '') !== '') {
 }
 
 /* ---- Stand zurueckholen -------------------------------------------- */
+if ($angemeldet && ($_POST['bild_zurueckholen'] ?? '') !== '') {
+    if (!hash_equals($_SESSION['marke'] ?? '', (string) ($_POST['marke'] ?? ''))) {
+        $meldung = 'Die Sitzung ist abgelaufen. Bitte noch einmal versuchen.';
+    } else {
+        [$erfolg, $meldung] = bild_zurueckholen(
+            $datei, (string) $_POST['bild_zurueckholen']);
+    }
+}
+
 if ($angemeldet && ($_POST['zurueckholen'] ?? '') !== '') {
     if (!hash_equals($_SESSION['marke'] ?? '', (string) ($_POST['marke'] ?? ''))) {
         $meldung = 'Die Sitzung ist abgelaufen. Bitte noch einmal versuchen.';
@@ -147,6 +182,7 @@ $felder = $angemeldet ? felder_lesen($datei) : [];
 $staende = $angemeldet ? sicherungen_liste($datei) : [];
 $bilder = $angemeldet ? bilder_lesen($datei) : [];
 $anfragen = $angemeldet ? anfragen_lesen() : [];
+$bildstaende = $angemeldet ? bild_staende($datei) : [];
 
 /* Vorschaubild ausliefern.
  * Nicht direkt verlinken: Wo die Website relativ zum Pflegebereich liegt,
@@ -213,12 +249,22 @@ h2{font-size:1.15rem;margin:2rem 0 .4rem;color:var(--basis)}
  background:var(--linie);flex:none}
 .bild-felder{flex:1;min-width:0}
 .bild-felder label{margin-bottom:.6rem}
+.bild-staende{margin-top:.4rem;font-size:14px}
+.bild-staende b{display:block;color:var(--gedaempft);font-weight:600;margin-bottom:.2rem}
+.bild-staende ul{list-style:none;margin:0;padding:0}
+.bild-staende li{display:flex;align-items:center;justify-content:space-between;
+ gap:.75rem;padding:.25rem 0;border-bottom:1px solid var(--linie)}
+.bild-staende li:last-child{border-bottom:none}
 @media(max-width:520px){.bild{flex-direction:column}.bild img{width:100%;height:auto}}
 .meldung{padding:.85rem 1rem;border-radius:4px;margin:0 0 1.5rem;
  border-left:4px solid var(--rot);background:#F6E4DF;color:var(--rot)}
 .meldung.gut{border-left-color:var(--gut);background:#E7EBE3;color:var(--gut)}
 .hinweis{color:var(--gedaempft);font-size:15px;margin:0 0 1.75rem}
 .staende ul{list-style:none;margin:0 0 2rem;padding:0}
+.aeltere{margin:-1.25rem 0 2rem}
+.aeltere summary{cursor:pointer;color:var(--akzent);font-weight:600;font-size:15px;
+ padding:.35rem 0}
+.aeltere ul{margin-top:.4rem}
 .staende li{display:flex;align-items:center;justify-content:space-between;
  gap:1rem;padding:.6rem 0;border-bottom:1px solid var(--linie);font-size:15px}
 button.leise{background:transparent;color:var(--akzent);font-weight:600;
@@ -251,6 +297,9 @@ footer .bahn{padding:1.25rem}
 <main class="bahn">
 <?php if ($meldung): ?>
   <p class="meldung<?= $erfolg ? ' gut' : '' ?>"><?= htmlspecialchars($meldung) ?></p>
+<?php endif; ?>
+<?php if ($fehler): ?>
+  <p class="meldung"><?= htmlspecialchars(implode(' ', array_unique($fehler))) ?></p>
 <?php endif; ?>
 
 <?php if (!$angemeldet): ?>
@@ -351,6 +400,19 @@ footer .bahn{padding:1.25rem}
                 <input type="text" name="bildtext[<?= htmlspecialchars($name) ?>]"
                        value="<?= htmlspecialchars($b['alt']) ?>">
               </label>
+              <?php if (!empty($bildstaende[$name])): ?>
+                <div class="bild-staende">
+                  <b>Vorheriges Bild zurückholen</b>
+                  <ul>
+                    <?php foreach ($bildstaende[$name] as $st): ?>
+                      <li><span><?= htmlspecialchars($st['zeit']) ?></span>
+                        <button type="submit" name="bild_zurueckholen"
+                                value="<?= htmlspecialchars($st['datei']) ?>"
+                                class="leise" formnovalidate>zurückholen</button></li>
+                    <?php endforeach; ?>
+                  </ul>
+                </div>
+              <?php endif; ?>
             </div>
           </div>
         <?php endforeach; ?>
@@ -374,6 +436,20 @@ footer .bahn{padding:1.25rem}
                       class="leise">zurückholen</button></li>
           <?php endforeach; ?>
         </ul>
+        <?php $aeltere = array_slice($staende, 8); ?>
+        <?php if ($aeltere): ?>
+          <details class="aeltere">
+            <summary><?= count($aeltere) ?> ältere <?= count($aeltere) === 1 ? 'Stand' : 'Stände' ?></summary>
+            <ul>
+              <?php foreach ($aeltere as $st): ?>
+                <li><span><?= htmlspecialchars($st['zeit']) ?></span>
+                  <button type="submit" name="zurueckholen"
+                          value="<?= htmlspecialchars($st['datei']) ?>"
+                          class="leise">zurückholen</button></li>
+              <?php endforeach; ?>
+            </ul>
+          </details>
+        <?php endif; ?>
       </form>
     <?php endif; ?>
 

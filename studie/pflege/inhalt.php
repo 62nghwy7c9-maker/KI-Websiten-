@@ -48,6 +48,14 @@ const PASSWORTDATEI_ALT = __DIR__ . '/passwort.txt';
 /** Hier legt das Kontaktformular jede Anfrage ab. */
 const ANFRAGEN = __DIR__ . '/anfragen.php';
 
+/* Wie viele fruehere Bilder aufbewahrt werden.
+ *
+ * Weniger als bei den Seiten, und das mit Absicht: Eine Seite wiegt ein
+ * paar Kilobyte, ein Foto aus dem Telefon mehrere Megabyte. Guenstige
+ * Tarife begrenzen nicht nur den Platz, sondern auch die Zahl der Dateien.
+ * Fuenf Staende reichen, um einen Fehlgriff rueckgaengig zu machen. */
+const BILD_STAENDE = 5;
+
 /**
  * Riegel am Anfang jeder Datei, die niemand von aussen lesen darf.
  *
@@ -648,6 +656,11 @@ function bild_schreiben(string $datei, string $name, array $datei_feld): array
         $roh = @file_get_contents($ziel);
         if ($roh !== false) {
             verriegelt_schreiben(sicherung_name(basename($ziel)), $roh);
+            // Ohne dieses Aufraeumen bliebe jede Fassung des Bildes fuer
+            // immer liegen. Bei einem Betrieb, der sein Foto viermal im
+            // Jahr wechselt, faellt das nie auf; bei einem, der zwanzig
+            // Bilder ausprobiert, laeuft der Webspace still voll.
+            sicherungen_aufraeumen(basename($ziel), BILD_STAENDE);
         }
     }
 
@@ -865,4 +878,103 @@ function bild_ausrichten(\GdImage $bild, string $quelle, int $typ): \GdImage
         imageflip($bild, IMG_FLIP_HORIZONTAL);
     }
     return $bild;
+}
+
+/**
+ * Frueher hochgeladene Bilder einer Seite, neueste zuerst.
+ *
+ * Die Staende der Seiten und die der Bilder werden getrennt gefuehrt.
+ * Ein Bild gehoert nicht zu einer Seitenfassung: Wer den Text von gestern
+ * zurueckholt, will deshalb nicht auch das Foto von gestern zurueck.
+ *
+ * @return array<string, list<array{datei:string,zeit:string,bild:string}>>
+ *         Schluessel ist der Name der Bildstelle, zum Beispiel "betrieb".
+ */
+function bild_staende(string $datei): array
+{
+    $aus = [];
+    foreach (bilder_lesen($datei) as $name => $bild) {
+        $src = strtok($bild['src'], '?');
+        if ($src === false || $src === '') {
+            continue;
+        }
+        $basis = basename($src);
+        $liste = glob(SICHERUNG . '/*_' . $basis . '.php') ?: [];
+        usort($liste, static fn($a, $b) => sicherung_schluessel($b) <=> sicherung_schluessel($a));
+        foreach ($liste as $pfad) {
+            $aus[$name][] = [
+                'datei' => basename($pfad),
+                'zeit' => sicherung_zeit(basename($pfad)),
+                'bild' => $basis,
+            ];
+        }
+    }
+    return $aus;
+}
+
+/** Macht aus dem Zeitstempel im Dateinamen eine lesbare Zeitangabe. */
+function sicherung_zeit(string $name): string
+{
+    $stempel = substr($name, 0, 19);
+    $zeit = DateTime::createFromFormat('Y-m-d_H-i-s', $stempel);
+    if (!$zeit && preg_match('/^(\d{4}-\d{2}-\d{2}_\d{2}-\d{2}-\d{2})/', $name, $t)) {
+        $zeit = DateTime::createFromFormat('Y-m-d_H-i-s', $t[1]);
+    }
+    return $zeit ? $zeit->format('d.m.Y, H:i:s') . ' Uhr' : $stempel;
+}
+
+/**
+ * Holt ein frueher hochgeladenes Bild zurueck.
+ *
+ * Genau wie beim Text: Erst den alten Stand lesen, dann den jetzigen
+ * sichern, dann schreiben. Damit ist auch das Zurueckholen umkehrbar.
+ *
+ * @return array{0:bool,1:string}
+ */
+function bild_zurueckholen(string $datei, string $stand): array
+{
+    if (!in_array($datei, DATEIEN, true)) {
+        return [false, 'Unbekannte Datei.'];
+    }
+    // Erlaubt ist nur ein Stand zu einem Bild, das auf dieser Seite steht.
+    $treffer = null;
+    foreach (bilder_lesen($datei) as $name => $bild) {
+        $src = strtok($bild['src'], '?');
+        if ($src === false || $src === '') {
+            continue;
+        }
+        $muster = '/^[0-9]{4}-[0-9]{2}-[0-9]{2}_[0-9]{2}-[0-9]{2}-[0-9]{2}(-[0-9]{1,3})?_'
+            . preg_quote(basename($src), '/') . '\.php$/';
+        if (preg_match($muster, $stand)) {
+            $treffer = ['name' => $name, 'src' => $src];
+            break;
+        }
+    }
+    if ($treffer === null) {
+        return [false, 'Unbekannter Bildstand.'];
+    }
+
+    $quelle = SICHERUNG . '/' . $stand;
+    if (!is_file($quelle)) {
+        return [false, 'Dieses Bild gibt es nicht mehr.'];
+    }
+    $alt = verriegelt_lesen($quelle);
+    if ($alt === false) {
+        return [false, 'Dieses Bild konnte ich nicht lesen.'];
+    }
+
+    $ziel = SEITEN . '/' . $treffer['src'];
+    $jetzt = @file_get_contents($ziel);
+    if ($jetzt !== false) {
+        sicherungsordner();
+        verriegelt_schreiben(sicherung_name(basename($ziel)), $jetzt);
+        sicherungen_aufraeumen(basename($ziel), BILD_STAENDE);
+    }
+    if (@file_put_contents($ziel, $alt) === false) {
+        return [false, 'Das Bild konnte nicht zurückgeholt werden.'];
+    }
+
+    // Ohne neue Zaehlnummer zeigt der Browser weiter das eben ersetzte Bild.
+    [$ok, $meldung] = zaehlnummer_erhoehen($datei, $treffer['name']);
+    return $ok ? [true, 'Das Bild von vorher ist wieder da.'] : [false, $meldung];
 }

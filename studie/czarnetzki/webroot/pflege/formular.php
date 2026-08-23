@@ -50,6 +50,38 @@ const ZURUECK_FEHLER = '../index.html?fehler=1#kontakt';
 /** Höchstens so viele Anfragen je Stunde von derselben Adresse. */
 const HOECHSTENS = 5;
 
+/**
+ * Die Adresse, an die eine Anfrage geht.
+ *
+ * Gelesen wird sie aus den Seiten selbst, aus der Markierung wg:mail. So
+ * gibt es genau eine Quelle: Aendert der Betrieb seine Adresse im
+ * Pflegebereich, aendert sich damit auch der Empfaenger. Frueher standen
+ * beide getrennt, und wer die eine aenderte, vergass die andere.
+ *
+ * Findet sich keine brauchbare Markierung, gilt der fest eingetragene
+ * Wert. Eine Anfrage darf nicht daran scheitern, dass jemand eine
+ * Markierung geloescht hat.
+ */
+function empfaenger(): string
+{
+    $wurzel = getenv('WG_PFLEGE_SEITEN') ?: dirname(__DIR__);
+    foreach (['index.html', 'impressum.html', 'datenschutz.html', 'danke.html'] as $seite) {
+        $pfad = $wurzel . '/' . $seite;
+        if (!is_file($pfad)) {
+            continue;
+        }
+        $html = (string) @file_get_contents($pfad);
+        if (!preg_match('/<!--wg:mail-->(.*?)<!--\/wg-->/s', $html, $t)) {
+            continue;
+        }
+        $wert = trim(html_entity_decode($t[1], ENT_QUOTES, 'UTF-8'));
+        if (filter_var($wert, FILTER_VALIDATE_EMAIL)) {
+            return $wert;
+        }
+    }
+    return EMPFAENGER;
+}
+
 function zurueck(string $ziel): never
 {
     header('Location: ' . $ziel, true, 303);
@@ -130,8 +162,10 @@ $inhalt = "Neue Anfrage über die Website von " . BETRIEB . "\n\n"
     . "Eingang:   " . date('d.m.Y, H:i') . " Uhr\n\n"
     . "Nachricht:\n{$text}\n";
 
+$empfaenger = empfaenger();
+
 $kopf = [
-    'From: ' . BETRIEB . ' <' . EMPFAENGER . '>',
+    'From: ' . BETRIEB . ' <' . $empfaenger . '>',
     'Content-Type: text/plain; charset=UTF-8',
     'X-Mailer: PHP',
 ];
@@ -141,7 +175,7 @@ if ($mail !== '') {
     $kopf[] = 'Reply-To: ' . $mail;
 }
 
-$ok = @mail(EMPFAENGER, '=?UTF-8?B?' . base64_encode($betreff) . '?=',
+$ok = @mail($empfaenger, '=?UTF-8?B?' . base64_encode($betreff) . '?=',
             $inhalt, implode("\r\n", $kopf));
 
 /* Die Ablage vermerkt, ob die Mail rausging. Steht dort dauerhaft
