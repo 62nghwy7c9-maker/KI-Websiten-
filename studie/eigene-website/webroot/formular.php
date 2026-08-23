@@ -20,7 +20,7 @@
 declare(strict_types=1);
 
 /** Wohin die Anfragen gehen. Beim Aufsetzen eintragen. */
-const EMPFAENGER = 'hallo@webgewerk.com';
+const EMPFAENGER = 'webgewerk@gmx.de';
 const BETRIEB = 'Webgewerk';
 
 /** Wohin nach dem Absenden zurückgesprungen wird. */
