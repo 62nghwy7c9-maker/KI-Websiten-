@@ -1,6 +1,6 @@
 # Offene Punkte
 
-**Stand:** 15. August 2026
+**Stand:** 4. September 2026
 **Gilt für:** Webgewerk — Check-Pipeline und eigene Firmenseite
 
 Sortiert nach dem, was blockiert. Was oben steht, hält etwas anderes auf.
@@ -15,7 +15,8 @@ Zuständigkeit: **K** = Kira, **Y** = Yannik, **C** = Claude.
 
 | | Punkt | Wer | Warum es blockiert |
 |---|---|---|---|
-| ☐ | **Ladungsfähige Anschrift** in `absender.json` eintragen | K/Y | § 5 DDG verlangt sie auf jedem geschäftlichen Dokument. Bis dahin trägt **jeder** der elf Checks oben einen roten Sperrbalken und darf nicht übergeben werden. Das ist der einzige echte Blocker. |
+| ☑ | **Ladungsfähige Anschrift** in `absender.json` eingetragen (04.09.): Bachstraße 109, 50171 Kerpen | K/Y | Damit fällt der Sperrbalken von allen elf Checks. Sie dürfen jetzt übergeben werden. |
+| ☑ | **Absenderadresse berichtigt** (04.09.) | C | In `absender.json` stand `hallo@webgewerk.com`. Die Domain ist nicht registriert, das Postfach gibt es nicht. Jedes Anschreiben hätte eine tote Rückadresse getragen. Steht jetzt auf `webgewerk@gmx.de`. |
 | ☑ | **Telefonnummer entschieden**: +49 152 01560005 | K/Y | Am 22.08. von Kira festgelegt. Überall eingetragen, angezeigt als `0152 01560005`, verlinkt als `tel:+4915201560005`. |
 | ☐ | Die vier fertigen Befunde **freigeben** | K | Sander-Bau, Lindam, Merzenich, Labau. Die Pipeline reproduziert alle vier, aber die Freigabe steht aus. |
 
