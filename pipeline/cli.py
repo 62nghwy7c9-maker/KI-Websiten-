@@ -363,12 +363,33 @@ def befehl_register(args) -> int:
     if not reg.zeilen:
         print(f"{reg.datei} ist leer oder existiert noch nicht.")
         return 0
+
+    if args.einwilligung:
+        z = reg.einwilligung(args.einwilligung, args.durch, args.wie, args.am)
+        reg.speichern()
+        print(f"{z['firma']}: Einwilligung am {z['einwilligung_am']}, "
+              f"eingeholt von {z['einwilligung_durch']} ({z['einwilligung_wie']})")
+        if not z["kontakt_mail"]:
+            print("  Achtung: keine Mailadresse hinterlegt. Ohne Adresse "
+                  "nuetzt die Einwilligung nichts.")
+        return 0
+
     for route in ROUTEN:
         treffer = reg.nach_route(route)
         if treffer:
             print(f"\n{route.upper()} ({len(treffer)})")
             for z in treffer:
                 print(f"  {z['firma']:<34} {z['host']:<30} {z['letzte_aenderung']}")
+    darf = reg.mit_einwilligung()
+    print(f"\nMAIL ERLAUBT ({len(darf)})")
+    if darf:
+        for z in darf:
+            print(f"  {z['firma']:<34} {z['kontakt_mail']:<30} "
+                  f"{z['einwilligung_am']} durch {z['einwilligung_durch']}")
+    else:
+        print("  niemand. Ohne eingetragene Einwilligung bleibt der Weg der "
+              "Brief oder das persoenliche Gespraech.")
+
     print(f"\nGesamt: {len(reg.zeilen)} Betriebe in {reg.datei}")
     return 0
 
@@ -549,6 +570,14 @@ def main(argv: list[str] | None = None) -> int:
     k.set_defaults(func=befehl_kunde)
 
     r = unter.add_parser("register", help="Stand des Kontakt-Registers zeigen")
+    r.add_argument("--einwilligung", default="",
+                   help="Schluessel des Betriebs, der einer Zusendung zugestimmt hat")
+    r.add_argument("--durch", default="",
+                   help="wer die Einwilligung eingeholt hat, z. B. \"Vater\"")
+    r.add_argument("--wie", default="",
+                   help="bei welcher Gelegenheit, z. B. \"Besuch im Betrieb\"")
+    r.add_argument("--am", default="",
+                   help="Datum (JJJJ-MM-TT), Vorgabe: heute")
     r.set_defaults(func=befehl_register)
 
     args = p.parse_args(argv)

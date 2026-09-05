@@ -156,3 +156,35 @@ def test_handarbeit_faellt_auf(gebaut):
     finally:
         ziel.write_text(urzustand, encoding="utf-8")
     assert not seite.handarbeit_seit_bau(gebaut)
+
+
+# ── Einwilligung fuer Werbemails ─────────────────────────────────────────
+
+def test_einwilligung_braucht_zeugen_und_anlass(tmp_path):
+    """Eine Einwilligung ohne Herkunft ist im Streitfall wertlos."""
+    from pipeline.modelle import Kandidat
+    from pipeline.register import Register
+
+    reg = Register(tmp_path / "k.csv")
+    k = Kandidat(firma="Elektro Muster", url="https://muster.de",
+                 kontakt_mail="info@muster.de")
+    z = reg.eintragen(k)
+    assert not reg.darf_mail(z["schluessel"])
+
+    for durch, wie in (("", "Besuch"), ("Vater", ""), ("  ", "  ")):
+        with pytest.raises(ValueError):
+            reg.einwilligung(z["schluessel"], durch, wie)
+
+    reg.einwilligung(z["schluessel"], "Vater", "Besuch im Betrieb")
+    assert reg.darf_mail(z["schluessel"])
+    assert reg.mit_einwilligung() == [z]
+
+
+def test_einwilligung_ohne_mailadresse_erlaubt_nichts(tmp_path):
+    from pipeline.modelle import Kandidat
+    from pipeline.register import Register
+
+    reg = Register(tmp_path / "k.csv")
+    z = reg.eintragen(Kandidat(firma="Ohne Mail", url="https://ohne.de"))
+    reg.einwilligung(z["schluessel"], "Vater", "Besuch")
+    assert not reg.darf_mail(z["schluessel"])

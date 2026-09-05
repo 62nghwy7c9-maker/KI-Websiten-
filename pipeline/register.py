@@ -22,6 +22,11 @@ SPALTEN = (
     "schluessel", "firma", "url", "host", "branche", "ort",
     "kontakt_mail", "telefon", "anschrift",
     "route", "kanal", "erstkontakt_am", "letzte_aenderung", "notiz",
+    # Wer darf eine Werbemail bekommen, und warum duerfen wir das annehmen.
+    # Kalte Werbemails an Betriebe brauchen nach § 7 Abs. 2 Nr. 2 UWG eine
+    # Einwilligung, auch im B2B. Im Streitfall muss der Absender beweisen,
+    # dass sie vorlag. Ein Gedaechtnis ist kein Beweis, eine Zeile hier schon.
+    "einwilligung_am", "einwilligung_durch", "einwilligung_wie",
 )
 
 STANDARD_DATEI = Path("register/kontakte.csv")
@@ -110,6 +115,20 @@ class Register:
     def nach_route(self, route: str) -> list[dict[str, str]]:
         return [z for z in self.zeilen if z["route"] == route]
 
+    def darf_mail(self, schluessel: str) -> bool:
+        """Ob an diesen Betrieb eine Werbemail gehen darf.
+
+        Nur wenn eine Einwilligung eingetragen ist und eine Mailadresse
+        vorliegt. Fehlt eines von beidem, bleibt der Weg der Brief oder das
+        persoenliche Gespraech.
+        """
+        z = next((x for x in self.zeilen if x["schluessel"] == schluessel), None)
+        return bool(z and z.get("einwilligung_am") and z.get("kontakt_mail"))
+
+    def mit_einwilligung(self) -> list[dict[str, str]]:
+        return [z for z in self.zeilen
+                if z.get("einwilligung_am") and z.get("kontakt_mail")]
+
     # ── Schreiben ────────────────────────────────────────────────────────────
 
     def eintragen(self, kandidat: Kandidat, route: str = "neu",
@@ -151,4 +170,24 @@ class Register:
         if route == "versendet" and not z["erstkontakt_am"]:
             z["erstkontakt_am"] = heute
         z["letzte_aenderung"] = heute
+        return z
+
+    def einwilligung(self, schluessel: str, durch: str, wie: str,
+                     am: str = "") -> dict[str, str]:
+        """Haelt fest, dass der Betrieb einer Zusendung zugestimmt hat.
+
+        ``durch`` ist der Mensch, der gefragt hat, ``wie`` die Gelegenheit
+        (Telefonat, Besuch, Messe). Beides gehoert dazu: Im Streitfall zaehlt
+        nicht, dass jemand zugestimmt hat, sondern wer das bezeugen kann.
+        """
+        z = next((x for x in self.zeilen if x["schluessel"] == schluessel), None)
+        if z is None:
+            raise KeyError(f"Kein Eintrag mit Schluessel {schluessel!r}")
+        if not durch.strip() or not wie.strip():
+            raise ValueError("Einwilligung ohne Zeugen und Anlass ist keine. "
+                             "durch und wie muessen gefuellt sein.")
+        z["einwilligung_am"] = am or date.today().isoformat()
+        z["einwilligung_durch"] = durch.strip()
+        z["einwilligung_wie"] = wie.strip()
+        z["letzte_aenderung"] = date.today().isoformat()
         return z
